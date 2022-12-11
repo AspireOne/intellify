@@ -1,0 +1,52 @@
+basic idea:
+[Jak bude ta stránka rozložená? Jak se bude platit? Jak budou rozděleny funkce?]
+
+TO-DO chronologicky:
+
+funkce:
+    Implementace:
+        1. Basic frontend
+        2. The functionality (backend)
+        3. Input safety
+        4. The design (frontend)
+        5. Zařazení do celé té stránky
+
+    1. prezentace (slidy, pointy, téma, linky na obrázky, PDF to pptx...)
+    2. Češtinářské úkony
+    rozbor děl?
+    funkce: Zadá knihu, autora, osnovu, a já to jen dosadím do "Napiš rozbor knihy {kniha} od {autor} podle následující osnovy: {osnova}
+    rozbor úryvku,
+
+    3. byznys email
+
+    4. návrh na výuku - výklad, cvičení, domácí úkoly, testy, zpětná vazba, výsledky, závěr
+
+Marketing:
+    - Implement payments/subscriptions etc.
+    - Promo emails
+    - SEO
+    - Social media
+
+frontend:
+    - Create the UI
+
+backend:
+    - Implement accounts
+    - Buy a domain
+
+Random ideas:
+    - Add a "contact us" page
+    - Add a "about us" page
+    - Add a "terms and conditions" page
+    - Add a "privacy policy" page
+    - Add a "FAQ" page
+    - Add a "pricing" page
+    - Landing pages
+    - Blog
+    - promo emails
+    - SEO
+    - Ads
+    - Sell the modules alone to corporations/school/individuals?
+
+
+- "is expected to be marginally upgraded in 2023 - cheaper for current Subscribers"
