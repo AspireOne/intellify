@@ -1,11 +1,12 @@
 import type { NextPage } from 'next'
 import React, {useState} from "react";
-import type { QueryParams } from './api/presentation'
+import type { PresParams } from './api/presentation'
 import {fromJSON} from "postcss";
 import axios from "axios";
 import * as QueryString from "querystring";
 import Spinner from "./components/Spinner";
 import pptxgen from "pptxgenjs";
+import PresOutput from "./presentation/presOutput";
 
 function FormTitle(props: {children: string}) {
     return (
@@ -14,10 +15,10 @@ function FormTitle(props: {children: string}) {
 }
 const Presentation: NextPage = () => {
     // State variables for the form input values
-    const [output, setOutput] = useState<string|null>(null);
+    const [output, setOutput] = useState<PresOutput|null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    function handleSubmit(data: QueryParams) {
+    function handleSubmit(data: PresParams) {
         /*axios.post('/presentation', {
             topic: topic,
             slides: slides,
@@ -29,7 +30,7 @@ const Presentation: NextPage = () => {
             .then((response) => response.data.output)
             //.then((output) => output.replace("\n", "<br>"))
             .then((output) => {
-                setOutput(output);
+                setOutput(new PresOutput(output, data));
                 setLoading(false);
             })
     }
@@ -37,21 +38,56 @@ const Presentation: NextPage = () => {
     return (
         <div className="flex min-h-screen flex-col p-5 w-1/2 mx-auto">
             <InputForm onSubmit={handleSubmit} loading={loading} />
-            {output ? <OutputForm output={output} /> : undefined}
+            {output && <OutputForm output={output} />}
         </div>
     );
 }
 
-function OutputForm(props: {output: string}) {
+function OutputForm(props: {output: PresOutput}) {
     return (
-        <div className="rounded shadow-xl my-5 p-5 bg-gray-100 whitespace-pre-wrap">
-            <FormTitle>Prezentace</FormTitle>
-            <p>{props.output}</p>
+        <div className="my-5">
+            <div className="shadow-xl rounded-t p-5 bg-gray-100 whitespace-pre-wrap">
+                <FormTitle>Prezentace</FormTitle>
+                <p>{props.output.output}</p>
+            </div>
+            <DownloadPresRow pres={props.output} />
         </div>
     );
 }
 
-function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boolean}) {
+function DownloadPresRow(props: {pres: PresOutput}) {
+    const [author, setAuthor] = useState<string>("");
+
+    function onDownloadClick() {
+        props.pres.downloadPres(
+            props.pres.genPres(author || undefined),
+            props.pres.params.topic as string);
+    }
+    return (
+        <div className="card bg-gray-300 rounded-b w-full">
+            <div className="p-4 flex items-center">
+                <div className="flex-1">
+                    {/*<label className="mx-2"><input className="mx-2" type="checkbox" value="value"></input>Poděkování za pozornost</label>*/}
+                    <input
+                        onChange={(event) => setAuthor(event.target.value)}
+                        type="text"
+                        className="bg-white focus:outline-none focus:shadow-outline-teal-500 border border-gray-300 rounded-md py-2 px-3 appearance-none leading-normal"
+                        placeholder="Autor (volitelné)"
+                        maxLength={25}
+                    ></input>
+                </div>
+                <button
+                    className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded"
+                    onClick={onDownloadClick}
+                >
+                    Stáhnout prezentaci
+                </button>
+            </div>
+        </div>
+    );
+}
+
+function InputForm(props: {onSubmit: (params: PresParams) => void, loading: boolean}) {
     // State variables for the form input values
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
@@ -61,7 +97,7 @@ function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boo
     // State variables for the input errors
     const [topicError, setTopicError] = useState<string|null>();
     const [slidesError, setSlidesError] = useState<string|null>("");
-    const [bulletsError, setBulletsError] = useState<string|null>("");
+    const [pointsError, setPointsError] = useState<string|null>("");
 
     function validateForm() {
         let isValid = true;
@@ -82,12 +118,12 @@ function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boo
             setSlidesError(null);
         }
 
-        // Validate the bullets input
+        // Validate the points input
         if (points === "" || isNaN(Number(points)) || Number(points) < 1 || Number(points) > 20) {
-            setBulletsError("Please enter a valid number of bullet points");
+            setPointsError("Please enter a valid number of bullet points");
             isValid = false;
         } else {
-            setBulletsError(null);
+            setPointsError(null);
         }
 
         return isValid;
@@ -111,7 +147,7 @@ function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boo
                     maxLength={70}
                     type="text"
                     id="topic"
-                    placeholder="Topic"
+                    placeholder="Téma"
                     className="bg-white focus:outline-none focus:shadow-outline-teal-500 border border-gray-300 rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
@@ -122,8 +158,8 @@ function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boo
                 <textarea
                     maxLength={300}
                     id="description"
-                    placeholder="Description (optional - helpful if the topic is not very well known, fictional, or needs specification)"
-                    rows={2}
+                    placeholder="Upřesnění (volitelné - užitečné, pokud téma není příliš známe, je fiktivní, nebo chcete parametry prezentace specifikovat)"
+                    rows={3}
                     className="resize-y overflow-hidden flex-wrap bg-white focus:outline-none focus:shadow-outline-teal-500 border border-gray-300 rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
@@ -135,7 +171,7 @@ function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boo
                     min={1}
                     id="slides"
                     type="number"
-                    placeholder="Amount of slides"
+                    placeholder="Množství slidů"
                     className="bg-white focus:outline-none focus:shadow-outline-teal-500 border border-gray-300 rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={slides}
                     onChange={(event) => setSlides(event.target.value)}
@@ -148,17 +184,17 @@ function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boo
                     min={1}
                     id="bullets"
                     type="number"
-                    placeholder="Number of bullet points"
+                    placeholder="Množství bodů"
                     className="bg-white focus:outline-none focus:shadow-outline-teal-500 border border-gray-300 rounded-md py-2 px-3 block w-full appearance-none leading-normal"
                     value={points}
                     onChange={(event) => setPoints(event.target.value)}
                 />
-                {bulletsError && <div className="text-red-500 text-sm">{bulletsError}</div>}
+                {pointsError && <div className="text-red-500 text-sm">{pointsError}</div>}
             </div>
             <div className="mx-auto w-full max-w-sm pt-3">
                 <button
                     onClick={handleSubmit}
-                    className={`rounded-md bg-violet-700 w-30 h-10 text-white font-bold py-2 px-4 ${props.loading ? "cursor-not-allowed" : ""}`}
+                    className={`rounded-md bg-indigo-600 hover:bg-indigo-900 w-30 h-10 text-white font-bold py-2 px-4 ${props.loading ? "cursor-not-allowed" : ""}`}
                 >
                     {props.loading ? <Spinner className={"h-full aspect-square"}/> : "Generovat"}
                 </button>
@@ -166,28 +202,4 @@ function InputForm(props: {onSubmit: (params: QueryParams) => void, loading: boo
         </form>
     );
 }
-
-/*function decomposePres(pres: String) {
-    let presDecomposed: {};
-
-    pres.split("\n").forEach((line) => {
-
-    }
-}
-
-function genPres(pres: string): void {
-    // 1. Create a new Presentation
-    let gen = new pptxgen();
-
-    // 2. Add a Slide
-    let slide = gen.addSlide();
-
-    // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
-    let textboxText = "Hello World from PptxGenJS!";
-    let textboxOpts = { x: 1, y: 1, color: "363636" };
-    slide.addText(textboxText, textboxOpts);
-
-    // 4. Save the Presentation
-    gen.writeFile();
-}*/
 export default Presentation;

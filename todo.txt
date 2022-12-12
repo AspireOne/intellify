@@ -29,6 +29,7 @@ Marketing:
 
 frontend:
     - Create the UI
+    - Every module will have its own landing page
 
 backend:
     - Implement accounts
