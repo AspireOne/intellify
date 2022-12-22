@@ -8,10 +8,13 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export type PresParams = {
-    topic: string|unknown,
-    slides: number|unknown,
-    points: number|unknown,
-    description: string|undefined|unknown
+    topic: string,
+    slides: number,
+    points: number,
+    description: string|undefined,
+    introduction: boolean,
+    conclusion: boolean,
+    includeImages: boolean
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -38,27 +41,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 function generatePrompt(params: PresParams): string {
+    console.log(params);
+    console.log(params.introduction);
     if (params.description) {
         // Ensure there is a dot at the end of the description.
         if (!(params.description as string).endsWith('.')) params.description += '.';
         params.description += " ";
     }
-    return `Vytvoř prezentaci na téma ${params.topic}. ${params.description ?? ""}Počet slidů: ${params.slides}. Počet bodů v každém slidu: ${params.points}. Každý slide bude mít název.`;
+    return `Vytvoř prezentaci na téma ${params.topic}. ${params.description ?? ""}Počet slidů: ${params.slides}. Počet bodů v každém slidu: ${params.points}. Každý slide bude mít název a každý bod bude odrážka.${params.introduction ? " Napiš úvod." : ""}${params.conclusion ? " Napiš Závěr." : ""}`;
 }
 
 async function askAI(prompt: string): Promise<string|null> {
-    return "Slide 1: Ženy ve Společnosti\n" +
-        "1. Práva žen: Ženy mají stejná práva jako muži, včetně práva na vzdělání, zaměstnání, politického zastoupení a vlastnictví majetku.\n" +
-        "2. Postavení žen: Ve společnosti se postavení žen zlepšuje, ale stále ještě existují rozdíly mezi mužskými a ženskými příjmy a postavením.\n" +
-        "3. Genderové stereotypy: Genderové stereotypy jsou stále běžné ve společnosti a mohou mít negativní dopad na postavení žen ve společnosti.\n" +
+    return "Úvod\n" +
+        "Poníci jsou malí, krásní a milí. Jsou oblíbenými domácími mazlíčky po celém světě. V této prezentaci se podíváme na to, co je poníkům nejbližší a proč jsou tak oblíbené.\n" +
         "\n" +
-        "Slide 2: Role Žen ve Společnosti \n" +
-        "1. Rodina: Rodina je obvykle centrem pozornosti pro role žen, které jsou často odpovědné za starání se o rodinu a domácnost. \n" +
-        "2. Pracovní sféra: V posledních desetiletích se role žen ve společnosti změnila, protože se staly úspěšnými profesionály v různých oborech. \n" +
-        "3. Politika: Role žen v politice se také zvýšila, což umožňuje lepší zastoupení pro otázky týkající se genderu a lidských práv.";
+        "Slide 1: Dějiny poníků\n" +
+        "- První zmínka o ponících se datuje do starověku, kdy byly použity jako společníci pro děti. \n" +
+        "- Byli také využiti jako dopravní prostředky a pracovní síla v zemědělství.\n" +
+        "\n" +
+        "Slide 2: Proč jsou poníci oblíbeni? \n" +
+        "- Poníci jsou velmi milujicí a oddaný partner pro děti i dospělé. \n" +
+        "- Jsou kamarádskými a inteligentnimi zvířaty, která dokážou vytvářet silné pouto s člověkem. \n" +
+        "\n" +
+        "Závěr \n" +
+        "Ponik je nesporně jedinečným zvirem, které si vysloužilo své miesto v srdcich lidi po celém svete. Jejich láska, oddanost a inteligence je činila oblibenymi domacimi mazlicky po generace.";
+
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
-        temperature: .3,
+        temperature: .4,
         max_tokens: 1000,
         frequency_penalty: 0.4,
         presence_penalty: 0.4,

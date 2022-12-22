@@ -1,7 +1,7 @@
 basic idea:
 [Jak bude ta stránka rozložená? Jak se bude platit? Jak budou rozděleny funkce?]
 
-TO-DO chronologicky:
+TO-
 
 funkce:
     Implementace:
@@ -20,6 +20,8 @@ funkce:
     3. byznys email
 
     4. návrh na výuku - výklad, cvičení, domácí úkoly, testy, zpětná vazba, výsledky, závěr
+
+    5. desková aktivita? společné doplňování příběhu
 
 Marketing:
     - Implement payments/subscriptions etc.
@@ -51,3 +53,23 @@ Random ideas:
 
 
 - "is expected to be marginally upgraded in 2023 - cheaper for current Subscribers"
+
+
+
+
+texty (ted jsem v letadle, takže nemám přístup k wifi, a bez copilota a tailwind componentů je to jak zatloukat hřebík
+rukou):
+
+generátor prezentací | landing page:
+  box 1: Co to je?
+    Nástroj, který vám umožní generovat celé prezentace během vteřin. Stačí zadat téma a parametry, a
+    v mžiku máte vytvořenou profesionální prezentaci i s možností přímého stažení. Dejte sbohem--
+
+  box 2: Možnosti využití
+    - Obecná, fiktivní i odborná témata do školy, do práce, i pro klienty
+    - Nápady a koncepty
+    - Profesionální prezentace pro představení produktu, konceptu, nebo události
+    - Volitelná
+
+  box 3: Příklady použití:
+    -
