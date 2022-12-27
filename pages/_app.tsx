@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="bg-t-blue-1000 text-white">
           <div className="flex">
               <Sidebar/>
-              <main className={"p-5"}>
+              <main className={"p-5 w-full"}>
                   <Component {...pageProps} />
               </main>
           </div>

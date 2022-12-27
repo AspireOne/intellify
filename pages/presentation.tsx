@@ -6,7 +6,7 @@ import axios from "axios";
 import * as QueryString from "querystring";
 import Spinner from "./components/Spinner";
 import pptxgen from "pptxgenjs";
-import PresOutput from "./objects/presOutput";
+import PresOutput from "./objects/PresOutput";
 import IOCard from "./components/IOCard";
 import ModuleLandingPage from "./components/ModuleLandingPage";
 

@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         "t-blue-1000": "#0e1423",
         "t-blue-800": "#111b2f",
+        "t-blue-700": "#131e34",
         "t-blue-500": "#1d2841",
         "t-blue-300": "#2a3a5a",
         "t-blue-100": "#3b4d7a",

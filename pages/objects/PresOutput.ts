@@ -1,6 +1,6 @@
 import pptxgen from "pptxgenjs";
 import {PresParams} from "../api/presentation";
-import presOutput from "./presOutput";
+import presOutput from "./PresOutput";
 
 class PresOutput {
     public output: string;
