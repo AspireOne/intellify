@@ -12,6 +12,8 @@ funkce:
         5. Zařazení do celé té stránky
 
     1. prezentace (slidy, pointy, téma, linky na obrázky, PDF to pptx...)
+      TODO: Oddělit úvod-závěr-popis bodů a prezentaci samotnou?
+      TODO: Make output editable.
     2. Češtinářské úkony
     rozbor děl?
     funkce: Zadá knihu, autora, osnovu, a já to jen dosadím do "Napiš rozbor knihy {kniha} od {autor} podle následující osnovy: {osnova}

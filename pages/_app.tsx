@@ -1,16 +1,19 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Sidebar from "./components/Sidebar";
+import React from "react";
+import Footer from "./components/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-      <div id={"body-wrapper"} className="bg-dark-blue text-white">
+      <div className="bg-t-blue-1000 text-white">
           <div className="flex">
               <Sidebar/>
-              <main>
+              <main className={"p-5"}>
                   <Component {...pageProps} />
               </main>
           </div>
+          <Footer/>
       </div>
   );
 }

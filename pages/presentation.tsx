@@ -8,6 +8,7 @@ import Spinner from "./components/Spinner";
 import pptxgen from "pptxgenjs";
 import PresOutput from "./objects/presOutput";
 import IOCard from "./components/IOCard";
+import ModuleLandingPage from "./components/ModuleLandingPage";
 
 const Presentation: NextPage = () => {
     // State variables for the form input values
@@ -32,6 +33,7 @@ const Presentation: NextPage = () => {
 
     return (
         <div className="flex min-h-screen flex-col p-5 w-1/1 mx-auto">
+            <ModuleLandingPage/>
             <InputForm onSubmit={handleSubmit} loading={loading} />
             {output && <OutputForm output={output} />}
         </div>
@@ -219,7 +221,7 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
                         onChange={(event) => setIncludeImages(event.target.checked)}
                     />
                     <label htmlFor="checkbox" className="ml-2 block text-sm">
-                        Vložit odkazy na obrázky (vyžaduje manuální stažení)
+                        Vložit odkazy na obrázky
                     </label>
                 </div>
             </div>
@@ -254,7 +256,7 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
             <div className="mx-auto w-full max-w-sm pt-3">
                 <button
                     onClick={handleSubmit}
-                    className={`rounded-md bg-indigo-600 hover:bg-indigo-900 w-30 h-10 text-white font-bold py-2 px-4 ${props.loading ? "cursor-not-allowed" : ""}`}
+                    className={`rounded-sm bg-indigo-600 hover:bg-indigo-900 w-30 h-10 text-white font-bold py-2 px-4 ${props.loading ? "cursor-not-allowed" : ""}`}
                 >
                     {props.loading ? <Spinner className={"h-full aspect-square"}/> : "Generovat"}
                 </button>
