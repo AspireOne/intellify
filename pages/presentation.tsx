@@ -9,6 +9,25 @@ import pptxgen from "pptxgenjs";
 import PresOutput from "./objects/PresOutput";
 import IOCard from "./components/IOCard";
 import ModuleLandingPage from "./components/ModuleLandingPage";
+import LandingPageProps from "./objects/LandingPageProps";
+import Button from "./components/Button";
+
+const landingPageProps: LandingPageProps = {
+    title: "Vytvářejte prezentace s pomocí [A.I.]",
+    description: "",
+    card1: {
+        title: "Co to je?",
+        description: "Tento nástroj vám umožní vytvářet rozsáhlé prezentace během vteřin. Je navržen tak, aby proces vytváření profesionálních, vizuálně krásných prezentací byl rychlý a snadný. Díky široké škále nastavitelných parametrů a funkcí máte možnost vytvořit prezentaci, která skutečně odráží vaše sdělení."
+    },
+    card2: {
+        title: "Co to umí?",
+        description: "Snadno vytvořte obsah a design prezentace díky možnosti přizpůsobit si parametry jako počet slidů, počet odrážek, úvodní text, obrázky, atd. Ke každému bodu si můžete nechat vygenerovat popis. Všechny části prezentace můžete libovolně upravovat."
+    },
+    card3: {
+        title: "Proč jej použít?",
+        description: "Ušetříte si čas a námahu a zajistíte, že vaše prezentace bude vizuálně atraktivní a profesionální. Ať už jste majitel firmy, který chce prezentovat své výrobky nebo služby, student přednášející prezentaci ve třídě nebo pracovník na volné noze, který se snaží představit potenciálnímu klientovi, náš nástroj vám pomůže."
+    }
+};
 
 const Presentation: NextPage = () => {
     // State variables for the form input values
@@ -32,8 +51,8 @@ const Presentation: NextPage = () => {
     }
 
     return (
-        <div className="flex min-h-screen flex-col p-5 w-1/1 mx-auto">
-            <ModuleLandingPage/>
+        <div className="">
+            <ModuleLandingPage props={landingPageProps}/>
             <InputForm onSubmit={handleSubmit} loading={loading} />
             {output && <OutputForm output={output} />}
         </div>
@@ -62,24 +81,24 @@ function DownloadPresRow(props: {pres: PresOutput}) {
         );
     }
     return (
-        <div className="card bg-lighter-blue rounded-b w-full">
+        <div className="card bg-t-blue-200 rounded-b w-full">
             <div className="p-4 flex items-center">
                 <div className="flex-1">
                     {/*<label className="mx-2"><input className="mx-2" type="checkbox" value="value"></input>Poděkování za pozornost</label>*/}
                     <input
                         onChange={(event) => setAuthor(event.target.value)}
                         type="text"
-                        className="bg-white focus:outline-none focus:shadow-outline-teal-500 border border-gray-300 rounded-md py-2 px-3 appearance-none leading-normal"
+                        className="bg-t-blue-50 focus:outline-none focus:shadow-outline-teal-500  rounded-md py-2 px-3 appearance-none leading-normal"
                         placeholder="Autor (volitelné)"
                         maxLength={25}
                     ></input>
                 </div>
-                <div className="max-w-sm p-4">
+                <div className="max-w-md p-4">
                     <div className="flex items-center">
                         <input
                             id="include-info"
                             type="checkbox"
-                            className="form-checkbox h-6 w-6"
+                            className="form-checkbox h-6 w-6 accent-blue-500"
                             checked={includeIntroAndConclu}
                             onChange={(event) => setIncludeIntroAndConclu(event.target.checked)}
                         />
@@ -162,61 +181,61 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
     // TODO: Add focus color.
     return (
         <IOCard title={"Vytvořte prezentaci"}>
-            <div className="mx-auto w-full max-w-sm py-3">
+            <div className="mx-auto max-w-md py-3">
                 <input
                     maxLength={70}
                     type="text"
                     id="topic"
                     placeholder="Téma"
-                    className="bg-lighter-blue focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
                 />
                 {topicError && <div className="text-red-500 text-sm">{topicError}</div>}
             </div>
-            <div className="mx-auto w-full max-w-sm py-3">
+            <div className="mx-auto max-w-md py-3">
                 <textarea
                     maxLength={300}
                     id="description"
                     placeholder="Upřesnění (volitelné - užitečné, pokud téma není příliš známe, je fiktivní, nebo chcete parametry prezentace specifikovat)"
                     rows={3}
-                    className="bg-lighter-blue resize-y overflow-hidden flex-wrap focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="bg-t-blue-200 resize-y overflow-hidden flex-wrap focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
                 />
             </div>
-            <div className="mx-auto w-full max-w-sm py-3">
+            <div className="mx-auto max-w-md py-3">
                 <input
                     max={20}
                     min={1}
                     id="slides"
                     type="number"
                     placeholder="Množství slidů"
-                    className="bg-lighter-blue focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={slides}
                     onChange={(event) => setSlides(event.target.value)}
                 />
                 {slidesError && <div className="text-red-500 text-sm">{slidesError}</div>}
             </div>
-            <div className="mx-auto w-full max-w-sm py-3">
+            <div className="mx-auto max-w-md py-3">
                 <input
                     max={10}
                     min={1}
                     id="bullets"
                     type="number"
                     placeholder="Množství bodů"
-                    className="bg-lighter-blue focus:outline-none rounded-md py-2 px-3 outline-none w-full appearance-none leading-normal"
+                    className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 outline-none w-full appearance-none leading-normal"
                     value={points}
                     onChange={(event) => setPoints(event.target.value)}
                 />
                 {pointsError && <div className="text-red-500 text-sm">{pointsError}</div>}
             </div>
-            <div className="mx-auto w-full max-w-sm py-3">
+            <div className="mx-auto max-w-md py-3">
                 <div className="flex items-center">
                     <input
                         id="include-image-placeholders-checkbox"
                         type="checkbox"
-                        className="form-checkbox h-5 w-5"
+                        className="form-checkbox h-5 w-5 accent-blue-500"
                         checked={includeImages}
                         onChange={(event) => setIncludeImages(event.target.checked)}
                     />
@@ -225,12 +244,12 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
                     </label>
                 </div>
             </div>
-            <div className="mx-auto w-full max-w-sm py-3">
+            <div className="mx-auto max-w-md py-3">
                 <div className="flex items-center">
                     <input
                         id="include-image-placeholders-checkbox"
                         type="checkbox"
-                        className="form-checkbox h-5 w-5"
+                        className="form-checkbox h-5 w-5 accent-blue-500"
                         checked={introduction}
                         onChange={(event) => setIntroduction(event.target.checked)}
                     />
@@ -239,12 +258,12 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
                     </label>
                 </div>
             </div>
-            <div className="mx-auto w-full max-w-sm py-3">
+            <div className="mx-auto max-w-md py-3">
                 <div className="flex items-center">
                     <input
                         id="include-image-placeholders-checkbox"
                         type="checkbox"
-                        className="form-checkbox h-5 w-5"
+                        className="form-checkbox h-5 w-5 accent-blue-500"
                         checked={conclusion}
                         onChange={(event) => setConclusion(event.target.checked)}
                     />
@@ -253,13 +272,13 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
                     </label>
                 </div>
             </div>
-            <div className="mx-auto w-full max-w-sm pt-3">
-                <button
+            <div className="mx-auto max-w-md pt-3">
+                <Button
                     onClick={handleSubmit}
-                    className={`rounded-sm bg-indigo-600 hover:bg-indigo-900 w-30 h-10 text-white font-bold py-2 px-4 ${props.loading ? "cursor-not-allowed" : ""}`}
+                    loading={props.loading}
                 >
-                    {props.loading ? <Spinner className={"h-full aspect-square"}/> : "Generovat"}
-                </button>
+                    Generovat
+                </Button>
             </div>
         </IOCard>
     );

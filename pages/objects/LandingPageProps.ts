@@ -1,8 +1,8 @@
 import {Component} from "react";
 
-interface LandingPageParams {
-    title: string|Element;
-    description: string|Element;
+interface LandingPageProps {
+    title: string;
+    description: string;
     card1: LandingPageCard;
     card2: LandingPageCard;
     card3: LandingPageCard;
@@ -14,4 +14,4 @@ interface LandingPageCard {
     icon?: Component;
 }
 
-export default LandingPageParams;
+export default LandingPageProps;

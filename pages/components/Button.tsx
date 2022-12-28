@@ -1,9 +1,36 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
+import Spinner from "./Spinner";
+import {assertTSTypeElement} from "@babel/types";
+
+type ButtonProps = {
+    onClick: (event: any) => void;
+    loading: boolean
+    className?: string;
+    children: React.ReactNode;
+}
 
 // TODO: Allow to pass in any properties and classes and USE IT.
-const Button = (props: React.PropsWithChildren<{}>) => {
+const Button = (props: ButtonProps) => {
+    const [isBeingClicked, setIsBeingClicked] = React.useState(false);
+    // Check global mouse up.
+    React.useEffect(() => {
+        const onMouseUp = () => setIsBeingClicked(false);
+        window.addEventListener("mouseup", onMouseUp);
+        return () => window.removeEventListener("mouseup", onMouseUp);
+    }, []);
+
     return (
-        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        <button
+            onClick={props.onClick}
+            onMouseDown={() => setIsBeingClicked(true)}
+            disabled={props.loading}
+            className={"duration-200 rounded-md text-sm px-5 py-2.5 outline-none focus:outline-none "
+                + (props.loading && " cursor-not-allowed")
+                + (!isBeingClicked && !props.loading && " hover:bg-indigo-500")
+                + (isBeingClicked ? " bg-indigo-800 " : props.loading ? " bg-indigo-800 " : " bg-indigo-700 ")
+                + (props.className || "")}>
+
+            {props.loading && <Spinner/>}
             {props.children}
         </button>
     );

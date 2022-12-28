@@ -1,13 +1,18 @@
 import {NextPage} from "next";
 
 import React from "react";
-import LandingPageParams from "../objects/LandingPageParams";
+import LandingPageProps from "../objects/LandingPageProps";
 
-const ModuleLandingPage = (props: {props: LandingPageParams}) => {
+/**
+ * Renders an universal landing page for a module.
+ * @param props text inside "[" and "]" will be highlighted.
+ * @constructor
+ */
+const ModuleLandingPage = (props: {props: LandingPageProps}) => {
     return (
         <div>
             <div className={"text-center mt-32 mx-auto px-2 mb-32 max-w-[800px]"}>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font">Vytvářejte prezentace s pomocí <span className={"title-highlighted"}>A.I.</span></h1>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font"><TitleText text={props.props.title}/></h1>
                 <p className="text-gray-400 text-xl mt-6 lg:mx-32">Profesionální a přizpůsobitelná prezentace do práce, do školy i pro osobní projekty v řádu vteřin.</p>
             </div>
 
@@ -15,7 +20,7 @@ const ModuleLandingPage = (props: {props: LandingPageParams}) => {
                 {
                     [props.props.card1, props.props.card2, props.props.card3].map((card, index) => {
                         return (
-                            <div className="w-1/3 lg:p-5 border-red-500 min-w-[380px] max-w-[440px]" key={index}>
+                            <div className="w-1/3 lg:p-5 border-red-500 min-w-[340px] max-w-[440px]" key={index}>
                                 {/*border border-gray-700 bg-t-blue-700 shadow-lg*/}
                                 <div className=" rounded-lg h-full border-purple-500 pb-8 lg:p-4 min-w-[350px]">
                                     <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
@@ -32,6 +37,27 @@ const ModuleLandingPage = (props: {props: LandingPageParams}) => {
             </div>
         </div>
     );
+}
+
+/**
+ * Takes text and returns it as an element. Text inside "[" and "]" will be highlighted.
+ * @param props The text to make the title from. Text inside "[" and "]" will be highlighted.
+ * @constructor
+ */
+function TitleText(props: {text: string}): React.ReactElement {
+    // Check if text contains "[" and "]", and that "[" is before "]".
+    if (!props.text.includes("[") || !props.text.includes("]") || props.text.indexOf("[") > props.text.indexOf("]")) {
+        return (<span>{props.text}</span>);
+    }
+
+    // Get all the props.text before "[".
+    const before = props.text.substring(0, props.text.indexOf("["));
+    // Get all the props.text between "[" and "]".
+    const highlighted = props.text.substring(props.text.indexOf("[") + 1, props.text.indexOf("]"));
+    // Get all the props.text after "]".
+    const after = props.text.substring(props.text.indexOf("]") + 1, props.text.length);
+
+    return (<span>{before}<span className={"title-highlighted"}>{highlighted}</span>{after}</span>)
 }
 
 export default ModuleLandingPage
