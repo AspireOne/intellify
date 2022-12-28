@@ -23,10 +23,10 @@ const Sidebar: NextPage = () => {
                 <div className="text-xl text-gray-100">
                     <div className="p-2.5 mt-1 flex items-center">
                         <Apps width={"35px"} height={"35px"} color={"white"} cssClasses={"rounded-md bg-blue-600 p-1.5"} />
-                        <h3 className="font-bold text-gray-200 text-[15px] ml-3">Open Tools</h3>
+                        <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
                         <Close
                             color={"#fff"}
-                            cssClasses={"ml-28 cursor-pointer lg:hidden"}
+                            cssClasses={"ml-9 cursor-pointer lg:hidden"}
                             onClick={() => setIsOpen(!isOpen)}/>
                     </div>
                     <div className="my-2 bg-gray-600 h-[1px]"></div>
