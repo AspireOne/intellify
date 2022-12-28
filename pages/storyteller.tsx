@@ -1,7 +1,7 @@
 import {NextPage} from "next";
-import ModuleLandingPage from "./components/ModuleLandingPage";
-import LandingPageProps from "./objects/LandingPageProps";
-import Button from "./components/Button";
+import ModuleLandingPage from "../components/ModuleLandingPage";
+import LandingPageProps from "../objects/LandingPageProps";
+import Button from "../components/Button";
 import React from "react";
 
 const landingPageProps: LandingPageProps = {

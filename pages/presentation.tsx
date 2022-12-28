@@ -4,13 +4,13 @@ import type { PresParams } from './api/presentation'
 import {fromJSON} from "postcss";
 import axios from "axios";
 import * as QueryString from "querystring";
-import Spinner from "./components/Spinner";
+import Spinner from "../components/Spinner";
 import pptxgen from "pptxgenjs";
-import PresOutput from "./objects/PresOutput";
-import IOCard from "./components/IOCard";
-import ModuleLandingPage from "./components/ModuleLandingPage";
-import LandingPageProps from "./objects/LandingPageProps";
-import Button from "./components/Button";
+import PresOutput from "../objects/PresOutput";
+import IOCard from "../components/IOCard";
+import ModuleLandingPage from "../components/ModuleLandingPage";
+import LandingPageProps from "../objects/LandingPageProps";
+import Button from "../components/Button";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",

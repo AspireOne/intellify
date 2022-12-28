@@ -1,5 +1,5 @@
 import pptxgen from "pptxgenjs";
-import {PresParams} from "../api/presentation";
+import {PresParams} from "../pages/api/presentation";
 import presOutput from "./PresOutput";
 
 class PresOutput {
