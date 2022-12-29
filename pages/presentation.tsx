@@ -14,15 +14,15 @@ const landingPageProps: LandingPageProps = {
     description: "",
     card1: {
         title: "Co to je?",
-        description: "Tento nástroj vám umožní vytvářet rozsáhlé prezentace během vteřin. Je navržen tak, aby proces vytváření profesionálních, vizuálně krásných prezentací byl rychlý a snadný. Díky široké škále nastavitelných parametrů a funkcí máte možnost vytvořit prezentaci, která skutečně odráží vaše sdělení."
+        description: "Tento nástroj vám umožní vytvářet rozsáhlé prezentace během vteřin. Je navržen tak, aby proces vytváření profesionálních, vizuálně příjemných prezentací byl rychlý a snadný. Díky široké škále nastavitelných parametrů a funkcí máte možnost vytvořit prezentaci, která skutečně odráží vaše sdělení."
     },
     card2: {
         title: "Co to umí?",
-        description: "Snadno vytvořte obsah a design prezentace díky možnosti přizpůsobit si parametry jako počet slidů, počet odrážek, úvodní text, obrázky, atd. Ke každému bodu si můžete nechat vygenerovat popis. Všechny části prezentace můžete libovolně upravovat."
+        description: "Přizpůsobte si parametry jako počet slidů, obrázky, nebo úvodní text, nechte si vygenerovat popisy jednotlivých bodů, libovolně pomocí psaného textu určete specifika prezentace, nebo vytvořte prezentaci na fiktivní téma. Zbytek nechte na našem A.I.!"
     },
     card3: {
         title: "Proč jej použít?",
-        description: "Ušetříte si čas a námahu a zajistíte, že vaše prezentace bude vizuálně atraktivní a profesionální. Ať už jste majitel firmy, který chce prezentovat své výrobky nebo služby, student přednášející prezentaci ve třídě nebo pracovník na volné noze, který se snaží představit potenciálnímu klientovi, náš nástroj vám pomůže."
+        description: "Ušetříte si čas a úsilí a zajistíte, že vaše prezentace bude profesionální a vizuálně příjemná. Ať už jste majitel firmy, který chce prezentovat své výrobky nebo služby, student přednášející prezentaci ve třídě nebo pracovník na volné noze, který se snaží představit potenciálnímu klientovi, náš nástroj vám pomůže."
     }
 };
 
@@ -136,7 +136,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
 
         // Validate the topic input
         if (topic === "") {
-            setTopicError("Please enter a topic");
+            setTopicError("Prosím vložte téma.");
             isValid = false;
         } else {
             setTopicError(null);
@@ -144,7 +144,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
 
         // Validate the slides input
         if (slides === "" || isNaN(Number(slides)) || Number(slides) < 1 || Number(slides) > 20) {
-            setSlidesError("Please enter a valid number of slides");
+            setSlidesError("Prosím vložte validní počet slidů.");
             isValid = false;
         } else {
             setSlidesError(null);
@@ -152,7 +152,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
 
         // Validate the points input
         if (points === "" || isNaN(Number(points)) || Number(points) < 1 || Number(points) > 20) {
-            setPointsError("Please enter a valid number of bullet points");
+            setPointsError("Prosím vložte validní počet bodů.");
             isValid = false;
         } else {
             setPointsError(null);
@@ -179,21 +179,22 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
     // TODO: Add focus color.
     return (
         <IOCard title={"Vytvořte prezentaci"}>
-            <div className="mx-auto max-w-md py-3 [&>*]:my-2">
+            <div className="mx-auto max-w-md py-3">
                 <input
                     maxLength={70}
                     type="text"
                     placeholder="Téma"
-                    className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
                 />
                 {topicError && <div className="text-red-500 text-sm">{topicError}</div>}
                 <textarea
                     maxLength={300}
-                    placeholder="Upřesnění (volitelné - užitečné, pokud téma není příliš známe, je fiktivní, nebo chcete parametry prezentace specifikovat)"
-                    rows={3}
-                    className="bg-t-blue-200 block resize-y overflow-hidden flex-wrap focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    // TODO: Explain it.
+                    placeholder='Upřesnění (volitelné)'
+                    rows={2}
+                    className="my-2 bg-t-blue-200 block resize-y overflow-hidden flex-wrap focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
                 />
@@ -202,7 +203,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                     min={1}
                     type="number"
                     placeholder="Množství slidů"
-                    className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={slides}
                     onChange={(event) => setSlides(event.target.value)}
                 />
@@ -212,7 +213,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                     min={1}
                     type="number"
                     placeholder="Množství bodů"
-                    className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 outline-none w-full appearance-none leading-normal"
+                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={points}
                     onChange={(event) => setPoints(event.target.value)}
                 />
@@ -226,7 +227,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                         ]
                             .map((item, index) => {
                                 return (
-                                    <div>
+                                    <div className={"my-2"}>
                                         <Switch
                                             className={`${item.state ? 'bg-indigo-700 ' : 'bg-gray-700 '} 
                                             relative inline-flex h-6 w-11 items-center rounded-full`}
@@ -244,7 +245,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                             })
                     }
                 </Switch.Group>
-                <Button onClick={handleSubmit} loading={props.loading}>Generovat</Button>
+                <Button className={"my-2"} onClick={handleSubmit} loading={props.loading}>Generovat</Button>
             </div>
         </IOCard>
     );
