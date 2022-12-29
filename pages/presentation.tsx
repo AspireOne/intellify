@@ -1,16 +1,13 @@
-import type { NextPage } from 'next'
+import type {NextPage} from 'next'
 import React, {useState} from "react";
-import type { PresParams } from './api/presentation'
-import {fromJSON} from "postcss";
+import type {PresParams} from './api/presentation'
 import axios from "axios";
-import * as QueryString from "querystring";
-import Spinner from "../components/Spinner";
-import pptxgen from "pptxgenjs";
 import PresOutput from "../objects/PresOutput";
 import IOCard from "../components/IOCard";
 import ModuleLandingPage from "../components/ModuleLandingPage";
 import LandingPageProps from "../objects/LandingPageProps";
 import Button from "../components/Button";
+import {Switch} from "@headlessui/react";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
@@ -31,20 +28,20 @@ const landingPageProps: LandingPageProps = {
 
 const Presentation: NextPage = () => {
     // State variables for the form input values
-    const [output, setOutput] = useState<PresOutput|null>(null);
+    const [output, setOutput] = useState<PresOutput | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-        function handleSubmit(data: PresParams) {
-            setLoading(true);
+    function handleSubmit(data: PresParams) {
+        setLoading(true);
         /*axios.post('/presentation', {
             topic: topic,
             slides: slides,
             bullet_points: bullets
         })*/
         // Create axios post request to /presentation with topic, slides and bullet_points
-            axios.get(`/api/presentation/?topic=${data.topic}&slides=${data.slides}&points=${data.points}&description=${data.description}$includeImages=${data.includeImages}&introduction=${data.introduction}&conclusion=${data.conclusion}`)
-                .then((response) => response.data.output)
-                .then((output) => {
+        axios.get(`/api/presentation/?topic=${data.topic}&slides=${data.slides}&points=${data.points}&description=${data.description}$includeImages=${data.includeImages}&introduction=${data.introduction}&conclusion=${data.conclusion}`)
+            .then((response) => response.data.output)
+            .then((output) => {
                 setOutput(new PresOutput(output, data));
                 setLoading(false);
             })
@@ -53,24 +50,24 @@ const Presentation: NextPage = () => {
     return (
         <div className="">
             <ModuleLandingPage props={landingPageProps}/>
-            <InputForm onSubmit={handleSubmit} loading={loading} />
-            {output && <OutputForm output={output} />}
+            <InputForm onSubmit={handleSubmit} loading={loading}/>
+            {output && <OutputForm output={output}/>}
         </div>
     );
 }
 
-function OutputForm(props: {output: PresOutput}) {
+function OutputForm(props: { output: PresOutput }) {
     return (
         <div className="my-5">
             <IOCard title={"Výstup"}>
                 <p>{props.output.output}</p>
             </IOCard>
-            <DownloadPresRow pres={props.output} />
+            <DownloadPresRow pres={props.output}/>
         </div>
     );
 }
 
-function DownloadPresRow(props: {pres: PresOutput}) {
+function DownloadPresRow(props: { pres: PresOutput }) {
     const [author, setAuthor] = useState<string>("");
     const [includeIntroAndConclu, setIncludeIntroAndConclu] = useState<boolean>(false);
 
@@ -80,6 +77,7 @@ function DownloadPresRow(props: {pres: PresOutput}) {
             props.pres.params.topic
         );
     }
+
     return (
         <div className="card bg-t-blue-200 rounded-b w-full">
             <div className="p-4 flex items-center">
@@ -118,7 +116,7 @@ function DownloadPresRow(props: {pres: PresOutput}) {
     );
 }
 
-function InputForm(props: {onSubmit: (params: PresParams) => void, loading: boolean}) {
+function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boolean }) {
     // State variables for the form input values
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
@@ -129,9 +127,9 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
     const [description, setDescription] = useState("");
 
     // State variables for the input errors
-    const [topicError, setTopicError] = useState<string|null>();
-    const [slidesError, setSlidesError] = useState<string|null>("");
-    const [pointsError, setPointsError] = useState<string|null>("");
+    const [topicError, setTopicError] = useState<string | null>();
+    const [slidesError, setSlidesError] = useState<string | null>("");
+    const [pointsError, setPointsError] = useState<string | null>("");
 
     function validateForm() {
         let isValid = true;
@@ -181,34 +179,27 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
     // TODO: Add focus color.
     return (
         <IOCard title={"Vytvořte prezentaci"}>
-            <div className="mx-auto max-w-md py-3">
+            <div className="mx-auto max-w-md py-3 [&>*]:my-2">
                 <input
                     maxLength={70}
                     type="text"
-                    id="topic"
                     placeholder="Téma"
                     className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
                 />
                 {topicError && <div className="text-red-500 text-sm">{topicError}</div>}
-            </div>
-            <div className="mx-auto max-w-md py-3">
                 <textarea
                     maxLength={300}
-                    id="description"
                     placeholder="Upřesnění (volitelné - užitečné, pokud téma není příliš známe, je fiktivní, nebo chcete parametry prezentace specifikovat)"
                     rows={3}
-                    className="bg-t-blue-200 resize-y overflow-hidden flex-wrap focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="bg-t-blue-200 block resize-y overflow-hidden flex-wrap focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
                 />
-            </div>
-            <div className="mx-auto max-w-md py-3">
                 <input
                     max={20}
                     min={1}
-                    id="slides"
                     type="number"
                     placeholder="Množství slidů"
                     className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
@@ -216,12 +207,9 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
                     onChange={(event) => setSlides(event.target.value)}
                 />
                 {slidesError && <div className="text-red-500 text-sm">{slidesError}</div>}
-            </div>
-            <div className="mx-auto max-w-md py-3">
                 <input
                     max={10}
                     min={1}
-                    id="bullets"
                     type="number"
                     placeholder="Množství bodů"
                     className="bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 outline-none w-full appearance-none leading-normal"
@@ -229,58 +217,37 @@ function InputForm(props: {onSubmit: (params: PresParams) => void, loading: bool
                     onChange={(event) => setPoints(event.target.value)}
                 />
                 {pointsError && <div className="text-red-500 text-sm">{pointsError}</div>}
-            </div>
-            <div className="mx-auto max-w-md py-3">
-                <div className="flex items-center">
-                    <input
-                        id="include-image-placeholders-checkbox"
-                        type="checkbox"
-                        className="form-checkbox h-5 w-5 accent-blue-500"
-                        checked={includeImages}
-                        onChange={(event) => setIncludeImages(event.target.checked)}
-                    />
-                    <label htmlFor="checkbox" className="ml-2 block text-sm">
-                        Vložit odkazy na obrázky
-                    </label>
-                </div>
-            </div>
-            <div className="mx-auto max-w-md py-3">
-                <div className="flex items-center">
-                    <input
-                        id="include-image-placeholders-checkbox"
-                        type="checkbox"
-                        className="form-checkbox h-5 w-5 accent-blue-500"
-                        checked={introduction}
-                        onChange={(event) => setIntroduction(event.target.checked)}
-                    />
-                    <label htmlFor="checkbox" className="ml-2 block text-sm">
-                        Napsat úvod
-                    </label>
-                </div>
-            </div>
-            <div className="mx-auto max-w-md py-3">
-                <div className="flex items-center">
-                    <input
-                        id="include-image-placeholders-checkbox"
-                        type="checkbox"
-                        className="form-checkbox h-5 w-5 accent-blue-500"
-                        checked={conclusion}
-                        onChange={(event) => setConclusion(event.target.checked)}
-                    />
-                    <label htmlFor="checkbox" className="ml-2 block text-sm">
-                        Napsat závěr
-                    </label>
-                </div>
-            </div>
-            <div className="mx-auto max-w-md pt-3">
-                <Button
-                    onClick={handleSubmit}
-                    loading={props.loading}
-                >
-                    Generovat
-                </Button>
+                <Switch.Group>
+                    {
+                        [
+                            {state: includeImages, stateSetter: setIncludeImages, text: "Vložit odkazy na obrázky"},
+                            {state: introduction, stateSetter: setIntroduction, text: "Napsat úvod"},
+                            {state: conclusion, stateSetter: setConclusion, text: "Napsat závěr"}
+                        ]
+                            .map((item, index) => {
+                                return (
+                                    <div>
+                                        <Switch
+                                            className={`${item.state ? 'bg-indigo-700 ' : 'bg-gray-700 '} 
+                                            relative inline-flex h-6 w-11 items-center rounded-full`}
+                                            checked={item.state}
+                                            onChange={item.stateSetter}
+                                        >
+                                        <span
+                                            className={`${item.state ? 'translate-x-6 ' : 'translate-x-1 '} 
+                                            inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                                        />
+                                        </Switch>
+                                        <Switch.Label className="ml-4">{item.text}</Switch.Label>
+                                    </div>
+                                );
+                            })
+                    }
+                </Switch.Group>
+                <Button onClick={handleSubmit} loading={props.loading}>Generovat</Button>
             </div>
         </IOCard>
     );
 }
+
 export default Presentation;

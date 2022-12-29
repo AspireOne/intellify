@@ -35,6 +35,8 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                     })
                 }
             </div>
+
+            {/*TODO: ADD "tak na co čekáte? zkuse to hned..." atd.*/}
         </div>
     );
 }
