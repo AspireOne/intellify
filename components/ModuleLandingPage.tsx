@@ -13,16 +13,16 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
         <div>
             <div className={"text-center mt-32 mx-auto px-2 mb-40 max-w-[800px]"}>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font"><TitleText text={props.props.title}/></h1>
-                <p className="text-gray-400 text-xl mt-6 lg:mx-32">{props.props.description}</p>
+                <p className="text-gray-400 text-xl mt-6 md:mx-32">{props.props.description}</p>
             </div>
 
             <div className="flex flex-wrap items-stretch text-justify justify-center items-center">
                 {
                     [props.props.card1, props.props.card2, props.props.card3].map((card, index) => {
                         return (
-                            <div className="w-1/3 lg:p-5 border-red-500 min-w-[340px] max-w-[440px]" key={index}>
-                                {/*border border-gray-700 bg-t-blue-700 shadow-lg*/}
-                                <div className=" rounded-lg h-full border-purple-500 pb-8 lg:p-4 min-w-[350px]">
+                            <div className="w-1/3 lg:p-5 lg:py-1 min-w-[360px] max-w-[440px]" key={index}>
+                                {/*border border-purple-500 bg-t-blue-700 shadow-lg*/}
+                                <div className=" rounded-lg h-full p-4 min-w-[350px]">
                                     <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
                                     <p className="text-gray-500 text-lg mb-4">{card.description}</p>
                                     {/*<button
