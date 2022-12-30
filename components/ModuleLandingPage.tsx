@@ -2,6 +2,8 @@ import {NextPage} from "next";
 
 import React from "react";
 import LandingPageProps from "../objects/LandingPageProps";
+import Button, {Style} from "./Button";
+import {ChevronDown, ChevronDownOutline} from "react-ionicons";
 
 /**
  * Renders an universal landing page for a module.
@@ -9,11 +11,16 @@ import LandingPageProps from "../objects/LandingPageProps";
  * @constructor
  */
 const ModuleLandingPage = (props: {props: LandingPageProps}) => {
+    function handleActionButtonClick() {
+        document?.getElementById(props.props.callToActionButton.targetElementId)?.scrollIntoView({behavior: "smooth", block: "center"});
+    }
     return (
         <div>
             <div className={"text-center mt-32 mx-auto px-2 mb-40 max-w-[800px]"}>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font"><TitleText text={props.props.title}/></h1>
                 <p className="text-gray-400 text-xl mt-6 md:mx-32">{props.props.description}</p>
+                <Button className={"mt-10 mr-10 text-lg"}  onClick={handleActionButtonClick}>Vyzkoušet</Button> {/*TODO: If logged in, props.text. else "Vyzkoušet"*/}
+                <Button style={Style.OUTLINE} className={"mt-10 text-lg"}>Přihlásit se</Button>
             </div>
 
             <div className="flex flex-wrap items-stretch text-justify justify-center items-center">
@@ -36,10 +43,12 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 }
             </div>
 
-            <div className={"py-20 mt-10 mb-20 mx-[-1rem] bg-t-blue-800 "}>
+            <div className={"pt-20 pb-16 m-10 mx-[-1rem] bg-t-blue-800"}>
                 <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
                     {props.props.callToActionTitle}
                 </h1>
+                <ChevronDown width={"40px"} height={"auto"} color={"#fff"}
+                             cssClasses={"text-center mx-auto animate-pulse mt-10"} />
             </div>
             {/*TODO: ADD "tak na co čekáte? zkuse to hned..." atd.*/}
         </div>

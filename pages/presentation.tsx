@@ -24,6 +24,10 @@ const landingPageProps: LandingPageProps = {
     card3: {
         title: "Proč jej použít?",
         description: "Ušetříte si čas a úsilí a zajistíte, že vaše prezentace bude profesionální a vizuálně příjemná. Ať už jste majitel firmy, který chce prezentovat své výrobky nebo služby, student přednášející prezentaci ve třídě nebo pracovník na volné noze, který se snaží představit potenciálnímu klientovi, náš nástroj vám pomůže."
+    },
+    callToActionButton: {
+        titleWhenSigned: "Vytvořit prezentaci",
+        targetElementId: "input-form"
     }
 };
 
@@ -44,9 +48,9 @@ const Presentation: NextPage = () => {
     }
 
     return (
-        <div className="">
+        <div>
             <ModuleLandingPage props={landingPageProps}/>
-            <InputForm onSubmit={handleSubmit} loading={loading}/>
+            <InputForm id={"input-form"} onSubmit={handleSubmit} loading={loading}/>
             {output && <OutputForm output={output}/>}
         </div>
     );
@@ -112,7 +116,7 @@ function DownloadPresRow(props: { pres: PresOutput }) {
     );
 }
 
-function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boolean }) {
+function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boolean, id: string }) {
     // State variables for the form input values
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
@@ -179,7 +183,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
 
     // TODO: Add focus color.
     return (
-        <IOCard title={"Vytvořte prezentaci"}>
+        <IOCard id={props.id} title={"Vytvořte prezentaci"}>
             <div className="mx-auto max-w-md py-3">
                 <input
                     maxLength={70}
@@ -219,6 +223,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                     onChange={(event) => setPoints(event.target.value)}
                 />
                 {pointsError && <div className="text-red-500 text-sm">{pointsError}</div>}
+                <div className={"mt-5"}></div>
                 <Switch.Group>
                     {
                         [
@@ -247,6 +252,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                             })
                     }
                 </Switch.Group>
+                <div className={"mb-5"}></div>
                 <Button className={"my-2"} onClick={handleSubmit} loading={props.loading}>Generovat</Button>
             </div>
         </IOCard>
