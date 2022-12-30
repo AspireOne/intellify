@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@700&family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -43,13 +43,13 @@
 
     @keyframes gradient {
         0% {
-            background-position: 0%;
+            background-position: 0;
         }
         50% {
             background-position: 100%;
         }
         100% {
-            background-position: 0%;
+            background-position: 0;
         }
     }
 }
