@@ -11,7 +11,7 @@ import LandingPageProps from "../objects/LandingPageProps";
 const ModuleLandingPage = (props: {props: LandingPageProps}) => {
     return (
         <div>
-            <div className={"text-center mt-32 mx-auto px-2 mb-32 max-w-[800px]"}>
+            <div className={"text-center mt-32 mx-auto px-2 mb-40 max-w-[800px]"}>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font"><TitleText text={props.props.title}/></h1>
                 <p className="text-gray-400 text-xl mt-6 lg:mx-32">Profesionální a přizpůsobitelná prezentace do práce, do školy, i pro osobní projekty v řádu vteřin.</p>
             </div>
