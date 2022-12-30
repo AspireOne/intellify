@@ -31,20 +31,57 @@ const Presentation: NextPage = () => {
     const [output, setOutput] = useState<PresOutput | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    function handleSubmit(data: PresParams) {
+    function handleSubmit(data: PresParams): void {
         setLoading(true);
-        /*axios.post('/presentation', {
-            topic: topic,
-            slides: slides,
-            bullet_points: bullets
-        })*/
-        // Create axios post request to /presentation with topic, slides and bullet_points
-        axios.get(`/api/presentation/?topic=${data.topic}&slides=${data.slides}&points=${data.points}&description=${data.description}$includeImages=${data.includeImages}&introduction=${data.introduction}&conclusion=${data.conclusion}`)
+        const presOutput = new PresOutput("", data);
+
+        // Subscribe to the event stream
+        const eventSource = new EventSource("/api/presentation");
+        eventSource.addEventListener("message", handleReceiveMessage);
+        eventSource.addEventListener("error", handleReceiveError);
+        eventSource.addEventListener("open", handleReceiveOpen);
+
+        function handleReceiveOpen() {
+            console.log("SSE data stream opened.");
+            setOutput(presOutput);
+        }
+
+        function handleReceiveError(event: Event) {
+            console.log("SSE data stream error.");
+            // TODO: Add specific error handling.
+            setOutput(presOutput);
+            handleDone();
+        }
+
+        function handleReceiveMessage(event: MessageEvent) {
+            console.log("SSE data stream message received.");
+            const data = JSON.parse(event.data);
+            if (data.contains("[DONE]")) {
+                handleDone();
+                return;
+            }
+
+            presOutput.output = data.data;
+            setOutput(presOutput);
+        }
+
+        function handleDone() {
+            console.log("SSE data streaming done.");
+            eventSource.removeEventListener("message", handleReceiveMessage);
+            eventSource.removeEventListener("error", handleReceiveMessage);
+            eventSource.removeEventListener("open", handleReceiveMessage);
+            eventSource.close();
+            setLoading(true);
+        }
+
+/*        axios.post('/api/presentation', data)
             .then((response) => response.data.output)
             .then((output) => {
-                setOutput(new PresOutput(output, data));
+                const presOutput = new PresOutput(output, data);
+                //presOutput.output = ""; We will use this later when data is streamed back.
+                setOutput(presOutput);
                 setLoading(false);
-            })
+            })*/
     }
 
     return (
@@ -165,15 +202,18 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
         // Prevent page reload
         event.preventDefault();
         const isValid = validateForm();
-        if (isValid) props.onSubmit({
-            topic,
-            slides: Number(slides),
-            points: Number(points),
-            description: description,
-            introduction: introduction,
-            conclusion: conclusion,
-            includeImages: includeImages
-        });
+        if (isValid) {
+            props.onSubmit({
+                topic: topic,
+                slides: Number(slides),
+                points: Number(points),
+                description: description,
+                introduction: introduction,
+                conclusion: conclusion,
+                includeImages: includeImages,
+                describe: true
+            });
+        }
     }
 
     // TODO: Add focus color.
@@ -227,7 +267,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                         ]
                             .map((item, index) => {
                                 return (
-                                    <div className={"my-2"}>
+                                    <div className={"my-2"} key={index}>
                                         <Switch
                                             className={`${item.state ? 'bg-indigo-700 ' : 'bg-gray-700 '} 
                                             relative inline-flex h-6 w-11 items-center rounded-full`}
