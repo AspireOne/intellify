@@ -3,6 +3,7 @@ import {Component} from "react";
 interface LandingPageProps {
     title: string;
     description: string;
+    callToActionTitle: string;
     card1: LandingPageCard;
     card2: LandingPageCard;
     card3: LandingPageCard;

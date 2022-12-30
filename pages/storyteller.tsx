@@ -6,6 +6,7 @@ import React from "react";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
+    callToActionTitle: "Přáběhy",
     description: "",
     card1: {
         title: "Co to je?",
