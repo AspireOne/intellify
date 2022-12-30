@@ -15,20 +15,12 @@ export type PresParams = {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-
-    /*if (req.method !== 'POST') {
+    if (req.method !== 'POST') {
         res.status(405).send("Only POST requests are allowed.");
         return;
     }
 
-    const params = req.body as PresParams;*/
-
-    // Or the below.
-
-    const params = req.query as unknown as PresParams;
+    const params = req.body as PresParams;
 
     // Check params data presence.
     if (params.topic === undefined || params.slides === undefined || params.points === undefined) {
@@ -38,8 +30,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const prompt: string = generatePrompt(params);
     let stop: string[] = [];
-    if (!params.conclusion && !params.describe) stop = ["Vysvětlení bodů:", "Závěr:", "Shrnutí:", "[DONE]"];
+    if (!params.conclusion && !params.describe) stop = ["Vysvětlení bodů:", "Závěr:", "Shrnutí:"];
     let output = await askAI(prompt, stop);
+    if (output) output = output.trim();
 
     return output === null
         ? res.status(500).json({ error: 'AI failed to generate output.' })
@@ -49,32 +42,43 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 function generatePrompt(params: PresParams): string {
     if (params.description) {
         params.description = params.description.trim();
-        // if params.description ends with a dot, remove that dot.
-        if (params.description.endsWith('.')) params.description = params.description.slice(0, -1);
+        if (!params.description.endsWith('.')) params.description += ".";
+        if (!params.description.startsWith(" ")) params.description = " " + params.description;
     }
-    return `Vytvoř prezentaci na téma ${params.topic}. ${params.description ?? ""}. Počet slidů: ${params.slides}. Počet odrážek v každém slidu: ${params.points}. Každý slide bude mít název. Odrážky by ${"ne" ?? ""}měly obsahovat text.${params.introduction ? " Napiš i úvod." : ""}${params.conclusion ? " Napiš i Závěr." : ""}${params.describe ? " Na konci prezentace každou odrážku popiš." : ""} Příklad struktury:
-Slide 1: Název prvního slidu
-1. Název prvního bodu
-2. Název druhého bodu
 
-Slide 2: Název druhého slidu
-1. Název prvního bodu
-2. Název druhého bodu
+    let prompt = `Vytvoř prezentaci na téma ${params.topic}.${params.description ?? ""} Počet slidů: ${params.slides}. Počet odrážek v každém slidu: ${params.points}. Každý slide bude mít název. Odrážky by ${"ne" ?? ""}měly obsahovat text.${params.introduction ? " Napiš i úvod." : ""}${params.conclusion ? " Napiš i Závěr." : ""}${params.describe ? " Na konci prezentace každou odrážku popiš." : ""}\nPříklad struktury:`;
 
-...
+    if (params.introduction) prompt += "\n\nÚvod:\nText úvodu";
 
-Vysvětlení bodů:
+    prompt +=
+        "\n\nSlide 1: Název prvního slidu\n" +
+        "1. Název prvního bodu\n" +
+        "2. Název druhého bodu\n" +
+        "...\n\n" +
+        "Slide 2: Název druhého slidu\n" +
+        "1. Název prvního bodu\n" +
+        "2. Název druhého bodu\n" +
+        "\n" +
+        "..."
 
-Název bodu: popis
+    if (params.conclusion) prompt += "\n\nZávěr:\nText závěru";
 
-Název bodu: popis
+    if (params.describe) {
+        prompt +=
+            "\n\nVysvětlení bodů:\n" +
+            "Název bodu: popis\n" +
+            "\n" +
+            "Název bodu: popis\n" +
+            "\n" +
+            "Název bodu: popis\n" +
+            "\n" +
+            "..."
+    }
 
-Název bodu: popis
-
-...`;
+    return prompt;
 }
 
-async function askAI(prompt: string, stop?: string[]): Promise<string|null> {
+async function askAI(prompt: string, stop: string[] = []): Promise<string|null> {
     /*return "Úvod\n" +
         "Poníci jsou malí, krásní a milí. Jsou oblíbenými domácími mazlíčky po celém světě. V této prezentaci se podíváme na to, co je poníkům nejbližší a proč jsou tak oblíbené.\n" +
         "\n" +
@@ -96,12 +100,19 @@ async function askAI(prompt: string, stop?: string[]): Promise<string|null> {
         frequency_penalty: 0.5,
         presence_penalty: 0.4,
         prompt: prompt,
-        stream: true,
-        stop: stop ? stop : [],
     };
 
+    const configuration = new Configuration({
+        apiKey: process.env.OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
 
-    const req = https.request({
+    // TODO: Use Curie?
+    const completion = await openai.createCompletion(body);
+
+    return completion.data.choices[0].text ?? null;
+
+    /*const req = https.request({
         hostname:"api.openai.com",
         port:443,
         path:"/v1/completions",
@@ -125,17 +136,5 @@ async function askAI(prompt: string, stop?: string[]): Promise<string|null> {
     req.write(body)
     req.end()
 
-    return null;
-
-    // Or the below.
-
-    const configuration = new Configuration({
-        apiKey: process.env.OPENAI_API_KEY,
-    });
-    const openai = new OpenAIApi(configuration);
-
-    // TODO: Use Curie?
-    const completion = await openai.createCompletion(body);
-
-    return completion.data.choices[0].text ?? null;
+    return null;*/
 }

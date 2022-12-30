@@ -11,7 +11,7 @@ import {Switch} from "@headlessui/react";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
-    description: "",
+    description: "Profesionální a přizpůsobitelná prezentace do práce, do školy, i pro osobní projekty v řádu vteřin.",
     card1: {
         title: "Co to je?",
         description: "Tento nástroj vám umožní vytvářet rozsáhlé prezentace během vteřin. Je navržen tak, aby proces vytváření profesionálních, vizuálně příjemných prezentací byl rychlý a snadný. Díky široké škále nastavitelných parametrů a funkcí máte možnost vytvořit prezentaci, která skutečně odráží vaše sdělení."
@@ -33,55 +33,13 @@ const Presentation: NextPage = () => {
 
     function handleSubmit(data: PresParams): void {
         setLoading(true);
-        const presOutput = new PresOutput("", data);
 
-        // Subscribe to the event stream
-        const eventSource = new EventSource("/api/presentation");
-        eventSource.addEventListener("message", handleReceiveMessage);
-        eventSource.addEventListener("error", handleReceiveError);
-        eventSource.addEventListener("open", handleReceiveOpen);
-
-        function handleReceiveOpen() {
-            console.log("SSE data stream opened.");
-            setOutput(presOutput);
-        }
-
-        function handleReceiveError(event: Event) {
-            console.log("SSE data stream error.");
-            // TODO: Add specific error handling.
-            setOutput(presOutput);
-            handleDone();
-        }
-
-        function handleReceiveMessage(event: MessageEvent) {
-            console.log("SSE data stream message received.");
-            const data = JSON.parse(event.data);
-            if (data.contains("[DONE]")) {
-                handleDone();
-                return;
-            }
-
-            presOutput.output = data.data;
-            setOutput(presOutput);
-        }
-
-        function handleDone() {
-            console.log("SSE data streaming done.");
-            eventSource.removeEventListener("message", handleReceiveMessage);
-            eventSource.removeEventListener("error", handleReceiveMessage);
-            eventSource.removeEventListener("open", handleReceiveMessage);
-            eventSource.close();
-            setLoading(true);
-        }
-
-/*        axios.post('/api/presentation', data)
+        axios.post('/api/presentation', data)
             .then((response) => response.data.output)
             .then((output) => {
-                const presOutput = new PresOutput(output, data);
-                //presOutput.output = ""; We will use this later when data is streamed back.
-                setOutput(presOutput);
+                setOutput(new PresOutput(output, data));
                 setLoading(false);
-            })*/
+            })
     }
 
     return (
@@ -95,7 +53,7 @@ const Presentation: NextPage = () => {
 
 function OutputForm(props: { output: PresOutput }) {
     return (
-        <div className="my-5">
+        <div className="mt-5">
             <IOCard title={"Výstup"}>
                 <p>{props.output.output}</p>
             </IOCard>
@@ -158,10 +116,12 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
     const [points, setPoints] = useState("");
+
     const [introduction, setIntroduction] = useState<boolean>(false);
     const [includeImages, setIncludeImages] = useState<boolean>(false);
     const [conclusion, setConclusion] = useState<boolean>(false);
     const [description, setDescription] = useState("");
+    const [describe, setDescribe] = useState(false);
 
     // State variables for the input errors
     const [topicError, setTopicError] = useState<string | null>();
@@ -211,7 +171,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                 introduction: introduction,
                 conclusion: conclusion,
                 includeImages: includeImages,
-                describe: true
+                describe: describe
             });
         }
     }
@@ -261,9 +221,10 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                 <Switch.Group>
                     {
                         [
-                            {state: includeImages, stateSetter: setIncludeImages, text: "Vložit odkazy na obrázky"},
                             {state: introduction, stateSetter: setIntroduction, text: "Napsat úvod"},
-                            {state: conclusion, stateSetter: setConclusion, text: "Napsat závěr"}
+                            {state: conclusion, stateSetter: setConclusion, text: "Napsat závěr"},
+                            {state: includeImages, stateSetter: setIncludeImages, text: "Vložit odkazy na obrázky"},
+                            {state: describe, stateSetter: setDescribe, text: "Napsat vysvětlivky pro řečníka"},
                         ]
                             .map((item, index) => {
                                 return (

@@ -13,7 +13,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
         <div>
             <div className={"text-center mt-32 mx-auto px-2 mb-40 max-w-[800px]"}>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font"><TitleText text={props.props.title}/></h1>
-                <p className="text-gray-400 text-xl mt-6 lg:mx-32">Profesionální a přizpůsobitelná prezentace do práce, do školy, i pro osobní projekty v řádu vteřin.</p>
+                <p className="text-gray-400 text-xl mt-6 lg:mx-32">{props.props.description}</p>
             </div>
 
             <div className="flex flex-wrap items-stretch text-justify justify-center items-center">
