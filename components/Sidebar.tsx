@@ -16,7 +16,7 @@ const Sidebar: NextPage = () => {
         <aside>
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
-                  cssClasses={"absolute top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5"}/>
+                  cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5"}/>
 
             <div className={"h-screen sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md"
                 + (isOpen ? "": " hidden")}>
