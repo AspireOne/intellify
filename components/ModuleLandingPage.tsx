@@ -20,9 +20,9 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 {
                     [props.props.card1, props.props.card2, props.props.card3].map((card, index) => {
                         return (
-                            <div className="w-1/3 lg:p-5 lg:py-1 min-w-[360px] max-w-[440px]" key={index}>
+                            <div className="w-1/3 lg:p-5 lg:py-0 min-w-[360px] max-w-[440px]" key={index}>
                                 {/*border border-purple-500 bg-t-blue-700 shadow-lg*/}
-                                <div className=" rounded-lg h-full p-4 min-w-[350px]">
+                                <div className=" rounded-lg h-full py-2 sm:p-4 min-w-[350px]">
                                     <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
                                     <p className="text-gray-500 text-lg mb-4">{card.description}</p>
                                     {/*<button
@@ -36,6 +36,11 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 }
             </div>
 
+            <div className={"py-20 mt-10 mb-20 mx-[-1rem] bg-t-blue-800 "}>
+                <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
+                    {props.props.callToActionTitle}
+                </h1>
+            </div>
             {/*TODO: ADD "tak na co čekáte? zkuse to hned..." atd.*/}
         </div>
     );
