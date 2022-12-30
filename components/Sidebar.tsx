@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom"
 
 // TODO: pass in the websites + the active one?
 const Sidebar: NextPage = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    // Open by default to prevent menu icon flash.
+    const [isOpen, setIsOpen] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
@@ -13,11 +14,11 @@ const Sidebar: NextPage = () => {
     }, []);
 
     return (
-        <aside>
+        <aside className={"z-10"}>
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5"}/>
+                  cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5" + (isOpen ? " hidden" : "")}/>
 
             <div className={"h-screen fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md"
                 + (isOpen ? "": " hidden")}>
