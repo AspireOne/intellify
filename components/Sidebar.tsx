@@ -16,9 +16,10 @@ const Sidebar: NextPage = () => {
         <aside>
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
+                  title={"menu"}
                   cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5"}/>
 
-            <div className={"h-screen sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md"
+            <div className={"h-screen fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md"
                 + (isOpen ? "": " hidden")}>
                 <div className="text-xl text-gray-100">
                     <div className="p-2.5 mt-1 flex items-center">
@@ -26,6 +27,7 @@ const Sidebar: NextPage = () => {
                         <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
                         <Close
                             color={"#fff"}
+                            title={"close menu"}
                             cssClasses={"ml-9 cursor-pointer lg:hidden"}
                             onClick={() => setIsOpen(!isOpen)}/>
                     </div>
