@@ -5,20 +5,24 @@ import Button from "../components/Button";
 import React from "react";
 
 const landingPageProps: LandingPageProps = {
-    title: "Vytvářejte prezentace s pomocí [A.I.]",
-    callToActionTitle: "Přáběhy",
-    description: "",
+    title: "Vytvářejte příběhy s pomocí [A.I.]",
+    description: "Profesionálně vyprávěné a přizpůsobitelné příběhy pro různé účely, od osobních projektů po komerční účely, v řádu vteřin.",
+    callToActionTitle: "Vyzkoušejte si hned teď, jaký rozdíl může náš nástroj udělat ve vašem příštím příběhu.",
     card1: {
         title: "Co to je?",
-        description: "Tento nástroj vám umožní vytvářet rozsáhlé prezentace během vteřin. Je navržen tak, aby proces vytváření profesionálních, vizuálně krásných prezentací byl rychlý a snadný. Díky široké škále nastavitelných parametrů a funkcí máte možnost vytvořit prezentaci, která skutečně odráží vaše sdělení."
+        description: "Tento nástroj vám umožní vytvářet příběhy během vteřin. Je navržen tak, aby proces vytváření profesionálně vyprávěných a přizpůsobitelných příběhů byl rychlý a snadný. Díky široké škále nastavitelných parametrů a funkcí máte možnost vytvořit příběh, který skutečně odráží váš příběh."
     },
     card2: {
         title: "Co to umí?",
-        description: "Snadno vytvořte obsah a design prezentace díky možnosti přizpůsobit si parametry jako počet slidů, počet odrážek, úvodní text, obrázky, atd. Ke každému bodu si můžete nechat vygenerovat popis. Všechny části prezentace můžete libovolně upravovat."
+        description: "Přizpůsobte si parametry jako délku příběhu, žánr, nebo úvodní scénu, nechte si vygenerovat klíčová slova nebo libovolně pomocí psaného textu určete specifika příběhu, nebo vytvořte příběh na fiktivní téma. Zbytek nechte na našem A.I.!"
     },
     card3: {
         title: "Proč jej použít?",
-        description: "Ušetříte si čas a námahu a zajistíte, že vaše prezentace bude vizuálně atraktivní a profesionální. Ať už jste majitel firmy, který chce prezentovat své výrobky nebo služby, student přednášející prezentaci ve třídě nebo pracovník na volné noze, který se snaží představit potenciálnímu klientovi, náš nástroj vám pomůže."
+        description: "Ušetříte si čas a úsilí a zajistíte, že váš příběh bude profesionálně vyprávěný a zajímavý. Ať už jste spisovatel, který hledá inspiraci nebo podporu při psaní, nebo podnikatel, který chce vyprávět příběh svého produktu nebo služby, náš nástroj vám pomůže."
+    },
+    callToActionButton: {
+        titleWhenSigned: "sdsds",
+        targetElementId: "s"
     }
 };
 

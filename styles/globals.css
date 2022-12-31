@@ -32,6 +32,10 @@
         font-weight: 700;
     }
 
+    .landing-gradient {
+        background: linear-gradient(180deg, rgba(84,32,145,1) 0%, rgba(14,20,35,1) 53%);
+    }
+
     .title-highlighted {
         background-image: linear-gradient(90deg,#fb60d7,#eb69dc 15%,#dc5cff 30%,#c555fe 45%,#a02fff 60%,#7752ff 75%,#5f98fa 90%,#44beff);
         -webkit-background-clip: text;

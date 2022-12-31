@@ -1,5 +1,16 @@
 import {NextPage} from "next";
-import {Apps, ChevronDownOutline, Close, Home, Menu, Search} from "react-ionicons";
+import {
+    Albums,
+    Apps,
+    Book, Chatbox,
+    ChevronDownOutline,
+    Close,
+    Home,
+    InformationCircle,
+    Menu,
+    People,
+    Search
+} from "react-ionicons";
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom"
 
@@ -20,7 +31,7 @@ const Sidebar: NextPage = () => {
                   title={"menu"}
                   cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5" + (isOpen ? " hidden" : "")}/>
 
-            <div className={"h-screen fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md"
+            <div className={"h-screen fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md shadow-2xl"
                 + (isOpen ? "": " hidden")}>
                 <div className="text-xl text-gray-100">
                     <div className="p-2.5 mt-1 flex items-center">
@@ -40,28 +51,40 @@ const Sidebar: NextPage = () => {
                     <Search cssClasses="text-sm" color={"#e7e7e7"}/>
                     <input
                         type="text"
-                        placeholder="Search"
+                        placeholder="Hledat"
                         className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
                     />
                 </div>
+                {
+                    [
+                        {icon: Home, title: "Domů", link: "/", renderLine: false},
+                        {icon: People, title: "O nás", link: "/", renderLine: false},
+
+                        {icon: Albums, title: "Tvoření prezentací", link: "/", renderLine: true},
+                        {icon: Book, title: "Psaní příběhů", link: "/", renderLine: false},
+                        
+                        
+                    ].map((item, index) => {
+                        return (
+                            <div>
+                                {item.renderLine && <div className="my-4 bg-gray-600 h-[1px]"></div>}
+                                <div
+                                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-opacity-90 hover:bg-indigo-600 text-white"
+                                    onClick={undefined/*() => navigate(item.link)*/}
+                                >
+                                    <item.icon color={"#fff"}/>
+                                    <span className="text-[15px] ml-4 text-gray-200 font-bold">{item.title}</span>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+                
                 <div
-                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-                >
-                    <Home cssClasses="" color={"#fff"}/>
-                    <span className="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
-                </div>
-                <div
-                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-                >
-                    <i className="bi bi-bookmark-fill"></i>
-                    <span className="text-[15px] ml-4 text-gray-200 font-bold">Bookmark</span>
-                </div>
-                <div className="my-4 bg-gray-600 h-[1px]"></div>
-                <div
-                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-500 text-white"
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
-                    <i className="bi bi-chat-left-text-fill"></i>
+                    <Chatbox color={"#fff"} />
                     <div className="flex w-full items-center justify-between">
                         <span className="text-[15px] ml-4 text-gray-200 font-bold">Chatbox</span>
                         <ChevronDownOutline
@@ -72,20 +95,19 @@ const Sidebar: NextPage = () => {
                 </div>
                 <div
                     className={"mx-auto mt-2 w-4/5 text-left text-sm font-bold text-gray-200" + (isDropdownOpen ? "" : " hidden")}
-                    id="submenu"
                 >
-                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-blue-600">
+                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-gray-500">
                         Social
                     </h1>
-                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-blue-600">
+                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-gray-500">
                         Personal
                     </h1>
-                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-blue-600">
+                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-gray-500">
                         Friends
                     </h1>
                 </div>
                 <div
-                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-500 text-white"
                 >
                     <span className="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
                 </div>

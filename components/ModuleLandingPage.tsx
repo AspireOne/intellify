@@ -19,7 +19,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
             <div className={"text-center mt-32 mx-auto px-2 mb-40 max-w-[800px]"}>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font"><TitleText text={props.props.title}/></h1>
                 <p className="text-gray-400 text-xl mt-6 md:mx-32">{props.props.description}</p>
-                <Button className={"mt-10 mr-10 text-lg"}  onClick={handleActionButtonClick}>Vyzkoušet</Button> {/*TODO: If logged in, props.text. else "Vyzkoušet"*/}
+                <Button className={"mt-10 mr-8 text-lg"}  onClick={handleActionButtonClick}>Vyzkoušet</Button> {/*TODO: If logged in, props.text. else "Vyzkoušet"*/}
                 <Button style={Style.OUTLINE} className={"mt-10 text-lg"}>Přihlásit se</Button>
             </div>
 
@@ -27,9 +27,9 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 {
                     [props.props.card1, props.props.card2, props.props.card3].map((card, index) => {
                         return (
-                            <div className="w-1/3 lg:p-5 lg:py-0 min-w-[360px] max-w-[440px]" key={index}>
+                            <div className="py-4 px-0 sm:px-4 min-w-[350px] max-w-[390px]" key={index}>
                                 {/*border border-purple-500 bg-t-blue-700 shadow-lg*/}
-                                <div className=" rounded-lg h-full py-2 sm:p-4 min-w-[350px]">
+                                <div className="bg-t-blue-700 shadow-lg rounded-lg h-full p-5 pb-2">
                                     <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
                                     <p className="text-gray-500 text-lg mb-4">{card.description}</p>
                                     {/*<button
