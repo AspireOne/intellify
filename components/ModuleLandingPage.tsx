@@ -43,12 +43,11 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 }
             </div>
 
-            <div className={"pt-20 pb-16 m-10 mx-[-1rem] bg-t-blue-800"}>
+            <div className={"pt-20 pb-16 m-10 mx-[-1.2rem] bg-t-blue-800"}>
                 <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
                     {props.props.callToActionTitle}
                 </h1>
-                <ChevronDown width={"40px"} height={"auto"} color={"#fff"}
-                             cssClasses={"text-center mx-auto animate-pulse mt-10"} />
+                <ChevronDown width={"40px"} height={"auto"} color={"#fff"} cssClasses={"text-center mx-auto animate-pulse mt-10"} />
             </div>
             {/*TODO: ADD "tak na co čekáte? zkuse to hned..." atd.*/}
         </div>
