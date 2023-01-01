@@ -4,15 +4,16 @@ import {
     Apps,
     Book, Chatbox,
     ChevronDownOutline,
-    Close,
+    Close, Code,
     Home,
-    InformationCircle,
+    InformationCircle, LogOut,
     Menu,
     People,
     Search
 } from "react-ionicons";
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom"
+import {twMerge} from "tailwind-merge";
 
 // TODO: pass in the websites + the active one?
 const Sidebar: NextPage = () => {
@@ -55,65 +56,64 @@ const Sidebar: NextPage = () => {
                         className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
                     />
                 </div>
-                {
-                    [
-                        {icon: Home, title: "Domů", link: "/", renderLine: false},
-                        {icon: People, title: "O nás", link: "/", renderLine: false},
+                <Item title={"Domů"} icon={Home} link={"/"}/>
+                <Item title={"O nás"} icon={People} link={"/"}/>
+                <div className="my-4 bg-gray-600 h-[1px]"></div>
+                <Item title={"Tvoření prezentací"} icon={Albums} link={"/"}/>
+                <Item title={"Vysvětlení kódu"} icon={Code} link={"/"}/>
 
-                        {icon: Albums, title: "Tvoření prezentací", link: "/", renderLine: true},
-                        {icon: Book, title: "Psaní příběhů", link: "/", renderLine: false},
-                        
-                        
-                    ].map((item, index) => {
-                        return (
-                            <div>
-                                {item.renderLine && <div className="my-4 bg-gray-600 h-[1px]"></div>}
-                                <div
-                                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-opacity-90 hover:bg-indigo-600 text-white"
-                                    onClick={undefined/*() => navigate(item.link)*/}
-                                >
-                                    <item.icon color={"#fff"}/>
-                                    <span className="text-[15px] ml-4 text-gray-200 font-bold">{item.title}</span>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-                
-                <div
-                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-500 text-white"
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                    <Chatbox color={"#fff"} />
-                    <div className="flex w-full items-center justify-between">
-                        <span className="text-[15px] ml-4 text-gray-200 font-bold">Chatbox</span>
-                        <ChevronDownOutline
-                            color={"#ffffff"}
-                            cssClasses={"" + (isDropdownOpen ? "rotate-180" : "")}
-                        />
-                    </div>
-                </div>
-                <div
-                    className={"mx-auto mt-2 w-4/5 text-left text-sm font-bold text-gray-200" + (isDropdownOpen ? "" : " hidden")}
-                >
-                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-gray-500">
-                        Social
-                    </h1>
-                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-gray-500">
-                        Personal
-                    </h1>
-                    <h1 className="mt-1 cursor-pointer rounded-md p-2 hover:bg-gray-500">
-                        Friends
-                    </h1>
-                </div>
-                <div
-                    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-500 text-white"
-                >
-                    <span className="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
-                </div>
+                <Category icon={Chatbox} title={"Chatbox"}>
+                    <Item title={"Social"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
+                    <Item title={"Personal"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
+                    <Item title={"Friends"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
+                </Category>
+
+                <Item title={"Odhlásit se"} link={"/"} icon={LogOut}></Item>
             </div>
         </aside>
     );
+}
+
+// TODO: Add "float" bottom and top? Fot links vs action/functional buttons.
+const Item = (props: {icon?: any, title: string, link: string, isCategoryItem?: boolean}) => {
+    return (
+        <div>
+            <div
+                className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-opacity-90 hover:bg-indigo-600 text-white"
+                onClick={undefined/*() => navigate(item.link)*/}
+            >
+                {props.icon && <props.icon color={"#fff"}/>}
+                <span className={`text-[${props.isCategoryItem ? 14 : 15}px] ml-4 text-gray-200 font-bold`}>{props.title}</span>
+            </div>
+        </div>
+    );
+}
+
+const Category = (props: React.PropsWithChildren<{icon: any, title: string}>) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    return (
+        <div>
+            <div
+                className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-opacity-90 hover:bg-indigo-600 text-white"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+                <props.icon color={"#fff"} />
+                <div className="flex w-full items-center justify-between">
+                    <span className="text-[15px] ml-4 text-gray-200 font-bold">Chatbox</span>
+                    <ChevronDownOutline
+                        color={"#ffffff"}
+                        cssClasses={"" + (isDropdownOpen ? "rotate-180" : "")}
+                    />
+                </div>
+            </div>
+            <div
+                className={"mx-auto mt-2 w-4/5 text-left text-sm font-bold text-gray-200" + (isDropdownOpen ? "" : " hidden")}
+            >
+                {props.children}
+            </div>
+        </div>
+    )
 }
 
 export default Sidebar;
