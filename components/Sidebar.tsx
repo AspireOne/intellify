@@ -17,12 +17,14 @@ import {twMerge} from "tailwind-merge";
 
 // TODO: pass in the websites + the active one?
 const Sidebar: NextPage = () => {
-    // Open by default to prevent menu icon flash.
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    // Make button hidden by default, because otherwise it flashes on page load.
+    const [MenuButtonHidden, setMenuButtonHidden] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
         setIsOpen(window.innerWidth > 768);
+        setMenuButtonHidden(window.innerWidth > 768);
     }, []);
 
     return (
@@ -30,7 +32,7 @@ const Sidebar: NextPage = () => {
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5" + (isOpen ? " hidden" : "")}/>
+                  cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5" + (isOpen || MenuButtonHidden ? " hidden" : "")}/>
 
             <div className={"h-screen fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md shadow-2xl"
                 + (isOpen ? "": " hidden")}>
@@ -46,16 +48,9 @@ const Sidebar: NextPage = () => {
                     </div>
                     <div className="my-2 bg-gray-600 h-[1px]"></div>
                 </div>
-                <div
-                    className="p-2.5 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-gray-700 text-white"
-                >
-                    <Search cssClasses="text-sm" color={"#e7e7e7"}/>
-                    <input
-                        type="text"
-                        placeholder="Hledat"
-                        className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
-                    />
-                </div>
+
+                <SearchBar/>
+
                 <Item title={"Domů"} icon={Home} link={"/"}/>
                 <Item title={"O nás"} icon={People} link={"/"}/>
                 <div className="my-4 bg-gray-600 h-[1px]"></div>
@@ -71,6 +66,21 @@ const Sidebar: NextPage = () => {
                 <Item title={"Odhlásit se"} link={"/"} icon={LogOut}></Item>
             </div>
         </aside>
+    );
+}
+
+const SearchBar = () => {
+    return (
+        <div
+            className="p-2.5 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-gray-700 text-white"
+        >
+            <Search cssClasses="text-sm" color={"#e7e7e7"}/>
+            <input
+                type="text"
+                placeholder="Hledat"
+                className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
+            />
+        </div>
     );
 }
 
