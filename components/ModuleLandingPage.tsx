@@ -12,7 +12,7 @@ import {ChevronDown, ChevronDownOutline} from "react-ionicons";
  */
 const ModuleLandingPage = (props: {props: LandingPageProps}) => {
     function handleActionButtonClick() {
-        document?.getElementById(props.props.callToActionButton.targetElementId)?.scrollIntoView({behavior: "smooth", block: "center"});
+        document?.getElementById(props.props.callToActionButton.targetElementId)?.scrollIntoView({behavior: "smooth", block: "start"});
     }
     return (
         <div>
@@ -47,7 +47,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
                     {props.props.callToActionTitle}
                 </h1>
-                <ChevronDown width={"40px"} height={"auto"} color={"#fff"} cssClasses={"text-center mx-auto animate-pulse mt-10"} />
+                <ChevronDown width={"40px"} height={"auto"} color={"#fff"} cssClasses={"w-10 text-center mx-auto animate-pulse mt-10"} />
             </div>
             {/*TODO: ADD "tak na co čekáte? zkuse to hned..." atd.*/}
         </div>
@@ -60,19 +60,28 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
  * @constructor
  */
 function TitleText(props: {text: string}): React.ReactElement {
-    // Check if text contains "[" and "]", and that "[" is before "]".
-    if (!props.text.includes("[") || !props.text.includes("]") || props.text.indexOf("[") > props.text.indexOf("]")) {
-        return (<span>{props.text}</span>);
+    // Split the text into parts.
+    const parts = props.text.split(/(\[.*?\])/);
+    // Create an array of elements.
+    const elements: React.ReactElement[] = [];
+    // Iterate over the parts.
+    for (let i = 0; i < parts.length; i++) {
+        // Get the current part.
+        const part = parts[i];
+        // Check if the part is a highlighted part.
+        if (part.startsWith("[") && part.endsWith("]")) {
+            // Get the text inside the brackets.
+            const highlighted = part.substring(1, part.length - 1);
+            // Get the text before the brackets.
+            const before = parts[i - 1];
+            // Get the text after the brackets.
+            const after = parts[i + 1];
+            // Create an element.
+            elements.push(<span key={i}>{before}<span className={"title-highlighted"}>{highlighted}</span></span>);
+        }
     }
-
-    // Get all the props.text before "[".
-    const before = props.text.substring(0, props.text.indexOf("["));
-    // Get all the props.text between "[" and "]".
-    const highlighted = props.text.substring(props.text.indexOf("[") + 1, props.text.indexOf("]"));
-    // Get all the props.text after "]".
-    const after = props.text.substring(props.text.indexOf("]") + 1, props.text.length);
-
-    return (<span>{before}<span className={"title-highlighted"}>{highlighted}</span>{after}</span>)
+    // Return the elements.
+    return <>{elements}</>;
 }
 
 export default ModuleLandingPage

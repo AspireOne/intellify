@@ -11,20 +11,16 @@ import {
     People,
     Search
 } from "react-ionicons";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import { useNavigate } from "react-router-dom"
 import {twMerge} from "tailwind-merge";
 
 // TODO: pass in the websites + the active one?
 const Sidebar: NextPage = () => {
     const [isOpen, setIsOpen] = useState(false);
-    // Make button hidden by default, because otherwise it flashes on page load.
-    const [MenuButtonHidden, setMenuButtonHidden] = useState(true);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
         setIsOpen(window.innerWidth > 768);
-        setMenuButtonHidden(window.innerWidth > 768);
     }, []);
 
     return (
@@ -32,7 +28,7 @@ const Sidebar: NextPage = () => {
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={"fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5" + (isOpen || MenuButtonHidden ? " hidden" : "")}/>
+                  cssClasses={"w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5"}/>
 
             <div className={"h-screen fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md shadow-2xl"
                 + (isOpen ? "": " hidden")}>

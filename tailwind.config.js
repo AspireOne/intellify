@@ -6,6 +6,10 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    fontFamily: {
+      'mono': ['Roboto Mono', 'monospace'],
+      "sans": ["Inter"]
+    },
     extend: {
       colors: {
         "t-blue-1000": "#0e1423",
@@ -20,6 +24,9 @@ module.exports = {
         "light-violet-800": "#6f5bf5",
         "light-violet-700": "#7a6cf5",
         "light-violet-500": "#8c7bf5",
+        "light-violet-2OO": "#aea2f8",
+
+        "t-alternative-700": "#282a36"
       },
     },
   },

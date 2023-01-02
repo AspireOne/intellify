@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from "openai";
 import * as https from "https";
 
-export type PresParams = {
+export interface PresParams {
     topic: string,
     slides: number,
     points: number,
