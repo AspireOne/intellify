@@ -110,23 +110,13 @@ const IOForm = (props: {id?: string}) => {
                     setInputCodeError("");
                 }}
                 value={inputCode}
-                className="max-h-[90vh] min-h-[300px] bg-t-blue-500 resize-none focus:outline-none rounded-md p-5 w-full appearance-none whitespace-pre overflow-y-auto"
+                className="max-h-[90vh] min-h-[290px] bg-t-blue-500 resize-none focus:outline-none rounded-md p-5 w-full appearance-none whitespace-pre overflow-y-auto"
             />
             {inputCodeError && <div className="mb-2 text-red-500 text-sm">{inputCodeError}</div>}
             <div className="flex flex-row gap-2">
                 {/*<div className={"w-12"}>
                     <SwapVertical color={"#fff"} height={"100%"} width={"100%"} />
                 </div>*/}
-                <div className="flex flex-col text-md duration-100">
-                    <button onPointerDown={() => setActiveInputType("command")}
-                            className={"rounded-t duration-100 h-1/2 py-1 px-2" + (activeInputType === "command" ? " bg-indigo-600" : " bg-indigo-600 bg-opacity-20")}>
-                        Příkaz
-                    </button>
-                    <button onPointerDown={() => setActiveInputType("question")}
-                            className={"rounded-b duration-100 h-1/2 py-1 px-2" + (activeInputType === "question" ? " bg-indigo-600" : " bg-indigo-600 bg-opacity-20")}>
-                        Otázka
-                    </button>
-                </div>
                 <div className={"flex flex-col w-full"}>
                     <input
                         maxLength={300}
@@ -138,11 +128,23 @@ const IOForm = (props: {id?: string}) => {
                         className="bg-t-blue-500 block resize-none focus:outline-none rounded-md p-5 w-full appearance-none leading-normal"
                     />
                 </div>
+                <div className="flex flex-col text-md duration-100">
+                    <button onPointerDown={() => setActiveInputType("command")}
+                            className={"text-sm rounded-t-md duration-100 h-1/2 py-1 px-2" + (activeInputType === "command" ? " bg-indigo-600" : " bg-indigo-600 bg-opacity-20")}>
+                        Příkaz
+                    </button>
+                    <button onPointerDown={() => setActiveInputType("question")}
+                            className={"text-sm rounded-b-md duration-100 h-1/2 py-1 px-2" + (activeInputType === "question" ? " bg-indigo-600" : " bg-indigo-600 bg-opacity-20")}>
+                        Otázka
+                    </button>
+                </div>
                 <Button loading={loading} onClick={handleSubmit} className={"w-1/4 text-md"}>Potvrdit</Button>
             </div>
             {commandError && <div className="text-red-500 text-sm m-1">{commandError}</div>}
             {
-                (<pre className="text-sm font-mono relative max-h-[90vh] min-h-[300px] overflow-hidden bg-t-alternative-700 mt-2 w-full p-5 pb-14 rounded-md">
+                // TODO: Make the margin bottom not hardocded.
+                (<pre className="text-sm font-mono relative max-h-[90vh] min-h-[290px] overflow-hidden bg-t-blue-800 mt-[0.4rem] w-full p-5 pb-14 rounded-md">
+                    {!output && <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-sans text-lg text-gray-500">Výstup se zobrazí zde.</div>}
                     {output &&
                         (
                         <>
@@ -159,7 +161,7 @@ const IOForm = (props: {id?: string}) => {
                                             setOutput("");
                                         }}
                                         className={"rounded-2xl"}>
-                                    Vložit do inputu
+                                    Vložit do vstupu
                                 </Button>
                             </div>
                         </>
