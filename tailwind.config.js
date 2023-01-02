@@ -26,7 +26,7 @@ module.exports = {
         "light-violet-500": "#8c7bf5",
         "light-violet-2OO": "#aea2f8",
 
-        "t-alternative-700": "#282a36"
+        "t-alternative-700": "#262836"
       },
     },
   },

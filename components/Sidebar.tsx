@@ -51,7 +51,7 @@ const Sidebar: NextPage = () => {
                 <Item title={"O nás"} icon={People} link={"/"}/>
                 <div className="my-4 bg-gray-600 h-[1px]"></div>
                 <Item title={"Tvoření prezentací"} icon={Albums} link={"/"}/>
-                <Item title={"Vysvětlení kódu"} icon={Code} link={"/"}/>
+                <Item title={"Kódový asistent"} icon={Code} link={"/"}/>
 
                 <Category icon={Chatbox} title={"Chatbox"}>
                     <Item title={"Social"} icon={Chatbox} link={"/"} isCategoryItem={true}/>

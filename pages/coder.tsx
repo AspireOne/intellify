@@ -10,7 +10,7 @@ import {CoderParams} from "./api/coder";
 
 
 const landingPageProps: LandingPageProps = {
-    title: "A.I. [asistent] při psaní [kódu]",
+    title: "A.I. [asistent] pro psaní [kódu]",
     description: "Snadné vysvětlení, úprava, rozšíření, nebo doporučení zlepšení pro váš kód během několika sekund.",
     callToActionTitle: "Vyzkoušejte si hned teď, jaký rozdíl může náš nástroj ve vašem příštím projektu udělat.",
     card1: {
@@ -109,7 +109,8 @@ const IOForm = (props: {id?: string}) => {
                     setInputCode(e.currentTarget.value);
                     setInputCodeError("");
                 }}
-                className="max-h-[90vh] min-h-[300px] bg-t-blue-300 resize-none focus:outline-none rounded-md p-5 w-full appearance-none whitespace-pre overflow-y-auto"
+                value={inputCode}
+                className="max-h-[90vh] min-h-[300px] bg-t-blue-500 resize-none focus:outline-none rounded-md p-5 w-full appearance-none whitespace-pre overflow-y-auto"
             />
             {inputCodeError && <div className="mb-2 text-red-500 text-sm">{inputCodeError}</div>}
             <div className="flex flex-row gap-2">
@@ -134,7 +135,7 @@ const IOForm = (props: {id?: string}) => {
                             setInputCommand(e.currentTarget.value);
                             setCommandError("");
                         }}
-                        className="bg-t-blue-300 block resize-none focus:outline-none rounded-md p-5 w-full appearance-none leading-normal"
+                        className="bg-t-blue-500 block resize-none focus:outline-none rounded-md p-5 w-full appearance-none leading-normal"
                     />
                 </div>
                 <Button loading={loading} onClick={handleSubmit} className={"w-1/4 text-md"}>Potvrdit</Button>
@@ -147,8 +148,19 @@ const IOForm = (props: {id?: string}) => {
                         <>
                             {output}
                             <div className={"font-sans absolute bottom-5 right-5 bg-indigo-700 bg-opacity-20 p-2 rounded-3xl"}>
-                                <Button style={Style.OUTLINE} className={"mr-3 rounded-2xl"}>Kopírovat</Button>
-                                <Button style={Style.OUTLINE} className={"rounded-2xl"}>Vložit do inputu</Button>
+                                <Button style={Style.OUTLINE}
+                                        onClick={() => navigator.clipboard.writeText(output)}
+                                        className={"mr-3 rounded-2xl"}>
+                                    Kopírovat
+                                </Button>
+                                <Button style={Style.OUTLINE}
+                                        onClick={() => {
+                                            setInputCode(output);
+                                            setOutput("");
+                                        }}
+                                        className={"rounded-2xl"}>
+                                    Vložit do inputu
+                                </Button>
                             </div>
                         </>
                         )}
