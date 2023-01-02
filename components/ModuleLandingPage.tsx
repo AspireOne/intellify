@@ -61,7 +61,8 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
  */
 function TitleText(props: {text: string}): React.ReactElement {
     // Split the text into parts.
-    const parts = props.text.split(/(\[.*?\])/);
+    const parts: string[] = props.text.split(/(\[.*?\])/);
+    parts.push("[]"); // Add a dummy element to the end to make the loop work.
     // Create an array of elements.
     const elements: React.ReactElement[] = [];
     // Iterate over the parts.

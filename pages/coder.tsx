@@ -10,7 +10,7 @@ import {CoderParams} from "./api/coder";
 
 
 const landingPageProps: LandingPageProps = {
-    title: "A.I. [asistent] pro psaní [kódu]",
+    title: "[A.I. asistent] pro psaní kódu []",
     description: "Snadné vysvětlení, úprava, rozšíření, nebo doporučení zlepšení pro váš kód během několika sekund.",
     callToActionTitle: "Vyzkoušejte si hned teď, jaký rozdíl může náš nástroj ve vašem příštím projektu udělat.",
     card1: {
