@@ -31,7 +31,7 @@ const landingPageProps: LandingPageProps = {
     }
 };
 
-const Presentation: NextPage = () => {
+const Prezentace: NextPage = () => {
     // State variables for the form input values
     const [output, setOutput] = useState<PresentationObj | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -253,4 +253,4 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
     );
 }
 
-export default Presentation;
+export default Prezentace;

@@ -7,7 +7,7 @@ import {useSession, signIn, signOut} from "next-auth/react";
 import NextAuth from "./api/auth/[...nextauth]";
 import axios from "axios";
 
-const Login: NextPage = () => {
+const Prihlaseni: NextPage = () => {
     const [type, setType] = React.useState<"login" | "register">("login");
 
     const { data: data, status } = useSession()
@@ -226,4 +226,4 @@ function login(email: string, password: string) {
     })
 }
 
-export default Login;
+export default Prihlaseni;

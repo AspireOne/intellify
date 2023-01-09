@@ -9,11 +9,12 @@ import {
     Home,
     LogOut,
     Menu,
-    People,
+    People, Person,
     Search
 } from "react-ionicons";
 import React, {useEffect, useMemo, useState} from "react";
 import {signIn, signOut, useSession} from "next-auth/react";
+import Link from "next/link";
 
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
@@ -50,23 +51,29 @@ const Sidebar: NextPage = () => {
 
                 <SearchBar/>
 
-                <Item title={"Domů"} icon={Home} link={"/"}/>
-                <Item title={"O nás"} icon={People} link={"/"}/>
+                <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={"/"}/>
+                <Item title={"O nás"} icon={<People color={"#fff"}/>} link={"/o-nas"}/>
                 <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                <Item title={"Tvoření prezentací"} icon={Albums} link={"/"}/>
-                <Item title={"Kódový asistent"} icon={Code} link={"/"}/>
+                <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={"/prezentace"}/>
+                <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={"/kodovy-asistent"}/>
 
                 <Category icon={Chatbox} title={"Chatbox"}>
-                    <Item title={"Social"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
-                    <Item title={"Personal"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
-                    <Item title={"Friends"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
+                    <Item title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} isCategoryItem={true}/>
+                    <Item title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} isCategoryItem={true}/>
+                    <Item title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} isCategoryItem={true}/>
                 </Category>
                 <div className="my-4 bg-gray-600 h-[1px]"></div>
 
+                {
+                    session.status == "authenticated" &&
+                    <Item title="Profil"
+                          onClick={() => {/*TODO: Open profile*/}}
+                          icon={session.data.user?.image ? (<img width={25} className={"rounded-full"} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/> // TODO: Icon user image
+                }
                 <Item title={session.status == "authenticated" ? "Odhlásit se" : "Přihlásit se"}
                       onClick={() => handleSignClick(session.status)}
-                      icon={LogOut}/>
+                      icon={<LogOut color={"#fff"}/>}/>
             </div>
         </aside>
     );
@@ -76,7 +83,7 @@ const handleSignClick = async (status: "loading" | "authenticated" | "unauthenti
     if (status == "authenticated") {
         await signOut();
     } else if (status == "unauthenticated") {
-        await signIn();
+        // TODO: redirect to login.
     }
 }
 
@@ -96,17 +103,24 @@ const SearchBar = () => {
 }
 
 // TODO: Add "float" bottom and top? Fot links vs action/functional buttons.
+/**
+ * @param props icon: Icon element.
+ */
 const Item = (props: {icon?: any, title: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
+    const content = (
+        <div
+            className={"p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer " +
+                "hover:bg-opacity-90 hover:bg-indigo-600 text-white"}
+            onClick={props.onClick}
+        >
+            {props.icon}
+            <span className={`text-[${props.isCategoryItem ? 14 : 15}px] ml-4 text-gray-200 font-bold`}>{props.title}</span>
+        </div>
+    );
+
     return (
         <div>
-            <div
-                className={"p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer " +
-                    "hover:bg-opacity-90 hover:bg-indigo-600 text-white"}
-                onClick={props.onClick/*() => navigate(item.link)*/}
-            >
-                {props.icon && <props.icon color={"#fff"}/>}
-                <span className={`text-[${props.isCategoryItem ? 14 : 15}px] ml-4 text-gray-200 font-bold`}>{props.title}</span>
-            </div>
+            {props.link ? <Link href={props.link}>{content}</Link> : <>{content}</>}
         </div>
     );
 }

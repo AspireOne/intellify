@@ -33,7 +33,7 @@ const landingPageProps: LandingPageProps = {
     }
 };
 
-const Coder: NextPage = () => {
+const KodovyAsistent: NextPage = () => {
     return (
         <>
             <ModuleLandingPage props={landingPageProps}></ModuleLandingPage>
@@ -172,4 +172,4 @@ const IOForm = (props: {id?: string}) => {
     );
 }
 
-export default Coder;
+export default KodovyAsistent;
