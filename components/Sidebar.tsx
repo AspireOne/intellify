@@ -2,25 +2,28 @@ import {NextPage} from "next";
 import {
     Albums,
     Apps,
-    Book, Chatbox,
+    Chatbox,
     ChevronDownOutline,
-    Close, Code,
+    Close,
+    Code,
     Home,
-    InformationCircle, LogOut,
+    LogOut,
     Menu,
     People,
     Search
 } from "react-ionicons";
 import React, {useEffect, useMemo, useState} from "react";
-import { useNavigate } from "react-router-dom"
-import {twMerge} from "tailwind-merge";
+import {signIn, signOut, useSession} from "next-auth/react";
 
-// TODO: pass in the websites + the active one?
 const Sidebar: NextPage = () => {
+    // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
     const [isOpen, setIsOpen] = useState(false);
+    const session = useSession();
 
     useEffect(() => {
-        setIsOpen(window.innerWidth > 768);
+        const open = window.innerWidth > 768;
+        setIsOpen(open);
+        //localStorage.setItem("sidebar-open", open ? "true" : "false");
     }, []);
 
     return (
@@ -30,7 +33,7 @@ const Sidebar: NextPage = () => {
                   title={"menu"}
                   cssClasses={"w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5"}/>
 
-            <div className={"h-screen fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md shadow-2xl"
+            <div className={"h-screen relative fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md shadow-2xl"
                 + (isOpen ? "": " hidden")}>
                 <div className="text-xl text-gray-100">
                     <div className="p-2.5 mt-1 flex items-center">
@@ -50,6 +53,7 @@ const Sidebar: NextPage = () => {
                 <Item title={"Domů"} icon={Home} link={"/"}/>
                 <Item title={"O nás"} icon={People} link={"/"}/>
                 <div className="my-4 bg-gray-600 h-[1px]"></div>
+
                 <Item title={"Tvoření prezentací"} icon={Albums} link={"/"}/>
                 <Item title={"Kódový asistent"} icon={Code} link={"/"}/>
 
@@ -58,11 +62,22 @@ const Sidebar: NextPage = () => {
                     <Item title={"Personal"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
                     <Item title={"Friends"} icon={Chatbox} link={"/"} isCategoryItem={true}/>
                 </Category>
+                <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                <Item title={"Odhlásit se"} link={"/"} icon={LogOut}></Item>
+                <Item title={session.status == "authenticated" ? "Odhlásit se" : "Přihlásit se"}
+                      onClick={() => handleSignClick(session.status)}
+                      icon={LogOut}/>
             </div>
         </aside>
     );
+}
+
+const handleSignClick = async (status: "loading" | "authenticated" | "unauthenticated") => {
+    if (status == "authenticated") {
+        await signOut();
+    } else if (status == "unauthenticated") {
+        await signIn();
+    }
 }
 
 const SearchBar = () => {
@@ -81,12 +96,13 @@ const SearchBar = () => {
 }
 
 // TODO: Add "float" bottom and top? Fot links vs action/functional buttons.
-const Item = (props: {icon?: any, title: string, link: string, isCategoryItem?: boolean}) => {
+const Item = (props: {icon?: any, title: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
     return (
         <div>
             <div
-                className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-opacity-90 hover:bg-indigo-600 text-white"
-                onClick={undefined/*() => navigate(item.link)*/}
+                className={"p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer " +
+                    "hover:bg-opacity-90 hover:bg-indigo-600 text-white"}
+                onClick={props.onClick/*() => navigate(item.link)*/}
             >
                 {props.icon && <props.icon color={"#fff"}/>}
                 <span className={`text-[${props.isCategoryItem ? 14 : 15}px] ml-4 text-gray-200 font-bold`}>{props.title}</span>
@@ -101,7 +117,7 @@ const Category = (props: React.PropsWithChildren<{icon: any, title: string}>) =>
     return (
         <div>
             <div
-                className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-opacity-90 hover:bg-indigo-600 text-white"
+                className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-opacity-90 hover:bg-indigo-600 "
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
                 <props.icon color={"#fff"} />

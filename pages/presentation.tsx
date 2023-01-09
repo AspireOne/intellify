@@ -1,8 +1,8 @@
 import type {NextPage} from 'next'
 import React, {useState} from "react";
-import type {PresParams} from './api/presentation'
+import type {PresentationProps} from './api/presentation'
 import axios from "axios";
-import PresOutput from "../objects/PresOutput";
+import PresentationObj from "../objects/PresentationObj";
 import IOCard from "../components/IOCard";
 import ModuleLandingPage from "../components/ModuleLandingPage";
 import LandingPageProps from "../objects/LandingPageProps";
@@ -33,16 +33,16 @@ const landingPageProps: LandingPageProps = {
 
 const Presentation: NextPage = () => {
     // State variables for the form input values
-    const [output, setOutput] = useState<PresOutput | null>(null);
+    const [output, setOutput] = useState<PresentationObj | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    function handleSubmit(data: PresParams): void {
+    function handleSubmit(data: PresentationProps): void {
         setLoading(true);
 
         axios.post('/api/presentation', data)
             .then((response) => response.data.output)
             .then((output) => {
-                setOutput(new PresOutput(output, data));
+                setOutput(new PresentationObj(output, data));
                 setLoading(false);
             })
     }
@@ -56,26 +56,23 @@ const Presentation: NextPage = () => {
     );
 }
 
-function OutputForm(props: { output: PresOutput }) {
+function OutputForm(props: { output: PresentationObj }) {
     return (
         <div className="mt-5">
             <IOCard title={"Výstup"}>
-                <p>{props.output.output}</p>
+                <p>{props.output.AiOutput}</p>
             </IOCard>
-            <DownloadPresRow pres={props.output}/>
+            <DownloadPresRow presentation={props.output}/>
         </div>
     );
 }
 
-function DownloadPresRow(props: { pres: PresOutput }) {
+function DownloadPresRow(props: { presentation: PresentationObj }) {
     const [author, setAuthor] = useState<string>("");
     const [includeIntroAndConclu, setIncludeIntroAndConclu] = useState<boolean>(false);
 
     function onDownloadClick() {
-        props.pres.downloadPres(
-            props.pres.genPres(author || undefined, props.pres.params.includeImages, includeIntroAndConclu),
-            props.pres.params.topic
-        );
+        props.presentation.download();
     }
 
     return (
@@ -92,7 +89,7 @@ function DownloadPresRow(props: { pres: PresOutput }) {
                     ></input>
                 </div>
                 <div className="max-w-md p-4">
-                    <div className="flex items-center">
+                    {/*<div className="flex items-center">
                         <input
                             id="include-info"
                             type="checkbox"
@@ -103,20 +100,17 @@ function DownloadPresRow(props: { pres: PresOutput }) {
                         <label className="ml-2 block text-sm">
                             Zahrnout úvod a závěr
                         </label>
-                    </div>
+                    </div>*/}
                 </div>
-                <button
-                    className="bg-indigo-600 hover:bg-indigo-900 font-bold py-2 px-4 rounded"
-                    onClick={onDownloadClick}
-                >
+                <Button onClick={onDownloadClick} className={"font-bold "}>
                     Stáhnout prezentaci
-                </button>
+                </Button>
             </div>
         </div>
     );
 }
 
-function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boolean, id: string }) {
+function InputForm(props: { onSubmit: (params: PresentationProps) => void, loading: boolean, id: string }) {
     // State variables for the form input values
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
@@ -195,7 +189,7 @@ function InputForm(props: { onSubmit: (params: PresParams) => void, loading: boo
                 />
                 {topicError && <div className="text-red-500 text-sm">{topicError}</div>}
                 <textarea
-                    maxLength={300}
+                    maxLength={8000}
                     // TODO: Explain it.
                     placeholder='Upřesnění (volitelné)'
                     rows={2}

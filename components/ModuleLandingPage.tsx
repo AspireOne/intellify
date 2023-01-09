@@ -3,7 +3,7 @@ import {NextPage} from "next";
 import React from "react";
 import LandingPageProps from "../objects/LandingPageProps";
 import Button, {Style} from "./Button";
-import {ChevronDown, ChevronDownOutline} from "react-ionicons";
+import {ChevronDown, ChevronDownOutline, InformationCircle} from "react-ionicons";
 
 /**
  * Renders an universal landing page for a module.
@@ -31,7 +31,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                                 {/*border border-purple-500 bg-t-blue-700 shadow-lg*/}
                                 <div className="bg-t-blue-700 shadow-lg rounded-lg h-full p-5 pb-2">
                                     <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
-                                    <p className="text-gray-500 text-lg mb-4">{card.description}</p>
+                                    <p className="text-gray-400 text-lg mb-4">{card.description}</p>
                                     {/*<button
                                         className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Learn
                                         More
@@ -43,13 +43,24 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 }
             </div>
 
-            <div className={"pt-20 pb-16 m-10 mx-[-1.2rem] bg-t-blue-800"}>
+            <div className={"p-6 mx-4 rounded-lg my-5 bg-yellow-500 bg-opacity-20"}>
+                <div className={"flex flex-row gap-2"}>
+                    <InformationCircle color={"#fff"} height={"60%"}/>
+                    <span className={"text-lg mb-2 font-bold"}>Poznámka</span>
+                </div>
+                <p>
+                    Tento obsah je vygenerován pomocí A.I. Není chráněn autorským právem
+                    a nespadá pod plagiarismus, můžete jej volně používat. Může obsahovat chyby,
+                    chybné informace, nebo být nekompletní. Vždy si text zkontrolujte, než jej použijete.
+                </p>
+            </div>
+
+            <div className={"pt-16 pb-8 m-10 mx-[-1.2rem] bg-t-blue-800"}>
                 <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
                     {props.props.callToActionTitle}
                 </h1>
                 <ChevronDown width={"40px"} height={"auto"} color={"#fff"} cssClasses={"w-10 text-center mx-auto animate-pulse mt-10"} />
             </div>
-            {/*TODO: ADD "tak na co čekáte? zkuse to hned..." atd.*/}
         </div>
     );
 }

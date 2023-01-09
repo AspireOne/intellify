@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from "openai";
 import * as https from "https";
 
-export interface PresParams {
+export interface PresentationProps {
     topic: string,
     slides: number,
     points: number,
@@ -20,9 +20,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     }
 
-    const params = req.body as PresParams;
+    const params = req.body as PresentationProps;
 
-    // Check params data presence.
+    // Check props data presence.
     if (params.topic === undefined || params.slides === undefined || params.points === undefined) {
         res.status(400).json({ error: 'Missing one or more parameters.' });
         return;
@@ -35,11 +35,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (output) output = output.trim();
 
     return output === null
-        ? res.status(500).json({ error: 'AI failed to generate output.' })
+        ? res.status(500).json({ error: 'AI failed to createPptx AiOutput.' })
         : res.status(200).json({ output: output });
 }
 
-function generatePrompt(params: PresParams): string {
+function generatePrompt(params: PresentationProps): string {
     if (params.description) {
         params.description = params.description.trim();
         if (!params.description.endsWith('.')) params.description += ".";
@@ -79,7 +79,7 @@ function generatePrompt(params: PresParams): string {
 }
 
 async function askAI(prompt: string, stop: string[] = []): Promise<string|null> {
-    /*return "Úvod\n" +
+   /* return "Úvod\n" +
         "Poníci jsou malí, krásní a milí. Jsou oblíbenými domácími mazlíčky po celém světě. V této prezentaci se podíváme na to, co je poníkům nejbližší a proč jsou tak oblíbené.\n" +
         "\n" +
         "Slide 1: Dějiny poníků\n" +
@@ -93,22 +93,20 @@ async function askAI(prompt: string, stop: string[] = []): Promise<string|null> 
         "Závěr \n" +
         "Ponik je nesporně jedinečným zvirem, které si vysloužilo své miesto v srdcich lidi po celém svete. Jejich láska, oddanost a inteligence je činila oblibenymi domacimi mazlicky po generace.";*/
 
-    const body = {
-        model: "text-davinci-003",
-        temperature: 0.1,
-        max_tokens: 900,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.4,
-        prompt: prompt,
-    };
-
     const configuration = new Configuration({
         apiKey: process.env.OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
 
     // TODO: Use Curie?
-    const completion = await openai.createCompletion(body);
+    const completion = await openai.createCompletion({
+        model: "text-davinci-003",
+        temperature: 0.4,
+        max_tokens: 900,
+        frequency_penalty: 0.2,
+        presence_penalty: 0.2,
+        prompt: prompt,
+    });
 
     return completion.data.choices[0].text ?? null;
 

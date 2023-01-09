@@ -83,12 +83,12 @@ const IOForm = (props: {id?: string}) => {
     function validateInput() {
         let isValid = true;
 
-        if (activeInputType === "question" && inputCode === "") {
+/*        if (activeInputType === "question" && inputCode === "") {
             setInputCodeError("Pokud chcete mít otázku na kód, musíte nejprve vložit kód.");
             isValid = false;
         } else {
             setInputCodeError("");
-        }
+        }*/
 
         if (inputCommand === "") {
             setCommandError("Prosím, zadejte příkaz nebo otázku.");
@@ -110,7 +110,7 @@ const IOForm = (props: {id?: string}) => {
                     setInputCodeError("");
                 }}
                 value={inputCode}
-                className="max-h-[90vh] min-h-[290px] bg-t-blue-500 resize-none focus:outline-none rounded-md p-5 w-full appearance-none whitespace-pre overflow-y-auto"
+                className="max-h-[90vh] min-h-[290px] bg-t-blue-500 resize-none focus:outline-none rounded-md p-5 w-full appearance-none overflow-y-auto"
             />
             {inputCodeError && <div className="mb-2 text-red-500 text-sm">{inputCodeError}</div>}
             <div className="flex flex-row gap-2">
@@ -143,7 +143,7 @@ const IOForm = (props: {id?: string}) => {
             {commandError && <div className="text-red-500 text-sm m-1">{commandError}</div>}
             {
                 // TODO: Make the margin bottom not hardocded.
-                (<pre className="text-sm font-mono relative max-h-[90vh] min-h-[290px] overflow-hidden bg-t-blue-800 mt-[0.4rem] w-full p-5 pb-14 rounded-md">
+                (<div className="text-sm font-mono relative max-h-[90vh] min-h-[290px] overflow-hidden bg-t-blue-800 mt-[0.4rem] w-full p-5 pb-14 rounded-md">
                     {!output && <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-sans text-lg text-gray-500">Výstup se zobrazí zde.</div>}
                     {output &&
                         (
@@ -166,7 +166,7 @@ const IOForm = (props: {id?: string}) => {
                             </div>
                         </>
                         )}
-                </pre>)
+                </div>)
             }
         </div>
     );
