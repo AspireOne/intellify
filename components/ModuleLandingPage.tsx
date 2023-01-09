@@ -66,11 +66,11 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
 }
 
 /**
- * Takes text and returns it as an element. Text inside "[" and "]" will be highlighted.
- * @param props The text to make the title from. Text inside "[" and "]" will be highlighted.
+ * Takes in a text and transforms it into a standard title format. All text inside "[]" will be highlighted.
+ * @param props The title text. Put text into [] to highlight it.
  * @constructor
  */
-function TitleText(props: {text: string}): React.ReactElement {
+export function TitleText(props: {text: string}): React.ReactElement {
     // Split the text into parts.
     const parts: string[] = props.text.split(/(\[.*?\])/);
     parts.push("[]"); // Add a dummy element to the end to make the loop work.
