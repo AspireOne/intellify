@@ -12,19 +12,22 @@ module.exports = {
     },
     extend: {
       colors: {
-        "t-blue-1000": "#0e1423",
-        "t-blue-800": "#111b2f",
-        "t-blue-700": "#131e34",
-        "t-blue-500": "#1d2841",
-        "t-blue-300": "#2a3a5a",
-        "t-blue-200": "#2e3f60",
-        "t-blue-100": "#36496e",
-        "t-blue-50": "#506793",
+        "t-blue-1000": "#0e1323",
+        "t-blue-900": "#121728",
+        "t-blue-800": "#11182f",
+        "t-blue-700": "#131b34",
+        "t-blue-500": "#1d2541",
+        "t-blue-300": "#2a375a",
+        "t-blue-200": "#2e3b60",
+        "t-blue-100": "#36456e",
+        "t-blue-50": "#506293",
 
-        "light-violet-800": "#6f5bf5",
-        "light-violet-700": "#7a6cf5",
-        "light-violet-500": "#8c7bf5",
-        "light-violet-2OO": "#aea2f8",
+        "t-indiblue-1000": "",
+
+        "t-violet-800": "#6A64F1",
+        "t-violet-700": "#726ef3",
+        "t-violet-500": "#8580f3",
+        "t-violet-2OO": "#a194ee",
 
         "t-alternative-700": "#262836"
       },

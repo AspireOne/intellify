@@ -14,12 +14,14 @@ import {
 } from "react-ionicons";
 import React, {useEffect, useMemo, useState} from "react";
 import {signIn, signOut, useSession} from "next-auth/react";
+import {NextRouter, useRouter} from 'next/router';
 import Link from "next/link";
 
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
     const [isOpen, setIsOpen] = useState(false);
     const session = useSession();
+    const router = useRouter();
 
     useEffect(() => {
         const open = window.innerWidth > 768;
@@ -32,9 +34,9 @@ const Sidebar: NextPage = () => {
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={"w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5"}/>
+                  cssClasses={`w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen ? "hidden" : ""}`}/>
 
-            <div className={"h-screen relative fixed sm:sticky top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-t-blue-700 rounded-md shadow-2xl"
+            <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 sm:bg-opacity-70 rounded-md shadow-2xl"
                 + (isOpen ? "": " hidden")}>
                 <div className="text-xl text-gray-100">
                     <div className="p-2.5 mt-1 flex items-center">
@@ -72,18 +74,19 @@ const Sidebar: NextPage = () => {
                           icon={session.data.user?.image ? (<img width={25} className={"rounded-full"} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/> // TODO: Icon user image
                 }
                 <Item title={session.status == "authenticated" ? "Odhlásit se" : "Přihlásit se"}
-                      onClick={() => handleSignClick(session.status)}
+                      onClick={() => handleSignClick(session.status, router)}
                       icon={<LogOut color={"#fff"}/>}/>
             </div>
         </aside>
     );
 }
 
-const handleSignClick = async (status: "loading" | "authenticated" | "unauthenticated") => {
+const handleSignClick = async (status: "loading" | "authenticated" | "unauthenticated", router: NextRouter) => {
     if (status == "authenticated") {
         await signOut();
     } else if (status == "unauthenticated") {
         // TODO: redirect to login.
+        router.push("/prihlaseni");
     }
 }
 

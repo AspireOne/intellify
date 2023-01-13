@@ -1,4 +1,6 @@
 import {NextPage} from "next";
+import React from "react";
+import Link from "next/link";
 
 const Footer: NextPage = () => {
     return (
@@ -9,16 +11,16 @@ const Footer: NextPage = () => {
     </span>
             <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
                 <li>
-                    <a href="components#" className="mr-4 hover:underline md:mr-6 ">About</a>
+                    <Link href="/o-nas" className="mr-4 hover:underline md:mr-6 ">O nás</Link>
                 </li>
                 <li>
-                    <a href="components#" className="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+                    <a href="/ochrana-soukromi" className="mr-4 hover:underline md:mr-6">Zásady ochrany soukromí</a>
                 </li>
                 <li>
-                    <a href="components#" className="mr-4 hover:underline md:mr-6">Licensing</a>
+                    <a href="/licencovani" className="mr-4 hover:underline md:mr-6">Licence a autorská práva</a>
                 </li>
                 <li>
-                    <a href="components#" className="hover:underline">Contact</a>
+                    <a href="/kontakt" className="hover:underline">Kontakt</a>
                 </li>
             </ul>
         </footer>

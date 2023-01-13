@@ -183,7 +183,7 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
                     maxLength={70}
                     type="text"
                     placeholder="Téma"
-                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
                 />
@@ -193,7 +193,7 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
                     // TODO: Explain it.
                     placeholder='Upřesnění (volitelné)'
                     rows={2}
-                    className="my-2 bg-t-blue-200 block resize-y overflow-hidden flex-wrap focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal block resize-y overflow-hidden flex-wrap"
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
                 />
@@ -202,7 +202,7 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
                     min={1}
                     type="number"
                     placeholder="Množství slidů"
-                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
                     value={slides}
                     onChange={(event) => setSlides(event.target.value)}
                 />
@@ -212,7 +212,7 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
                     min={1}
                     type="number"
                     placeholder="Množství bodů"
-                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-2 px-3 w-full appearance-none leading-normal"
+                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
                     value={points}
                     onChange={(event) => setPoints(event.target.value)}
                 />
