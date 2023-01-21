@@ -8,6 +8,9 @@ import ModuleLandingPage from "../components/ModuleLandingPage";
 import LandingPageProps from "../objects/LandingPageProps";
 import Button from "../components/Button";
 import {Switch} from "@headlessui/react";
+import TextareaAutosize from "react-textarea-autosize";
+import {InformationCircle, InformationCircleOutline} from "react-ionicons";
+import Popup from "../components/Popup";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
@@ -50,19 +53,21 @@ const Prezentace: NextPage = () => {
     return (
         <div>
             <ModuleLandingPage props={landingPageProps}/>
-            <InputForm id={"input-form"} onSubmit={handleSubmit} loading={loading}/>
-            {output && <OutputForm output={output}/>}
+            <div className={"flex flex-col gap-2"}>
+                <InputForm id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-[60%]"}/> {/*TODO: Make it responsive*/}
+                {output && <OutputForm output={output} className={"w-[60%]"}/>}
+            </div>
         </div>
     );
 }
 
-function OutputForm(props: { output: PresentationObj }) {
+function OutputForm(props: { output: PresentationObj, className?: string }) {
     return (
-        <div className="mt-5">
-            <IOCard title={"Výstup"}>
+        <div className="">
+            <IOCard title={"Výstup"} className={`rounded-none rounded-b-2xl ${props.className}`}>
                 <p>{props.output.AiOutput}</p>
+                <DownloadPresRow presentation={props.output}/>
             </IOCard>
-            <DownloadPresRow presentation={props.output}/>
         </div>
     );
 }
@@ -76,7 +81,7 @@ function DownloadPresRow(props: { presentation: PresentationObj }) {
     }
 
     return (
-        <div className="card bg-t-blue-200 rounded-b w-full">
+        <div className="card bg-t-blue-200 rounded-2xl -mb-5 -mx-5 mt-10">
             <div className="p-4 flex items-center">
                 <div className="flex-1">
                     {/*<label className="mx-2"><input className="mx-2" type="checkbox" value="value"></input>Poděkování za pozornost</label>*/}
@@ -102,7 +107,7 @@ function DownloadPresRow(props: { presentation: PresentationObj }) {
                         </label>
                     </div>*/}
                 </div>
-                <Button onClick={onDownloadClick} className={"font-bold "}>
+                <Button onClick={onDownloadClick} className={"font-bold"}>
                     Stáhnout prezentaci
                 </Button>
             </div>
@@ -110,7 +115,7 @@ function DownloadPresRow(props: { presentation: PresentationObj }) {
     );
 }
 
-function InputForm(props: { onSubmit: (params: PresentationProps) => void, loading: boolean, id: string }) {
+function InputForm(props: { onSubmit: (params: PresentationProps) => void, loading: boolean, id: string, className: string }) {
     // State variables for the form input values
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
@@ -140,7 +145,7 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
 
         // Validate the slides input
         if (slides === "" || isNaN(Number(slides)) || Number(slides) < 1 || Number(slides) > 20) {
-            setSlidesError("Prosím vložte validní počet slidů.");
+            setSlidesError("Musíte určit počet slidů.");
             isValid = false;
         } else {
             setSlidesError(null);
@@ -148,7 +153,7 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
 
         // Validate the points input
         if (points === "" || isNaN(Number(points)) || Number(points) < 1 || Number(points) > 20) {
-            setPointsError("Prosím vložte validní počet bodů.");
+            setPointsError("Musíte určit počet odrážek.");
             isValid = false;
         } else {
             setPointsError(null);
@@ -177,31 +182,54 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
 
     // TODO: Add focus color.
     return (
-        <IOCard id={props.id} title={"Vytvořte prezentaci"}>
-            <div className="mx-auto max-w-md py-3">
-                <input
-                    maxLength={70}
-                    type="text"
-                    placeholder="Téma"
-                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
-                    value={topic}
-                    onChange={(event) => setTopic(event.target.value)}
-                />
+        <IOCard id={props.id} title={"Vytvořte prezentaci"} className={props.className}>
+            <div className="mx-auto max-w-lg py-3">
+                <div className={"flex flex-row items-center"}>
+                    <input
+                        maxLength={70}
+                        type="text"
+                        placeholder="Téma"
+                        className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
+                        value={topic}
+                        onChange={(event) => setTopic(event.target.value)}
+                    />
+                    <Popup title={"Téma"} trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
+                        <p>Obecné téma prezentace - může být skutečné, odborné, ale i fiktivní. Příklady:</p>
+                        <ul className={"list-disc list-inside mt-1"}>
+                            <li>"Význam fotosyntézy pro udržení života na planetě"</li>
+                            <li>"Benefity existence kočkoholek"</li>
+                            <li>"Historie Petra Pavla"</li>
+                        </ul>
+                    </Popup>
+                </div>
                 {topicError && <div className="text-red-500 text-sm">{topicError}</div>}
-                <textarea
-                    maxLength={8000}
-                    // TODO: Explain it.
-                    placeholder='Upřesnění (volitelné)'
-                    rows={2}
-                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal block resize-y overflow-hidden flex-wrap"
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                />
+
+                <div className={"flex flex-row items-center"}>
+                    <TextareaAutosize
+                        maxLength={2000}
+                        // TODO: Explain it.
+                        placeholder='Upřesnění (volitelné)'
+                        value={description}
+                        onChange={(event) => setDescription(event.target.value)}
+                        className="my-2 min-h-[100px] max-h-[80vh] bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal block resize-y overflow-hidden flex-wrap"
+                    />
+                    <Popup title={"Upřesnění"} trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
+                        <p>
+                            Libovolné upřesnění tématu nebo doplnění konkrétních informací.
+                            Upřesnění může být libovolně dlouhé či konkrétní - čím více, tím lépe.
+                            <br/><br/>
+                            Hodí se zejména když vytváříte prezentaci o konkrétní věci, o které A.I. nemá dostupné
+                            informace (např. vlastní produkt nebo fiktivní téma).
+                            {/*<br/>
+                            Příklady:*/}
+                        </p>
+                    </Popup>
+                </div>
                 <input
                     max={20}
                     min={1}
                     type="number"
-                    placeholder="Množství slidů"
+                    placeholder="Počet slidů"
                     className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
                     value={slides}
                     onChange={(event) => setSlides(event.target.value)}
@@ -211,7 +239,7 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
                     max={10}
                     min={1}
                     type="number"
-                    placeholder="Množství bodů"
+                    placeholder="Počet odrážek u každého slidu"
                     className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
                     value={points}
                     onChange={(event) => setPoints(event.target.value)}

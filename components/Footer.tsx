@@ -10,9 +10,9 @@ const Footer: NextPage = () => {
                 © 2023 <a href="https://flowbite.com/" className="hover:underline">Matěj Pešl</a>. All Rights Reserved.
     </span>
             <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
-                <li>
+                {/*<li>
                     <Link href="/o-nas" className="mr-4 hover:underline md:mr-6 ">O nás</Link>
-                </li>
+                </li>*/}
                 <li>
                     <a href="/ochrana-soukromi" className="mr-4 hover:underline md:mr-6">Zásady ochrany soukromí</a>
                 </li>

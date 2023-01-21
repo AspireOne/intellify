@@ -28,7 +28,7 @@ const landingPageProps: LandingPageProps = {
 
     },
     callToActionButton: {
-        titleWhenSigned: "Začínajme!",
+        titleWhenSigned: "Přejít k asistentovi",
         targetElementId: "input-form"
     }
 };

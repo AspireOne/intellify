@@ -16,6 +16,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import {signIn, signOut, useSession} from "next-auth/react";
 import {NextRouter, useRouter} from 'next/router';
 import Link from "next/link";
+import {useEventListener} from "@headlessui/react/dist/hooks/use-event-listener";
 
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
@@ -110,10 +111,20 @@ const SearchBar = () => {
  * @param props icon: Icon element.
  */
 const Item = (props: {icon?: any, title: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
+    // TODO: Fix a bug where the current website is not shown as active on reload.
+    const [active, setActive] = useState(false);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setActive(props.link === window?.location?.pathname);
+        }
+    }, [typeof window, typeof window != "undefined" && window?.location?.pathname]);
+
+    // @ts-ignore
     const content = (
         <div
-            className={"p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer " +
-                "hover:bg-opacity-90 hover:bg-indigo-600 text-white"}
+            className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer 
+            bg-opacity-90 hover:bg-opacity-50 hover:bg-indigo-600 text-white ${active && "bg-indigo-600"}`}
             onClick={props.onClick}
         >
             {props.icon}

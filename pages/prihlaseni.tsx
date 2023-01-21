@@ -11,6 +11,7 @@ const Prihlaseni: NextPage = () => {
     const [type, setType] = React.useState<"login" | "register">("login");
 
     const { data: data, status } = useSession()
+    // TODO: Redirect if logged in.
 
     if (status === "authenticated") {
         console.log("Signed in as " + (data?.user?.email));
@@ -38,9 +39,9 @@ const Prihlaseni: NextPage = () => {
                 {/*Create two tabs - login and register. Do not use headless ui.*/}
                 <div className={"flex flex-row"}> {/*TODO: border | border-b border-1*/}
                     <Button onClick={() => setType("login")}
-                            className={"rounded-none rounded-r bg-transparent hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "login" ? "bg-gray-600" : "")}>Přihlášení</Button>
+                            className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "login" ? "bg-gray-600" : "")}>Přihlášení</Button>
                     <Button onClick={() => setType("register")}
-                            className={"rounded-none rounded-l bg-transparent hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "register" ? "bg-gray-600" : "")}>Registrace</Button>
+                            className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "register" ? "bg-gray-600" : "")}>Registrace</Button>
                 </div>
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <Title type={type}/>
@@ -93,7 +94,7 @@ const OrDivider = () => {
 
 const Title = (props: { type: "login" | "register" }) => {
     return (
-        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl text-white">
+        <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
             {props.type == "login" ? "Vítejte zpět" : "Připojte se k nám"}
         </h1>
     );
