@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import React from "react";
 import Footer from "../components/Footer";
 import {SessionProvider} from "next-auth/react";
+import SmoothScroll from "../components/SmoothScroll";
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (

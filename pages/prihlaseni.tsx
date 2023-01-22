@@ -1,11 +1,13 @@
 import {NextPage} from "next";
 import React, {useState} from "react";
 import Button, {Style} from "../components/Button";
-import GoogleLogo from "../public/google.png";
+import GoogleLogo from "../public/assets/google.png";
 import {LogoApple} from "react-ionicons";
 import {useSession, signIn, signOut} from "next-auth/react";
 import NextAuth from "./api/auth/[...nextauth]";
 import axios from "axios";
+import Popup from "../components/Popup";
+import {useRouter} from "next/navigation";
 
 const Prihlaseni: NextPage = () => {
     const [type, setType] = React.useState<"login" | "register">("login");
@@ -29,7 +31,7 @@ const Prihlaseni: NextPage = () => {
 
     return (
         <div className="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 text-white">
+            <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-white">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                      alt="logo"/>
                 Open-Tools
@@ -104,7 +106,7 @@ const FormPasswordInput = (props: { type: "password" | "confirm", onChange: (val
     return (
         <div>
             <label htmlFor={props.type}
-                   className="block mb-2 text-sm font-medium text-gray-900 text-white">{props.type == "password" ? "Heslo" : "Heslo znovu"}</label>
+                   className="block mb-2 text-sm font-medium text-white">{props.type == "password" ? "Heslo" : "Heslo znovu"}</label>
             <input type="password" name={props.type} placeholder="••••••••"
                    maxLength={50}
                    minLength={4}
@@ -119,7 +121,7 @@ const FormEmailInput = (props: {onChange: (value: string) => void}) => {
     return (
         <div>
             <label htmlFor="email"
-                   className="block mb-2 text-sm font-medium text-gray-900 text-white">E-mail</label>
+                   className="block mb-2 text-sm font-medium text-white">E-mail</label>
             <input type="email" name="email" id="email"
                    className="outline-none border sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
                    placeholder="jmeno@poskytovatel.cz"
@@ -141,7 +143,7 @@ const FormHelperButtons = (props: { type: "login" | "register" }) => {
                                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 bg-gray-700 border-gray-600 focus:ring-primary-600 ring-offset-gray-800"
                                required={true}/>
                         <div className="ml-3 text-sm">
-                            <label htmlFor="remember" className="text-gray-500 text-gray-300">Zapamatovat</label>
+                            <label htmlFor="remember" className="text-gray-300">Zapamatovat</label>
                         </div>
                     </div>
                 }
@@ -149,7 +151,7 @@ const FormHelperButtons = (props: { type: "login" | "register" }) => {
             {
                 props.type == "login" &&
                 <a href="#"
-                   className="text-sm font-medium text-primary-600 hover:underline text-primary-500">Zapomněli jste
+                   className="text-sm font-medium text-primary-600 hover:underline text-gray-300">Zapomněli jste
                     heslo?
                 </a>
             }
@@ -172,59 +174,126 @@ const Form = (props: { type: "login" | "register" }) => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    function handleSubmit(e: any) {
+    const [emailError, setEmailError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+
+    const [popupTitle, setPopupTitle] = useState("");
+    const [popupMessage, setPopupMessage] = useState("");
+    const [popupOpen, setPopupOpen] = useState(false);
+
+    const router = useRouter();
+
+    function showAlert(title: string, msg: string) {
+        setPopupTitle(title);
+        setPopupMessage(msg);
+        setPopupOpen(true);
+    }
+
+    async function handleSubmit(e: any) {
         e.preventDefault();
+        let inputError = false;
+
         if (props.type == "register" && password !== confirmPassword) {
-            // Show dialog passwords do not match.
-            alert("Hesla se musí shodovat.");
-            return;
+            setConfirmPasswordError("Hesla se neshodují.");
+            inputError = true;
         }
 
-        // Check email.
+        if (password.length < 4) {
+            setPasswordError("Heslo musí mít alespoň 4 znaky.");
+            inputError = true;
+        }
+
         if (!email.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)) {
-            alert("Email není správný.");
-            return;
+            setEmailError("Email není správný.");
+            inputError = true;
         }
 
-        // TODO: Check email, password length etc.
-        props.type == "login" ? login(email, password) : register(email, password);
+        if (inputError) return;
+
+        if (props.type === "register") {
+            if (!(await register(email, password))) {
+                showAlert("Chyba", "Nepodařilo se registrovat.");
+                return;
+            }
+
+            if (!(await login(email, password))) {
+                showAlert("Chyba", "Účet byl úspěšně zaregistrován, ale nepodařilo se automaticky přihlásit. Zkuste to prosím manuálně.");
+                return;
+            }
+
+            router.push('/');
+        } else {
+            if (!(await login(email, password))) {
+                showAlert("Chyba", "Nepodařilo se přihlásit.");
+                return;
+            }
+            router.push('/');
+        }
     }
 
     return (
         <form className="space-y-4">
-            <FormEmailInput onChange={setEmail}/>
-            <FormPasswordInput type={"password"} onChange={setPassword}/>
-            {props.type == "register" && <FormPasswordInput type={"confirm"} onChange={setConfirmPassword}/>}
+            <Popup title={popupTitle} open={popupOpen} onClose={() => setPopupOpen(false)}>
+                <p>{popupMessage}</p>
+            </Popup>
+            <FormEmailInput onChange={(val) => {
+                setEmail(val);
+                setEmailError(null);
+            }}/>
+            {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+            <FormPasswordInput type={"password"} onChange={(val) => {
+                setPassword(val);
+                setPasswordError(null);
+            }}/>
+            {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+            {props.type == "register" && <FormPasswordInput type={"confirm"} onChange={(val) => {
+                setConfirmPassword(val);
+                setConfirmPasswordError(null);
+            }}/>}
+            {confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
             <FormHelperButtons type={props.type}/>
             <FormSubmitButton type={props.type} onClick={handleSubmit}/>
         </form>
     )
 }
 
-function register(email: string, password: string) {
-    axios.post("/api/register", {
+function register(email: string, password: string): Promise<boolean> {
+    return axios.post("/api/register", {
         email: email,
         password: password,
         redirect: false
     }).then((response) => {
-        alert("Successfully registered. " + (response as any).data.message);
-        return response;
+        console.log("Successfully registered. " + (response as any).data.message);
+        return true;
     }).catch((response) => {
-        alert("Error registering. " + response.data.message);
+        console.log("Error registering. " + response.data.message);
+        return false;
     })
 }
 
-function login(email: string, password: string) {
-    signIn("credentials", {
+function login(email: string, password: string): Promise<boolean> {
+    return signIn("credentials", {
         email: email,
         password: password,
         redirect: false
     }).then((response) => {
-        if (!response) alert("Response is undefined - some error.");
-        else if (!response.ok) alert("Error logging in: " + response.error);
-        else alert("Successfully logged in.");
-        // TODO: Show some error.
-    })
+        if (!response) {
+            console.log("Response is undefined - some error.");
+            return false;
+        }
+        else if (!response.ok) {
+            console.log("Error logging in: " + response.error);
+            return false;
+        }
+        else {
+            console.log("Successfully logged in.");
+            return true;
+        }
+    }).catch((response) => {
+        console.log("Some error logging in: " + response.error);
+        return false;
+    });
 }
 
 export default Prihlaseni;

@@ -53,8 +53,8 @@ const Prezentace: NextPage = () => {
     return (
         <div>
             <ModuleLandingPage props={landingPageProps}/>
-            <div className={"flex flex-col gap-2"}>
-                <InputForm id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-[60%]"}/> {/*TODO: Make it responsive*/}
+            <div className={"flex flex-col gap-2 -mb-4"}>
+                <InputForm id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full lg:w-[70%] xl:w-[60%]"}/> {/*TODO: Make it responsive*/}
                 {output && <OutputForm output={output} className={"w-[60%]"}/>}
             </div>
         </div>

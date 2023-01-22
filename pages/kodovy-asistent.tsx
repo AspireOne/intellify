@@ -120,7 +120,7 @@ const IOForm = (props: {id?: string}) => {
                 <div className={"flex flex-col w-full"}>
                     <input
                         maxLength={300}
-                        placeholder='"Vysvětli kód", "přelož kód do jazyka C#", "Proč se div s id "header" necentruje?" ...'
+                        placeholder='"Vysvětli", "přelož do jazyka C#", "Nakóduj jednoduchý navbar", "Proč se div s id "header" necentruje?",  ...'
                         onChange={(e) => {
                             setInputCommand(e.currentTarget.value);
                             setCommandError("");

@@ -5,6 +5,7 @@ import LandingPageProps from "../objects/LandingPageProps";
 import Button, {Style} from "./Button";
 import {ChevronDown, InformationCircle} from "react-ionicons";
 import {useSession} from "next-auth/react";
+import { motion } from "framer-motion";
 
 /**
  * Renders an universal landing page for a module.
@@ -31,12 +32,24 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
         <div>
             <div className={"h-screen relative"}>
                 <div className={"-mt-10 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 text-center w-full max-w-[900px]"}>
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font">
-                        <TitleText>{props.props.title}</TitleText>
-                    </h1>
+                    <motion.div
+                        initial={{opacity: 0, y: -10}}
+                        transition={{duration: 0.6}}
+                        animate={{opacity: 1, y: 0}}
+                    >
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl 2xl:text-8xl title-font">
+                            <TitleText>{props.props.title}</TitleText>
+                        </h1>
+                    </motion.div>
+                    <motion.div
+                        initial={{opacity: 0, y: -10}}
+                        transition={{duration: 0.6, delay: 0.2}}
+                        animate={{opacity: 1, y: 0}}
+                    >
                     <p className="text-gray-400 text-xl mt-6 md:mx-32">
                         {props.props.description}
                     </p>
+                    </motion.div>
                     <Button
                         className={"mt-10 mr-5 text-md font-bold p-4 px-6"}
                         onClick={handleActionButtClick}>{callToActionButtText}
@@ -52,11 +65,15 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 </div>
             </div>
 
-            <div id="info-cards" className="flex gap-4 2xl:gap-12 flex-wrap items-stretch text-justify justify-center items-center">
+            <div id="info-cards" className="flex flex-row grow gap-6 2xl:gap-12 flex-wrap items-stretch text-justify justify-center items-center">
                 {
                     [props.props.card1, props.props.card2, props.props.card3].map((card, index) => {
                         return (
-                            <div className="min-w-[350px] md:max-w-[370px] 2xl:max-w-[400px]" key={index}>
+                            <motion.div className="min-w-[350px] md:max-w-[360px] 2xl:max-w-[400px]" key={index}
+                                initial={{ opacity: 0 }}
+                                transition={{delay: index * 0.2, duration: 0.5}}
+                                whileInView={{ opacity: 1 }}
+                            >
                                 {/*border border-purple-500 bg-t-blue-700 shadow-lg*/}
                                 <div className="bg-t-blue-700 shadow-lg rounded-lg h-full p-5">
                                     <h2 className="text-2xl text-gray-200 font-bold mb-2">{card.title}</h2>
@@ -66,12 +83,12 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                                         More
                                     </button>*/}
                                 </div>
-                            </div>
+                            </motion.div>
                         )
                     })
                 }
 
-                <div className={"min-w-[350px] md:max-w-[390px] lg:min-w-0 lg:max-w-full"}>
+                <div className={"min-w-[350px] md:max-w-[360px] lg:min-w-0 lg:max-w-full"}>
                     <div className={"bg-t-blue-700 shadow-lg rounded-lg h-full p-5 lg:p-6 lg:max-w-[calc(420px_*_3)]"}>
                         <div className={"flex flex-row gap-2"}>
                             <InformationCircle color={"#fff"} height={"60%"}/>
