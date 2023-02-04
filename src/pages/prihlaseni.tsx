@@ -7,6 +7,7 @@ import {signIn, useSession} from "next-auth/react";
 import axios from "axios";
 import Popup from "../components/Popup";
 import {useRouter} from "next/navigation";
+import {trpc} from "../utils/trpc";
 
 const Prihlaseni: NextPage = () => {
     const [type, setType] = React.useState<"login" | "register">("login");
@@ -21,12 +22,6 @@ const Prihlaseni: NextPage = () => {
     }
 
     const {data: session} = useSession();
-
-    /*useEffect(() => {
-        if (window.location.pathname === "/register") {
-            setType("register");
-        }
-    }, []);*/
 
     return (
         <div className="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -185,6 +180,8 @@ const Form = (props: { type: "login" | "register" }) => {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
 
+    const registerMutation = trpc.sign.register.useMutation();
+
     function showAlert(title: string, msg: string) {
         setPopupTitle(title);
         setPopupMessage(msg);
@@ -216,34 +213,24 @@ const Form = (props: { type: "login" | "register" }) => {
             return;
         }
 
-        if (props.type === "register") {
-            const registerError = await register(email, password);
-            if (registerError) {
-                showAlert("Chyba", "Nepodařilo se registrovat. " + registerError);
-                setLoading(false);
-                return;
-            }
-
-            const autoLogin = await login(email, password);
-            if (autoLogin) {
-                showAlert("Chyba", "Účet byl úspěšně zaregistrován, ale nepodařilo se automaticky přihlásit. Zkuste to prosím manuálně. \r\n\n\n\r\n" + autoLogin);
-                setLoading(false);
-                return;
-            }
-
-            router.push('/');
-            return;
-        } else {
+        if (props.type === "login") {
             const loginError = await login(email, password);
-            if (loginError) {
-                showAlert("Chyba", "Nepodařilo se přihlásit. " + loginError);
-                setLoading(false);
-                return;
-            }
+            setLoading(false);
+            if (loginError) showAlert("Chyba", "Nepodařilo se přihlásit. " + loginError);
+            else router.push('/');
+            return;
         }
 
-        setLoading(false);
-        router.push('/');
+        try {
+            await registerMutation.mutateAsync({email, password});
+            const autoLoginError = await login(email, password);
+            if (autoLoginError) showAlert("Chyba", "Nepodařilo se přihlásit. " + autoLoginError);
+            else router.push('/');
+        } catch (e: any) {
+            showAlert("Chyba", "Nepodařilo se registrovat. " + e.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -274,23 +261,8 @@ const Form = (props: { type: "login" | "register" }) => {
     )
 }
 
-/**Returns error message or null if no error.*/
-function register(email: string, password: string): Promise<string | null> {
-    return axios.post("/api/register", {
-        email: email,
-        password: password,
-        redirect: false
-    }).then((response) => {
-        console.log("Successfully registered. Data: " + (response as any)?.data);
-        return null;
-    }).catch((response) => {
-        console.log(`Error registering. Message: ${response?.data?.message} Data: ${response?.data}`);
-        return response?.data?.message ?? "";
-    })
-}
-
 /**@returns null if there is no error, string with the error message if there is an error, or empty string if there is
- * an error but no error message..*/
+ * an error but no error message.*/
 function login(email: string, password: string): Promise<string | null> {
     return signIn("credentials", {
         email: email,
@@ -308,7 +280,7 @@ function login(email: string, password: string): Promise<string | null> {
             return null;
         }
     }).catch((response) => {
-        console.log("Some error logging in. Data: " + response.error);
+        console.log("Error logging in. Data: " + response.error);
         return response.error;
     });
 }

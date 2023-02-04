@@ -64,9 +64,9 @@ const Prezentace: NextPage = () => {
     return (
         <div>
             <ModuleLandingPage props={landingPageProps}/>
-            <div className={"flex flex-col gap-2 -mb-4"}>
-                <InputForm error={globalError} id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full lg:w-[70%] xl:w-[60%]"}/> {/*TODO: Make it responsive*/}
-                {output && <OutputForm output={output} className={"w-[60%]"}/>}
+            <div className={"flex flex-col gap-2 -mb-4 mx-auto lg:w-[62%]"}>
+                <InputForm error={globalError} id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full"}/> {/*TODO: Make it responsive*/}
+                {output && <OutputForm output={output} className={"w-full"}/>}
             </div>
         </div>
     );

@@ -30,20 +30,17 @@ export const authOptions: AuthOptions = {
             async authorize(credentials, req) {
                 // Check if all required parameters are present.
                 if (!credentials || !credentials.email || !credentials.password) {
-                    throw new Error("Email or password is missing from the request.");
+                    throw new Error("Email nebo heslo chybí.");
                 }
 
                 // Get the user from database based on [email].
                 const users = (await clientPromise).db().collection("users");
-                const user = await users.findOne({email: credentials.email}); // Returns WithId<Document> | null
+                const user = await users.findOne({email: credentials.email});
 
-                // TODO: Change both to "wrong email or password"
-                // If the user (email) does not exist, throw an error.
-                if (user === null) throw new Error("Wrong email.");
+                if (user === null) throw new Error("Špatný e-mail nebo heslo.");
 
-                // Else check the password and throw an error if it doesnt match.
                 const isMatch = await bcrypt.compare(credentials.password, user.password);
-                if (!isMatch) throw new Error("Wrong password.");
+                if (!isMatch) throw new Error("Špatný e-mail nebo heslo.");
 
                 return {id: user._id.toString(), email: user.email};
             }
