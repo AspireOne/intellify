@@ -9,6 +9,7 @@ const isAuthed = t.middleware(({ next, ctx }) => {
     if (!ctx.session?.user) {
         throw new TRPCError({
             code: 'UNAUTHORIZED',
+            message: 'Pro tuto akci se musíte přihlásit.',
         });
     }
     return next({ctx});

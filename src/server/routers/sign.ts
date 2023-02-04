@@ -9,7 +9,7 @@ export const signRouter = router({
     register: publicProcedure
         .input(registerInput)
         .output(registerOutput)
-        .query(async ({ctx, input}) => await registerResolver(ctx, input)),
+        .mutation(async ({ctx, input}) => await registerResolver(ctx, input)),
 });
 
 // export type definition of API

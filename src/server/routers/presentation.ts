@@ -6,7 +6,7 @@ export const presentationRouter = router({
     createPresentation: protectedProcedure
         .input(createPresentationInput)
         .output(createPresentationOutput)
-        .query(async ({ctx, input}) => await createPresentationResolver(ctx, input)),
+        .mutation(async ({ctx, input}) => await createPresentationResolver(ctx, input)),
 });
 
 // export type definition of API

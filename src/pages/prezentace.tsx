@@ -13,6 +13,8 @@ import Popup, {AutoPopup} from "../components/Popup";
 import Input from "../components/Input";
 import {z} from "zod";
 import {createPresentationInput} from "../server/schemas/presentation";
+import {trpc} from "../utils/trpc";
+import {setGlobal} from "next/dist/trace";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
@@ -40,23 +42,30 @@ const Prezentace: NextPage = () => {
     // State variables for the form input values
     const [output, setOutput] = useState<PresentationObj | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [globalError, setGlobalError] = useState<string | null>(null);
+
+    const presentationMutation = trpc.presentation.createPresentation.useMutation({
+        onSuccess: (data, input) => {
+            setOutput(new PresentationObj(data.output, input));
+        },
+        onError: (error) => {
+            setGlobalError(error.message);
+        },
+        onSettled: () => {
+            setLoading(false);
+        }
+    });
 
     function handleSubmit(data: z.input<typeof createPresentationInput>): void {
         setLoading(true);
-
-        axios.post('/api/presentation', data)
-            .then((response) => response.data.output)
-            .then((output) => {
-                setOutput(new PresentationObj(output, data));
-                setLoading(false);
-            })
+        presentationMutation.mutate(data);
     }
 
     return (
         <div>
             <ModuleLandingPage props={landingPageProps}/>
             <div className={"flex flex-col gap-2 -mb-4"}>
-                <InputForm id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full lg:w-[70%] xl:w-[60%]"}/> {/*TODO: Make it responsive*/}
+                <InputForm error={globalError} id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full lg:w-[70%] xl:w-[60%]"}/> {/*TODO: Make it responsive*/}
                 {output && <OutputForm output={output} className={"w-[60%]"}/>}
             </div>
         </div>
@@ -117,7 +126,7 @@ function DownloadPresRow(props: { presentation: PresentationObj }) {
     );
 }
 
-function InputForm(props: { onSubmit: (params: z.input<typeof createPresentationInput>) => void, loading: boolean, id: string, className: string }) {
+function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationInput>) => void, loading: boolean, id: string, className: string, error?: string | null}) {
     // State variables for the form input values
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
@@ -187,7 +196,10 @@ function InputForm(props: { onSubmit: (params: z.input<typeof createPresentation
             <div className="mx-auto max-w-lg py-3 flex flex-col gap-3">
                 <div className={"flex flex-row items-center"}>
                     <Input maxLen={100} placeholder={"téma"} value={topic} wrapped={false}
-                           onChange={setTopic} error={topicError} className={""}/>
+                           onChange={(e) => {
+                               setTopic(e);
+                               setTopicError(null);
+                           }} error={topicError} className={""}/>
 
                     <AutoPopup title={"Téma"}
                                trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
@@ -220,8 +232,14 @@ function InputForm(props: { onSubmit: (params: z.input<typeof createPresentation
                         </p>
                     </AutoPopup>
                 </div>
-                <Input maxNum={20} minNum={1} type={"number"} placeholder={"Počet slidů"} value={slides} onChange={setSlides} error={slidesError}></Input>
-                <Input maxNum={6} minNum={1} type={"number"} placeholder={"Počet odrážek u každého slidu"} value={points} onChange={setPoints} error={pointsError}></Input>
+                <Input maxNum={20} minNum={1} type={"number"} placeholder={"Počet slidů"} value={slides} onChange={(e) => {
+                    setSlides(e);
+                    setSlidesError(null);
+                }} error={slidesError}></Input>
+                <Input maxNum={6} minNum={1} type={"number"} placeholder={"Počet odrážek u každého slidu"} value={points} onChange={(e) => {
+                    setPoints(e);
+                    setPointsError(null);
+                }} error={pointsError}></Input>
                 <div className={"my-3 flex flex-col gap-3"}>
                     <Switch.Group>
                         {
@@ -253,6 +271,7 @@ function InputForm(props: { onSubmit: (params: z.input<typeof createPresentation
                     </Switch.Group>
                 </div>
                 <Button className={"my-2"} onClick={handleSubmit} loading={props.loading}>Generovat</Button>
+                {props.error && <p className="text-red-500 text-center text-md">Chyba: {props.error}</p>}
             </div>
         </IOCard>
     );
