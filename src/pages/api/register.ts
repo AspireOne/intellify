@@ -1,3 +1,4 @@
+/*
 import bcrypt from 'bcrypt'
 
 import {NextApiRequest, NextApiResponse} from "next";
@@ -20,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const user = await users.findOne({email: body.email}); // Returns WithId<Document> | null
 
     if (user) {
-        return res.status(200).json({ message: 'Already registered.' });
+        return res.status(200).json({ message: 'Account already exists.' });
     }
 
     const hashedPass = await bcrypt.hash(body.password, 10);
@@ -28,4 +29,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (newUser.acknowledged) return res.status(200).json({ message: 'User successfully registered.' })
     else return res.status(500).json({ message: 'Something went wrong.' })
-}
+}*/

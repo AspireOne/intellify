@@ -1,11 +1,14 @@
 import {NextPage} from "next";
 
 import React, {PropsWithChildren} from "react";
-import LandingPageProps from "../objects/LandingPageProps";
+import LandingPageProps from "../lib/landingPageProps";
 import Button, {Style} from "./Button";
 import {ChevronDown, InformationCircle} from "react-ionicons";
 import {useSession} from "next-auth/react";
 import { motion } from "framer-motion";
+import {Parallax, ParallaxProvider} from "react-scroll-parallax";
+import {Router, useRouter} from "next/router";
+import {paths} from "../lib/constants";
 
 /**
  * Renders an universal landing page for a module.
@@ -14,14 +17,18 @@ import { motion } from "framer-motion";
  */
 const ModuleLandingPage = (props: {props: LandingPageProps}) => {
     const session = useSession();
+    const router = useRouter();
 
     function handleActionButtClick() {
         if (session.status == "authenticated") {
             document?.getElementById(props.props.callToActionButton.targetElementId)
                 ?.scrollIntoView({behavior: "smooth", block: "center"});
         } else {
-            document?.getElementById("info-cards")
-                ?.scrollIntoView({behavior: "smooth", block: "start"});
+            // Scroll to 600px from the top of the page.
+            window.scrollTo({top: 620, behavior: "smooth"});
+
+            /*document?.getElementById("info-cards")
+                ?.scrollIntoView({behavior: "smooth", block: "start"});*/
         }
     }
 
@@ -29,7 +36,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
         ? props.props.callToActionButton.titleWhenSigned
         : "Zjistit více";
     return (
-        <div>
+        <ParallaxProvider>
             <div className={"h-screen relative"}>
                 <div className={"-mt-10 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 text-center w-full max-w-[900px]"}>
                     <motion.div
@@ -50,30 +57,29 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                         {props.props.description}
                     </p>
                     </motion.div>
-                    <Button
-                        className={"mt-10 mr-5 text-md font-bold p-4 px-6"}
-                        onClick={handleActionButtClick}>{callToActionButtText}
-                    </Button>
-                    {
-                        session.status !== "authenticated" &&
+                    <Parallax speed={-5}>
                         <Button
-                            style={Style.OUTLINE}
-                            className={"mt-10 text-md font-bold p-4 px-6"}>
-                            Přihlásit se
+                            className={"mt-10 mr-5 text-md font-bold p-4 px-6"}
+                            onClick={handleActionButtClick}>{callToActionButtText}
                         </Button>
-                    }
+                        {
+                            session.status !== "authenticated" &&
+                            <Button
+                                style={Style.OUTLINE}
+                                onClick={() => router.push(paths.sign)}
+                                className={"mt-10 text-md font-bold p-4 px-6"}>
+                                Přihlásit se
+                            </Button>
+                        }
+                    </Parallax>
                 </div>
             </div>
 
-            <div id="info-cards" className="flex flex-row grow gap-6 2xl:gap-12 flex-wrap items-stretch text-justify justify-center items-center">
+            <Parallax speed={10} id="info-cards" className="flex flex-row grow gap-6 2xl:gap-12 flex-wrap items-stretch text-justify justify-center items-center">
                 {
                     [props.props.card1, props.props.card2, props.props.card3].map((card, index) => {
                         return (
-                            <motion.div className="min-w-[350px] md:max-w-[360px] 2xl:max-w-[400px]" key={index}
-                                initial={{ opacity: 0 }}
-                                transition={{delay: index * 0.2, duration: 0.5}}
-                                whileInView={{ opacity: 1 }}
-                            >
+                            <div className="min-w-[350px] md:max-w-[360px] 2xl:max-w-[400px]" key={index}>
                                 {/*border border-purple-500 bg-t-blue-700 shadow-lg*/}
                                 <div className="bg-t-blue-700 shadow-lg rounded-lg h-full p-5">
                                     <h2 className="text-2xl text-gray-200 font-bold mb-2">{card.title}</h2>
@@ -83,7 +89,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                                         More
                                     </button>*/}
                                 </div>
-                            </motion.div>
+                            </div>
                         )
                     })
                 }
@@ -101,15 +107,18 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                         </p>
                     </div>
                 </div>
-            </div>
+            </Parallax>
 
             <div className={"pt-16 pb-8 my-32 mx-[-1.2rem]"}>
-                <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
-                    {props.props.callToActionTitle}
-                </h1>
+                {
+                    session.status != "authenticated" &&
+                    <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
+                        {props.props.callToActionTitle}
+                    </h1>
+                }
                 <ChevronDown width={"40px"} height={"auto"} color={"#fff"} cssClasses={"w-10 text-center mx-auto animate-pulse mt-10"} />
             </div>
-        </div>
+        </ParallaxProvider>
     );
 }
 

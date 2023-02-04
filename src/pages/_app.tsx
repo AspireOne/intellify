@@ -1,10 +1,11 @@
-import '../styles/globals.css'
+import '../../styles/globals.css'
 import type {AppProps} from 'next/app'
 import Sidebar from "../components/Sidebar";
 import React from "react";
 import Footer from "../components/Footer";
 import {SessionProvider} from "next-auth/react";
 import SmoothScroll from "../components/SmoothScroll";
+import {trpc} from "../utils/trpc";
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
@@ -23,4 +24,4 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     );
 }
 
-export default MyApp
+export default trpc.withTRPC(MyApp);

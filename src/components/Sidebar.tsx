@@ -17,6 +17,7 @@ import {signIn, signOut, useSession} from "next-auth/react";
 import {NextRouter, useRouter} from 'next/router';
 import Link from "next/link";
 import {useEventListener} from "@headlessui/react/dist/hooks/use-event-listener";
+import {paths} from "../lib/constants";
 
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
@@ -54,12 +55,12 @@ const Sidebar: NextPage = () => {
 
                 <SearchBar/>
 
-                <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={"/"}/>
+                <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
                 <Item title={"O nás"} icon={<People color={"#fff"}/>} link={"/o-nas"}/>
                 <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={"/prezentace"}/>
-                <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={"/kodovy-asistent"}/>
+                <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
+                <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
 
                 <Category icon={Chatbox} title={"Chatbox"}>
                     <Item title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} isCategoryItem={true}/>
@@ -70,9 +71,10 @@ const Sidebar: NextPage = () => {
 
                 {
                     session.status == "authenticated" &&
-                    <Item title="Profil"
-                          onClick={() => {/*TODO: Open profile*/}}
-                          icon={session.data.user?.image ? (<img width={25} className={"rounded-full"} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/> // TODO: Icon user image
+                    <Item
+                        title="Profil"
+                        link={paths.profile}
+                        icon={session.data.user?.image ? (<img width={25} className={"rounded-full"} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/> // TODO: Icon user image
                 }
                 <Item title={session.status == "authenticated" ? "Odhlásit se" : "Přihlásit se"}
                       onClick={() => handleSignClick(session.status, router)}
@@ -86,8 +88,7 @@ const handleSignClick = async (status: "loading" | "authenticated" | "unauthenti
     if (status == "authenticated") {
         await signOut();
     } else if (status == "unauthenticated") {
-        // TODO: redirect to login.
-        router.push("/prihlaseni");
+        await router.push("/prihlaseni");
     }
 }
 
@@ -111,7 +112,6 @@ const SearchBar = () => {
  * @param props icon: Icon element.
  */
 const Item = (props: {icon?: any, title: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
-    // TODO: Fix a bug where the current website is not shown as active on reload.
     const [active, setActive] = useState(false);
 
     useEffect(() => {

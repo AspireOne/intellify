@@ -1,13 +1,14 @@
 import pptxgen from "pptxgenjs";
-import {PresentationProps} from "../pages/api/presentation";
+import {z} from "zod";
+import {createPresentationInput} from "../server/schemas/presentation";
 
 interface objectifiedPresentation {[key: string | "null"]: string[]}
 class PresentationObj {
     public AiOutput: string;
-    public props: PresentationProps;
-    private presentation: objectifiedPresentation;
+    public props: z.input<typeof createPresentationInput>;
+    private readonly presentation: objectifiedPresentation;
 
-    constructor(aiOutput: string, props: PresentationProps) {
+    constructor(aiOutput: string, props: z.input<typeof createPresentationInput>) {
         this.AiOutput = aiOutput;
         this.props = props;
         this.presentation = this.objectify(aiOutput);

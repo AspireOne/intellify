@@ -1,7 +1,8 @@
 import {PropsWithChildren, useEffect, useState} from "react";
+import {NextPage} from "next";
 
-export default function PrivacyPolicy() {
-    const [hostname, setHostname] = useState("www.--------.cz");
+const PrivacyPolicy: NextPage = () =>  {
+    const [hostname, setHostname] = useState("www.      .cz");
     useEffect(() => {
         if (typeof window !== "undefined") {
             setHostname(window.location.hostname);
@@ -114,5 +115,7 @@ export default function PrivacyPolicy() {
     );
 }
 
+export default PrivacyPolicy;
+
 const Par = (props: PropsWithChildren) => <p>{props.children}</p>
-const Title = (props: PropsWithChildren) => <h1 className={"text-2xl font-bold mt-10 ml-0 text-gray-400"}>{props.children}</h1>
+const Title = (props: PropsWithChildren) => <h1 className={"text-2xl font-bold mt-10 mb-2 ml-0 text-gray-400"}>{props.children}</h1>

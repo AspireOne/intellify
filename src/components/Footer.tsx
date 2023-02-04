@@ -1,6 +1,7 @@
 import {NextPage} from "next";
 import React from "react";
 import Link from "next/link";
+import {paths} from "../lib/constants";
 
 const Footer: NextPage = () => {
     return (
@@ -14,13 +15,15 @@ const Footer: NextPage = () => {
                     <Link href="/o-nas" className="mr-4 hover:underline md:mr-6 ">O nás</Link>
                 </li>*/}
                 <li>
-                    <a href="/ochrana-soukromi" className="mr-4 hover:underline md:mr-6">Zásady ochrany soukromí</a>
+                    <Link href={paths.privacyPolicy} className="mr-4 hover:underline md:mr-6">Zásady ochrany soukromí</Link>
                 </li>
                 <li>
-                    <a href="/licencovani" className="mr-4 hover:underline md:mr-6">Licence a autorská práva</a>
+                    {/*TODO*/}
+                    <a href="" className="mr-4 hover:underline md:mr-6">Licence a autorská práva</a>
                 </li>
                 <li>
-                    <a href="/kontakt" className="hover:underline">Kontakt</a>
+                    {/*TODO*/}
+                    <a href="" className="hover:underline">Kontakt</a>
                 </li>
             </ul>
         </footer>

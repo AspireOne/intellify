@@ -1,16 +1,18 @@
 import type {NextPage} from 'next'
 import React, {useState} from "react";
-import type {PresentationProps} from './api/presentation'
 import axios from "axios";
-import PresentationObj from "../objects/PresentationObj";
+import PresentationObj from "../lib/presentationObj";
 import IOCard from "../components/IOCard";
 import ModuleLandingPage from "../components/ModuleLandingPage";
-import LandingPageProps from "../objects/LandingPageProps";
+import LandingPageProps from "../lib/landingPageProps";
 import Button from "../components/Button";
 import {Switch} from "@headlessui/react";
 import TextareaAutosize from "react-textarea-autosize";
 import {InformationCircle, InformationCircleOutline} from "react-ionicons";
-import Popup from "../components/Popup";
+import Popup, {AutoPopup} from "../components/Popup";
+import Input from "../components/Input";
+import {z} from "zod";
+import {createPresentationInput} from "../server/schemas/presentation";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
@@ -39,7 +41,7 @@ const Prezentace: NextPage = () => {
     const [output, setOutput] = useState<PresentationObj | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    function handleSubmit(data: PresentationProps): void {
+    function handleSubmit(data: z.input<typeof createPresentationInput>): void {
         setLoading(true);
 
         axios.post('/api/presentation', data)
@@ -115,7 +117,7 @@ function DownloadPresRow(props: { presentation: PresentationObj }) {
     );
 }
 
-function InputForm(props: { onSubmit: (params: PresentationProps) => void, loading: boolean, id: string, className: string }) {
+function InputForm(props: { onSubmit: (params: z.input<typeof createPresentationInput>) => void, loading: boolean, id: string, className: string }) {
     // State variables for the form input values
     const [topic, setTopic] = useState("");
     const [slides, setSlides] = useState("");
@@ -180,101 +182,76 @@ function InputForm(props: { onSubmit: (params: PresentationProps) => void, loadi
         }
     }
 
-    // TODO: Add focus color.
     return (
         <IOCard id={props.id} title={"Vytvořte prezentaci"} className={props.className}>
-            <div className="mx-auto max-w-lg py-3">
+            <div className="mx-auto max-w-lg py-3 flex flex-col gap-3">
                 <div className={"flex flex-row items-center"}>
-                    <input
-                        maxLength={70}
-                        type="text"
-                        placeholder="Téma"
-                        className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
-                        value={topic}
-                        onChange={(event) => setTopic(event.target.value)}
-                    />
-                    <Popup title={"Téma"} trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
+                    <Input maxLen={100} placeholder={"téma"} value={topic} wrapped={false}
+                           onChange={setTopic} error={topicError} className={""}/>
+
+                    <AutoPopup title={"Téma"}
+                               trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
                         <p>Obecné téma prezentace - může být skutečné, odborné, ale i fiktivní. Příklady:</p>
                         <ul className={"list-disc list-inside mt-1"}>
                             <li>"Význam fotosyntézy pro udržení života na planetě"</li>
                             <li>"Benefity existence kočkoholek"</li>
                             <li>"Historie Petra Pavla"</li>
                         </ul>
-                    </Popup>
+                    </AutoPopup>
                 </div>
-                {topicError && <div className="text-red-500 text-sm">{topicError}</div>}
 
-                <div className={"flex flex-row items-center"}>
+                <div className={"flex flex-row"}>
                     <TextareaAutosize
-                        maxLength={2000}
-                        // TODO: Explain it.
+                        maxLength={2200}
                         placeholder='Upřesnění (volitelné)'
                         value={description}
                         onChange={(event) => setDescription(event.target.value)}
-                        className="my-2 min-h-[100px] max-h-[80vh] bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal block resize-y overflow-hidden flex-wrap"
+                        className="min-h-[100px] max-h-[80vh] bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal block resize-y overflow-hidden flex-wrap"
                     />
-                    <Popup title={"Upřesnění"} trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
+                    <AutoPopup title={"Upřesnění"} trigger={<InformationCircleOutline cssClasses={"-ml-10 mt-4"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
                         <p>
                             Libovolné upřesnění tématu nebo doplnění konkrétních informací.
                             Upřesnění může být libovolně dlouhé či konkrétní - čím více, tím lépe.
                             <br/><br/>
                             Hodí se zejména když vytváříte prezentaci o konkrétní věci, o které A.I. nemá dostupné
                             informace (např. vlastní produkt nebo fiktivní téma).
-                            {/*<br/>
+                            {/*<br/> TODO:
                             Příklady:*/}
                         </p>
-                    </Popup>
+                    </AutoPopup>
                 </div>
-                <input
-                    max={20}
-                    min={1}
-                    type="number"
-                    placeholder="Počet slidů"
-                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
-                    value={slides}
-                    onChange={(event) => setSlides(event.target.value)}
-                />
-                {slidesError && <div className="text-red-500 text-sm">{slidesError}</div>}
-                <input
-                    max={10}
-                    min={1}
-                    type="number"
-                    placeholder="Počet odrážek u každého slidu"
-                    className="my-2 bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal"
-                    value={points}
-                    onChange={(event) => setPoints(event.target.value)}
-                />
-                {pointsError && <div className="text-red-500 text-sm">{pointsError}</div>}
-                <div className={"mt-5"}></div>
-                <Switch.Group>
-                    {
-                        [
-                            {state: introduction, stateSetter: setIntroduction, text: "Napsat úvod"},
-                            {state: conclusion, stateSetter: setConclusion, text: "Napsat závěr"},
-                            {state: includeImages, stateSetter: setIncludeImages, text: "Vložit odkazy na obrázky"},
-                            {state: describe, stateSetter: setDescribe, text: "Napsat vysvětlivky pro řečníka"},
-                        ]
-                            .map((item, index) => {
-                                return (
-                                    <div className={"my-2"} key={index}>
-                                        <Switch
-                                            className={`${item.state ? 'bg-indigo-700 ' : 'bg-gray-700 '} 
+                <Input maxNum={20} minNum={1} type={"number"} placeholder={"Počet slidů"} value={slides} onChange={setSlides} error={slidesError}></Input>
+                <Input maxNum={6} minNum={1} type={"number"} placeholder={"Počet odrážek u každého slidu"} value={points} onChange={setPoints} error={pointsError}></Input>
+                <div className={"my-3 flex flex-col gap-3"}>
+                    <Switch.Group>
+                        {
+                            [
+                                {state: introduction, stateSetter: setIntroduction, text: "Napsat úvod"},
+                                {state: conclusion, stateSetter: setConclusion, text: "Napsat závěr"},
+                                {state: includeImages, stateSetter: setIncludeImages, text: "Vložit odkazy na obrázky"},
+                                {state: describe, stateSetter: setDescribe, text: "Napsat vysvětlivky pro řečníka"},
+                            ]
+                                .map((item, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <Switch
+                                                className={`${item.state ? 'bg-indigo-700 ' : 'bg-gray-700 '} 
                                             relative inline-flex h-6 w-11 items-center rounded-full`}
-                                            checked={item.state}
-                                            onChange={item.stateSetter}
-                                        >
+                                                checked={item.state}
+                                                onChange={item.stateSetter}
+                                            >
                                         <span
                                             className={`${item.state ? 'translate-x-6 ' : 'translate-x-1 '} 
                                             inline-block h-4 w-4 transform rounded-full bg-white transition`}
                                         />
-                                        </Switch>
-                                        <Switch.Label className="ml-4">{item.text}</Switch.Label>
-                                    </div>
-                                );
-                            })
-                    }
-                </Switch.Group>
-                <div className={"mb-5"}></div>
+                                            </Switch>
+                                            <Switch.Label className="ml-4">{item.text}</Switch.Label>
+                                        </div>
+                                    );
+                                })
+                        }
+                    </Switch.Group>
+                </div>
                 <Button className={"my-2"} onClick={handleSubmit} loading={props.loading}>Generovat</Button>
             </div>
         </IOCard>

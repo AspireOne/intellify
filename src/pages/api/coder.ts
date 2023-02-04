@@ -1,5 +1,5 @@
+/*
 import {NextApiRequest, NextApiResponse} from "next";
-import {PresentationProps} from "./presentation";
 import {Configuration, OpenAIApi} from "openai";
 
 export interface CoderParams {
@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const params = req.body as CoderParams;
 
     // Check props data presence.
-    if (/*!props.code || */!params.command || !params.type) {
+    if (/!*!props.code || *!/!params.command || !params.type) {
         res.status(400).json({ error: 'Missing one or more parameters.' });
         return;
     }
@@ -58,4 +58,4 @@ async function askAI(prompt: string): Promise<string | null> {
     const completion = await openai.createCompletion(body);
 
     return completion.data.choices[0].text ?? null;
-}
+}*/

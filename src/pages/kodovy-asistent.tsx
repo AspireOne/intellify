@@ -1,12 +1,14 @@
 import {NextPage} from "next";
 import ModuleLandingPage from "../components/ModuleLandingPage";
-import LandingPageProps from "../objects/LandingPageProps";
+import LandingPageProps from "../lib/landingPageProps";
 
 import TextareaAutosize from 'react-textarea-autosize';
 import React, {useState} from "react";
 import Button, {Style} from "../components/Button";
 import axios from "axios";
-import {CoderParams} from "./api/coder";
+import {z} from "zod";
+import {createPresentationInput} from "../server/schemas/presentation";
+import {assistCodeInput} from "../server/schemas/code";
 
 
 const landingPageProps: LandingPageProps = {
@@ -60,7 +62,7 @@ const IOForm = (props: {id?: string}) => {
             return;
         }
 
-        const data: CoderParams = {
+        const data: z.input<typeof assistCodeInput> = {
             code: inputCode,
             command: inputCommand,
             type: activeInputType
@@ -120,7 +122,7 @@ const IOForm = (props: {id?: string}) => {
                 <div className={"flex flex-col w-full"}>
                     <input
                         maxLength={300}
-                        placeholder='"Vysvětli", "přelož do jazyka C#", "Nakóduj jednoduchý navbar", "Proč se div s id "header" necentruje?",  ...'
+                        placeholder='"Vysvětli", "přelož do jazyka C#", "Nakóduj navbar", "Proč se div s id "header" necentruje?",  ...'
                         onChange={(e) => {
                             setInputCommand(e.currentTarget.value);
                             setCommandError("");
