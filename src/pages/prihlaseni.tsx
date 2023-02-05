@@ -8,6 +8,7 @@ import axios from "axios";
 import Popup from "../components/Popup";
 import {useRouter} from "next/navigation";
 import {trpc} from "../utils/trpc";
+import {paths} from "../lib/constants";
 
 // TODO: Save logged in status to localstorage, and when a page loads and session status is loading,
 // TODO: temporarily take the login status from localstorage until session loads. Make it an abstraction.
@@ -227,7 +228,7 @@ const Form = (props: { type: "login" | "register" }) => {
             await registerMutation.mutateAsync({email, password});
             const autoLoginError = await login(email, password);
             if (autoLoginError) showAlert("Chyba", "Nepodařilo se přihlásit. " + autoLoginError);
-            else router.push('/');
+            else router.push(paths.index);
         } catch (e: any) {
             showAlert("Chyba", "Nepodařilo se registrovat. " + e.message);
         } finally {

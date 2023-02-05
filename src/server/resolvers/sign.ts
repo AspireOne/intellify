@@ -2,13 +2,15 @@ import {z} from "zod";
 import {Context} from "../context";
 import {TRPCError} from "@trpc/server";
 import {registerInput, registerOutput} from "../schemas/sign";
-import clientPromise from "../../lib/mongodb";
 import bcrypt from "bcrypt";
-export async function registerResolver(ctx: Context, input: z.input<typeof registerInput>): Promise<z.output<typeof registerOutput>> {
-    const users = (await ctx.db()).collection("users");
-    const user = await users.findOne({email: input.email});
+import User from "../models/User";
 
-    if (user) {
+export async function registerResolver(ctx: Context, input: z.input<typeof registerInput>): Promise<z.output<typeof registerOutput>> {
+    await ctx.connectDb();
+
+    const exists = await User.exists({email: input.email}).exec();
+
+    if (exists) {
         throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Účet s tímto e-mailem již existuje.",
@@ -16,11 +18,14 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
     }
 
     const hashedPass = await bcrypt.hash(input.password, 10);
-    const newUser = await users.insertOne({email: input.email, password: hashedPass});
 
-    if (newUser.acknowledged) return {message: 'Uživatel úspěšně registrován.' };
-    else throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Něco se pokazilo.",
-    })
+    await User.create({email: input.email, password: hashedPass}, function(err) {
+        if (err) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                message: "Něco se pokazilo.",
+            });
+        }
+    });
+    return {message: 'Uživatel úspěšně registrován.' };
 }

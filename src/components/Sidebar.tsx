@@ -76,20 +76,13 @@ const Sidebar: NextPage = () => {
                         link={paths.profile}
                         icon={session.data.user?.image ? (<img width={25} className={"rounded-full"} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/> // TODO: Icon user image
                 }
-                <Item title={session.status == "authenticated" ? "Odhlásit se" : "Přihlásit se"}
-                      onClick={() => handleSignClick(session.status, router)}
+                <Item title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
+                      link={(session.status !== "authenticated" && paths.sign) || undefined}
+                      onClick={session.status === "authenticated" ? (async () => await signOut()) : undefined}
                       icon={<LogOut color={"#fff"}/>}/>
             </div>
         </aside>
     );
-}
-
-const handleSignClick = async (status: "loading" | "authenticated" | "unauthenticated", router: NextRouter) => {
-    if (status == "authenticated") {
-        await signOut();
-    } else if (status == "unauthenticated") {
-        await router.push("/prihlaseni");
-    }
 }
 
 const SearchBar = () => {

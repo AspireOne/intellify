@@ -8,7 +8,11 @@ import {paths} from "./lib/constants";
 // This function can be marked `async` if using `await` inside
 export async function middleware(req: NextRequest) {
     if (req.url.includes(paths.sign)) {
-        if (await isSignedIn(req)) return NextResponse.redirect(new URL("/", req.url));
+        if (await isSignedIn(req)) return NextResponse.redirect(new URL(paths.index, req.url));
+    }
+
+    if (req.url.includes(paths.profile)) {
+        if (!await isSignedIn(req)) return NextResponse.redirect(new URL(paths.sign, req.url));
     }
 
     /*const session = await getToken({ req, secret: process.env.SECRET })
