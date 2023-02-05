@@ -1,15 +1,14 @@
-import React, {FunctionComponent} from "react";
-import Spinner from "./Spinner";
-import {assertTSTypeElement} from "@babel/types";
+import React from "react";
 import {twMerge} from "tailwind-merge";
+import Spinner from "./Spinner";
 
 export enum Style {FILL, OUTLINE}
 type ButtonProps = {
-    onClick?: (event: any) => void;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
     loading?: boolean
-    className?: string;
-    style?: Style;
-    children: React.ReactNode;
+    className?: string
+    style?: Style
+    children: React.ReactNode
 }
 
 // TODO: Allow to pass in any properties and classes and USE IT.

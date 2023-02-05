@@ -50,8 +50,7 @@ function generatePrompt(params: z.input<typeof createPresentationInput>): string
                 prompt +=
                     "\n\nVysvětlení bodů:\n" +
                     "Název bodu: popis\n" +
-                    "\n" +
-                    "Název bodu: popis\n" +
+                    "\n" + "Název bodu: popis\n" +
                     "\n" +
                     "Název bodu: popis\n" +
                     "\n" +
@@ -62,7 +61,7 @@ function generatePrompt(params: z.input<typeof createPresentationInput>): string
 }
 
 async function askAI(ctx: Context, prompt: string, stop: string[] | undefined = undefined): Promise<string|null> {
-        /* return "Úvod\n" +
+         return "Úvod\n" +
              "Poníci jsou malí, krásní a milí. Jsou oblíbenými domácími mazlíčky po celém světě. V této prezentaci se podíváme na to, co je poníkům nejbližší a proč jsou tak oblíbené.\n" +
              "\n" +
              "Slide 1: Dějiny poníků\n" +
@@ -74,7 +73,7 @@ async function askAI(ctx: Context, prompt: string, stop: string[] | undefined = 
              "- Jsou kamarádskými a inteligentnimi zvířaty, která dokážou vytvářet silné pouto s člověkem. \n" +
              "\n" +
              "Závěr \n" +
-             "Ponik je nesporně jedinečným zvirem, které si vysloužilo své miesto v srdcich lidi po celém svete. Jejich láska, oddanost a inteligence je činila oblibenymi domacimi mazlicky po generace.";*/
+             "Ponik je nesporně jedinečným zvirem, které si vysloužilo své miesto v srdcich lidi po celém svete. Jejich láska, oddanost a inteligence je činila oblibenymi domacimi mazlicky po generace.";
 
         // TODO: Use Curie?
         const completion = await ctx.openai.createCompletion({

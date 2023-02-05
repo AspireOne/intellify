@@ -1,20 +1,18 @@
 import type {NextPage} from 'next'
-import React, {useState} from "react";
-import axios from "axios";
-import PresentationObj from "../lib/presentationObj";
+import React, {useEffect, useState} from "react";
+import Presentation from "../lib/presentation";
 import IOCard from "../components/IOCard";
 import ModuleLandingPage from "../components/ModuleLandingPage";
 import LandingPageProps from "../lib/landingPageProps";
 import Button from "../components/Button";
 import {Switch} from "@headlessui/react";
 import TextareaAutosize from "react-textarea-autosize";
-import {InformationCircle, InformationCircleOutline} from "react-ionicons";
-import Popup, {AutoPopup} from "../components/Popup";
+import {InformationCircleOutline} from "react-ionicons";
+import {AutoPopup} from "../components/Popup";
 import Input from "../components/Input";
 import {z} from "zod";
 import {createPresentationInput} from "../server/schemas/presentation";
 import {trpc} from "../utils/trpc";
-import {setGlobal} from "next/dist/trace";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
@@ -39,14 +37,15 @@ const landingPageProps: LandingPageProps = {
 };
 
 const Prezentace: NextPage = () => {
-    // State variables for the form input values
-    const [output, setOutput] = useState<PresentationObj | null>(null);
+    const [content, setContent] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [globalError, setGlobalError] = useState<string | null>(null);
+    const [presentation, setPresentation] = useState<Presentation | null>(null);
 
     const presentationMutation = trpc.presentation.createPresentation.useMutation({
         onSuccess: (data, input) => {
-            setOutput(new PresentationObj(data.output, input));
+            setContent(data.output);
+            setPresentation(new Presentation(data.output, input));
         },
         onError: (error) => {
             setGlobalError(error.message);
@@ -66,36 +65,28 @@ const Prezentace: NextPage = () => {
             <ModuleLandingPage props={landingPageProps}/>
             <div className={"flex flex-col gap-2 -mb-4 mx-auto lg:w-[62%]"}>
                 <InputForm error={globalError} id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full"}/> {/*TODO: Make it responsive*/}
-                {output && <OutputForm output={output} className={"w-full"}/>}
+                {content && (
+                    <IOCard title={"Výstup"} className={`rounded-none rounded-b-2xl w-full`}>
+                        <TextareaAutosize
+                            value={content}
+                            onChange={(val) => setContent(val.target.value)}
+                            className="resize-none appearance-none overflow-y-auto focus:outline-none rounded-md p-5 bg-white bg-opacity-10 w-full">
+                        </TextareaAutosize>
+                        <DownloadPresRow onClick={author => presentation!.download(author)}/>
+                    </IOCard>
+                )}
             </div>
         </div>
     );
 }
 
-function OutputForm(props: { output: PresentationObj, className?: string }) {
-    return (
-        <div className="">
-            <IOCard title={"Výstup"} className={`rounded-none rounded-b-2xl ${props.className}`}>
-                <p>{props.output.AiOutput}</p>
-                <DownloadPresRow presentation={props.output}/>
-            </IOCard>
-        </div>
-    );
-}
-
-function DownloadPresRow(props: { presentation: PresentationObj }) {
+function DownloadPresRow(props: { onClick: (author: string) => void }) {
     const [author, setAuthor] = useState<string>("");
-    const [includeIntroAndConclu, setIncludeIntroAndConclu] = useState<boolean>(false);
-
-    function onDownloadClick() {
-        props.presentation.download();
-    }
 
     return (
         <div className="card bg-t-blue-200 rounded-2xl -mb-5 -mx-5 mt-10">
             <div className="p-4 flex items-center">
                 <div className="flex-1">
-                    {/*<label className="mx-2"><input className="mx-2" type="checkbox" value="value"></input>Poděkování za pozornost</label>*/}
                     <input
                         onChange={(event) => setAuthor(event.target.value)}
                         type="text"
@@ -105,20 +96,11 @@ function DownloadPresRow(props: { presentation: PresentationObj }) {
                     ></input>
                 </div>
                 <div className="max-w-md p-4">
-                    {/*<div className="flex items-center">
-                        <input
-                            id="include-info"
-                            type="checkbox"
-                            className="form-checkbox h-6 w-6 accent-blue-500"
-                            checked={includeIntroAndConclu}
-                            onChange={(event) => setIncludeIntroAndConclu(event.target.checked)}
-                        />
-                        <label className="ml-2 block text-sm">
-                            Zahrnout úvod a závěr
-                        </label>
-                    </div>*/}
                 </div>
-                <Button onClick={onDownloadClick} className={"font-bold"}>
+                <Button onClick={(e) => {
+                    e.preventDefault();
+                    props.onClick(author);
+                }} className={"font-bold"}>
                     Stáhnout prezentaci
                 </Button>
             </div>
@@ -156,7 +138,7 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
 
         // Validate the slides input
         if (slides === "" || isNaN(Number(slides)) || Number(slides) < 1 || Number(slides) > 20) {
-            setSlidesError("Musíte určit počet slidů.");
+            setSlidesError("Neplatný počet slidů.");
             isValid = false;
         } else {
             setSlidesError(null);
@@ -164,7 +146,7 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
 
         // Validate the points input
         if (points === "" || isNaN(Number(points)) || Number(points) < 1 || Number(points) > 20) {
-            setPointsError("Musíte určit počet odrážek.");
+            setPointsError("Neplatný počet odrážek.");
             isValid = false;
         } else {
             setPointsError(null);
@@ -202,7 +184,7 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
                            }} error={topicError} className={""}/>
 
                     <AutoPopup title={"Téma"}
-                               trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
+                               trigger={<InformationCircleOutline cssClasses={"-ml-10"} width={"26px"} height={"auto"} color={"gray"}/>}>
                         <p>Obecné téma prezentace - může být skutečné, odborné, ale i fiktivní. Příklady:</p>
                         <ul className={"list-disc list-inside mt-1"}>
                             <li>"Význam fotosyntézy pro udržení života na planetě"</li>
@@ -220,7 +202,7 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
                         onChange={(event) => setDescription(event.target.value)}
                         className="min-h-[100px] max-h-[80vh] bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal block resize-y overflow-hidden flex-wrap"
                     />
-                    <AutoPopup title={"Upřesnění"} trigger={<InformationCircleOutline cssClasses={"-ml-10 mt-4"} width={"26px"} height={"auto"} color={"gray"}></InformationCircleOutline>}>
+                    <AutoPopup title={"Upřesnění"} trigger={<InformationCircleOutline cssClasses={"-ml-10 mt-4"} width={"26px"} height={"auto"} color={"gray"}/>}>
                         <p>
                             Libovolné upřesnění tématu nebo doplnění konkrétních informací.
                             Upřesnění může být libovolně dlouhé či konkrétní - čím více, tím lépe.
@@ -232,11 +214,11 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
                         </p>
                     </AutoPopup>
                 </div>
-                <Input maxNum={20} minNum={1} type={"number"} placeholder={"Počet slidů"} value={slides} onChange={(e) => {
+                <Input maxNum={20} minNum={1} maxLen={2} type={"number"} placeholder={"Počet slidů"} value={slides} onChange={(e) => {
                     setSlides(e);
                     setSlidesError(null);
                 }} error={slidesError}></Input>
-                <Input maxNum={6} minNum={1} type={"number"} placeholder={"Počet odrážek u každého slidu"} value={points} onChange={(e) => {
+                <Input maxNum={6} minNum={1} maxLen={2} type={"number"} placeholder={"Počet odrážek u každého slidu"} value={points} onChange={(e) => {
                     setPoints(e);
                     setPointsError(null);
                 }} error={pointsError}></Input>

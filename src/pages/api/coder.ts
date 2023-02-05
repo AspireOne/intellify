@@ -15,8 +15,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const params = req.body as CoderParams;
 
-    // Check props data presence.
-    if (/!*!props.code || *!/!params.command || !params.type) {
+    // Check params data presence.
+    if (/!*!params.code || *!/!params.command || !params.type) {
         res.status(400).json({ error: 'Missing one or more parameters.' });
         return;
     }
@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (output) output = (output as string).trim();
 
     return output === null
-        ? res.status(500).json({ error: 'AI failed to createPptx AiOutput.' })
+        ? res.status(500).json({ error: 'AI failed to createPptx content.' })
         : res.status(200).json({ output: output });
 }
 

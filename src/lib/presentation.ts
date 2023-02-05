@@ -2,19 +2,24 @@ import pptxgen from "pptxgenjs";
 import {z} from "zod";
 import {createPresentationInput} from "../server/schemas/presentation";
 
-interface objectifiedPresentation {[key: string | "null"]: string[]}
-class PresentationObj {
-    public AiOutput: string;
-    public props: z.input<typeof createPresentationInput>;
-    private readonly presentation: objectifiedPresentation;
-
-    constructor(aiOutput: string, props: z.input<typeof createPresentationInput>) {
-        this.AiOutput = aiOutput;
-        this.props = props;
-        this.presentation = this.objectify(aiOutput);
+interface parsedContent {[key: string | "null"]: string[]}
+class Presentation {
+    public params: z.infer<typeof createPresentationInput>;
+    private contentParsed: parsedContent;
+    private _content: string;
+    public get content(): string { return this._content; }
+    public set content(value: string) {
+        this._content = value;
+        this.contentParsed = this.parse(value);
     }
 
-    private objectify(presentation: String/*, includeInfo: boolean*/): objectifiedPresentation {
+    public constructor(content: string, params: z.input<typeof createPresentationInput>) {
+        this.params = params;
+        this._content = content;
+        this.contentParsed = this.parse(content);
+    }
+
+    private parse(content: string): parsedContent {
         // v1:
         // Slide 1.
         // 1. co je to poník?
@@ -30,11 +35,11 @@ class PresentationObj {
         // 1. Co je to poník?
         // ...
 
-        const objectified: {[key: string | "null"]: string[]} = {};
+        const parsed: {[key: string | "null"]: string[]} = {};
         let currSlide: string = "";
 
-        presentation = presentation.trim();
-        presentation.split("\n").forEach((line, i) => {
+        content = content.trim();
+        content.split("\n").forEach((line, i) => {
             // If the line is blank, skip it.
             if (line.length <= 1) return;
 
@@ -42,14 +47,14 @@ class PresentationObj {
             if (line.toLowerCase().startsWith("slide")) {
                 // The line will start with "slide", "slide 1.", or "slide 1". Remove that part.
                 currSlide = line.replace(new RegExp(/^slide \d(\.|:)? /i), "");
-                objectified[currSlide] = [];
+                parsed[currSlide] = [];
                 return;
             }
 
             // If a bullet point, add it to the current slide.
             if (line.match(/^\d\./) || line.startsWith("- ")) {
                 // @ts-ignore
-                objectified[currSlide].push(line);
+                parsed[currSlide].push(line);
                 return;
             }
 
@@ -61,46 +66,45 @@ class PresentationObj {
             // @ts-ignore
             else (objectified["null"] = line);*/
         });
-        return objectified;
+        return parsed;
     }
 
-    private createPptx(author?: string, images: boolean = false/*, includeInfo: boolean = false*/): pptxgen {
+    private createPptx(author?: string): pptxgen {
         const gen = new pptxgen();
         this.addMainSlide(gen);
         this.addOutlineSlide(gen);
-        this.addSlides({gen, author, images});
+        this.addSlides({gen, author});
         this.addThanksSlide(gen, author);
         return gen;
     }
 
-    public download(name?: string): void {
-        //this.presentation = this.objectify(this.AiOutput);
-        this.createPptx().writeFile({fileName: (name || this.props.topic as string) + ".pptx"});
+    public download(name?: string, author?: string): void {
+        this.createPptx(author).writeFile({fileName: (name || "prezentace open-tools") + ".pptx"});
     }
 
     private addMainSlide(gen: pptxgen): void {
         const slide = gen.addSlide();
-        slide.addText(this.props.topic, {x: 0.5, y: 1.3, w: 9, h: 1, align: "center", fontSize: 48, bold: true, color: "ffffff"});
-        slide.addText("Vítejte u prezentace", {x: 0.7, y: 2, w: 9, h: 1, align: "center", fontSize: 18, color: "d9d9d9"});
-        slide.background = {path: "/bkg.png"};
+        slide.addText(this.params.topic, {x: 0.5, y: 1.3, w: 9, h: 1, align: "center", fontSize: 48, bold: true, color: "ffffff"});
+        slide.addText("Vítejte u prezentace", {x: 0.5, y: 2, w: 9, h: 1, align: "center", fontSize: 18, color: "d9d9d9"});
+        slide.background = {path: "/assets/bkg.png"};
     }
 
     private addOutlineSlide(gen: pptxgen): void {
         const slide = gen.addSlide();
         slide.addText("Obsah", {x: 0.5, y: 0.1, w: 9, h: 1, align: "left", fontSize: 48, color: "363636"});
         let pointsStr: string = "";
-        for (const [key, value] of Object.entries(this.presentation)) {
+        for (const [key, value] of Object.entries(this.contentParsed)) {
             if (key === null || key === "null") continue;
             pointsStr += "• " + key + "\n\n";
         }
 
-        const sizes = PresentationObj.calculateSizes(pointsStr.split("\n").length);
+        const sizes = Presentation.calculateSizes(pointsStr.split("\n").length);
         slide.addText(pointsStr, {x: 0.5, y: sizes.y, w: 9, align: "left", fontSize: sizes.fontSize, color: "363636"});
     }
 
-    private addSlides(props: {gen: pptxgen, author?: string, images?: boolean}): void {
-        for (const [key, value] of Object.entries(this.presentation)) {
-            const slide = props.gen.addSlide();
+    private addSlides(params: {gen: pptxgen, author?: string}): void {
+        for (const [key, value] of Object.entries(this.contentParsed)) {
+            const slide = params.gen.addSlide();
 
             /*if (key == "Představení" || key == "Závěr") {
                 slide.addText(key, {x: 0.5, y: 0.1, w: 9, h: 1, align: "left", fontSize: 48, color: "363636"});
@@ -110,19 +114,19 @@ class PresentationObj {
             slide.addText(key, {x: 0.5, y: 0.1, w: 9, h: 1, align: "left", fontSize: 48, color: "3399ff"});
 
             // Concatenate bullet points to string.
-            const pointsStr = PresentationObj.formatPoints(value as string[]);
+            const pointsStr = Presentation.formatPoints(value as string[]);
             const lines = pointsStr.split("\n").length;
-            const sizes = PresentationObj.calculateSizes(lines);
+            const sizes = Presentation.calculateSizes(lines);
 
             // Add bullet points.
             slide.addText(pointsStr, {x: 0.5, y: sizes.y, w: 9, align: "left", fontSize: sizes.fontSize, color: "363636"});
 
-            if (props.author) {
-                slide.addText("Vytvořil: " + props.author, {x: 7.6, y: "90%", w: 2, h: 0.5, align: "right", fontSize: 13, color: "604020"});
+            if (params.author) {
+                slide.addText("Vytvořil: " + params.author, {x: 7.6, y: "90%", w: 2, h: 0.5, align: "right", fontSize: 13, color: "604020"});
             }
 
-            if (props.images && !key.includes("Slide")) {
-                const linkSlide = props.gen.addSlide();
+            if (this.params.includeImages && !key.includes("Slide")) {
+                const linkSlide = params.gen.addSlide();
                 // String template.
                 const link = `https://www.google.com/search?q=${key}&tbm=isch`;
                 // Add a link to the slide.
@@ -135,7 +139,7 @@ class PresentationObj {
         const slide = gen.addSlide();
         // Create a slide with thanks in the center.
         slide.addText("Děkuji za pozornost!", {x: 0.5, y: "30%", w: 9, h: 1, align: "center", fontSize: 48, color: "3399ff"});
-        slide.background = {path: "/bkg.png"};
+        slide.background = {path: "/assets/bkg.png"};
         if (author) {
             // Add author to the bottom right corner.
             slide.addText("Vytvořil: " + author, {x: 0.5, y: "50%", w: 9, h: 1, align: "center", fontSize: 20, color: "ff9999"});
@@ -168,4 +172,4 @@ class PresentationObj {
     }
 }
 
-export default PresentationObj;
+export default Presentation;

@@ -1,6 +1,4 @@
 import {NextPage} from "next";
-import Popup from "../components/Popup";
-import {InformationCircleOutline} from "react-ionicons";
 import React from "react";
 import Button from "../components/Button";
 import {useSession} from "next-auth/react";

@@ -5,12 +5,9 @@ import LandingPageProps from "../lib/landingPageProps";
 import TextareaAutosize from 'react-textarea-autosize';
 import React, {useState} from "react";
 import Button, {Style} from "../components/Button";
-import axios from "axios";
 import {z} from "zod";
-import {createPresentationInput} from "../server/schemas/presentation";
 import {assistCodeInput} from "../server/schemas/code";
 import {trpc} from "../utils/trpc";
-import PresentationObj from "../lib/presentationObj";
 
 
 const landingPageProps: LandingPageProps = {

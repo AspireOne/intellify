@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
@@ -19,9 +20,8 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.2.1",
     "bcrypt": "^5.1.0",
-    "daisyui": "^2.47.0",
+    "core-js": "^3",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
     "framer-motion": "^6.5.1",
     "mongodb": "^4.13.0",
     "mongoose": "^6.9.0",
@@ -31,13 +31,13 @@
     "openai": "^3.1.0",
     "pptxgenjs": "^3.11.0",
     "react": "18.2.0",
-    "react-daisyui": "^3.0.2",
     "react-dom": "18.2.0",
     "react-ionicons": "^4.2.0",
     "react-router-dom": "^6.6.1",
     "react-scroll-parallax": "^3.3.2",
     "react-textarea-autosize": "^8.4.0",
     "resize-observer": "^1.0.4",
+    "styled-components": "^5.3.6",
     "tailwind-merge": "^1.8.1",
     "typed.js": "^2.0.12",
     "zod": "^3.20.2"

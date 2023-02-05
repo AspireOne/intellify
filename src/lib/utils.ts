@@ -1,3 +1,3 @@
-class Utils {
+export default class Utils {
 
 }
