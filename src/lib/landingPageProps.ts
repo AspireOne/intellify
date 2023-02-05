@@ -1,17 +1,18 @@
 import {Component} from "react";
+import smoothScroll from "../components/SmoothScroll";
 
 interface LandingPageProps {
     title: string;
     description: string;
-    callToActionTitle: string;
-    callToActionButton: CallToActionButton;
+    callToActionButtonSigned: CallToActionButton;
     card1: LandingPageCard;
     card2: LandingPageCard;
     card3: LandingPageCard;
+    callToActionTextUnsigned: string;
 }
 
 interface CallToActionButton {
-    titleWhenSigned: string;
+    title: string;
     targetElementId: string;
 }
 

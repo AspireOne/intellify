@@ -19,7 +19,7 @@ import {setGlobal} from "next/dist/trace";
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
     description: "Profesionální a přizpůsobitelná prezentace do práce, do školy, i pro osobní projekty v řádu vteřin.",
-    callToActionTitle: "Vyzkoušejte si hned teď, jaký rozdíl může náš nástroj ve vaší příští prezentaci udělat.",
+    callToActionTextUnsigned: "Vyzkoušejte si hned teď, jaký rozdíl může náš nástroj ve vaší příští prezentaci udělat.",
     card1: {
         title: "Co to je?",
         description: "Tento nástroj vám umožní vytvářet rozsáhlé prezentace během vteřin. Je navržen tak, aby proces vytváření profesionálních, vizuálně příjemných prezentací byl rychlý a snadný. Díky široké škále nastavitelných parametrů a funkcí máte možnost vytvořit prezentaci, která skutečně odráží vaše sdělení."
@@ -32,8 +32,8 @@ const landingPageProps: LandingPageProps = {
         title: "Proč jej použít?",
         description: "Ušetříte si čas a úsilí a zajistíte, že vaše prezentace bude profesionální a vizuálně příjemná. Ať už jste majitel firmy, který chce prezentovat své výrobky nebo služby, student přednášející prezentaci ve třídě, nebo pracovník na volné noze, který se snaží představit potenciálnímu klientovi, náš nástroj vám pomůže."
     },
-    callToActionButton: {
-        titleWhenSigned: "Vytvořit prezentaci",
+    callToActionButtonSigned: {
+        title: "Vytvořit prezentaci",
         targetElementId: "input-form"
     }
 };

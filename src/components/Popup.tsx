@@ -23,7 +23,7 @@ export default function Popup(props: React.PropsWithChildren<{className?: string
                 {
                     props.open &&
                     <motion.div
-                        className={"z-[10]"} // Otherwise elements that have higher z-index will be rendered above the popup.
+                        className={"z-[100]"} // Otherwise elements that have higher z-index will be rendered above the popup.
                         key="modal"
                         transition={{duration: 0.2}}
                         initial={{ opacity: 0}}

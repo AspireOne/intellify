@@ -29,7 +29,7 @@ async function askAI(ctx: Context, prompt: string): Promise<string | null> {
     const body = {
         model: "text-davinci-003",
         temperature: 0.38,
-        max_tokens: 1800,
+        max_tokens: 4000,
         frequency_penalty: 0.05,
         presence_penalty: 0.05,
         prompt: prompt,

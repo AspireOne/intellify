@@ -9,12 +9,13 @@ import axios from "axios";
 import {z} from "zod";
 import {createPresentationInput} from "../server/schemas/presentation";
 import {assistCodeInput} from "../server/schemas/code";
+import {trpc} from "../utils/trpc";
+import PresentationObj from "../lib/presentationObj";
 
 
 const landingPageProps: LandingPageProps = {
     title: "[A.I. asistent] pro psaní kódu []",
     description: "Snadné vysvětlení, úprava, rozšíření, nebo doporučení zlepšení pro váš kód během několika sekund.",
-    callToActionTitle: "Vyzkoušejte si hned teď, jaký rozdíl může náš nástroj ve vašem příštím projektu udělat.",
     card1: {
         title: "Co to je?",
         description: "Tento nástroj vám umožňuje pracovat se svým kódem s pomocí A.I. Váš kód podle zadání libovolně upraví, vylepší, nebo rozšíří, nebo vám poskytne doporučení a odpovědi na otázky ohledně kódu. To vše jen podle vašeho textového zadáni!"
@@ -29,8 +30,9 @@ const landingPageProps: LandingPageProps = {
         description: "Zrychlíte svou práci díky tomu, že budete schopni rychle analyzovat existující kód, porozumět mu, a identifikovat chyby. Dále vám usnadní vývoj díky možnosti generovat kód podle zadání. Začátečníkům může tento nástroj pomoci s pochopením základů programování, vývojem, a učením se programovat."
 
     },
-    callToActionButton: {
-        titleWhenSigned: "Přejít k asistentovi",
+    callToActionTextUnsigned: "Vyzkoušejte si hned teď, jaký rozdíl může náš nástroj ve vašem příštím projektu udělat.",
+    callToActionButtonSigned: {
+        title: "Přejít k asistentovi",
         targetElementId: "input-form"
     }
 };
@@ -54,10 +56,38 @@ const IOForm = (props: {id?: string}) => {
     const [inputCodeError, setInputCodeError] = useState("");
     const [commandError, setCommandError] = useState("");
 
+    const asisstCodeMutation = trpc.code.assistCode.useMutation({
+        onSuccess: (data, input) => {
+            setOutput(data.output);
+        },
+        onError: (error) => {
+            setCommandError(error.message);
+        },
+        onSettled: () => {
+            setLoading(false);
+        }
+    });
+
     function handleSubmit(): void {
         setLoading(true);
-        let valid = validateInput();
-        if (!valid) {
+
+        let isValid = true;
+
+        if (inputCommand === "") {
+            setCommandError("Prosím, zadejte příkaz nebo otázku.");
+            isValid = false;
+        } else {
+            setCommandError("");
+        }
+
+        if (inputCode.length > 5000) {
+            setInputCodeError("Kód je příliš dlouhý.");
+            isValid = false;
+        } else {
+            setInputCodeError("");
+        }
+
+        if (!isValid) {
             setLoading(false);
             return;
         }
@@ -68,42 +98,12 @@ const IOForm = (props: {id?: string}) => {
             type: activeInputType
         }
 
-        axios.post('/api/coder', data)
-            .then((response) => response.data.output)
-            .then(output => {
-                setOutput(output);
-            })
-            .catch((error) => {
-                // TODO: Flash the error etc.
-                console.log(error.response.data.error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }
-
-    function validateInput() {
-        let isValid = true;
-
-/*        if (activeInputType === "question" && inputCode === "") {
-            setInputCodeError("Pokud chcete mít otázku na kód, musíte nejprve vložit kód.");
-            isValid = false;
-        } else {
-            setInputCodeError("");
-        }*/
-
-        if (inputCommand === "") {
-            setCommandError("Prosím, zadejte příkaz nebo otázku.");
-            isValid = false;
-        } else {
-            setCommandError("");
-        }
-
-        return isValid;
+        asisstCodeMutation.mutate(data);
     }
 
     // Create a flexbox with two elements on top of each other on the left, and one on the right.
     return (
+        // TODO: history at the left?
         <div id={props.id}>
             <TextareaAutosize
                 placeholder="Kód k analýze, úpravě, nebo rozšíření. Nechte volné, pokud generujete nový kód."
@@ -112,13 +112,10 @@ const IOForm = (props: {id?: string}) => {
                     setInputCodeError("");
                 }}
                 value={inputCode}
-                className="max-h-[90vh] min-h-[290px] bg-t-blue-500 resize-none focus:outline-none rounded-md p-5 w-full appearance-none overflow-y-auto"
+                className="max-h-[85vh] min-h-[200px] bg-t-blue-500 resize-none focus:outline-none rounded-md p-5 w-full appearance-none overflow-y-auto"
             />
             {inputCodeError && <div className="mb-2 text-red-500 text-sm">{inputCodeError}</div>}
             <div className="flex flex-row gap-2">
-                {/*<div className={"w-12"}>
-                    <SwapVertical color={"#fff"} height={"100%"} width={"100%"} />
-                </div>*/}
                 <div className={"flex flex-col w-full"}>
                     <input
                         maxLength={300}
@@ -145,16 +142,17 @@ const IOForm = (props: {id?: string}) => {
             {commandError && <div className="text-red-500 text-sm m-1">{commandError}</div>}
             {
                 // TODO: Make the margin bottom not hardocded.
-                (<div className="text-sm font-mono relative max-h-[90vh] min-h-[290px] overflow-hidden bg-t-blue-800 mt-[0.4rem] w-full p-5 pb-14 rounded-md">
+                (<div className="text-sm font-mono relative max-h-[90vh] overflow-auto min-h-[290px] bg-t-blue-800 mt-[0.4rem] w-full p-5 pb-14 rounded-md">
                     {!output && <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-sans text-lg text-gray-500">Výstup se zobrazí zde.</div>}
-                    {output &&
-                        (
+                    {output && (
                         <>
-                            {output}
-                            <div className={"font-sans absolute bottom-5 right-5 bg-indigo-700 bg-opacity-20 p-2 rounded-3xl"}>
+                            <div className={"whitespace-pre-wrap text-sm"}>
+                                {output}
+                            </div>
+                            <div className={"font-sans absolute top-5 right-5 bg-indigo-700 bg-opacity-20 p-2 rounded-md"}>
                                 <Button style={Style.OUTLINE}
                                         onClick={() => navigator.clipboard.writeText(output)}
-                                        className={"mr-3 rounded-2xl"}>
+                                        className={"mr-3 rounded-md"}>
                                     Kopírovat
                                 </Button>
                                 <Button style={Style.OUTLINE}
@@ -162,12 +160,12 @@ const IOForm = (props: {id?: string}) => {
                                             setInputCode(output);
                                             setOutput("");
                                         }}
-                                        className={"rounded-2xl"}>
+                                        className={"rounded-md"}>
                                     Vložit do vstupu
                                 </Button>
                             </div>
                         </>
-                        )}
+                    )}
                 </div>)
             }
         </div>

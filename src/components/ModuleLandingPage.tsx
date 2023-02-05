@@ -1,6 +1,6 @@
 import {NextPage} from "next";
 
-import React, {PropsWithChildren} from "react";
+import React, {PropsWithChildren, useEffect} from "react";
 import LandingPageProps from "../lib/landingPageProps";
 import Button, {Style} from "./Button";
 import {ChevronDown, InformationCircle} from "react-ionicons";
@@ -18,11 +18,21 @@ import {paths} from "../lib/constants";
 const ModuleLandingPage = (props: {props: LandingPageProps}) => {
     const session = useSession();
     const router = useRouter();
+    // TODO: If the auth check is slow, save it to localstorage and use it as fallback until the real one is loaded.
+    // That way the probability of localstorage being right is like 98%.
+
+    // When session becomes authenticated, redirect to the module.
+    useEffect(() => {
+        if (session.status == "authenticated") {
+            document?.getElementById(props.props.callToActionButtonSigned.targetElementId)
+                ?.scrollIntoView({behavior: "auto", block: "nearest"});
+        }
+    }, [session.status]);
 
     function handleActionButtClick() {
         if (session.status == "authenticated") {
-            document?.getElementById(props.props.callToActionButton.targetElementId)
-                ?.scrollIntoView({behavior: "smooth", block: "center"});
+            document?.getElementById(props.props.callToActionButtonSigned.targetElementId)
+                ?.scrollIntoView({behavior: "smooth", block: "nearest"});
         } else {
             // Scroll to 600px from the top of the page.
             window.scrollTo({top: 620, behavior: "smooth"});
@@ -33,7 +43,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
     }
 
     const callToActionButtText = session.status == "authenticated"
-        ? props.props.callToActionButton.titleWhenSigned
+        ? props.props.callToActionButtonSigned.title
         : "Zjistit více";
     return (
         <ParallaxProvider>
@@ -113,7 +123,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 {
                     session.status != "authenticated" &&
                     <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
-                        {props.props.callToActionTitle}
+                        {props.props.callToActionTextUnsigned}
                     </h1>
                 }
                 <ChevronDown width={"40px"} height={"auto"} color={"#fff"} cssClasses={"w-10 text-center mx-auto animate-pulse mt-10"} />
