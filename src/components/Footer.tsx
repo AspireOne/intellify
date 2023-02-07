@@ -19,11 +19,11 @@ const Footer: NextPage = () => {
                 </li>
                 <li>
                     {/*TODO*/}
-                    <a href="" className="mr-4 hover:underline md:mr-6">Licence a autorská práva</a>
+                    <Link href={paths.licensing} className="mr-4 hover:underline md:mr-6">Licence a autorská práva</Link>
                 </li>
                 <li>
                     {/*TODO*/}
-                    <a href="" className="hover:underline">Kontakt</a>
+                    <Link href={paths.contanct} className="hover:underline">Kontakt</Link>
                 </li>
             </ul>
         </footer>

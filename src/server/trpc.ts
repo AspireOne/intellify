@@ -5,6 +5,7 @@ import { Context } from './context';
 const t = initTRPC.context<Context>().create();
 
 // Base router and publicProcedure helpers.
+// TODO: Implement throttling.
 const isAuthed = t.middleware(({ next, ctx }) => {
     if (!ctx.session?.user) {
         throw new TRPCError({

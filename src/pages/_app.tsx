@@ -9,9 +9,9 @@ import {trpc} from "../utils/trpc";
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
-        <SessionProvider session={session}>
+        <SessionProvider session={session} refetchOnWindowFocus={true}>
             {/*bg-[linear-gradient(180deg,rgba(90,80,250,1)_0%,rgba(14,20,35,1)_7%)] */}
-            <div className="text-white">
+            <div className="text-white dark">
                 <div className="flex">
                     <Sidebar/>
                     <main className={"p-5 w-full"}>

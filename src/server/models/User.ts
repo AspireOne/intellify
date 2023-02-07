@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import { prop, getModelForClass } from '@typegoose/typegoose';
 
-class UserClass {
+class User {
     @prop()
     public name?: string
 
@@ -22,4 +22,4 @@ class UserClass {
     public image?: string
 }
 
-export default getModelForClass(UserClass);
+export default getModelForClass(User);

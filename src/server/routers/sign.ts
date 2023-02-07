@@ -1,7 +1,4 @@
-import { z } from 'zod';
 import {protectedProcedure, publicProcedure, router} from '../trpc';
-import {createPresentationInput, createPresentationOutput} from "../schemas/presentation";
-import {createPresentationResolver} from "../resolvers/presentation";
 import {registerInput, registerOutput} from "../schemas/sign";
 import {registerResolver} from "../resolvers/sign";
 

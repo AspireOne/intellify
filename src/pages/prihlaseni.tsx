@@ -9,22 +9,13 @@ import Popup from "../components/Popup";
 import {useRouter} from "next/navigation";
 import {trpc} from "../utils/trpc";
 import {paths} from "../lib/constants";
+import Input from "../components/Input";
+import INPUT from "../lib/inputConstraints";
 
 // TODO: Save logged in status to localstorage, and when a page loads and session status is loading,
 // TODO: temporarily take the login status from localstorage until session loads. Make it an abstraction.
 const Prihlaseni: NextPage = () => {
     const [type, setType] = React.useState<"login" | "register">("login");
-
-    const {data: data, status} = useSession()
-    // TODO: Redirect if logged in.
-
-    if (status === "authenticated") {
-        console.log("Signed in as " + (data?.user?.email));
-    } else {
-        console.log("authentication status: " + status);
-    }
-
-    const {data: session} = useSession();
 
     return (
         <div className="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -99,36 +90,6 @@ const Title = (props: { type: "login" | "register" }) => {
     );
 }
 
-const FormPasswordInput = (props: { type: "password" | "confirm", onChange: (value: string) => void }) => {
-    return (
-        <div>
-            <label htmlFor={props.type}
-                   className="block mb-2 text-sm font-medium text-white">{props.type == "password" ? "Heslo" : "Heslo znovu"}</label>
-            <input type="password" name={props.type} placeholder="••••••••"
-                   maxLength={50}
-                   minLength={4}
-                   onChange={(e) => props.onChange(e.target.value)}
-                   className="outline-none border sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
-                   required={true}/>
-        </div>
-    )
-}
-
-const FormEmailInput = (props: { onChange: (value: string) => void }) => {
-    return (
-        <div>
-            <label htmlFor="email"
-                   className="block mb-2 text-sm font-medium text-white">E-mail</label>
-            <input type="email" name="email" id="email"
-                   className="outline-none border sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
-                   placeholder="jmeno@poskytovatel.cz"
-                   maxLength={255}
-                   onChange={(e) => props.onChange(e.target.value)}
-                   required={true}/>
-        </div>
-    )
-}
-
 const FormHelperButtons = (props: { type: "login" | "register" }) => {
     return (
         <div className="flex items-center justify-between">
@@ -176,20 +137,23 @@ const Form = (props: { type: "login" | "register" }) => {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
 
-    const [popupTitle, setPopupTitle] = useState("");
-    const [popupMessage, setPopupMessage] = useState("");
-    const [popupOpen, setPopupOpen] = useState(false);
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const [registerError, setRegisterError] = useState<string | null>(null);
 
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
 
     const registerMutation = trpc.sign.register.useMutation();
 
-    function showAlert(title: string, msg: string) {
+    /*const [popupTitle, setPopupTitle] = useState("");
+    const [popupMessage, setPopupMessage] = useState("");
+    const [popupOpen, setPopupOpen] = useState(false);*/
+
+/*    function showAlert(title: string, msg: string) {
         setPopupTitle(title);
         setPopupMessage(msg);
         setPopupOpen(true);
-    }
+    }*/
 
     async function handleSubmit(e: any) {
         e.preventDefault();
@@ -219,18 +183,19 @@ const Form = (props: { type: "login" | "register" }) => {
         if (props.type === "login") {
             const loginError = await login(email, password);
             setLoading(false);
-            if (loginError) showAlert("Chyba", "Nepodařilo se přihlásit. " + loginError);
-            else router.push('/');
+            if (loginError) setLoginError("Nepodařilo se přihlásit. " + loginError);
+            else router.push(paths.index);
             return;
         }
 
         try {
             await registerMutation.mutateAsync({email, password});
+
             const autoLoginError = await login(email, password);
-            if (autoLoginError) showAlert("Chyba", "Nepodařilo se přihlásit. " + autoLoginError);
+            if (autoLoginError) setRegisterError("Registrace byla úspěšná, ale nepodařilo se přihlásit. Zkuste to prosím později. " + autoLoginError);
             else router.push(paths.index);
         } catch (e: any) {
-            showAlert("Chyba", "Nepodařilo se registrovat. " + e.message);
+            setRegisterError("Nepodařilo se registrovat. Zkuste to prosím později. " + e.message);
         } finally {
             setLoading(false);
         }
@@ -238,27 +203,33 @@ const Form = (props: { type: "login" | "register" }) => {
 
     return (
         <>
-            <Popup title={popupTitle} open={popupOpen} setOpen={setPopupOpen}>
-                <p>{popupMessage}</p>
-            </Popup>
             <form className="space-y-4">
-                <FormEmailInput onChange={(val) => {
+                <Input theme={"gray"} label={"E-Mail"} placeholder="jmeno@poskytovatel.cz"
+                       maxLen={255} onChange={(val) => {
                     setEmail(val);
                     setEmailError(null);
-                }}/>
-                {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
-                <FormPasswordInput type={"password"} onChange={(val) => {
-                    setPassword(val);
-                    setPasswordError(null);
-                }}/>
-                {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
-                {props.type == "register" && <FormPasswordInput type={"confirm"} onChange={(val) => {
-                    setConfirmPassword(val);
-                    setConfirmPasswordError(null);
-                }}/>}
-                {confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
+                       }} error={emailError} />
+
+                <Input theme={"gray"} label={"Heslo"} type={"password"} placeholder={"Vaše heslo"} maxLen={100} minLen={4} error={passwordError}
+                       onChange={(val) => {
+                           setPassword(val);
+                           setPasswordError(null);
+                       }}
+                />
+
+                {
+                    props.type == "register" &&
+                    <Input theme={"gray"} label={"Heslo znovu"} type={"password"} placeholder={"Heslo znovu"} maxLen={100} minLen={4} error={confirmPasswordError}
+                           onChange={(val) => {
+                               setConfirmPassword(val);
+                               setConfirmPasswordError(null);
+                           }}
+                    />
+                }
                 <FormHelperButtons type={props.type}/>
                 <FormSubmitButton loading={loading} type={props.type} onClick={handleSubmit}/>
+                {props.type === "login" && loginError && <p className="text-red-500 text-md">{loginError}</p>}
+                {props.type === "register" && registerError && <p className="text-red-500 text-md">{registerError}</p>}
             </form>
         </>
     )

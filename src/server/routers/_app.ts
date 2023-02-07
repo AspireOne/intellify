@@ -4,10 +4,14 @@ import {presentationRouter} from "./presentation";
 import {Configuration, OpenAIApi} from "openai";
 import {codeRouter} from "./code";
 import {signRouter} from "./sign";
+import {userRouter} from "./user";
+import {generalAiRouter} from "./generalAi";
 export const appRouter = router({
     presentation: presentationRouter,
     code: codeRouter,
     sign: signRouter,
+    user: userRouter,
+    generalAi: generalAiRouter,
     hello: publicProcedure
         .input(z.object({name: z.string()}))
         .output(z.object({greeting: z.string()}))

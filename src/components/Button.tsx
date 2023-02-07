@@ -6,6 +6,8 @@ export enum Style {FILL, OUTLINE}
 type ButtonProps = {
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
     loading?: boolean
+    loadingText?: string
+    disabled?: boolean
     className?: string
     style?: Style
     children: React.ReactNode
@@ -42,16 +44,24 @@ const Button = (props: ButtonProps) => {
 
     return (
         <button
-            onClick={props.onClick}
+            onClick={(e) => {
+                e.preventDefault();
+                if (props.loading) return;
+                props.onClick && props.onClick(e);
+            }}
             onMouseDown={() => setIsBeingClicked(true)}
             disabled={props.loading}
             className={twMerge("duration-200 rounded-md text-sm px-5 py-2.5 outline-none focus:outline-none "
-                + (props.loading && " cursor-not-allowed")
+                + (props.loading && " cursor-default")
                 + btnClasses + " "
                 + (props.className ?? ""))}>
 
-            {props.loading && <Spinner/>}
-            {props.children}
+            {props.loading && <Spinner className={`${props.children && "mr-4"}`}/>}
+            {
+                props.loading && props.loadingText
+                    ? <span className="ml-2">{props.loadingText}</span>
+                    : props.children
+            }
         </button>
     );
 }

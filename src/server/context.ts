@@ -18,6 +18,7 @@ export async function createContext(opts: trpcNext.CreateNextContextOptions) {
         session,
         openai,
         connectDb: mongooseConnect,
+        req: opts.req,
     };
 };
 

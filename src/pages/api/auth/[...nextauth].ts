@@ -5,6 +5,8 @@ import GithubProvider from "next-auth/providers/github"
 import AppleProvider from "next-auth/providers/apple"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
+import mongooseConnect from "../../../lib/mongooseConnect";
+import User from "../../../server/models/User";
 const bcrypt = require('bcrypt');
 
 
@@ -34,15 +36,15 @@ export const authOptions: AuthOptions = {
                 }
 
                 // Get the user from database based on [email].
-                const users = (await clientPromise).db().collection("users");
-                const user = await users.findOne({email: credentials.email});
+                await mongooseConnect();
+                const user = await User.findOne({email: credentials.email}).exec();
 
                 if (user === null) throw new Error("Špatný e-mail nebo heslo.");
 
                 const isMatch = await bcrypt.compare(credentials.password, user.password);
                 if (!isMatch) throw new Error("Špatný e-mail nebo heslo.");
 
-                return {id: user._id.toString(), email: user.email};
+                return {id: user._id.toString(), email: user.email, image: user.image, name: user.name};
             }
         })
     ],

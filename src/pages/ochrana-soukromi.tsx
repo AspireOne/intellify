@@ -1,5 +1,6 @@
 import {PropsWithChildren, useEffect, useState} from "react";
 import {NextPage} from "next";
+import {Par, Title} from "../components/article";
 
 const PrivacyPolicy: NextPage = () =>  {
     const [hostname, setHostname] = useState("www.      .cz");
@@ -10,7 +11,7 @@ const PrivacyPolicy: NextPage = () =>  {
     }, [typeof window]);
 
     return (
-        <div className={"p-10 pt-0 text-gray-200"}>
+        <div className={"p-10 pt-0 text-gray-200 max-w-3xl mx-auto"}>
             <Title>Zásady ochrany osobních údajů webu {hostname}</Title>
 
                 <Par>
@@ -18,7 +19,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         Klademe velký důraz na ochranu poskytovaných údajů. Naše zásady ochrany osobních údajů jsou založeny na
                         ustanoveních Všeobecných předpisů pro ochranu osobních údajů Evropské unie (GDPR). Účely, pro které
                         shromažďujeme osobní údaje, jsou tyto: zlepšení našich služeb, komunikace s návštěvníky tohoto webu,
-                        poskytování služeb, souvisejících se zaměřením činnosti předmětné webové stránky, , a také pro následující
+                        poskytování služeb, souvisejících se zaměřením činnosti předmětné webové stránky, a také pro následující
                         úkony.
                 </Par>
 
@@ -27,7 +28,7 @@ const PrivacyPolicy: NextPage = () =>  {
                 <Par>
                         Osobní údaje shromažďujeme a používáme pouze v případě vašeho dobrovolného souhlasu. Pokud s tím budete
                         souhlasit, povolujete nám shromažďovat a používat následující údaje: jméno a příjmení, e-mail, osobní
-                        fotografie, . Shromažďování a zpracování Vašich údajů probíhá v souladu s právními předpisy, platnými na
+                        fotografie. Shromažďování a zpracování Vašich údajů probíhá v souladu s právními předpisy, platnými na
                         území Evropské unie a státu Česká Republika.
                 </Par>
 
@@ -75,7 +76,7 @@ const PrivacyPolicy: NextPage = () =>  {
 
                 <Par>
                         Tato stránka používá internetové služby třetích stran, které sbírají informace nezávisle na nás: Google
-                        Analytics , .
+                        Analytics.
 
                         Shromažďovaná data mohou být sdílena s dalšími službami uvnitř těchto organizací a mohou být použity při
                         personalizaci reklam v jejich vlastní reklamní síti. Uživatelské dohody těchto organizací si můžete přečíst
@@ -116,6 +117,3 @@ const PrivacyPolicy: NextPage = () =>  {
 }
 
 export default PrivacyPolicy;
-
-const Par = (props: PropsWithChildren) => <p>{props.children}</p>
-const Title = (props: PropsWithChildren) => <h1 className={"text-2xl font-bold mt-10 mb-2 ml-0 text-gray-400"}>{props.children}</h1>

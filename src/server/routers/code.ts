@@ -1,7 +1,4 @@
-import { z } from 'zod';
-import {protectedProcedure, publicProcedure, router} from '../trpc';
-import {createPresentationInput, createPresentationOutput} from "../schemas/presentation";
-import {createPresentationResolver} from "../resolvers/presentation";
+import {protectedProcedure, router} from '../trpc';
 import {assistCodeInput, assistCodeOutput} from "../schemas/code";
 import {assistCodeResolver} from "../resolvers/code";
 export const codeRouter = router({

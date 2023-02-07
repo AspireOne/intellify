@@ -13,6 +13,7 @@ import Input from "../components/Input";
 import {z} from "zod";
 import {createPresentationInput} from "../server/schemas/presentation";
 import {trpc} from "../utils/trpc";
+import {twMerge} from "tailwind-merge";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
@@ -66,7 +67,7 @@ const Prezentace: NextPage = () => {
             <div className={"flex flex-col gap-2 -mb-4 mx-auto lg:w-[62%]"}>
                 <InputForm error={globalError} id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full"}/> {/*TODO: Make it responsive*/}
                 {content && (
-                    <IOCard title={"Výstup"} className={`rounded-none rounded-b-2xl w-full`}>
+                    <IOCard title={"Výstup"} className={`rounded-none rounded-b-xl w-full`}>
                         <TextareaAutosize
                             value={content}
                             onChange={(val) => setContent(val.target.value)}
@@ -84,7 +85,7 @@ function DownloadPresRow(props: { onClick: (author: string) => void }) {
     const [author, setAuthor] = useState<string>("");
 
     return (
-        <div className="card bg-t-blue-200 rounded-2xl -mb-5 -mx-5 mt-10">
+        <div className="card bg-t-blue-200 rounded-xl -mb-5 -mx-5 mt-10">
             <div className="p-4 flex items-center">
                 <div className="flex-1">
                     <input
@@ -174,7 +175,7 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
     }
 
     return (
-        <IOCard id={props.id} title={"Vytvořte prezentaci"} className={props.className}>
+        <IOCard id={props.id} title={"Vytvořte prezentaci"} className={twMerge(`py-8 rounded-t-2xl ${props.className}`)}>
             <div className="mx-auto max-w-lg py-3 flex flex-col gap-3">
                 <div className={"flex flex-row items-center"}>
                     <Input maxLen={100} placeholder={"téma"} value={topic} wrapped={false}
@@ -195,11 +196,12 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
                 </div>
 
                 <div className={"flex flex-row"}>
-                    <TextareaAutosize
-                        maxLength={2200}
+                    <Input
+                        autosize={true}
+                        maxLen={2200}
                         placeholder='Upřesnění (volitelné)'
                         value={description}
-                        onChange={(event) => setDescription(event.target.value)}
+                        onChange={setDescription}
                         className="min-h-[100px] max-h-[80vh] bg-t-blue-200 focus:outline-none rounded-md py-3 px-4 focus:border focus:border-indigo-500 border border-transparent box-border shadow-2xl w-full text-gray-300 appearance-none leading-normal block resize-y overflow-hidden flex-wrap"
                     />
                     <AutoPopup title={"Upřesnění"} trigger={<InformationCircleOutline cssClasses={"-ml-10 mt-4"} width={"26px"} height={"auto"} color={"gray"}/>}>
