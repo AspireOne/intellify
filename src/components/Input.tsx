@@ -12,6 +12,7 @@ export default function Input(props: React.PropsWithChildren<{
     className?: string,
     value?: string,
     onChange?: (val: string) => void,
+    onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void,
     readonly?: boolean,
 
     label?: string,
@@ -36,6 +37,7 @@ export default function Input(props: React.PropsWithChildren<{
             e.preventDefault();
             props.onChange && props.onChange(e.target.value)
         },
+        onKeyDown: props.onKeyDown,
     }
 
     return (

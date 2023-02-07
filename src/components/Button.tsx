@@ -56,10 +56,10 @@ const Button = (props: ButtonProps) => {
                 + btnClasses + " "
                 + (props.className ?? ""))}>
 
-            {props.loading && <Spinner className={`${props.children && "mr-4"}`}/>}
+            {props.loading && <Spinner className={(props.loadingText || props.children) ? `mr-2` : ""}/>}
             {
                 props.loading && props.loadingText
-                    ? <span className="ml-2">{props.loadingText}</span>
+                    ? <span className="">{props.loadingText}</span>
                     : props.children
             }
         </button>

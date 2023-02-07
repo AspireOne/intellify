@@ -28,7 +28,7 @@ const Prihlaseni: NextPage = () => {
                 className="w-full rounded-md shadow border md:mt-0 sm:max-w-lg xl:p-0 bg-t-alternative-700 border-gray-700">
                 {/*Create two tabs - login and register. Do not use headless ui.*/}
                 <div className={"flex flex-row"}> {/*TODO: border | border-b border-1*/}
-                    <Button onClick={() => setType("login")}
+                    <Button  onClick={() => setType("login")}
                             className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "login" ? "bg-gray-600" : "")}>Přihlášení</Button>
                     <Button onClick={() => setType("register")}
                             className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "register" ? "bg-gray-600" : "")}>Registrace</Button>
@@ -122,6 +122,7 @@ const FormSubmitButton = (props: { type: "login" | "register", loading: boolean,
         <Button
             onClick={props.onClick}
             loading={props.loading}
+            loadingText={props.type == "login" ? "Přihlašování..." : "Registrování..."}
             className="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5">
             {props.type == "login" ? "Přihlásit se" : "Registrovat se"}
         </Button>

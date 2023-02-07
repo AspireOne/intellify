@@ -84,10 +84,19 @@ const GeneralAi: NextPage = () => {
             </div>
 
             <div className={"flex flex-row mx-auto max-w-xl gap-2 items-end mt-12 mb-6"}>
-                <Input value={input} error={error} className={"p-4 max-h-80vh"} maxLen={2000} minLen={1} readonly={loading}
+                <Input value={input} error={error} className={"p-4 max-h-80vh"} maxLen={2000} minLen={1}
+                       readonly={loading}
                        onChange={(val) => {
                            setError(null);
                            setInput(val);
+                       }}
+                       onKeyDown={(e) => {
+                           // Submit if enter is pressed.
+
+                            if (e.key === "Enter" && !e.shiftKey) {
+                                handleSubmit();
+                                e.preventDefault();
+                            }
                        }}
                        autosize={true} placeholder={"Váš dotaz, zadaní, text..."}/>
                 <Button className={"h-[3.5rem] w-14 p-4"} loading={loading} onClick={handleSubmit}>
@@ -105,7 +114,7 @@ const GeneralAi: NextPage = () => {
                         </div>
                     </Button>
                 </div>
-                <IOCard title={""} className={`rounded-none rounded-lg rounded-t-none p-6`}>
+                <IOCard title={""} className={`rounded-none rounded-lg rounded-t-none p-6 pt-0`}>
                     {output}
                 </IOCard>
             </div>

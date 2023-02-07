@@ -64,7 +64,7 @@ const Prezentace: NextPage = () => {
     return (
         <div>
             <ModuleLandingPage props={landingPageProps}/>
-            <div className={"flex flex-col gap-2 -mb-4 mx-auto lg:w-[62%]"}>
+            <div className={"flex flex-col gap-2 mx-auto lg:w-[62%]"}>
                 <InputForm error={globalError} id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full"}/> {/*TODO: Make it responsive*/}
                 {content && (
                     <IOCard title={"Výstup"} className={`rounded-none rounded-b-xl w-full`}>
@@ -175,8 +175,8 @@ function InputForm(props: {onSubmit: (params: z.input<typeof createPresentationI
     }
 
     return (
-        <IOCard id={props.id} title={"Vytvořte prezentaci"} className={twMerge(`py-8 rounded-t-2xl ${props.className}`)}>
-            <div className="mx-auto max-w-lg py-3 flex flex-col gap-3">
+        <IOCard id={props.id} title={"Vytvořte prezentaci"} className={twMerge(`rounded-t-2xl ${props.className}`)}>
+            <div className="mx-auto max-w-lg flex flex-col gap-3">
                 <div className={"flex flex-row items-center"}>
                     <Input maxLen={100} placeholder={"téma"} value={topic} wrapped={false}
                            onChange={(e) => {
