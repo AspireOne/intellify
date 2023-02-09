@@ -1,23 +1,26 @@
 import bcrypt from "bcrypt";
 import {CreateCompletionRequest, OpenAIApi} from "openai";
 import {TRPCError} from "@trpc/server";
+import {Context} from "./context";
 
 export default class Utils {
     static async hashPassword(password: string): Promise<string> {
         return await bcrypt.hash(password, 10);
     }
 
-    static async askAi(api: OpenAIApi, config: CreateCompletionRequest): Promise<string> {
+    static async askAi(ctx: Context, config: CreateCompletionRequest): Promise<string> {
         // TODO: Use Curie?
-        const completion = await api.createCompletion(config);
-
-        const response = completion.data.choices[0].text ?? null;
-
-        if (response === null) {
+        let response: string | null;
+        try {
+            const completion = await ctx.openai.createCompletion({...config, user: ctx.session?.user?.email ?? ""});
+            response = completion.data.choices[0].text ?? null;
+            if (response === null) throw new Error();
+        } catch (e) {
+            console.log(e);
             throw new TRPCError({
-                    code: "INTERNAL_SERVER_ERROR",
-                    message: "Chyba při komunikaci s AI."
-                })
+                code: "INTERNAL_SERVER_ERROR",
+                message: "Chyba při komunikaci s AI."
+            })
         }
 
         return response.trim();

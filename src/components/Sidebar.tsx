@@ -38,49 +38,52 @@ const Sidebar: NextPage = () => {
                   title={"menu"}
                   cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen ? "hidden" : ""}`}/>
 
-            <div className={"relative h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 sm:bg-opacity-70 rounded-md shadow-2xl"
+            <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 sm:bg-opacity-70 rounded-md shadow-2xl"
                 + (isOpen ? "": " hidden")}>
-                <div className="text-xl text-gray-100">
-                    <div className="p-2.5 mt-1 flex items-center">
-                        <Apps width={"35px"} height={"35px"} color={"white"} cssClasses={"rounded-md bg-blue-600 p-1.5"} />
-                        <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
-                        <Close
-                            color={"#fff"}
-                            title={"close menu"}
-                            cssClasses={"ml-9 cursor-pointer " /*+ "lg:hidden"*/}
-                            onClick={() => setIsOpen(!isOpen)}/>
+                <div className={"relative h-full overflow-hidden"}>
+                    <div className="text-xl text-gray-100">
+                        <div className="p-2.5 mt-1 flex items-center">
+                            <Apps width={"35px"} height={"35px"} color={"white"} cssClasses={"rounded-md bg-blue-600 p-1.5"} />
+                            <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
+                            <Close
+                                color={"#fff"}
+                                title={"close menu"}
+                                cssClasses={"ml-9 cursor-pointer " /*+ "lg:hidden"*/}
+                                onClick={() => setIsOpen(!isOpen)}/>
+                        </div>
+                        <div className="my-2 bg-gray-600 h-[1px]"></div>
                     </div>
-                    <div className="my-2 bg-gray-600 h-[1px]"></div>
+
+                    <SearchBar/>
+
+                    <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
+                    <Item title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
+                    <div className="my-4 bg-gray-600 h-[1px]"></div>
+
+                    <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
+                    <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
+                    <Item title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
+
+{/*                    <Category title={"Chatbox"}>
+                        <Item title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
+                        <Item title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
+                        <Item title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
+                    </Category>*/}
+                    <div className="my-4 bg-gray-600 h-[1px]"></div>
+
+                    {
+                        session.status == "authenticated" &&
+                        <Item
+                            title="Profil"
+                            className={"absolute bottom-0 left-0 right-0"}
+                            link={paths.profile}
+                            icon={session.data.user?.image ? (<img width={25} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/>
+                    }
+                    <Item title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
+                          link={(session.status !== "authenticated" && paths.sign) || undefined}
+                          onClick={session.status === "authenticated" ? (async () => await signOut()) : undefined}
+                          icon={<LogOut color={"#fff"}/>}/>
                 </div>
-
-                <SearchBar/>
-
-                <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
-                <Item title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
-                <div className="my-4 bg-gray-600 h-[1px]"></div>
-
-                <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
-                <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
-                <Item title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
-
-                <Category title={"Chatbox"}>
-                    <Item title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                    <Item title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                    <Item title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                </Category>
-                <div className="my-4 bg-gray-600 h-[1px]"></div>
-
-                {
-                    session.status == "authenticated" &&
-                    <Item
-                        title="Profil"
-                        link={paths.profile}
-                        icon={session.data.user?.image ? (<img width={25} className={"rounded-full"} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/>
-                }
-                <Item title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
-                      link={(session.status !== "authenticated" && paths.sign) || undefined}
-                      onClick={session.status === "authenticated" ? (async () => await signOut()) : undefined}
-                      icon={<LogOut color={"#fff"}/>}/>
             </div>
         </aside>
     );
@@ -105,7 +108,7 @@ const SearchBar = () => {
 /**
  * @param props icon: Icon element.
  */
-const Item = (props: {icon?: any, title: string, onClick?: () => void, link?: string}) => {
+const Item = (props: {icon?: any, title: string, onClick?: () => void, className?: string, link?: string}) => {
     return <ListItem {...props} />;
 }
 
@@ -128,7 +131,7 @@ const Category = (props: React.PropsWithChildren<{title: string}>) => {
     );
 }
 
-const ListItem = (props: {icon?: any, title: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
+const ListItem = (props: {icon?: any, title: string, className?: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
     const [active, setActive] = useState(false);
 
     useEffect(() => {
@@ -141,7 +144,7 @@ const ListItem = (props: {icon?: any, title: string, onClick?: () => void, link?
     const content = (
         <div
             className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-100 cursor-pointer 
-        bg-opacity-50 hover:bg-opacity-40 hover:bg-gray-500 text-white ${active && "bg-gray-500"}`}
+        bg-opacity-50 hover:bg-opacity-40 hover:bg-gray-500 text-white ${active && "bg-gray-500"} ${props.className}`}
             onClick={props.onClick}
         >
             {props.icon}

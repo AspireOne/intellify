@@ -4,10 +4,12 @@ import ModuleLandingPage from "../components/ModuleLandingPage";
 import React from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import {Copy, CopyOutline, Send} from "react-ionicons";
+import {Copy, CopyOutline, InformationCircleOutline, Send} from "react-ionicons";
 import TextareaAutosize from "react-textarea-autosize";
 import IOCard from "../components/IOCard";
 import {trpc} from "../utils/trpc";
+import {AutoPopup} from "../components/Popup";
+import Slider from "../components/Slider";
 
 const landingPageProps: LandingPageProps = {
     title: "Získávejte odpovědi s pomocí [A.I.]",
@@ -37,6 +39,7 @@ const GeneralAi: NextPage = () => {
     const [output, setOutput] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string | null>(null);
+    const [temperature, setTemperature] = React.useState<number>(0.5);
 
     const generateMutation = trpc.generalAi.generate.useMutation({
         onSuccess: (data) => {
@@ -53,6 +56,7 @@ const GeneralAi: NextPage = () => {
     function handleSubmit() {
         let isValid = true;
         setLoading(true);
+        setError(null);
 
         if (input.length < 1) {
             isValid = false;
@@ -68,7 +72,7 @@ const GeneralAi: NextPage = () => {
             return;
         }
 
-        generateMutation.mutate({prompt: input});
+        generateMutation.mutate({prompt: input, temperature: temperature});
     }
 
     return (
@@ -83,30 +87,60 @@ const GeneralAi: NextPage = () => {
                 </p>
             </div>
 
-            <div className={"flex flex-row mx-auto max-w-xl gap-2 items-end mt-12 mb-6"}>
-                <Input value={input} error={error} className={"p-4 max-h-80vh"} maxLen={2000} minLen={1}
-                       readonly={loading}
-                       onChange={(val) => {
-                           setError(null);
-                           setInput(val);
-                       }}
-                       onKeyDown={(e) => {
-                           // Submit if enter is pressed.
+            <div className={"max-w-xl mx-auto flex flex-col gap-8 mt-12 mb-6"}>
+                <div className={"flex flex-row mx-auto gap-2 items-end w-full"}>
+                    <Input value={input} error={error} className={"p-4 max-h-80vh"} maxLen={2000} minLen={1}
+                           readonly={loading}
+                           onChange={(val) => {
+                               setError(null);
+                               setInput(val);
+                           }}
+                           onKeyDown={(e) => {
+                               // Submit if enter is pressed.
 
-                            if (e.key === "Enter" && !e.shiftKey) {
-                                handleSubmit();
-                                e.preventDefault();
-                            }
-                       }}
-                       autosize={true} placeholder={"Váš dotaz, zadaní, text..."}/>
-                <Button className={"h-[3.5rem] w-14 p-4"} loading={loading} onClick={handleSubmit}>
-                    {!loading && <Send color={"white"}/>}
-                </Button>
+                               if (e.key === "Enter" && !e.shiftKey) {
+                                   handleSubmit();
+                                   e.preventDefault();
+                               }
+                           }}
+                           autosize={true} placeholder={"Váš dotaz, zadaní, text..."}/>
+                    <Button className={"h-[3.5rem] w-14 p-4"} loading={loading} onClick={handleSubmit}>
+                        {!loading && <Send color={"white"}/>}
+                    </Button>
+                </div>
+
+                <div className={""}>
+                    <div className={"flex flex-row"}>
+                        <label htmlFor="medium-range" className="text-gray-300">
+                            Kreativita
+                        </label>
+                        <AutoPopup title={"Téma"}
+                                   className={"text-left"}
+                                   trigger={<InformationCircleOutline
+                                       cssClasses={"ml-1"}
+                                       width={"25px"}
+                                       height={"auto"}
+                                       color={"gray"}
+                                   />}
+                        >
+                            <b>0</b>: Přesné, dobře definované odpovědi. Ideální pokud potřebujete fakta, předvídatelnost, přesnou odpověď...
+                            <br/>
+                            <br/>
+                            <b>1</b>: Kreativní odpovědi, více náhodnosti. Ideální pro příběhy, vymýšlení textu, větší kreativitu...
+                            <br/>
+                            <br/>
+                            <b>Příklad</b>: Pokud pro dokončení věty <b>"Jak udělat"</b> použijete kreativitu <b>0</b>, dostanete třeba odpověď
+                            "dobrý dojem na rande". Zopakujte to s hodnotou <b>1</b>, a dostanete cokoli od
+                            "účes z kokosu zabalený do turbanu" až po "majonéza téměř bez oleje" nebo "nový server v minecraftu 1"
+                        </AutoPopup>
+                    </div>
+                    <Slider leftVal={0} rightVal={1} value={temperature} onChange={setTemperature} min={0} max={0.9} loading={loading} step={0.025}/>
+                </div>
             </div>
 
             <div className={"max-w-3xl 2xl:max-w-4xl mx-auto mb-32"}>
                 <div className={"bg-t-alternative-700 bg-opacity-70 px-4 p-2 text-sm rounded-t-lg flex flex-row justify-between items-center"}>
-                    <p className={"text-lg"}>Výstup</p>
+                    <p className={"text-gray-200"}>Výstup</p>
                     <Button className={"bg-transparent p-0 hover:underline hover:bg-transparent"} onClick={() => navigator.clipboard.writeText(output)}>
                         <div className={"flex flex-row gap-2 items-center"}>
                             <CopyOutline color={"#fff"} width={"15px"} height={"auto"}/>

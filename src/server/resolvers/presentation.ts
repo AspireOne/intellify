@@ -24,7 +24,7 @@ export async function createPresentationResolver(ctx: Context, input: z.input<ty
         let stop: string[] | undefined;
         if (!input.conclusion && !input.describe) stop = ["Vysvětlení bodů:", "Závěr:", "Shrnutí:"];
 
-        const output = await Utils.askAi(ctx.openai, {
+        const output = await Utils.askAi(ctx, {
                 model: "text-davinci-003",
                 temperature: 0.4,
                 max_tokens: 1500,

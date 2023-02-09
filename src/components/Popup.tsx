@@ -31,7 +31,7 @@ export default function Popup(props: React.PropsWithChildren<{className?: string
                         exit={{ opacity: 0}}
                     >
                         <div onClick={() => props.setOpen(false)} className={twMerge("fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex justify-center items-center " + (props.className ?? ""))}>
-                            <div className="mx-auto min-w-[300px] break-all max-w-[600px] bg-t-alternative-700 rounded-lg p-6 pb-8">
+                            <div className="mx-auto min-w-[300px] break-word max-w-[600px] bg-t-alternative-700 rounded-lg p-6 pb-8">
                                 <h2 className={"font-bold text-2xl text-center mb-2 bg-gradient-to-r from-indigo-500 to-pink-500 text-transparent bg-clip-text"}>{props.title}</h2>
                                 {props.children}
                             </div>

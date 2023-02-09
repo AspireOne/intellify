@@ -7,7 +7,7 @@ import {TRPCError} from "@trpc/server";
 import Utils from "../utils";
 export async function assistCodeResolver(ctx: Context, input: z.input<typeof assistCodeInput>): Promise<z.output<typeof assistCodeOutput>> {
     const prompt: string = generatePrompt(input);
-    const output = await Utils.askAi(ctx.openai, {
+    const output = await Utils.askAi(ctx, {
         model: "text-davinci-003",
         frequency_penalty: 0.05,
         presence_penalty: 0.05,
