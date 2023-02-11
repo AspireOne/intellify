@@ -1,11 +1,11 @@
 import {NextPage} from "next";
 import {
     Albums,
-    Apps, Book,
+    Apps, Book, Cart,
     Chatbox, ChevronDown,
     ChevronDownOutline,
     Close,
-    Code,
+    Code, Happy,
     Home,
     LogOut,
     Menu,
@@ -32,62 +32,67 @@ const Sidebar: NextPage = () => {
     }, []);
 
     return (
-        <aside className={"z-10"}>
-            <Menu color={"#fff"} height={"50px"} width={"50px"}
-                  onClick={() => setIsOpen(!isOpen)}
-                  title={"menu"}
-                  cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen ? "hidden" : ""}`}/>
+        <>
+            <aside className={"z-10"}>
+                <Menu color={"#fff"} height={"50px"} width={"50px"}
+                      onClick={() => setIsOpen(!isOpen)}
+                      title={"menu"}
+                      cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen ? "hidden" : ""}`}/>
 
-            <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 sm:bg-opacity-70 rounded-md shadow-2xl"
-                + (isOpen ? "": " hidden")}>
-                <div className={"relative h-full overflow-hidden"}>
-                    <div className="text-xl text-gray-100">
-                        <div className="p-2.5 mt-1 flex items-center">
-                            <Apps width={"35px"} height={"35px"} color={"white"} cssClasses={"rounded-md bg-blue-600 p-1.5"} />
-                            <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
-                            <Close
-                                color={"#fff"}
-                                title={"close menu"}
-                                cssClasses={"ml-9 cursor-pointer " /*+ "lg:hidden"*/}
-                                onClick={() => setIsOpen(!isOpen)}/>
+                <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 bg-opacity-80 backdrop-blur-md sm:backdrop-blur-none sm:bg-opacity-70 rounded-md shadow-2xl"
+                    + (isOpen ? "": " hidden")}>
+                    <div className={"relative h-full overflow-hidden"}>
+                        <div className="text-xl text-gray-100">
+                            <div className="p-2.5 mt-1 flex items-center justify-between">
+                                <div className="flex items-center">
+                                    <Apps width={"35px"} height={"35px"} color={"white"} cssClasses={"rounded-md bg-blue-600 p-1.5"} />
+                                    <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
+                                </div>
+                                <div className={"p-2 cursor-pointer " /*+ "lg:hidden"*/} onClick={() => setIsOpen(!isOpen)}>
+                                    <Close
+                                        color={"#fff"}
+                                        title={"Zavřít menu"}
+                                    />
+                                </div>
+                            </div>
+                            <div className="my-2 bg-gray-600 h-[1px]"></div>
                         </div>
-                        <div className="my-2 bg-gray-600 h-[1px]"></div>
-                    </div>
 
-                    <SearchBar/>
+                        <SearchBar/>
 
-                    <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
-                    <Item title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
-                    {/*TODO: Change icon.*/}
-                    <Item title={"Plán"} icon={<People color={"#fff"}/>} link={paths.plans}/>
-                    <div className="my-4 bg-gray-600 h-[1px]"></div>
+                        <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
+                        <Item title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
+                        {/*TODO: Change icon.*/}
+                        <Item title={"Plán"} icon={<Cart color={"#fff"}/>} link={paths.plans}/>
+                        <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                    <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
-                    <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
-                    <Item title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
+                        <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
+                        <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
+                        <Item title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
 
-{/*                    <Category title={"Chatbox"}>
+                        {/*                    <Category title={"Chatbox"}>
                         <Item title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
                         <Item title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
                         <Item title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
                     </Category>*/}
-                    <div className="my-4 bg-gray-600 h-[1px]"></div>
+                        <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                    {
-                        session.status == "authenticated" &&
-                        <Item
-                            title="Profil"
-                            className={"absolute rounded-full bottom-0 left-0 right-0"}
-                            link={paths.profile}
-                            icon={session.data.user?.image ? (<img className={"rounded-full"} width={25} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/>
-                    }
-                    <Item title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
-                          link={(session.status !== "authenticated" && paths.sign) || undefined}
-                          onClick={session.status === "authenticated" ? (async () => await signOut()) : undefined}
-                          icon={<LogOut color={"#fff"}/>}/>
+                        {
+                            session.status == "authenticated" &&
+                            <Item
+                                title="Profil"
+                                className={"absolute rounded-full bottom-0 left-0 right-0"}
+                                link={paths.profile}
+                                icon={session.data.user?.image ? (<img className={"rounded-full"} width={25} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/>
+                        }
+                        <Item title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
+                              link={(session.status !== "authenticated" && paths.sign) || undefined}
+                              onClick={session.status === "authenticated" ? (async () => await signOut()) : undefined}
+                              icon={<LogOut color={"#fff"}/>}/>
+                    </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </>
     );
 }
 
