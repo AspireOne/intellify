@@ -19,12 +19,21 @@ import Link from "next/link";
 import {useEventListener} from "@headlessui/react/dist/hooks/use-event-listener";
 import {paths} from "../lib/constants";
 
+let lastLocation = "";
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
     const [isOpen, setIsOpen] = useState(false);
     const session = useSession();
     //const router = useRouter();
 
+    useEffect(() => {
+        if (!(typeof window)) return;
+
+        if (lastLocation !== window.location.pathname && window.innerWidth <= 768) {
+            setIsOpen(false);
+        }
+        lastLocation = window.location.pathname;
+    }, [window?.location.pathname]);
     useEffect(() => {
         const open = window.innerWidth > 768;
         setIsOpen(open);
@@ -48,7 +57,7 @@ const Sidebar: NextPage = () => {
                                     <Apps width={"35px"} height={"35px"} color={"white"} cssClasses={"rounded-md bg-blue-600 p-1.5"} />
                                     <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
                                 </div>
-                                <div className={"p-2 cursor-pointer " /*+ "lg:hidden"*/} onClick={() => setIsOpen(!isOpen)}>
+                                <div className={"p-2 -mr-2 cursor-pointer " /*+ "lg:hidden"*/} onClick={() => setIsOpen(!isOpen)}>
                                     <Close
                                         color={"#fff"}
                                         title={"Zavřít menu"}

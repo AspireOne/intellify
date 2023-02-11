@@ -48,6 +48,9 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
     return (
         <ParallaxProvider>
             <div className={"h-screen relative"}>
+                <div className={"absolute top-10 right-10 h-32 w-32 rounded-full bg-gradient-radial from-[rgba(255,255,255,0.3)]"}>
+                </div>
+
                 <div className={"-mt-10 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 text-center w-full max-w-[900px]"}>
                     <motion.div
                         initial={{opacity: 0, y: -10}}

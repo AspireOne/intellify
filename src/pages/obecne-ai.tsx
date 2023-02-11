@@ -111,7 +111,7 @@ const GeneralAi: NextPage = () => {
 
                 <div className={`flex flex-col w-full
                 bg-white rounded-lg shadow dark:border-gray-600 
-                py-5 px-8 dark:bg-gray-800 dark:text-white`}>
+                py-5 px-8 dark:bg-t-alternative-700 dark:text-white`}>
                     <div className={"flex flex-row"}>
                         <label htmlFor="medium-range" className="text-gray-300">
                             Kreativita

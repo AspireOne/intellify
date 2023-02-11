@@ -13,6 +13,9 @@ module.exports = {
       "sans": ["Inter"]
     },
     extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
       colors: {
         "t-blue-1000": "#0e1323",
         "t-blue-900": "#121728",
@@ -29,7 +32,7 @@ module.exports = {
         "t-violet-500": "#8580f3",
         "t-violet-2OO": "#a194ee",
 
-        "t-alternative-700": "rgb(32,41,55)"
+        "t-alternative-700": "rgb(32,41,58)"
       },
     },
   },
