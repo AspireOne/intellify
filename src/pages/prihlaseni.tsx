@@ -55,19 +55,20 @@ const ExternalLoginButtons = () => {
                         }
 
                     }}
-                    className={"w-full px-2 border-gray-500 hover:border-gray-500 hover:bg-gray-300"}>
+                    className={"w-full px-2 py-3 bg-transparent border-gray-500 hover:border-gray-500 hover:bg-gray-300"}>
                 <div className={"flex flex-row items-center justify-center gap-2"}>
                     <img src={GoogleLogo.src} width={"20px"} height={"auto"}/>
                     <span>Pokračovat přes Google</span>
                 </div>
             </Button>
-            <Button style={Style.OUTLINE}
+
+            {/*<Button style={Style.OUTLINE}
                     className={"w-full px-2 border-gray-500 hover:border-gray-500 hover:bg-gray-300"}>
                 <div className={"flex flex-row items-center justify-center gap-2"}>
                     <LogoApple color={"#fff"}/>
                     <span>Pokračovat přes Apple</span>
                 </div>
-            </Button>
+            </Button>*/}
         </div>
     );
 }
