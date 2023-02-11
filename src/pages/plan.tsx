@@ -8,9 +8,6 @@ import {useQuery} from "@tanstack/react-query";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-const tokenPlaceholder = "_____";
-const pricePlaceholder = "-- ";
-const generalTextPlaceholder = "Načítání...";
 const Plan: NextPage = () => {
     const plans = trpc.offers.getPlans.useQuery();
     const oneTimeOffers = trpc.offers.getOneTimeOffers.useQuery();
@@ -27,7 +24,7 @@ const Plan: NextPage = () => {
 
     return (
         <section className="">
-            <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div className="py-8 sm:px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                 <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
                     <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
                         Navrženo pro jednorázové úkoly, i dlouhodobé projekty
@@ -51,7 +48,7 @@ const Plan: NextPage = () => {
                         price={plans.data?.basic.price}
                         onClick={() => handleClick(Plans.BASIC)}
                         points={[
-                            <span>{plans.data?.basic.tokens ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
+                            <span>{formatNumber(plans.data?.basic.tokens) ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
                             'Žádné nastavování nebo skryté poplatky',
                             'Velikost týmu: 1 vývojář',
                             '24/7 Podpora',
@@ -65,7 +62,7 @@ const Plan: NextPage = () => {
                         bestOffer={true}
                         onClick={() => handleClick(Plans.ADVANCED)}
                         points={[
-                            <span>{plans.data?.advanced.tokens ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
+                            <span>{formatNumber(plans.data?.advanced.tokens) ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
                             'Žádné nastavování nebo skryté poplatky',
                             'Velikost týmu: 1 vývojář',
                             '24/7 Podpora',
@@ -78,7 +75,7 @@ const Plan: NextPage = () => {
                         price={plans.data?.company.price}
                         onClick={() => handleClick(Plans.COMPANY)}
                         points={[
-                            <span>{plans.data?.company.tokens ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
+                            <span>{formatNumber(plans.data?.company.tokens) ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
                             'Žádné nastavování nebo skryté poplatky',
                             'Velikost týmu: 10+ vývojářů',
                             '24/7 Podpora',
@@ -97,7 +94,7 @@ const Plan: NextPage = () => {
                                     border border-1 border-gray-600 rounded-md py-2 px-6
                                     duration-100 ${oneTimeOffer === offer.type ? "bg-gray-600" : "hover:bg-gray-700"}`}
                                 >
-                                    <div className={"text-md sm:text-lg font-bold"}>{offer.tokens}</div>
+                                    <div className={"text-md sm:text-lg font-bold"}>{formatNumber(offer.tokens)}</div>
                                     <div className={"text-gray-500 text-sm dark:text-gray-400"}>tokenů</div>
                                 </button>
                             ))
@@ -118,6 +115,12 @@ const Plan: NextPage = () => {
             </div>
         </section>
     );
+}
+
+const formatNumber = (num: number | null | undefined) => {
+    if (!num) return num;
+    // Example: if the number is 50000, format it to "50 000". If it is 100000, format it to "100 000". If it is 5000, format it to "5 000". If it is 1000000, format it to "1 000 000" etx.
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
 }
 
 const PlanCard = (props: { title: string, text: string, price?: number, points: React.ReactNode[], bestOffer?: boolean, onClick: () => void, loading?: boolean }) => {

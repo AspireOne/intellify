@@ -119,10 +119,10 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 </div>
             </Parallax>
 
-            <div className={"pt-16 pb-8 my-32 mx-[-1.2rem]"}>
+            <div className={"pt-16 pb-8 my-32"}>
                 {
                     session.status != "authenticated" &&
-                    <h1 className={"text-2xl md:text-3xl px-2 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
+                    <h1 className={"text-2xl md:text-3xl px-1 font-semibold text-center mx-auto max-w-[900px] text-gray-100"}>
                         {props.props.callToActionTextUnsigned}
                     </h1>
                 }

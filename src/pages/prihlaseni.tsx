@@ -18,7 +18,7 @@ const Prihlaseni: NextPage = () => {
     const [type, setType] = React.useState<"login" | "register">("login");
 
     return (
-        <div className="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="flex flex-col items-center py-8 mx-auto md:h-screen lg:py-0">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-white">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                      alt="logo"/>
@@ -28,7 +28,7 @@ const Prihlaseni: NextPage = () => {
                 className="w-full rounded-md shadow border md:mt-0 sm:max-w-lg xl:p-0 bg-t-alternative-700 border-gray-700">
                 {/*Create two tabs - login and register. Do not use headless ui.*/}
                 <div className={"flex flex-row"}> {/*TODO: border | border-b border-1*/}
-                    <Button  onClick={() => setType("login")}
+                    <Button onClick={() => setType("login")}
                             className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "login" ? "bg-gray-600" : "")}>Přihlášení</Button>
                     <Button onClick={() => setType("register")}
                             className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "register" ? "bg-gray-600" : "")}>Registrace</Button>

@@ -15,7 +15,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
                 <div className="text-white dark">
                     <div className="flex">
                         <Sidebar/>
-                        <main className={"p-5 w-full"}>
+                        <main className={"px-3 pt-3 sm:p-5 w-full"}>
                             <Component {...pageProps} />
                         </main>
                     </div>
