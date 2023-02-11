@@ -7,6 +7,8 @@ const Slider = (props: {
     className?: string,
     sideValsClassName?: string,
 
+    /*showValue?: boolean,*/
+
     leftVal?: string | number,
     rightVal?: string | number,
     step?: number,
@@ -25,6 +27,7 @@ const Slider = (props: {
                 dark:bg-gray-700 ${props.className}`)}
             />
             {props.rightVal && <span className={props.sideValsClassName}>{props.rightVal}</span>}
+            {/*{props.showValue && <span className={props.sideValsClassName}>{props.value}</span>}*/}
         </div>
     )
 }

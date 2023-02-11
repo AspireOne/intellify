@@ -6,12 +6,14 @@ import {codeRouter} from "./code";
 import {signRouter} from "./sign";
 import {userRouter} from "./user";
 import {generalAiRouter} from "./generalAi";
+import {offersRouter} from "./offers";
 export const appRouter = router({
     presentation: presentationRouter,
     code: codeRouter,
     sign: signRouter,
     user: userRouter,
     generalAi: generalAiRouter,
+    offers: offersRouter,
     hello: publicProcedure
         .input(z.object({name: z.string()}))
         .output(z.object({greeting: z.string()}))

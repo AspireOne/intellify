@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: 'jit',
   darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
@@ -23,14 +24,12 @@ module.exports = {
         "t-blue-100": "#36456e",
         "t-blue-50": "#506293",
 
-        "t-indiblue-1000": "",
-
         "t-violet-800": "#6A64F1",
         "t-violet-700": "#726ef3",
         "t-violet-500": "#8580f3",
         "t-violet-2OO": "#a194ee",
 
-        "t-alternative-700": "#262836"
+        "t-alternative-700": "rgb(32,41,55)"
       },
     },
   },

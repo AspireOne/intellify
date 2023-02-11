@@ -12,4 +12,5 @@ export const paths = {
 
     sign: "/prihlaseni",
     profile: "/profil",
+    plans:  "/plan"
 };

@@ -58,6 +58,8 @@ const Sidebar: NextPage = () => {
 
                     <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
                     <Item title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
+                    {/*TODO: Change icon.*/}
+                    <Item title={"Plán"} icon={<People color={"#fff"}/>} link={paths.plans}/>
                     <div className="my-4 bg-gray-600 h-[1px]"></div>
 
                     <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
@@ -75,9 +77,9 @@ const Sidebar: NextPage = () => {
                         session.status == "authenticated" &&
                         <Item
                             title="Profil"
-                            className={"absolute bottom-0 left-0 right-0"}
+                            className={"absolute rounded-full bottom-0 left-0 right-0"}
                             link={paths.profile}
-                            icon={session.data.user?.image ? (<img width={25} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/>
+                            icon={session.data.user?.image ? (<img className={"rounded-full"} width={25} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/>
                     }
                     <Item title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
                           link={(session.status !== "authenticated" && paths.sign) || undefined}

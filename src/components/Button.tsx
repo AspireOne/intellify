@@ -30,9 +30,12 @@ const Button = (props: ButtonProps) => {
             btnClasses =
                 // TODO: This fucker is hardcoded, because there is apparently no fucking way to create an inner border
                 // in talwind css. What the fuck guys?
-                "border-solid border-2 border-indigo-700 py-[0.5rem]"
-                + (!isBeingClicked && !props.loading && " hover:bg-indigo-500 hover:bg-opacity-20 hover:border-indigo-500")
-                + (isBeingClicked ? " bg-indigo-800 py-[0.5rem]" : props.loading ? " bg-indigo-800" : " bg-transparent")
+                `border-solid border-2 border-indigo-700 py-0.5
+                ${isBeingClicked 
+                    ? "bg-indigo-800 py-0.5" 
+                    : props.loading 
+                        ? ""
+                        : "hover:bg-indigo-500 hover:bg-opacity-20 hover:border-indigo-500 bg-indigo-800 bg-opacity-5"}`
             break;
 
         default:

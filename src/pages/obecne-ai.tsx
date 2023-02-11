@@ -39,7 +39,7 @@ const GeneralAi: NextPage = () => {
     const [output, setOutput] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string | null>(null);
-    const [temperature, setTemperature] = React.useState<number>(0.5);
+    const [temperature, setTemperature] = React.useState<number>(0.45);
 
     const generateMutation = trpc.generalAi.generate.useMutation({
         onSuccess: (data) => {
@@ -87,8 +87,8 @@ const GeneralAi: NextPage = () => {
                 </p>
             </div>
 
-            <div className={"max-w-xl mx-auto flex flex-col gap-8 mt-12 mb-6"}>
-                <div className={"flex flex-row mx-auto gap-2 items-end w-full"}>
+            <div className={"max-w-xl mx-auto flex flex-col mt-12 mb-6"}>
+                <div className={"flex flex-row mx-auto gap-2 items-end w-full mb-2"}>
                     <Input value={input} error={error} className={"p-4 max-h-80vh"} maxLen={2000} minLen={1}
                            readonly={loading}
                            onChange={(val) => {
@@ -109,7 +109,9 @@ const GeneralAi: NextPage = () => {
                     </Button>
                 </div>
 
-                <div className={""}>
+                <div className={`flex flex-col w-full
+                bg-white rounded-lg shadow dark:border-gray-600 
+                py-5 px-8 dark:bg-gray-800 dark:text-white`}>
                     <div className={"flex flex-row"}>
                         <label htmlFor="medium-range" className="text-gray-300">
                             Kreativita
@@ -123,10 +125,10 @@ const GeneralAi: NextPage = () => {
                                        color={"gray"}
                                    />}
                         >
-                            <b>0</b>: Přesné, dobře definované odpovědi. Ideální pokud potřebujete fakta, předvídatelnost, přesnou odpověď...
+                            <b>0%</b>: Přesné, dobře definované odpovědi. Ideální pokud potřebujete fakta, předvídatelnost, přesnou odpověď...
                             <br/>
                             <br/>
-                            <b>1</b>: Kreativní odpovědi, více náhodnosti. Ideální pro příběhy, vymýšlení textu, větší kreativitu...
+                            <b>100%</b>: Kreativní odpovědi, více náhodnosti. Ideální pro příběhy, vymýšlení textu, větší kreativitu...
                             <br/>
                             <br/>
                             <b>Příklad</b>: Pokud pro dokončení věty <b>"Jak udělat"</b> použijete kreativitu <b>0</b>, dostanete třeba odpověď
@@ -134,7 +136,7 @@ const GeneralAi: NextPage = () => {
                             "účes z kokosu zabalený do turbanu" až po "majonéza téměř bez oleje" nebo "nový server v minecraftu 1"
                         </AutoPopup>
                     </div>
-                    <Slider leftVal={0} rightVal={1} value={temperature} onChange={setTemperature} min={0} max={0.9} loading={loading} step={0.025}/>
+                    <Slider leftVal={"0%"} rightVal={"100%"} value={temperature} onChange={setTemperature} min={0} max={0.9} loading={loading} step={0.05}/>
                 </div>
             </div>
 
