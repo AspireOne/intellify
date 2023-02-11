@@ -35,10 +35,12 @@ const Plan: NextPage = () => {
                     {/*TODO: Make this text shorter and add it to homepage instead..*/}
                     <p className="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
                         Doba jde dopředu, a umělá inteligence se stává nedílným nástrojem produktivity.
-                        Open Tools posouvá hranice aplikací, a umožňuje vám tuto sílu využít -
-                        jak jednotlivci při jeho koníčcích, pracovních úkolech, nebo osobních projektech,
-                        tak velkým týmům a firmám při budování produktů a služeb.
+                        Open Tools posouvá hranice aplikací, a umožňuje vám tuto sílu využít
                     </p>
+                    {/*
+                     -
+                        jak jednotlivci při jeho koníčcích, pracovních úkolech, nebo osobních projektech,
+                        tak velkým týmům a firmám při budování produktů a služeb.*/}
                 </div>
 
                 <div className="space-y-8 lg:grid lg:grid-cols-3 lg:grid-rows-1 sm:gap-6 xl:gap-10 lg:space-y-0">

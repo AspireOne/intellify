@@ -11,7 +11,7 @@ import {SkeletonTheme} from "react-loading-skeleton";
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
         <SessionProvider session={session} refetchOnWindowFocus={true}>
-            <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.18)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
+            <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
                 <div className="text-white dark">
                     <div className="flex">
                         <Sidebar/>
