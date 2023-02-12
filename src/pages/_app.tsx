@@ -6,7 +6,6 @@ import Footer from "../components/Footer";
 import {SessionProvider} from "next-auth/react";
 import {trpc} from "../utils/trpc";
 import {SkeletonTheme} from "react-loading-skeleton";
-import 'windi.css';
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (

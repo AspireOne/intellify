@@ -1,16 +1,12 @@
-// @ts-check - enable TS check for js file
-import { defineConfig } from 'windicss/helpers'
-
-export default defineConfig({
-    darkMode: "class",
-    extract: {
-      include: [
-          './src/pages/**/*.{js,ts,jsx,tsx}',
-          './src/components/**/*.{js,ts,jsx,tsx}',
-          './src/app/**/*.{js,ts,jsx,tsx}',
-      ],
-        exclude: ['node_modules', '.git', '.next']
-    },
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    mode: 'jit',
+    darkMode: 'class',
+    content: [
+        './src/pages/**/*.{js,ts,jsx,tsx}',
+        './src/components/**/*.{js,ts,jsx,tsx}',
+        './src/app/**/*.{js,ts,jsx,tsx}',
+    ],
     theme: {
         fontFamily: {
             'mono': ['Roboto Mono', 'monospace'],
@@ -40,4 +36,4 @@ export default defineConfig({
             },
         },
     },
-})
+}
