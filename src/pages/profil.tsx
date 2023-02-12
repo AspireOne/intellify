@@ -1,13 +1,12 @@
 import {NextPage} from "next";
 import React, {useState} from "react";
 import Button, {Style} from "../components/Button";
-import {useSession} from "next-auth/react";
+import {signOut, useSession} from "next-auth/react";
 import Input from "../components/Input";
 import INPUT from "../lib/inputConstraints";
 import {trpc} from "../utils/trpc";
 import Popup from "../components/Popup";
-import Slider from "../components/Slider";
-import {twMerge} from "tailwind-merge";
+import {ArrowForward} from "react-ionicons";
 
 const Profile: NextPage = () =>  {
     const session = useSession();
@@ -92,12 +91,10 @@ const Profile: NextPage = () =>  {
                 {/*TODO: Skeleton loader*/}
                 <div
                     className={"w-24 h-24 rounded-full bg-gray-200 mx-auto"}
-                    /*// Infinite animation that changes opacity.
-                    animate={{opacity: [0.35, 0.5, 0.35]}}
-                    transition={{duration: 1.2, ease: "easeInOut", repeat: Infinity}}*/
                 >
                     {
-                        session.data?.user?.image && <img className="rounded-full" src={session.data?.user?.image || ""} alt={"Profile picture"}/>
+                        session.data?.user?.image &&
+                        <img className="rounded-full" src={session.data?.user?.image || ""} alt={"Profile picture"}/>
                     }
                 </div>
 
@@ -117,6 +114,11 @@ const Profile: NextPage = () =>  {
                                maxLen={INPUT.password.max} minLen={INPUT.password.min} value={currentPassword}/>
                     </div>
                 }
+
+                <button onClick={() => signOut()} className={"flex gap-1 justify-end items-center flex-row"}>
+                    Odhlásit se
+                    <ArrowForward color={"#fff"} height={"18px"}/>
+                </button>
 
                 {
                     dataChanged &&

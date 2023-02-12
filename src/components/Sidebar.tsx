@@ -6,7 +6,7 @@ import {
     ChevronDownOutline,
     Close,
     Code, Happy,
-    Home,
+    Home, LogIn,
     LogOut,
     Menu,
     People, Person,
@@ -18,27 +18,24 @@ import {NextRouter, useRouter} from 'next/router';
 import Link from "next/link";
 import {useEventListener} from "@headlessui/react/dist/hooks/use-event-listener";
 import {paths} from "../lib/constants";
+import {useLocation} from "react-router-dom";
+import { motion } from "framer-motion";
 
 let lastLocation = "";
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
     const [isOpen, setIsOpen] = useState(false);
     const session = useSession();
-    //const router = useRouter();
 
-    useEffect(() => {
-        if (!(typeof window)) return;
-
-        if (lastLocation !== window.location.pathname && window.innerWidth <= 768) {
-            setIsOpen(false);
-        }
-        lastLocation = window.location.pathname;
-    }, [window?.location.pathname]);
     useEffect(() => {
         const open = window.innerWidth > 768;
         setIsOpen(open);
         //localStorage.setItem("sidebar-open", open ? "true" : "false");
     }, []);
+
+    const handleItemClick = () => {
+        if (window.innerWidth <= 768) setIsOpen(false);
+    }
 
     return (
         <>
@@ -48,6 +45,7 @@ const Sidebar: NextPage = () => {
                       title={"menu"}
                       cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen ? "hidden" : ""}`}/>
 
+                {/*TODO: Close sidebar when outside of sidebar is clicked.*/}
                 <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 bg-opacity-80 backdrop-blur-md sm:backdrop-blur-none sm:bg-opacity-70 rounded-md shadow-2xl"
                     + (isOpen ? "": " hidden")}>
                     <div className={"relative h-full overflow-hidden"}>
@@ -69,35 +67,49 @@ const Sidebar: NextPage = () => {
 
                         <SearchBar/>
 
-                        <Item title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
-                        <Item title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
+                        <ListItem onClick={handleItemClick} title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
+                        <ListItem onClick={handleItemClick} title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
                         {/*TODO: Change icon.*/}
-                        <Item title={"Plán"} icon={<Cart color={"#fff"}/>} link={paths.plans}/>
+                        <ListItem onClick={handleItemClick} title={"Plán"} icon={<Cart color={"#fff"}/>} link={paths.plans}/>
                         <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                        <Item title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
-                        <Item title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
-                        <Item title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
+                        <ListItem onClick={handleItemClick} title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
+                        <ListItem onClick={handleItemClick} title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
+                        <ListItem onClick={handleItemClick} title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
 
                         {/*                    <Category title={"Chatbox"}>
-                        <Item title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                        <Item title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                        <Item title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
+                        <ListItem title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
+                        <ListItem title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
+                        <ListItem title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
                     </Category>*/}
                         <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                        {
-                            session.status == "authenticated" &&
-                            <Item
-                                title="Profil"
-                                className={"absolute rounded-full bottom-0 left-0 right-0"}
-                                link={paths.profile}
-                                icon={session.data.user?.image ? (<img className={"rounded-full"} width={25} height={"auto"} src={session.data.user?.image}/>) : <Person color={"#fff"}/>}/>
-                        }
-                        <Item title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
+                        <div className={"absolute bottom-0 left-0 right-0"}>
+                            {
+                                session.status == "authenticated" &&
+                                <ListItem
+                                    onClick={handleItemClick} title="Profil"
+                                    className={"rounded-full"}
+                                    link={paths.profile} icon={session.data.user?.image
+                                    ? (<img
+                                        className={"rounded-full"}
+                                        width={25}
+                                        height={"auto"}
+                                        src={session.data.user?.image}/>)
+                                    : <Person color={"#fff"}/>}/>
+                            }
+                            {
+                                session.status == "unauthenticated" &&
+                                <ListItem
+                                    onClick={handleItemClick} title={"Přihlásit se"}
+                                    className={"rounded-full"}
+                                    link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
+                            }
+                            {/*<ListItem title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
                               link={(session.status !== "authenticated" && paths.sign) || undefined}
                               onClick={session.status === "authenticated" ? (async () => await signOut()) : undefined}
-                              icon={<LogOut color={"#fff"}/>}/>
+                              icon={<LogOut color={"#fff"}/>}/>*/}
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -118,14 +130,6 @@ const SearchBar = () => {
             />
         </div>
     );
-}
-
-// TODO: Add "float" bottom and top? Fot links vs action/functional buttons.
-/**
- * @param props icon: Icon element.
- */
-const Item = (props: {icon?: any, title: string, onClick?: () => void, className?: string, link?: string}) => {
-    return <ListItem {...props} />;
 }
 
 const Category = (props: React.PropsWithChildren<{title: string}>) => {
