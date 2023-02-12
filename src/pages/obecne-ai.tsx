@@ -104,7 +104,7 @@ const GeneralAi: NextPage = () => {
                                }
                            }}
                            autosize={true} placeholder={"Váš dotaz, zadaní, text..."}/>
-                    <Button className={"h-[3.5rem] w-14 p-4"} loading={loading} onClick={handleSubmit}>
+                    <Button className={"w-14 p-4"} loading={loading} onClick={handleSubmit}>
                         {!loading && <Send color={"white"}/>}
                     </Button>
                 </div>

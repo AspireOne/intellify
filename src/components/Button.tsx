@@ -2,7 +2,7 @@ import React from "react";
 import {twMerge} from "tailwind-merge";
 import Spinner from "./Spinner";
 
-export enum Style {FILL, OUTLINE}
+export enum Style {FILL, OUTLINE, NONE}
 type ButtonProps = {
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
     loading?: boolean
@@ -23,11 +23,11 @@ const Button = (props: ButtonProps) => {
         return () => window.removeEventListener("mouseup", onMouseUp);
     }, []);
 
-    let btnClasses;
+    let styling;
 
     switch (props.style) {
         case Style.OUTLINE:
-            btnClasses =
+            styling =
                 // TODO: This fucker is hardcoded, because there is apparently no fucking way to create an inner border
                 // in talwind css. What the fuck guys?
                 `border-solid border-2 border-indigo-700 py-0.5
@@ -38,8 +38,13 @@ const Button = (props: ButtonProps) => {
                         : "hover:bg-indigo-500 hover:bg-opacity-20 hover:border-indigo-500 bg-indigo-800 bg-opacity-5"}`
             break;
 
+        case Style.NONE:
+            styling = "";
+            break;
+
+        case Style.FILL:
         default:
-            btnClasses =
+            styling =
                 (!isBeingClicked && !props.loading && " hover:bg-indigo-500")
                 + (isBeingClicked ? " bg-indigo-800" : props.loading ? " bg-indigo-800" : " bg-indigo-700")
             break;
@@ -56,7 +61,7 @@ const Button = (props: ButtonProps) => {
             disabled={props.loading}
             className={twMerge("duration-200 rounded-md text-sm px-5 py-2.5 outline-none focus:outline-none "
                 + (props.loading && " cursor-default")
-                + btnClasses + " "
+                + styling + " "
                 + (props.className ?? ""))}>
 
             {props.loading && <Spinner className={(props.loadingText || props.children) ? `mr-2` : ""}/>}

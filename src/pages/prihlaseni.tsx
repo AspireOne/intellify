@@ -1,5 +1,5 @@
 import {NextPage} from "next";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button, {Style} from "../components/Button";
 import GoogleLogo from "../../public/assets/google.png";
 import {LogoApple} from "react-ionicons";
@@ -11,11 +11,17 @@ import {trpc} from "../utils/trpc";
 import {paths} from "../lib/constants";
 import Input from "../components/Input";
 import INPUT from "../lib/inputConstraints";
+import Ls from "../lib/ls";
 
 // TODO: Save logged in status to localstorage, and when a page loads and session status is loading,
 // TODO: temporarily take the login status from localstorage until session loads. Make it an abstraction.
 const Prihlaseni: NextPage = () => {
-    const [type, setType] = React.useState<"login" | "register">("login");
+    const [type, setType] = React.useState<"login" | "register">("register");
+
+    // useeffect when localstorage is available.
+    useEffect(() => {
+        if (typeof localStorage !== "undefined") setType(Ls.hasBeenSigned ? "login" : "register");
+    }, [typeof localStorage]);
 
     return (
         <div className="flex flex-col items-center py-8 mx-auto md:h-screen lg:py-0">
@@ -192,7 +198,7 @@ const Form = (props: { type: "login" | "register" }) => {
 
         try {
             await registerMutation.mutateAsync({email, password});
-
+            Ls.hasBeenSigned = true;
             const autoLoginError = await login(email, password);
             if (autoLoginError) setRegisterError("Registrace byla úspěšná, ale nepodařilo se přihlásit. Zkuste to prosím později. " + autoLoginError);
             else router.push(paths.index);

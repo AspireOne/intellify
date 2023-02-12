@@ -115,10 +115,10 @@ const Profile: NextPage = () =>  {
                     </div>
                 }
 
-                <button onClick={() => signOut()} className={"flex gap-1 justify-end items-center flex-row"}>
+                <Button style={Style.NONE} onClick={() => signOut()} className={"flex gap-1 justify-end items-center flex-row p-0"}>
                     Odhlásit se
                     <ArrowForward color={"#fff"} height={"18px"}/>
-                </button>
+                </Button>
 
                 {
                     dataChanged &&

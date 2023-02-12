@@ -98,7 +98,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                                     <h2 className="text-2xl text-gray-200 font-bold mb-2">{card.title}</h2>
                                     <p className="text-gray-400 text-md 2xl:text-lg">{card.description}</p>
                                     {/*<button
-                                        className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Learn
+                                        className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue alwaysActive:bg-blue-800">Learn
                                         More
                                     </button>*/}
                                 </div>

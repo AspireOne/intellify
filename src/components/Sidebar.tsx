@@ -14,12 +14,10 @@ import {
 } from "react-ionicons";
 import React, {useEffect, useMemo, useState} from "react";
 import {signIn, signOut, useSession} from "next-auth/react";
-import {NextRouter, useRouter} from 'next/router';
 import Link from "next/link";
-import {useEventListener} from "@headlessui/react/dist/hooks/use-event-listener";
 import {paths} from "../lib/constants";
-import {useLocation} from "react-router-dom";
-import { motion } from "framer-motion";
+import Utils from "../lib/utils";
+import Ls from "../lib/ls";
 
 let lastLocation = "";
 const Sidebar: NextPage = () => {
@@ -32,6 +30,10 @@ const Sidebar: NextPage = () => {
         setIsOpen(open);
         //localStorage.setItem("sidebar-open", open ? "true" : "false");
     }, []);
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.innerWidth <= 768) setIsOpen(false);
+    }, [typeof window, typeof window != "undefined" && window?.location?.pathname]);
 
     const handleItemClick = () => {
         if (window.innerWidth <= 768) setIsOpen(false);
@@ -67,15 +69,15 @@ const Sidebar: NextPage = () => {
 
                         <SearchBar/>
 
-                        <ListItem onClick={handleItemClick} title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
-                        <ListItem onClick={handleItemClick} title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
+                        <ListItem title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
+                        <ListItem title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
                         {/*TODO: Change icon.*/}
-                        <ListItem onClick={handleItemClick} title={"Plán"} icon={<Cart color={"#fff"}/>} link={paths.plans}/>
+                        <ListItem title={"Plán"} icon={<Cart color={"#fff"}/>} link={paths.plans}/>
                         <div className="my-4 bg-gray-600 h-[1px]"></div>
 
-                        <ListItem onClick={handleItemClick} title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
-                        <ListItem onClick={handleItemClick} title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
-                        <ListItem onClick={handleItemClick} title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
+                        <ListItem title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
+                        <ListItem title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
+                        <ListItem title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
 
                         {/*                    <Category title={"Chatbox"}>
                         <ListItem title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
@@ -88,9 +90,10 @@ const Sidebar: NextPage = () => {
                             {
                                 session.status == "authenticated" &&
                                 <ListItem
-                                    onClick={handleItemClick} title="Profil"
+                                    title="Profil"
                                     className={"rounded-full"}
-                                    link={paths.profile} icon={session.data.user?.image
+                                    link={paths.profile}
+                                    icon={session.data.user?.image
                                     ? (<img
                                         className={"rounded-full"}
                                         width={25}
@@ -101,8 +104,8 @@ const Sidebar: NextPage = () => {
                             {
                                 session.status == "unauthenticated" &&
                                 <ListItem
-                                    onClick={handleItemClick} title={"Přihlásit se"}
-                                    className={"rounded-full"}
+                                    onClick={handleItemClick} title={Ls.hasBeenSigned ? "Přihásit se" : "Zaregistrovat se"}
+                                    className={"rounded-full bg-gray-200 bg-opacity-20"}
                                     link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
                             }
                             {/*<ListItem title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
