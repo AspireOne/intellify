@@ -12,7 +12,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
         <SessionProvider session={session} refetchOnWindowFocus={true}>
             <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
-                <div className="text-white dark">
+                <div className="text-gray-100 dark">
                     <div className="flex">
                         <Sidebar/>
                         <main className={"px-3 pt-3 sm:p-5 w-full"}>

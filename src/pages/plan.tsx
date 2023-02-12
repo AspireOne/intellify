@@ -99,8 +99,8 @@ const Plan: NextPage = () => {
                         Vybrat a pokračovat
                     </Button>
                 </Card>
+                <PaymentSection oneTime={offers.data?.onetime} offer={selectedOffer}/>
             </div>
-            <PaymentSection oneTime={offers.data?.onetime} offer={selectedOffer}/>
         </section>
     );
 }
@@ -112,7 +112,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, oneTime?:
     }
 
     return (
-        <section>
+        <section className={"w-full"}>
             <h2 className="mt-12 mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
                 Platba
             </h2>

@@ -1,10 +1,16 @@
-module.exports = {
-    darkMode: 'class',
-    content: [
-        './src/pages/**/*.{js,ts,jsx,tsx}',
-        './src/components/**/*.{js,ts,jsx,tsx}',
-        './src/app/**/*.{js,ts,jsx,tsx}',
-    ],
+// @ts-check - enable TS check for js file
+import { defineConfig } from 'windicss/helpers'
+
+export default defineConfig({
+    darkMode: "class",
+    extract: {
+      include: [
+          './src/pages/**/*.{js,ts,jsx,tsx}',
+          './src/components/**/*.{js,ts,jsx,tsx}',
+          './src/app/**/*.{js,ts,jsx,tsx}',
+      ],
+        exclude: ['node_modules', '.git', '.next']
+    },
     theme: {
         fontFamily: {
             'mono': ['Roboto Mono', 'monospace'],
@@ -34,4 +40,4 @@ module.exports = {
             },
         },
     },
-}
+})
