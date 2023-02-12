@@ -18,6 +18,7 @@ import Link from "next/link";
 import {paths} from "../lib/constants";
 import Utils from "../lib/utils";
 import Ls from "../lib/ls";
+import { twMerge } from "tailwind-merge";
 
 let lastLocation = "";
 const Sidebar: NextPage = () => {
@@ -166,8 +167,8 @@ const ListItem = (props: {icon?: any, title: string, className?: string, onClick
     // @ts-ignore
     const content = (
         <div
-            className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-100 cursor-pointer 
-        bg-opacity-50 hover:bg-opacity-40 hover:bg-gray-500 text-white ${active && "bg-gray-500"} ${props.className}`}
+            className={twMerge(`p-2.5 mt-3 flex items-center rounded-md px-4 duration-100 cursor-pointer 
+        bg-opacity-50 hover:bg-opacity-40 hover:bg-gray-500 text-white ${active && "bg-gray-500"} ${props.className}`)}
             onClick={props.onClick}
         >
             {props.icon}
