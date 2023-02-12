@@ -2,24 +2,28 @@ import {NextPage} from "next";
 import Button, {Style} from "../components/Button";
 import React, {useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
-import {OneTimeOffers, Plans} from "../server/schemas/offers";
 import {trpc} from "../utils/trpc";
-import {useQuery} from "@tanstack/react-query";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import {Offer, OfferInfo, OfferType} from "../server/schemas/offers";
+import {z} from "zod";
 
 const Plan: NextPage = () => {
-    const plans = trpc.offers.getPlans.useQuery();
-    const oneTimeOffers = trpc.offers.getOneTimeOffers.useQuery();
-    const [oneTimeOffer, setOneTimeOffer] = useState<OneTimeOffers | null>();
+    const offers = trpc.offers.getOffers.useQuery();
+    
+    const [preSelectedOnetimeOffer, setPreSelectedOnetimeOffer] = useState<z.infer<typeof Offer> | null>(null);
+    const [selectedOffer, setSelectedOffer] = useState<z.infer<typeof Offer> | null>(null);
 
     useEffect(() => {
-        if (!oneTimeOffer && oneTimeOffers.data)
-            setOneTimeOffer(oneTimeOffers.data.options[1].type);
-    }, [oneTimeOffers, oneTimeOffers?.data]);
+        if (!preSelectedOnetimeOffer && offers.data)
+            setPreSelectedOnetimeOffer(offers.data.onetime.options[1]);
+    }, [offers, offers?.data]);
 
-    function handleClick(plan: Plans) {
 
+    function handleClick(offer: z.infer<typeof Offer>) {
+        setSelectedOffer(offer);
+        // scroll to payment...
+        document.getElementById("payment")?.scrollIntoView({behavior: "smooth"});
     }
 
     return (
@@ -42,57 +46,35 @@ const Plan: NextPage = () => {
 
                 <div className="space-y-8 lg:grid lg:grid-cols-3 lg:grid-rows-1 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <PlanCard
-                        loading={!plans.data}
-                        title="Základní"
-                        text="Všechno co potřebujete a ještě něco navíc."
-                        price={plans.data?.basic.price}
-                        onClick={() => handleClick(Plans.BASIC)}
-                        points={[
-                            <span>{formatNumber(plans.data?.basic.tokens) ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
-                            'Žádné nastavování nebo skryté poplatky',
-                            'Velikost týmu: 1 vývojář',
-                            '24/7 Podpora',
-                        ]}/>
+                        offer={offers.data?.planBasic}
+                        onClick={handleClick}/>
 
                     <PlanCard
-                        loading={!plans.data}
-                        title="Pokročilý"
-                        text="Nejlepší možnost pro osobní využití a pro vás další projekt."
-                        price={plans.data?.advanced.price}
+                        offer={offers.data?.planAdvanced}
                         bestOffer={true}
-                        onClick={() => handleClick(Plans.ADVANCED)}
-                        points={[
-                            <span>{formatNumber(plans.data?.advanced.tokens) ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
-                            'Žádné nastavování nebo skryté poplatky',
-                            'Velikost týmu: 1 vývojář',
-                            '24/7 Podpora',
-                        ]}/>
+                        onClick={handleClick}/>
 
                     <PlanCard
-                        loading={!plans.data}
-                        title="Firma"
-                        text="Nejlepší možnost pro větší týmy, firmy, a společnosti."
-                        price={plans.data?.company.price}
-                        onClick={() => handleClick(Plans.COMPANY)}
-                        points={[
-                            <span>{formatNumber(plans.data?.company.tokens) ?? <Skeleton inline={true} width={"2.5em"}/>} tokenů</span>,
-                            'Žádné nastavování nebo skryté poplatky',
-                            'Velikost týmu: 10+ vývojářů',
-                            '24/7 Podpora',
-                        ]}/>
+                        offer={offers.data?.planCompany}
+                        onClick={handleClick}/>
                 </div>
 
-                <Card title={"Jednorázové"} description={"Tokeny můžete koupit taky jednorázově. Žádné opakované platby."}
-                      className={"max-w-full mt-10 flex flex-col gap-8"}>
+                <Card className={"max-w-full mt-10 flex flex-col gap-8"}>
+                    <div>
+                        <CardTitle>{offers.data?.onetime.name ?? <Skeleton width={"5em"} height={"1.5em"}/>}</CardTitle>
+                        <CardDescription>{offers.data?.onetime.description ?? <Skeleton count={2} width={"50%"}/>}</CardDescription>
+                    </div>
 
                     <div className={"flex flex-row flex-wrap gap-4 sm:gap-2 mx-auto items-center sm:justify-start"}>
                         {
-                            !oneTimeOffers.data?.options
+                            !offers.data?.onetime.options
                                 ? <Skeleton count={4} inline={true} width={"90px"} className={"mx-1"} height={"60px"}/>
-                                : oneTimeOffers.data?.options.map((offer, index) => (
-                                <button key={index} onClick={() => setOneTimeOffer(offer.type)} className={`
-                                    border border-1 border-gray-600 rounded-md py-2 px-6
-                                    duration-100 ${oneTimeOffer === offer.type ? "bg-gray-600" : "hover:bg-gray-700"}`}
+                                : offers.data.onetime.options.map((offer, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setPreSelectedOnetimeOffer(offer)}
+                                    className={`border border-1 border-gray-600 rounded-md py-2 px-6 duration-100 
+                                    ${preSelectedOnetimeOffer === offer ? "bg-gray-600" : "hover:bg-gray-700"}`}
                                 >
                                     <div className={"text-md sm:text-lg font-bold"}>{formatNumber(offer.tokens)}</div>
                                     <div className={"text-gray-500 text-sm dark:text-gray-400"}>tokenů</div>
@@ -102,19 +84,70 @@ const Plan: NextPage = () => {
                     </div>
                     <Price minitext={"/jednorázově"}>
                         {
-                            !oneTimeOffers.data
+                            !offers.data
                             ? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>
-                            : oneTimeOffers.data.options.find(offer => offer.type === oneTimeOffer)?.price
+                            : preSelectedOnetimeOffer?.price
                         }Kč
                     </Price>
 
-                    <Button loading={!oneTimeOffers?.data} loadingText={"Načítání..."} className={"p-4 font-bold max-w-md w-full mx-auto"} style={Style.OUTLINE}>
+                    <Button
+                        loading={!offers?.data}
+                        loadingText={"Načítání..."}
+                        onClick={() => handleClick(preSelectedOnetimeOffer!)}
+                        className={"p-4 font-bold max-w-md w-full mx-auto"}
+                        style={Style.OUTLINE}>
                         Vybrat a pokračovat
                     </Button>
                 </Card>
             </div>
+            <PaymentSection oneTime={offers.data?.onetime} offer={selectedOffer}/>
         </section>
     );
+}
+
+const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, oneTime?: z.infer<typeof OfferInfo> }) => {
+    let points: string[] = [];
+    if (props.offer && props.oneTime) {
+        points = [props.offer.tokens + " tokenů", ...(props.offer.points ?? props.oneTime.points!)]
+    }
+
+    return (
+        <section>
+            <h2 className="mt-12 mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+                Platba
+            </h2>
+            <div className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
+                <Card className={"mx-0 w-full text-left flex flex-row gap-5 justify-between"}>
+                    <div id={"payment"}>
+                        <div className={"mb-2"}>
+                            <CardTitle className={"mb-0"}>Plán</CardTitle>
+                            <CardDescription>
+                                {
+                                    props.offer && props.oneTime && (
+                                    props.offer.type == OfferType.ONETIME
+                                        ? props.oneTime.name
+                                        : props.offer.name
+                                    )
+                                }
+                            </CardDescription>
+                        </div>
+                        {props.offer && <p className={"font-semibold text-xl"}>{props.offer.price}Kč</p>}
+                        {
+                            props.offer &&
+                            <p className={"text-gray-500 text-sm dark:text-gray-400"}>
+                                {props.offer.type == OfferType.PLAN && "/měsíc"}
+                            </p>
+                        }
+                    </div>
+                    {points && <FormattedPoints points={points}/>}
+                </Card>
+
+                <Card className={"mx-0 w-full text-left"}>
+                    <CardTitle>Platební metoda</CardTitle>
+                </Card>
+            </div>
+        </section>
+    )
 }
 
 const formatNumber = (num: number | null | undefined) => {
@@ -123,54 +156,76 @@ const formatNumber = (num: number | null | undefined) => {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
 }
 
-const PlanCard = (props: { title: string, text: string, price?: number, points: React.ReactNode[], bestOffer?: boolean, onClick: () => void, loading?: boolean }) => {
+const PlanCard = (props: {
+                          bestOffer?: boolean,
+                          onClick: (offer: z.infer<typeof Offer>) => void,
+                          offer?: z.infer<typeof Offer> }) => {
+
+    const tokenPoint = props.offer?.tokens + " tokenů";
     return (
-        <Card title={props.title} description={props.text}>
+        <Card className={"w-full"}>
+            <div>
+                <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
+                <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
+            </div>
             <div className="flex justify-center items-baseline my-8">
-                <Price minitext={"/měsíc"}>{props.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
+                <Price minitext={"/měsíc"}>{props.offer?.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
             </div>
 
             <ul role="list" className="mb-8 space-y-4 text-left">
-                {props.points.map((point, index) => (
-                    <li key={index} className="flex items-center space-x-3">
-                        <svg
-                            className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                            />
-                        </svg>
-                        <span>{point}</span>
-                    </li>
-                ))}
+                {
+                    !props.offer?.points
+                        ? <Skeleton count={4} className={"mx-1 w-full"}/>
+                        : <FormattedPoints points={[tokenPoint, ...props.offer.points]}/>
+                }
             </ul>
-            <Button loading={props.loading} loadingText={"Načítání..."} className={"p-4 font-bold"} style={props.bestOffer ? Style.FILL : Style.OUTLINE}>
+            <Button
+                loading={!props.offer}
+                loadingText={"Načítání..."}
+                className={"p-4 font-bold"}
+                onClick={() => props.onClick(props.offer!)}
+                style={props.bestOffer ? Style.FILL : Style.OUTLINE}>
                 Vybrat a pokračovat
             </Button>
         </Card>
     );
 };
 
-const Card = (props: React.PropsWithChildren<{className?: string, title?: string, description?: string}>) => {
+const FormattedPoints = (props: { points: string[] }) => {
     return (
-        <div className={twMerge(`
-        flex flex-col p-6 
-        mx-auto max-w-lg 
-        text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 
+        <div>
+            {
+                props.points.map((point, index) => (
+                    <li key={index} className="flex items-center space-x-3">
+                        <svg
+                            className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"/>
+                        </svg>
+                        <span>{point}</span>
+                    </li>
+                ))
+            }
+        </div>
+    );
+}
+
+// TODO: Abstract it ig...
+const Card = (props: React.PropsWithChildren<{className?: string}>) => {
+    return (
+        <div className={twMerge(`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 
+        bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 
         xl:p-8 dark:bg-t-alternative-700 dark:text-white ${props.className}`)}>
-            <div>
-                {props.title && <h3 className="mb-4 text-2xl font-semibold">{props.title}</h3>}
-                {props.description && <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">{props.description}</p>}
-            </div>
             {props.children}
         </div>
     )
 }
+
+const CardTitle = (props: React.PropsWithChildren<{className?: string}>) => <h3 className={twMerge(`mb-3 text-2xl font-semibold ${props.className}`)}>{props.children}</h3>;
+const CardDescription = (props: React.PropsWithChildren<{className?: string}>) => <p className={twMerge(`font-light text-gray-500 sm:text-lg dark:text-gray-400 ${props.className}`)}>{props.children}</p>
 
 const Price = (props: React.PropsWithChildren<{minitext?: string}>) => {
     return (

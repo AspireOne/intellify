@@ -1,39 +1,40 @@
 import {z} from "zod";
 
-export const enum Plans { BASIC = "basic", ADVANCED = "advanced", COMPANY = "company" }
-export const enum OneTimeOffers { ONE = "one", TWO = "two", THREE = "three", FOUR = "four" }
-const oneTimeOfferContent = z.object({
-    type: z.enum([OneTimeOffers.ONE, OneTimeOffers.TWO, OneTimeOffers.THREE, OneTimeOffers.FOUR]),
+export const enum Offers {
+    PLAN_BASIC = "plan_basic",
+    PLAN_ADVANCED = "plan_advanced",
+    PLAN_COMPANY = "plan_company",
+    ONETIME_ONE = "onetime_one",
+    ONETIME_TWO = "onetime_two",
+    ONETIME_THREE = "onetime_three",
+    ONETIME_FOUR = "onetime_four",
+}
+
+export const enum OfferType { PLAN = "plan", ONETIME = "onetime" }
+
+const OfferMandatory = z.object({
     tokens: z.number(),
     price: z.number(),
+    type: z.enum([OfferType.PLAN, OfferType.ONETIME]),
+    id: z.enum([Offers.PLAN_BASIC, Offers.PLAN_ADVANCED, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR])
 });
 
-const planContent = z.object({
-    name: z.string(),
-    description: z.string(),
-    tokens: z.number(),
-    price: z.number(),
-    type: z.enum([Plans.BASIC, Plans.ADVANCED, Plans.COMPANY])
+export const OfferInfo = z.object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    points: z.array(z.string()).optional(),
 });
 
-export const getPlanInput = z.object({type: z.enum([Plans.BASIC, Plans.ADVANCED, Plans.COMPANY]),});
-export const getPlanOutput = planContent;
+export const Offer = OfferMandatory.merge(OfferInfo);
 
-export const getPlansInput = z.object({});
-export const getPlansOutput = z.object({
-    basic: planContent,
-    advanced: planContent,
-    company: planContent,
-});
-
-export const getOneTimeOfferInput = z.object({
-    option: z.enum([OneTimeOffers.ONE, OneTimeOffers.TWO, OneTimeOffers.THREE, OneTimeOffers.FOUR])
-});
-export const getOneTimeOfferOutput = oneTimeOfferContent;
-
-// Empty input. No need to pass anything.
-export const getOneTimeOffersOutput = z.object({
-    name: z.string(),
-    description: z.string(),
-    options: z.array(oneTimeOfferContent),
+export const getOffersOutput = z.object({
+    planBasic: Offer,
+    planAdvanced: Offer,
+    planCompany: Offer,
+    onetime: z.object({
+        name: z.string(),
+        description: z.string(),
+        points: z.array(z.string()),
+        options: z.array(OfferMandatory),
+    }),
 });
