@@ -1,5 +1,6 @@
 export const paths = {
     index: "/",
+    orderResult: "/vysledek-objednavky",
 
     privacyPolicy: "/ochrana-soukromi",
     licensing: "/licence",
@@ -12,7 +13,7 @@ export const paths = {
 
     sign: "/prihlaseni",
     profile: "/profil",
-    plans:  "/plan"
+    plans:  "/plan",
 };
 
 const prefix = "opentools."

@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import {CreateCompletionRequest, OpenAIApi} from "openai";
 import {TRPCError} from "@trpc/server";
-import {Context} from "./context";
+import {Context} from "../context";
+import {createTransport} from "nodemailer";
 
 export default class Utils {
     static async hashPassword(password: string): Promise<string> {

@@ -5,26 +5,39 @@ import {twMerge} from "tailwind-merge";
 import {trpc} from "../utils/trpc";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import {Offer, OfferInfo, OfferType} from "../server/schemas/offers";
+import {Offer, OfferType} from "../server/schemas/offers";
 import {z} from "zod";
+import getStripe from "../lib/get-stripe";
+import {Stripe} from "stripe";
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
+import {paths} from "../lib/constants";
 
 const Plan: NextPage = () => {
     const offers = trpc.offers.getOffers.useQuery();
-    
+    const session = useSession();
+    const router = useRouter();
+
     const [preSelectedOnetimeOffer, setPreSelectedOnetimeOffer] = useState<z.infer<typeof Offer> | null>(null);
     const [selectedOffer, setSelectedOffer] = useState<z.infer<typeof Offer> | null>(null);
 
     useEffect(() => {
         if (!preSelectedOnetimeOffer && offers.data)
-            setPreSelectedOnetimeOffer(offers.data.onetime.options[1]);
+            setPreSelectedOnetimeOffer(offers.data.onetimeTwo);
     }, [offers, offers?.data]);
 
 
     function handleClick(offer: z.infer<typeof Offer>) {
+        if (!session.data?.user) {
+            router.push(paths.sign);
+            return;
+        }
         setSelectedOffer(offer);
-        // scroll to payment...
         document.getElementById("payment")?.scrollIntoView({behavior: "smooth"});
     }
+
+    const onetimeOffers = Object.values(offers.data ?? {})
+        .filter((offer) => offer.type === OfferType.ONETIME);
 
     return (
         <section className="">
@@ -36,7 +49,7 @@ const Plan: NextPage = () => {
                     {/*TODO: Make this text shorter and add it to homepage instead..*/}
                     <p className="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
                         Doba jde dopředu, a umělá inteligence se stává nedílným nástrojem produktivity.
-                        Open Tools posouvá hranice aplikací, a umožňuje vám tuto sílu využít
+                        Open Tools posouvá hranice aplikací, a umožňuje vám tuto sílu využít.
                     </p>
                     {/*
                      -
@@ -61,22 +74,26 @@ const Plan: NextPage = () => {
 
                 <Card className={"max-w-full mt-10 flex flex-col gap-8"}>
                     <div>
-                        <CardTitle>{offers.data?.onetime.name ?? <Skeleton width={"5em"} height={"1.5em"}/>}</CardTitle>
-                        <CardDescription>{offers.data?.onetime.description ?? <Skeleton count={2} width={"50%"}/>}</CardDescription>
+                        <CardTitle>
+                            {offers.data?.onetimeOne.name ?? <Skeleton width={"5em"} height={"1.5em"}/>}
+                        </CardTitle>
+                        <CardDescription>
+                            {offers.data?.onetimeOne.description ?? <Skeleton count={2} width={"50%"}/>}
+                        </CardDescription>
                     </div>
 
                     <div className={"flex flex-row flex-wrap gap-4 sm:gap-2 mx-auto items-center sm:justify-start"}>
                         {
-                            !offers.data?.onetime.options
+                            !offers.data
                                 ? <Skeleton count={4} inline={true} width={"90px"} className={"mx-1"} height={"60px"}/>
-                                : offers.data.onetime.options.map((offer, index) => (
+                                : onetimeOffers.map((offer, index) => (
                                 <button
                                     key={index}
                                     onClick={() => setPreSelectedOnetimeOffer(offer)}
                                     className={`border border-1 border-gray-600 rounded-md py-2 px-6 duration-100 
                                     ${preSelectedOnetimeOffer === offer ? "bg-gray-600" : "hover:bg-gray-700"}`}
                                 >
-                                    <div className={"text-md sm:text-lg font-bold"}>{formatNumber(offer.tokens)}</div>
+                                    <div className={"text-md sm:text-lg font-bold"}>{formatTokens(offer.tokens)}</div>
                                     <div className={"text-gray-500 text-sm dark:text-gray-400"}>tokenů</div>
                                 </button>
                             ))
@@ -99,16 +116,17 @@ const Plan: NextPage = () => {
                         Vybrat a pokračovat
                     </Button>
                 </Card>
-                <PaymentSection oneTime={offers.data?.onetime} offer={selectedOffer}/>
+                <PaymentSection offer={selectedOffer}/>
             </div>
         </section>
     );
 }
 
-const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, oneTime?: z.infer<typeof OfferInfo> }) => {
+const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
+    const sessionMutation = trpc.offers.getSession.useMutation();
     let points: string[] = [];
-    if (props.offer && props.oneTime) {
-        points = [props.offer.tokens + " tokenů", ...(props.offer.points ?? props.oneTime.points!)]
+    if (props.offer) {
+        points = [formatTokens(props.offer.tokens) + " tokenů", ...(props.offer.points)];
     }
 
     return (
@@ -122,13 +140,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, oneTime?:
                         <div className={"mb-2"}>
                             <CardTitle className={"mb-0"}>Plán</CardTitle>
                             <CardDescription>
-                                {
-                                    props.offer && props.oneTime && (
-                                    props.offer.type == OfferType.ONETIME
-                                        ? props.oneTime.name
-                                        : props.offer.name
-                                    )
-                                }
+                                {props.offer && props.offer.name}
                             </CardDescription>
                         </div>
                         {props.offer && <p className={"font-semibold text-xl"}>{props.offer.price}Kč</p>}
@@ -144,15 +156,28 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, oneTime?:
 
                 <Card className={"mx-0 w-full text-left"}>
                     <CardTitle>Platební metoda</CardTitle>
+                    <Button onClick={async () => {
+                        if (!props.offer?.id) return;
+
+                        const checkoutSession: Stripe.Checkout.Session = await sessionMutation.mutateAsync({
+                            offerId: props.offer?.id,
+                        });
+
+                        const stripe = await getStripe();
+                        const { error } = await stripe!.redirectToCheckout({
+                            sessionId: checkoutSession.id,
+                        });
+                        console.warn(error.message);
+                    }}>test pay</Button>
                 </Card>
             </div>
         </section>
     )
 }
 
-const formatNumber = (num: number | null | undefined) => {
+const formatTokens = (num: number | null | undefined) => {
     if (!num) return num;
-    // Example: if the number is 50000, format it to "50 000". If it is 100000, format it to "100 000". If it is 5000, format it to "5 000". If it is 1000000, format it to "1 000 000" etx.
+    // Example: if the number is 50000, format it to "50 000".
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
 }
 
@@ -161,7 +186,7 @@ const PlanCard = (props: {
                           onClick: (offer: z.infer<typeof Offer>) => void,
                           offer?: z.infer<typeof Offer> }) => {
 
-    const tokenPoint = props.offer?.tokens + " tokenů";
+    const tokenPoint = formatTokens(props.offer?.tokens) + " tokenů";
     return (
         <Card className={"w-full"}>
             <div>

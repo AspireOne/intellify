@@ -12,29 +12,27 @@ export const enum Offers {
 
 export const enum OfferType { PLAN = "plan", ONETIME = "onetime" }
 
-const OfferMandatory = z.object({
+export const Offer = z.object({
+    name: z.string(),
+    description: z.string(),
+    points: z.array(z.string()),
     tokens: z.number(),
     price: z.number(),
     type: z.enum([OfferType.PLAN, OfferType.ONETIME]),
     id: z.enum([Offers.PLAN_BASIC, Offers.PLAN_ADVANCED, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR])
 });
 
-export const OfferInfo = z.object({
-    name: z.string().optional(),
-    description: z.string().optional(),
-    points: z.array(z.string()).optional(),
+export const getSessionInput = z.object({
+    offerId: z.enum([Offers.PLAN_BASIC, Offers.PLAN_ADVANCED, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR]),
+    /*token: z.string().min(1, "Token je required."),*/
 });
-
-export const Offer = OfferMandatory.merge(OfferInfo);
 
 export const getOffersOutput = z.object({
     planBasic: Offer,
     planAdvanced: Offer,
     planCompany: Offer,
-    onetime: z.object({
-        name: z.string(),
-        description: z.string(),
-        points: z.array(z.string()),
-        options: z.array(OfferMandatory),
-    }),
+    onetimeOne: Offer,
+    onetimeTwo: Offer,
+    onetimeThree: Offer,
+    onetimeFour: Offer,
 });

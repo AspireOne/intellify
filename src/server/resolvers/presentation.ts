@@ -1,7 +1,7 @@
 import {z} from "zod";
 import {createPresentationInput, createPresentationOutput} from "../schemas/presentation";
 import {Context} from "../context";
-import Utils from "../utils";
+import Utils from "../lib/utils";
 
 export async function createPresentationResolver(ctx: Context, input: z.input<typeof createPresentationInput>): Promise<z.output<typeof createPresentationOutput>> {
 

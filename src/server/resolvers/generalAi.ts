@@ -1,7 +1,7 @@
 import {Context} from "../context";
 import {z} from "zod";
 import {generateInput, generateOutput} from "../schemas/generalAi";
-import Utils from "../utils";
+import Utils from "../lib/utils";
 
 export async function generateResolver(ctx: Context, input: z.input<typeof generateInput>): Promise<z.output<typeof generateOutput>> {
         const output = await Utils.askAi(ctx, {

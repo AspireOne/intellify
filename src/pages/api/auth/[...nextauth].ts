@@ -1,13 +1,12 @@
 import NextAuth, {AuthOptions} from "next-auth"
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import clientPromise from "../../../lib/mongodb"
-import GithubProvider from "next-auth/providers/github"
 import AppleProvider from "next-auth/providers/apple"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
-import mongooseConnect from "../../../lib/mongooseConnect";
-import User from "../../../server/models/User";
-const bcrypt = require('bcrypt');
+import mongooseConnect from "../../../lib/mongooseConnect"
+import User from "../../../server/mongodb_models/User"
+const bcrypt = require('bcrypt')
 
 
 export const authOptions: AuthOptions = {

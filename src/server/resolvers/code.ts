@@ -4,7 +4,7 @@ import {createPresentationInput, createPresentationOutput} from "../schemas/pres
 import {assistCodeInput, assistCodeOutput} from "../schemas/code";
 import {Context} from "../context";
 import {TRPCError} from "@trpc/server";
-import Utils from "../utils";
+import Utils from "../lib/utils";
 export async function assistCodeResolver(ctx: Context, input: z.input<typeof assistCodeInput>): Promise<z.output<typeof assistCodeOutput>> {
     const prompt: string = generatePrompt(input);
     const output = await Utils.askAi(ctx, {
