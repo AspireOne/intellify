@@ -1,5 +1,5 @@
-import * as mongoose from "mongoose";
 import { prop, getModelForClass } from '@typegoose/typegoose';
+import {Offers, Plans} from "../schemas/offers";
 
 class User {
     @prop()
@@ -15,11 +15,17 @@ class User {
     @prop({required: true, default: false})
     public emailVerified!: boolean
 
-    @prop({required: [true, "Heslo je povinné pole."]})
-    public password!: string
+    @prop()
+    public password?: string
 
     @prop({required: false})
     public image?: string
+
+    @prop({required: true, default: 0})
+    public remainingTokens!: number
+
+    @prop({enum: Offers})
+    public plan?: string
 }
 
 export default getModelForClass(User);

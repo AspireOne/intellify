@@ -4,7 +4,6 @@ import React, {useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
 import {trpc} from "../utils/trpc";
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import {Offer, OfferType} from "../server/schemas/offers";
 import {z} from "zod";
 import getStripe from "../lib/get-stripe";
@@ -13,8 +12,9 @@ import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {paths} from "../lib/constants";
 
-const Plan: NextPage = () => {
+const PEdplatn: NextPage = () => {
     const offers = trpc.offers.getOffers.useQuery();
+    const user = trpc.user.getUser.useQuery();
     const session = useSession();
     const router = useRouter();
 
@@ -60,15 +60,18 @@ const Plan: NextPage = () => {
                 <div className="space-y-8 lg:grid lg:grid-cols-3 lg:grid-rows-1 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <PlanCard
                         offer={offers.data?.planBasic}
+                        currentOffer={(user.data && offers.data) && user.data.plan?.id === offers.data.planBasic.id}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planAdvanced}
                         bestOffer={true}
+                        currentOffer={(user.data && offers.data) && user.data.plan?.id === offers.data.planAdvanced.id}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planCompany}
+                        currentOffer={(user.data && offers.data) && user.data.plan?.id === offers.data.planCompany.id}
                         onClick={handleClick}/>
                 </div>
 
@@ -182,37 +185,49 @@ const formatTokens = (num: number | null | undefined) => {
 }
 
 const PlanCard = (props: {
-                          bestOffer?: boolean,
-                          onClick: (offer: z.infer<typeof Offer>) => void,
-                          offer?: z.infer<typeof Offer> }) => {
+    bestOffer?: boolean,
+    currentOffer?: boolean,
+    onClick: (offer: z.infer<typeof Offer>) => void,
+    offer?: z.infer<typeof Offer> }) => {
 
     const tokenPoint = formatTokens(props.offer?.tokens) + " tokenů";
     return (
-        <Card className={"w-full"}>
-            <div>
-                <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
-                <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
-            </div>
-            <div className="flex justify-center items-baseline my-8">
-                <Price minitext={"/měsíc"}>{props.offer?.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
-            </div>
+        <div>
+            <Card className={`w-full ${props.currentOffer && "border-blue-500 border-2"}`}>
+                <div>
+                    <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
+                    <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
+                </div>
+                <div className="flex justify-center items-baseline my-8">
+                    <Price minitext={"/měsíc"}>{props.offer?.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
+                </div>
 
-            <ul role="list" className="mb-8 space-y-4 text-left">
+                <ul role="list" className="mb-8 space-y-4 text-left">
+                    {
+                        !props.offer?.points
+                            ? <Skeleton count={4} className={"mx-1 w-full"}/>
+                            : <FormattedPoints points={[tokenPoint, ...props.offer.points]}/>
+                    }
+                </ul>
                 {
-                    !props.offer?.points
-                        ? <Skeleton count={4} className={"mx-1 w-full"}/>
-                        : <FormattedPoints points={[tokenPoint, ...props.offer.points]}/>
+                    !props.currentOffer &&
+                    <Button
+                        loading={!props.offer}
+                        loadingText={"Načítání..."}
+                        className={"p-4 font-bold"}
+                        onClick={() => props.onClick(props.offer!)}
+                        style={props.bestOffer ? Style.FILL : Style.OUTLINE}>
+                        Vybrat a pokračovat
+                    </Button>
                 }
-            </ul>
-            <Button
-                loading={!props.offer}
-                loadingText={"Načítání..."}
-                className={"p-4 font-bold"}
-                onClick={() => props.onClick(props.offer!)}
-                style={props.bestOffer ? Style.FILL : Style.OUTLINE}>
-                Vybrat a pokračovat
-            </Button>
-        </Card>
+                {
+                    props.currentOffer &&
+                    <p className={"font-bold text-lg text-center my-3 text-blue-500"}>
+                        Současný plán
+                    </p>
+                }
+            </Card>
+        </div>
     );
 };
 
@@ -242,7 +257,7 @@ const FormattedPoints = (props: { points: string[] }) => {
 const Card = (props: React.PropsWithChildren<{className?: string}>) => {
     return (
         <div className={twMerge(`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 
-        bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 
+        bg-white rounded-lg border shadow border-gray-600 
         xl:p-8 dark:bg-t-alternative-700 dark:text-white ${props.className}`)}>
             {props.children}
         </div>
@@ -261,4 +276,4 @@ const Price = (props: React.PropsWithChildren<{minitext?: string}>) => {
     )
 }
 
-export default Plan;
+export default PEdplatn;

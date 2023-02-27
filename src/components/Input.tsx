@@ -1,6 +1,7 @@
 import React from "react";
 import {twMerge} from "tailwind-merge";
 import TextareaAutosize from "react-textarea-autosize";
+import Skeleton from "react-loading-skeleton";
 
 export default function Input(props: React.PropsWithChildren<{
     maxLen?: number,
@@ -15,6 +16,7 @@ export default function Input(props: React.PropsWithChildren<{
     onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void,
     readonly?: boolean,
 
+    loading?: boolean,
     label?: string,
     error?: string | null,
 
@@ -39,19 +41,21 @@ export default function Input(props: React.PropsWithChildren<{
         },
         onKeyDown: props.onKeyDown,
     }
-
     return (
         <div className={"flex flex-col gap-1 w-full"}>
             {props.label && <label className={"text-md"}>{props.label}</label>}
             {
-                props.autosize
-                    ? <TextareaAutosize
-                        {... sharedProps}/>
-                    : <input
-                        {... sharedProps}
-                        max={props.maxNum}
-                        min={props.minNum}
-                        type={props.type || "text"}/>
+                props.loading
+                    ? <Skeleton className={"max-w-md rounded-md"} height={45}/>
+                    : (
+                        props.autosize
+                            ? <TextareaAutosize {... sharedProps}/>
+                            : <input
+                                {... sharedProps}
+                                max={props.maxNum}
+                                min={props.minNum}
+                                type={props.type || "text"}/>
+                    )
             }
             {props.error && <p className="text-red-500 text-sm">{props.error}</p>}
         </div>

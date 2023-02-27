@@ -26,7 +26,8 @@ export async function middleware(req: NextRequest) {
 
 async function isSignedIn(req: NextRequest): Promise<boolean> {
     return getToken({ req, secret: process.env.SECRET })
-        .then((session) => session !== null && session !== undefined)
+        .then((session) => !!session?.email);
+
     // You could also check for any property on the session object,
     // like role === "admin" or name === "John Doe", etc.
 }

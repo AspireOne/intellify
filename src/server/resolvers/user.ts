@@ -1,9 +1,11 @@
 import {Context} from "../context";
 import {object, z} from "zod";
 import User from "../mongodb_models/User";
-import {updateDataInput, updateDataOutput} from "../schemas/user";
+import {getUserOutput, updateDataInput, updateDataOutput} from "../schemas/user";
 import Utils from "../lib/utils";
 import {TRPCError} from "@trpc/server";
+import {Offer} from "../schemas/offers";
+import {getOffers} from "./offers";
 
 export async function updateDataResolver(ctx: Context, input: z.input<typeof updateDataInput>): Promise<z.output<typeof updateDataOutput>> {
     await ctx.connectDb();
@@ -35,4 +37,22 @@ export async function updateDataResolver(ctx: Context, input: z.input<typeof upd
     );
 
     return {message: "Uživatelská data byla úspěšně aktualizována."}
+}
+
+export async function getUserResolver(ctx: Context): Promise<z.output<typeof getUserOutput>> {
+    await ctx.connectDb();
+    
+    const user = await User.findOne({email: ctx.session?.user?.email}).exec();
+    if (!user) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Uživatele se nepodařilo získat."});
+
+
+    return {
+        name: user.name,
+        image: user.image,
+        email: user.email,
+        emailVerified: user.emailVerified,
+        remainingTokens: user.remainingTokens,
+        hasPassword: !!user.password,
+        plan: Object.values(await getOffers()).find((offer) => offer.id === user.plan) || null
+    }
 }

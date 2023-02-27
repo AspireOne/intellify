@@ -96,6 +96,7 @@ const offers = {
     }
 }
 
+// TODO: Implement webhooks for refunds etc!
 export async function getOffers(): Promise<z.output<typeof getOffersOutput>> {
     return offers;
 }

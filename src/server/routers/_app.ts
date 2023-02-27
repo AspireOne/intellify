@@ -7,6 +7,7 @@ import {signRouter} from "./sign";
 import {userRouter} from "./user";
 import {generalAiRouter} from "./generalAi";
 import {offersRouter} from "./offers";
+import 'react-loading-skeleton/dist/skeleton.css';
 export const appRouter = router({
     presentation: presentationRouter,
     code: codeRouter,

@@ -73,7 +73,7 @@ const Sidebar: NextPage = () => {
                         <ListItem title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
                         <ListItem title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
                         {/*TODO: Change icon.*/}
-                        <ListItem title={"Plán"} icon={<Cart color={"#fff"}/>} link={paths.plans}/>
+                        <ListItem title={"Předplatné"} icon={<Cart color={"#fff"}/>} link={paths.subscription}/>
                         <div className="my-4 bg-gray-600 h-[1px]"></div>
 
                         <ListItem title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>

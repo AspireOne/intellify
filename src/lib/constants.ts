@@ -13,7 +13,7 @@ export const paths = {
 
     sign: "/prihlaseni",
     profile: "/profil",
-    plans:  "/plan",
+    subscription:  "/predplatne",
 };
 
 const prefix = "opentools."

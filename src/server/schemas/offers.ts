@@ -1,14 +1,20 @@
 import {z} from "zod";
 
-export const enum Offers {
+export enum Plans {
     PLAN_BASIC = "plan_basic",
     PLAN_ADVANCED = "plan_advanced",
     PLAN_COMPANY = "plan_company",
+}
+
+export enum OnetimeOffers {
     ONETIME_ONE = "onetime_one",
     ONETIME_TWO = "onetime_two",
     ONETIME_THREE = "onetime_three",
     ONETIME_FOUR = "onetime_four",
 }
+
+export const Offers = {...Plans, ...OnetimeOffers};
+
 
 export const enum OfferType { PLAN = "plan", ONETIME = "onetime" }
 

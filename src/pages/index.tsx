@@ -9,7 +9,6 @@ import {trpc} from "../utils/trpc";
 // TODO: ADD _document.tsx or <Head> to every page.
 const Home: NextPage = () => {
     const el = useRef(null);
-    trpc.offers.testPay.useQuery();
 
     useEffect(() => {
         // TODO: If it slows down the website, stop typing when it is not visible.

@@ -1,4 +1,5 @@
 import {z} from "zod";
+import {Offer} from "./offers";
 export const updateDataInput = z.object({
     email: z.string()
         .email({message: "Neplatný email."})
@@ -14,6 +15,16 @@ export const updateDataInput = z.object({
         .url({message: "Neplatná URL."})
         .max(255, {message: "Maximální délka obrázku překročena."})
         .optional(),
+});
+
+export const getUserOutput = z.object({
+    name: z.string().optional(),
+    image: z.string().optional(),
+    email: z.string(),
+    emailVerified: z.boolean(),
+    hasPassword: z.boolean(),
+    remainingTokens: z.number(),
+    plan: Offer.nullable(),
 });
 
 export const updateDataOutput = z.object({message: z.string()});
