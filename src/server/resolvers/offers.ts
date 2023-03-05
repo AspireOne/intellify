@@ -28,10 +28,10 @@ const offers = {
         price: 69,
     },
     planAdvanced: {
-        name: "Pokročilý",
-        id: Offers.PLAN_ADVANCED,
+        name: "Student",
+        id: Offers.PLAN_STUDENT,
         type: OfferType.PLAN,
-        description: "Nejlepší možnost pro osobní využití a pro vás další projekt.",
+        description: "Nejlepší možnost pro studenty a pro osobní využití.",
         points: [
             'Žádné nastavování nebo skryté poplatky',
             'Přístup do všech projektů',

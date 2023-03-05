@@ -2,7 +2,7 @@ import {z} from "zod";
 
 export enum Plans {
     PLAN_BASIC = "plan_basic",
-    PLAN_ADVANCED = "plan_advanced",
+    PLAN_STUDENT = "plan_advanced",
     PLAN_COMPANY = "plan_company",
 }
 
@@ -25,11 +25,11 @@ export const Offer = z.object({
     tokens: z.number(),
     price: z.number(),
     type: z.enum([OfferType.PLAN, OfferType.ONETIME]),
-    id: z.enum([Offers.PLAN_BASIC, Offers.PLAN_ADVANCED, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR])
+    id: z.enum([Offers.PLAN_BASIC, Offers.PLAN_STUDENT, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR])
 });
 
 export const getSessionInput = z.object({
-    offerId: z.enum([Offers.PLAN_BASIC, Offers.PLAN_ADVANCED, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR]),
+    offerId: z.enum([Offers.PLAN_BASIC, Offers.PLAN_STUDENT, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR]),
     /*token: z.string().min(1, "Token je required."),*/
 });
 

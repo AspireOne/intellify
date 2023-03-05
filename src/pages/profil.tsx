@@ -13,6 +13,7 @@ import Skeleton from "react-loading-skeleton";
 import {twMerge} from "tailwind-merge";
 import Link from "next/link";
 import {paths} from "../lib/constants";
+import PageTitle from "../components/PageTitle";
 
 const Profile: NextPage = () =>  {
     const session = useSession();
@@ -79,7 +80,7 @@ const Profile: NextPage = () =>  {
             <Popup title={popupTitle} open={popupOpen} setOpen={setPopupOpen}>
                 <p>{popupMessage}</p>
             </Popup>
-            <h1 className={"text-4xl m-4"}>Profil</h1>
+            <PageTitle>Profil</PageTitle>
 
             {/*Profile pic*/}
             <form className={"flex flex-col gap-4 max-w-md my-3 mx-auto bg-t-alternative-700 p-6 rounded-md"}>

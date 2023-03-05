@@ -73,19 +73,18 @@ const Sidebar: NextPage = () => {
                         <ListItem title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
                         {/*TODO: Change icon.*/}
                         <ListItem title={"Předplatné"} icon={<Cart color={"#fff"}/>} link={paths.subscription}/>
-                        <div className="my-4 bg-gray-600 h-[1px]"></div>
-
                         <ListItem title={"Nástroje"} icon={<Hammer color={"#fff"}/>} link={paths.tools}/>
-                        <ListItem title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
+                        {/*<div className="my-4 bg-gray-600 h-[1px]"></div>*/}
+                        {/*<ListItem title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
                         <ListItem title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
-                        <ListItem title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>
+                        <ListItem title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>*/}
 
                         {/*                    <Category title={"Chatbox"}>
                         <ListItem title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
                         <ListItem title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
                         <ListItem title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
                     </Category>*/}
-                        <div className="my-4 bg-gray-600 h-[1px]"></div>
+                        {/*<div className="my-4 bg-gray-600 h-[1px]"></div>*/}
 
                         <div className={"absolute bottom-0 left-0 right-0"}>
                             {

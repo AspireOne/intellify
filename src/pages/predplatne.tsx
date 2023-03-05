@@ -11,6 +11,8 @@ import {Stripe} from "stripe";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {paths} from "../lib/constants";
+import PageTitle from "../components/PageTitle";
+import Card from "../components/Card";
 
 const PEdplatn: NextPage = () => {
     const offers = trpc.offers.getOffers.useQuery();
@@ -75,7 +77,7 @@ const PEdplatn: NextPage = () => {
                         onClick={handleClick}/>
                 </div>
 
-                <Card className={"max-w-full mt-10 flex flex-col gap-8"}>
+                <CustomCard className={"max-w-full mt-10 flex flex-col gap-8"}>
                     <div>
                         <CardTitle>
                             {offers.data?.onetimeOne.name ?? <Skeleton width={"5em"} height={"1.5em"}/>}
@@ -96,8 +98,8 @@ const PEdplatn: NextPage = () => {
                                     className={`border border-1 border-gray-600 rounded-md py-2 px-6 duration-100 
                                     ${preSelectedOnetimeOffer === offer ? "bg-gray-600" : "hover:bg-gray-700"}`}
                                 >
-                                    <div className={"text-md sm:text-lg font-bold"}>{formatTokens(offer.tokens)}</div>
-                                    <div className={"text-gray-500 text-sm dark:text-gray-400"}>tokenů</div>
+                                    <div className={"text-md sm:text-lg font-bold"}>~{tokensToWords(offer.tokens)}</div>
+                                    <div className={"text-gray-500 text-sm dark:text-gray-400"}>slov</div>
                                 </button>
                             ))
                         }
@@ -118,7 +120,7 @@ const PEdplatn: NextPage = () => {
                         style={Style.OUTLINE}>
                         Vybrat a pokračovat
                     </Button>
-                </Card>
+                </CustomCard>
                 <PaymentSection offer={selectedOffer}/>
             </div>
         </section>
@@ -129,7 +131,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
     const sessionMutation = trpc.offers.getSession.useMutation();
     let points: string[] = [];
     if (props.offer) {
-        points = [formatTokens(props.offer.tokens) + " tokenů", ...(props.offer.points)];
+        points = ["~" + tokensToWords(props.offer.tokens) + " slov", ...(props.offer.points)];
     }
 
     return (
@@ -138,7 +140,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
                 Platba
             </h2>
             <div className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
-                <Card className={"mx-0 w-full text-left flex flex-row gap-5 justify-between"}>
+                <CustomCard className={"mx-0 w-full text-left flex flex-row gap-5 justify-between"}>
                     <div id={"payment"}>
                         <div className={"mb-2"}>
                             <CardTitle className={"mb-0"}>Plán</CardTitle>
@@ -155,9 +157,9 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
                         }
                     </div>
                     {points && <FormattedPoints points={points}/>}
-                </Card>
+                </CustomCard>
 
-                <Card className={"mx-0 w-full text-left"}>
+                <CustomCard className={"mx-0 w-full text-left"}>
                     <CardTitle>Platební metoda</CardTitle>
                     <Button onClick={async () => {
                         if (!props.offer?.id) return;
@@ -172,16 +174,19 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
                         });
                         console.warn(error.message);
                     }}>test pay</Button>
-                </Card>
+                </CustomCard>
             </div>
         </section>
     )
 }
 
-const formatTokens = (num: number | null | undefined) => {
-    if (!num) return num;
-    // Example: if the number is 50000, format it to "50 000".
-    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+const tokensToWords = (tokens: number | null | undefined) => {
+    if (!tokens) return tokens;
+
+    const words = Math.round(tokens * 0.75);
+    const wordsRounded = Math.round(words / 1000) * 1000;
+    // Formatted so that 50000 = 50 000.
+    return wordsRounded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
 }
 
 const PlanCard = (props: {
@@ -190,10 +195,10 @@ const PlanCard = (props: {
     onClick: (offer: z.infer<typeof Offer>) => void,
     offer?: z.infer<typeof Offer> }) => {
 
-    const tokenPoint = formatTokens(props.offer?.tokens) + " tokenů";
+    const tokenPoint = "~" + tokensToWords(props.offer?.tokens) + " slov";
     return (
         <div>
-            <Card className={`w-full ${props.currentOffer && "border-blue-500 border-2"}`}>
+            <CustomCard className={`w-full ${props.currentOffer && "border-blue-500 border-2"}`}>
                 <div>
                     <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
                     <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
@@ -226,7 +231,7 @@ const PlanCard = (props: {
                         Současný plán
                     </p>
                 }
-            </Card>
+            </CustomCard>
         </div>
     );
 };
@@ -253,14 +258,12 @@ const FormattedPoints = (props: { points: string[] }) => {
     );
 }
 
-// TODO: Abstract it ig...
-const Card = (props: React.PropsWithChildren<{className?: string}>) => {
+const CustomCard = (props: React.PropsWithChildren<{className?: string}>) => {
     return (
-        <div className={twMerge(`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 
-        bg-white rounded-lg border shadow border-gray-600 
-        xl:p-8 dark:bg-t-alternative-700 dark:text-white ${props.className}`)}>
+        <Card border={true} className={twMerge(`flex flex-col mx-auto max-w-lg text-center 
+        rounded-lg xl:p-8 ${props.className}`)}>
             {props.children}
-        </div>
+        </Card>
     )
 }
 

@@ -1,5 +1,4 @@
 import {NextPage} from "next";
-import {Button, Card} from "@mantine/core";
 import React, {PropsWithChildren} from "react";
 
 import {IconType} from "react-icons";
@@ -12,13 +11,13 @@ import {
     HiOutlinePencil,
     HiOutlinePencilAlt, HiOutlinePresentationChartBar, HiOutlineSparkles
 } from "react-icons/hi";
+import PageTitle from "../components/PageTitle";
+import Card from "../components/Card";
 
 const Tools: NextPage = () => {
     return (
         <>
-            <h2 className="text-center m-8 mt-14 text-5xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-                Nástroje
-            </h2>
+            <PageTitle>Nástroje</PageTitle>
 
             <ToolSection title={"Základní plán"}>
                 <BasicPlanTools/>
@@ -72,7 +71,7 @@ function ToolSection(props: PropsWithChildren<{title: string}>) {
             <h3 className="my-4 text-3xl tracking-tight font-semibold text-gray-900 dark:text-white">
                 {props.title}
             </h3>
-            <div className="flex flex-row flex-wrap gap-4 bg-gray-800/20 rounded-lg p-4">
+            <div className="flex flex-row flex-wrap gap-4 bg-gray-800/20 inline-flex justify-center sm:justify-start rounded-lg p-4">
                 {props.children}
             </div>
         </div>
@@ -86,7 +85,7 @@ function ToolCard(props: {icon: IconType, color?: string, href: string, descript
 
     return (
         <Link
-            href={props.href} className={`hover:bg-gray-700 transition-150 rounded-md bg-gray-800 flex flex-col gap-2 items-center w-32 min-w-32 p-4`}
+            href={props.href} className={`hover:bg-gray-700 transition duration-100 rounded-md bg-t-alternative-700 flex flex-col gap-2 items-center w-32 min-w-32 p-4`}
         >
             {<props.icon color={color} size={"35px"}/>}
             <p className={"text-sm text-center text-gray-200"}>{props.description}</p>
