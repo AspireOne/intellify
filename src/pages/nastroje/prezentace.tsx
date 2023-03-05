@@ -1,18 +1,18 @@
 import type {NextPage} from 'next'
 import React, {useEffect, useState} from "react";
-import Presentation from "../lib/presentation";
-import IOCard from "../components/IOCard";
-import ModuleLandingPage from "../components/ModuleLandingPage";
-import LandingPageProps from "../lib/landingPageProps";
-import Button from "../components/Button";
+import Presentation from "../../lib/presentation";
+import IOCard from "../../components/IOCard";
+import ModuleLandingPage from "../../components/ModuleLandingPage";
+import LandingPageProps from "../../lib/landingPageProps";
+import Button from "../../components/Button";
 import {Switch} from "@headlessui/react";
 import TextareaAutosize from "react-textarea-autosize";
 import {InformationCircleOutline} from "react-ionicons";
-import {AutoPopup} from "../components/Popup";
-import Input from "../components/Input";
+import {AutoPopup} from "../../components/Popup";
+import Input from "../../components/Input";
 import {z} from "zod";
-import {createPresentationInput} from "../server/schemas/presentation";
-import {trpc} from "../utils/trpc";
+import {createPresentationInput} from "../../server/schemas/presentation";
+import {trpc} from "../../utils/trpc";
 import {twMerge} from "tailwind-merge";
 
 const landingPageProps: LandingPageProps = {

@@ -6,10 +6,11 @@ export const paths = {
     licensing: "/licence",
     contanct: "/kontakt",
     about: "/o-nas",
+    tools: "/nastroje",
 
-    codeAssistant: "/kodovy-asistent",
-    presentation: "/prezentace",
-    generalAi: "/obecne-ai",
+    codeAssistant: "/nastroje/kodovy-asistent",
+    presentation: "/nastroje/prezentace",
+    generalAi: "/nastroje/obecne-ai",
 
     sign: "/prihlaseni",
     profile: "/profil",

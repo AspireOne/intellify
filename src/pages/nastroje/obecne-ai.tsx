@@ -1,15 +1,15 @@
-import LandingPageProps from "../lib/landingPageProps";
+import LandingPageProps from "../../lib/landingPageProps";
 import {NextPage} from "next";
-import ModuleLandingPage from "../components/ModuleLandingPage";
+import ModuleLandingPage from "../../components/ModuleLandingPage";
 import React from "react";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 import {Copy, CopyOutline, InformationCircleOutline, Send} from "react-ionicons";
 import TextareaAutosize from "react-textarea-autosize";
-import IOCard from "../components/IOCard";
-import {trpc} from "../utils/trpc";
-import {AutoPopup} from "../components/Popup";
-import Slider from "../components/Slider";
+import IOCard from "../../components/IOCard";
+import {trpc} from "../../utils/trpc";
+import {AutoPopup} from "../../components/Popup";
+import Slider from "../../components/Slider";
 
 const landingPageProps: LandingPageProps = {
     title: "Získávejte odpovědi s pomocí [A.I.]",

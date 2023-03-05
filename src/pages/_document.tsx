@@ -8,8 +8,8 @@ export default function Document() {
                 <meta name="author" content="Matěj Pešl" />
                 {/*TODO: Make the description better.*/}
                 {/*TODO: Add head tag (title etc.) for each page.*/}
-                <meta name="description" content="Zrychlete svůj workflow pomocí naších A.I. nástrojů. Vytvářejte prezentace,
-                upravujte texty, pište maily a mnohem více. " />
+                <meta name="description" content="Zrychlete svůj workflow pomocí A.I. nástrojů. Vytvářejte prezentace,
+                upravujte texty, pište maily a mnohem více." />
             </Head>
             <body>
                 <Main />

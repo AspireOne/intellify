@@ -8,7 +8,7 @@
 @layer base {
     html, body {
         background-color: #0e1423;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', "-apple-system", "Segoe UI", "Roboto", "Noto Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
     }
 
     /*Style scrollbar.*/

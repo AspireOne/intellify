@@ -5,7 +5,7 @@ import {
     Chatbox, ChevronDown,
     ChevronDownOutline,
     Close,
-    Code, Happy,
+    Code, Hammer, Happy,
     Home, LogIn,
     LogOut,
     Menu,
@@ -20,7 +20,6 @@ import Utils from "../lib/utils";
 import Ls from "../lib/ls";
 import { twMerge } from "tailwind-merge";
 
-let lastLocation = "";
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
     const [isOpen, setIsOpen] = useState(false);
@@ -76,6 +75,7 @@ const Sidebar: NextPage = () => {
                         <ListItem title={"Předplatné"} icon={<Cart color={"#fff"}/>} link={paths.subscription}/>
                         <div className="my-4 bg-gray-600 h-[1px]"></div>
 
+                        <ListItem title={"Nástroje"} icon={<Hammer color={"#fff"}/>} link={paths.tools}/>
                         <ListItem title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
                         <ListItem title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
                         <ListItem title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>

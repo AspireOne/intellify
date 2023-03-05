@@ -1,13 +1,13 @@
 import {NextPage} from "next";
-import ModuleLandingPage from "../components/ModuleLandingPage";
-import LandingPageProps from "../lib/landingPageProps";
+import ModuleLandingPage from "../../components/ModuleLandingPage";
+import LandingPageProps from "../../lib/landingPageProps";
 
 import TextareaAutosize from 'react-textarea-autosize';
 import React, {useState} from "react";
-import Button, {Style} from "../components/Button";
+import Button, {Style} from "../../components/Button";
 import {z} from "zod";
-import {assistCodeInput} from "../server/schemas/code";
-import {trpc} from "../utils/trpc";
+import {assistCodeInput} from "../../server/schemas/code";
+import {trpc} from "../../utils/trpc";
 
 
 const landingPageProps: LandingPageProps = {

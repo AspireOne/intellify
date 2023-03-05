@@ -8,10 +8,10 @@ module.exports = {
         './src/app/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
-        fontFamily: {
+        /*fontFamily: {
             'mono': ['Roboto Mono', 'monospace'],
-            "sans": ["Inter"]
-        },
+            "sans": ["Inter", "-apple-system", "Segoe UI", "Roboto", "Noto Sans", "Ubuntu", "Cantarell", "Helvetica Neue"],
+        },*/
         extend: {
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
