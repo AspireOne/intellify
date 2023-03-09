@@ -24,7 +24,7 @@ export const getUserOutput = z.object({
     emailVerified: z.boolean(),
     hasPassword: z.boolean(),
     remainingTokens: z.number(),
-    plan: Offer.nullable(),
+    subscription: Offer.nullable(),
 });
 
 export const updateDataOutput = z.object({message: z.string()});

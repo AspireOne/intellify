@@ -45,7 +45,6 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
     const user = await User.findOne({email: ctx.session?.user?.email}).exec();
     if (!user) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Uživatele se nepodařilo získat."});
 
-
     return {
         name: user.name,
         image: user.image,
@@ -53,6 +52,6 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
         emailVerified: user.emailVerified,
         remainingTokens: user.remainingTokens,
         hasPassword: !!user.password,
-        plan: Object.values(await getOffers()).find((offer) => offer.id === user.plan) || null
+        subscription: Object.values(await getOffers()).find((offer) => offer.id === user.subscriptionType) || null
     }
 }

@@ -63,18 +63,18 @@ const Subscription: NextPage = () => {
                 <div className="space-y-8 lg:grid lg:grid-cols-3 lg:grid-rows-1 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <PlanCard
                         offer={offers.data?.planBasic}
-                        currentOffer={(user.data && offers.data) && user.data.plan?.id === offers.data.planBasic.id}
+                        currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planBasic.id}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planAdvanced}
                         bestOffer={true}
-                        currentOffer={(user.data && offers.data) && user.data.plan?.id === offers.data.planAdvanced.id}
+                        currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planAdvanced.id}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planCompany}
-                        currentOffer={(user.data && offers.data) && user.data.plan?.id === offers.data.planCompany.id}
+                        currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planCompany.id}
                         onClick={handleClick}/>
                 </div>
 
