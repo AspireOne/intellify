@@ -98,7 +98,7 @@ const Profile: NextPage = () =>  {
                     <p className={"border border-[1px] border-gray-300 bg-gray-800 py-2 px-4 rounded-full"}>
                         Plán: {
                         user.data
-                            ? (user.data.plan?.name ?? <>žádný | <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>prohlédnout</Link></>)
+                            ? (user.data.subscription?.name ?? <>žádný | <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>prohlédnout</Link></>)
                             : <Skeleton width={"100px"} className={"rounded-full"}/>
                     }
                     </p>
