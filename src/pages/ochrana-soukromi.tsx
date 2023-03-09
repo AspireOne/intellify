@@ -1,6 +1,7 @@
-import {PropsWithChildren, useEffect, useState} from "react";
+import React, {PropsWithChildren, useEffect, useState} from "react";
 import {NextPage} from "next";
-import {Par, Title} from "../components/article";
+import {ArticleDiv, Par, ParTitle} from "../components/article";
+import PageTitle from "../components/PageTitle";
 
 const PrivacyPolicy: NextPage = () =>  {
     const [hostname, setHostname] = useState("www.      .cz");
@@ -11,8 +12,9 @@ const PrivacyPolicy: NextPage = () =>  {
     }, [typeof window]);
 
     return (
-        <div className={"p-10 pt-0 text-gray-200 max-w-3xl mx-auto"}>
-            <Title>Zásady ochrany osobních údajů webu {hostname}</Title>
+        <ArticleDiv>
+            <PageTitle>Zásady ochrany soukromí</PageTitle>
+            <ParTitle>Zásady ochrany osobních údajů webu {hostname}</ParTitle>
 
                 <Par>
                         Správa webu {hostname} se zavazuje dodržovat zásady ochrany Vašich osobních údajů na Internetu.
@@ -23,7 +25,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         úkony.
                 </Par>
 
-            <Title>Shromažďování a používání osobních údajů</Title>
+            <ParTitle>Shromažďování a používání osobních údajů</ParTitle>
 
                 <Par>
                         Osobní údaje shromažďujeme a používáme pouze v případě vašeho dobrovolného souhlasu. Pokud s tím budete
@@ -32,7 +34,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         území Evropské unie a státu Česká Republika.
                 </Par>
 
-            <Title>Ukládání, úprava a mazání dat</Title>
+            <ParTitle>Ukládání, úprava a mazání dat</ParTitle>
 
                 <Par>
                         Uživatel, který poskytl své osobní údaje webovým stránkám {hostname}, má oprávnění nadále je
@@ -44,7 +46,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         organizací, které s námi nesouvisejí.
                 </Par>
 
-            <Title>Využití technických údajů při návštěvě webu</Title>
+            <ParTitle>Využití technických údajů při návštěvě webu</ParTitle>
 
                 <Par>
                         Když navštívíte web {hostname}, budou v databázi uloženy záznamy o Vaší IP adrese, čase návštěvy,
@@ -52,7 +54,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         obsahu webu. Podle těchto údajů však identifikovat totožnost návštěvníka nemůžeme.
                 </Par>
 
-            <Title>Poskytování informací dětmi</Title>
+            <ParTitle>Poskytování informací dětmi</ParTitle>
 
                 <Par>
                         Pokud jste rodičem, nebo opatrovníkem a zjistili jste, že Vaše děti nám poskytly své osobní údaje bez Vašeho
@@ -60,7 +62,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         souhlasu rodičů nebo opatrovníků.
                 </Par>
 
-            <Title>Využívání souborů cookies</Title>
+            <ParTitle>Využívání souborů cookies</ParTitle>
 
                 <Par>
                         Pro správné zobrazení obsahu a pro usnadnění používání stránek {hostname} využíváme soubory cookies.
@@ -72,7 +74,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         výkonnost webu.
                 </Par>
 
-            <Title>Využití osobních údajů jinými službami</Title>
+            <ParTitle>Využití osobních údajů jinými službami</ParTitle>
 
                 <Par>
                         Tato stránka používá internetové služby třetích stran, které sbírají informace nezávisle na nás: Google
@@ -86,7 +88,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         požadavků státních orgánů, oprávněných k provádění takových úkonů.
                 </Par>
 
-            <Title>Odkazy na jiné stránky</Title>
+            <ParTitle>Odkazy na jiné stránky</ParTitle>
 
                 <Par>
                         Naše stránky {hostname} mohou obsahovat odkazy na jiné weby, které nejsou námi provozovány. Za jejich
@@ -94,7 +96,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         stránkách, které jste navštívili, pokud jsou tam uvedeny.
                 </Par>
 
-            <Title>Změny zásad ochrany osobních údajů</Title>
+            <ParTitle>Změny zásad ochrany osobních údajů</ParTitle>
 
                 <Par>
                         Naše stránky {hostname} mohou občas aktualizovat své zásady ochrany osobních údajů. Všechny změny
@@ -104,7 +106,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         kontaktní údaje zadány nesprávně, pak Vás kontaktovat nemůžeme.
                 </Par>
 
-            <Title>Zpětná vazba, závěrečná ustanovení</Title>
+            <ParTitle>Zpětná vazba, závěrečná ustanovení</ParTitle>
 
                 <Par>
                         Máte-li jakékoliv dotazy, související se zásadami ochrany osobních údajů, kontaktujte správce webu
@@ -112,7 +114,7 @@ const PrivacyPolicy: NextPage = () =>  {
                         tohoto webu. Pokud s těmito zásadami ochrany osobních údajů nesouhlasíte, nemůžete nadále využívat služby
                         webu {hostname}. V takovém případě se musíte vzdát možnosti navštěvovat naše stránky.
                 </Par>
-        </div>
+        </ArticleDiv>
     );
 }
 

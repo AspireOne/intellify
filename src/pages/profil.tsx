@@ -1,5 +1,5 @@
 import {NextPage} from "next";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Button, {Style} from "../components/Button";
 import {signOut, useSession} from "next-auth/react";
 import Input from "../components/Input";
@@ -7,8 +7,6 @@ import INPUT from "../lib/inputConstraints";
 import {trpc} from "../utils/trpc";
 import Popup from "../components/Popup";
 import {ArrowForward} from "react-ionicons";
-import {Offer} from "../server/schemas/offers";
-import {z} from "zod";
 import Skeleton from "react-loading-skeleton";
 import {twMerge} from "tailwind-merge";
 import Link from "next/link";
@@ -16,8 +14,6 @@ import {paths} from "../lib/constants";
 import PageTitle from "../components/PageTitle";
 
 const Profile: NextPage = () =>  {
-    const session = useSession();
-
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");

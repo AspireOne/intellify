@@ -44,11 +44,11 @@ const Subscription: NextPage = () => {
 
     return (
         <section className="">
-            <div className="py-8 sm:px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div className="mx-auto max-w-screen-xl">
                 <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-                    <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+                    <PageTitle className={"mb-4"}>
                         Navrženo pro jednorázové úkoly, i dlouhodobé projekty
-                    </h2>
+                    </PageTitle>
                     {/*TODO: Make this text shorter and add it to homepage instead..*/}
                     <p className="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
                         Doba jde dopředu, a umělá inteligence se stává nedílným nástrojem produktivity.
@@ -146,7 +146,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
                     <div className={"flex flex-row gap-5 justify-between"}>
                         <div>
                             <div className={"mb-2"}>
-                                <CardTitle className={"mb-0"}>Předplatné</CardTitle>
+                                <CardTitle className={"mb-0"}>{props.offer.type == OfferType.PLAN ? "Předplatné" : "Jednorázově"}</CardTitle>
                                 <CardDescription>
                                     {props.offer.name}
                                 </CardDescription>
