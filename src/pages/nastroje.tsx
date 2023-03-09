@@ -68,7 +68,7 @@ function CompanyPlanTools() {
 function ToolSection(props: PropsWithChildren<{title: string}>) {
     return (
         <div className={"mb-8"}>
-            <h3 className="my-4 text-3xl tracking-tight font-semibold text-gray-900 dark:text-white">
+                <h3 className="mt-4 mb-2 text-3xl tracking-tight font-semibold text-gray-900 dark:text-white">
                 {props.title}
             </h3>
             <div className="flex flex-row flex-wrap gap-4 bg-gray-800/20 inline-flex justify-center sm:justify-start rounded-lg p-4">

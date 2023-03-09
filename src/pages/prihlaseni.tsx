@@ -15,7 +15,7 @@ import Ls from "../lib/ls";
 
 // TODO: Save logged in status to localstorage, and when a page loads and session status is loading,
 // TODO: temporarily take the login status from localstorage until session loads. Make it an abstraction.
-const Prihlaseni: NextPage = () => {
+const Sign: NextPage = () => {
     const [type, setType] = React.useState<"login" | "register">("register");
 
     // useeffect when localstorage is available.
@@ -267,4 +267,4 @@ function login(email: string, password: string): Promise<string | null> {
     });
 }
 
-export default Prihlaseni;
+export default Sign;

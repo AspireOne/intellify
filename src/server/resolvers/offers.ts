@@ -1,6 +1,6 @@
 import {Context} from "../context";
 import {z} from "zod";
-import {getOffersOutput, getSessionInput, Offers, OfferType} from "../schemas/offers";
+import {getOffersOutput, getSessionInput, OfferIds, OfferType} from "../schemas/offers";
 import {Stripe} from "stripe";
 import {TRPCError} from "@trpc/server";
 import {paths} from "../../lib/constants";
@@ -13,10 +13,11 @@ const onetimePoints = [
     "Jednorázová platba",
 ];
 
-const offers = {
+// TODO: ADD THE SPECIFIC MODULES THAT WILL BE OPEN TO THEM.
+export const offers = {
     planBasic: {
         name: "Základní",
-        id: Offers.PLAN_BASIC,
+        id: OfferIds.PLAN_BASIC,
         type: OfferType.PLAN,
         description: "Všechno co potřebujete a ještě něco navíc.",
         points: [
@@ -29,7 +30,7 @@ const offers = {
     },
     planAdvanced: {
         name: "Student",
-        id: Offers.PLAN_STUDENT,
+        id: OfferIds.PLAN_STUDENT,
         type: OfferType.PLAN,
         description: "Nejlepší možnost pro studenty a pro osobní využití.",
         points: [
@@ -42,7 +43,7 @@ const offers = {
     },
     planCompany: {
         name: "Firma",
-        id: Offers.PLAN_COMPANY,
+        id: OfferIds.PLAN_COMPANY,
         type: OfferType.PLAN,
         description: "Nejlepší možnost pro větší týmy, firmy, a společnosti.",
         points: [
@@ -59,7 +60,7 @@ const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: Offers.ONETIME_ONE,
+        id: OfferIds.ONETIME_ONE,
         type: OfferType.ONETIME,
         tokens: 10_000,
         price: 39,
@@ -69,7 +70,7 @@ const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: Offers.ONETIME_TWO,
+        id: OfferIds.ONETIME_TWO,
         type: OfferType.ONETIME,
         tokens: 15_000,
         price: 49,
@@ -79,7 +80,7 @@ const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: Offers.ONETIME_THREE,
+        id: OfferIds.ONETIME_THREE,
         type: OfferType.ONETIME,
         tokens: 20_000,
         price: 69,
@@ -89,7 +90,7 @@ const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: Offers.ONETIME_FOUR,
+        id: OfferIds.ONETIME_FOUR,
         type: OfferType.ONETIME,
         tokens: 50_000,
         price: 119,
@@ -151,7 +152,7 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
                     product_data: {
                         name: "Plán: " + offer.name,
                         description: offer.description,
-                        /*TODO: Some cool image of the plan.*/
+                        /*TODO: Some cool image of the subscriptionType.*/
                     },
                 }
             },
@@ -164,10 +165,10 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
 }
 /*export async function getPlan(ctx: Context, input: z.input<typeof getPlanInput>): Promise<z.output<typeof getPlanOutput>> {
     // Iterate Plans.
-    const plan = Object.values(planOffers).find((val) => val.type === input.type);
-    if (!plan) throw new TRPCError({
+    const subscriptionType = Object.values(planOffers).find((val) => val.type === input.type);
+    if (!subscriptionType) throw new TRPCError({
         code: "BAD_REQUEST",
         message: "Neexistující plán."
     });
-    return plan;
+    return subscriptionType;
 }*/

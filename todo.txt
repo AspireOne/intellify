@@ -55,7 +55,7 @@ Random ideas:
     - SEO
     - Ads
     - Sell the modules alone to corporations/school/individuals?
-    - Add a school-specific or bussiness-specific etc. plan
+    - Add a school-specific or bussiness-specific etc. subscriptionType
 
 
 - "is expected to be marginally upgraded in 2023 - cheaper for current Subscribers"

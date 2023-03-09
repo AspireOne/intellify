@@ -1,19 +1,15 @@
 import {z} from "zod";
 
-export enum Plans {
-    PLAN_BASIC = "plan_basic",
-    PLAN_STUDENT = "plan_advanced",
-    PLAN_COMPANY = "plan_company",
-}
+export const OfferIds = {
+    PLAN_BASIC: "plan_basic",
+    PLAN_STUDENT: "plan_advanced",
+    PLAN_COMPANY: "plan_company",
 
-export enum OnetimeOffers {
-    ONETIME_ONE = "onetime_one",
-    ONETIME_TWO = "onetime_two",
-    ONETIME_THREE = "onetime_three",
-    ONETIME_FOUR = "onetime_four",
-}
-
-export const Offers = {...Plans, ...OnetimeOffers};
+    ONETIME_ONE: "onetime_one",
+    ONETIME_TWO: "onetime_two",
+    ONETIME_THREE: "onetime_three",
+    ONETIME_FOUR: "onetime_four",
+};
 
 
 export const enum OfferType { PLAN = "plan", ONETIME = "onetime" }
@@ -25,11 +21,11 @@ export const Offer = z.object({
     tokens: z.number(),
     price: z.number(),
     type: z.enum([OfferType.PLAN, OfferType.ONETIME]),
-    id: z.enum([Offers.PLAN_BASIC, Offers.PLAN_STUDENT, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR])
+    id: z.enum([OfferIds.PLAN_BASIC, OfferIds.PLAN_STUDENT, OfferIds.PLAN_COMPANY, OfferIds.ONETIME_ONE, OfferIds.ONETIME_TWO, OfferIds.ONETIME_THREE, OfferIds.ONETIME_FOUR])
 });
 
 export const getSessionInput = z.object({
-    offerId: z.enum([Offers.PLAN_BASIC, Offers.PLAN_STUDENT, Offers.PLAN_COMPANY, Offers.ONETIME_ONE, Offers.ONETIME_TWO, Offers.ONETIME_THREE, Offers.ONETIME_FOUR]),
+    offerId: z.enum([OfferIds.PLAN_BASIC, OfferIds.PLAN_STUDENT, OfferIds.PLAN_COMPANY, OfferIds.ONETIME_ONE, OfferIds.ONETIME_TWO, OfferIds.ONETIME_THREE, OfferIds.ONETIME_FOUR]),
     /*token: z.string().min(1, "Token je required."),*/
 });
 
@@ -37,6 +33,7 @@ export const getOffersOutput = z.object({
     planBasic: Offer,
     planAdvanced: Offer,
     planCompany: Offer,
+
     onetimeOne: Offer,
     onetimeTwo: Offer,
     onetimeThree: Offer,

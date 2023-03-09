@@ -13,8 +13,9 @@ import {useRouter} from "next/router";
 import {paths} from "../lib/constants";
 import PageTitle from "../components/PageTitle";
 import Card from "../components/Card";
+import {LockClosed} from "react-ionicons";
 
-const PEdplatn: NextPage = () => {
+const Subscription: NextPage = () => {
     const offers = trpc.offers.getOffers.useQuery();
     const user = trpc.user.getUser.useQuery();
     const session = useSession();
@@ -128,10 +129,11 @@ const PEdplatn: NextPage = () => {
 }
 
 const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
+    if (!props.offer) return <></>;
     const sessionMutation = trpc.offers.getSession.useMutation();
     let points: string[] = [];
     if (props.offer) {
-        points = ["~" + tokensToWords(props.offer.tokens) + " slov", ...(props.offer.points)];
+        points = ["Až ~" + tokensToWords(props.offer.tokens) + " slov", ...(props.offer.points)];
     }
 
     return (
@@ -140,28 +142,25 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
                 Platba
             </h2>
             <div className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
-                <CustomCard className={"mx-0 w-full text-left flex flex-row gap-5 justify-between"}>
-                    <div id={"payment"}>
-                        <div className={"mb-2"}>
-                            <CardTitle className={"mb-0"}>Plán</CardTitle>
-                            <CardDescription>
-                                {props.offer && props.offer.name}
-                            </CardDescription>
+                <CustomCard id={"payment"} className={"mx-0 w-full text-left flex flex-col gap-4"}>
+                    <div className={"flex flex-row gap-5 justify-between"}>
+                        <div>
+                            <div className={"mb-2"}>
+                                <CardTitle className={"mb-0"}>Předplatné</CardTitle>
+                                <CardDescription>
+                                    {props.offer.name}
+                                </CardDescription>
+                            </div>
+                            {<p className={"font-semibold text-xl"}>{props.offer.price}Kč</p>}
+                            {
+                                <p className={"text-gray-500 text-sm dark:text-gray-400"}>
+                                    {props.offer.type == OfferType.PLAN && "/měsíc"}
+                                </p>
+                            }
                         </div>
-                        {props.offer && <p className={"font-semibold text-xl"}>{props.offer.price}Kč</p>}
-                        {
-                            props.offer &&
-                            <p className={"text-gray-500 text-sm dark:text-gray-400"}>
-                                {props.offer.type == OfferType.PLAN && "/měsíc"}
-                            </p>
-                        }
+                        {points && <FormattedPoints points={points}/>}
                     </div>
-                    {points && <FormattedPoints points={points}/>}
-                </CustomCard>
-
-                <CustomCard className={"mx-0 w-full text-left"}>
-                    <CardTitle>Platební metoda</CardTitle>
-                    <Button onClick={async () => {
+                    <Button className={"flex flex-row justify-center items-center gap-2 text-md"} onClick={async () => {
                         if (!props.offer?.id) return;
 
                         const checkoutSession: Stripe.Checkout.Session = await sessionMutation.mutateAsync({
@@ -173,8 +172,31 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
                             sessionId: checkoutSession.id,
                         });
                         console.warn(error.message);
-                    }}>test pay</Button>
+                    }}>
+
+                        <LockClosed color={"#fff"}/> Zaplatit
+                    </Button>
                 </CustomCard>
+
+                {/*<CustomCard className={"mx-0 w-full text-left"}>
+                    <CardTitle>Platební metoda</CardTitle>
+                    <Button className={"flex flex-row justify-center items-center gap-2 text-md"} onClick={async () => {
+                        if (!props.offer?.id) return;
+
+                        const checkoutSession: Stripe.Checkout.Session = await sessionMutation.mutateAsync({
+                            offerId: props.offer?.id,
+                        });
+
+                        const stripe = await getStripe();
+                        const { error } = await stripe!.redirectToCheckout({
+                            sessionId: checkoutSession.id,
+                        });
+                        console.warn(error.message);
+                    }}>
+
+                        <LockClosed color={"#fff"}/> Zaplatit
+                    </Button>
+                </CustomCard>*/}
             </div>
         </section>
     )
@@ -195,7 +217,7 @@ const PlanCard = (props: {
     onClick: (offer: z.infer<typeof Offer>) => void,
     offer?: z.infer<typeof Offer> }) => {
 
-    const tokenPoint = "~" + tokensToWords(props.offer?.tokens) + " slov";
+    const tokenPoint = "Až ~" + tokensToWords(props.offer?.tokens) + " slov";
     return (
         <div>
             <CustomCard className={`w-full ${props.currentOffer && "border-blue-500 border-2"}`}>
@@ -228,7 +250,7 @@ const PlanCard = (props: {
                 {
                     props.currentOffer &&
                     <p className={"font-bold text-lg text-center my-3 text-blue-500"}>
-                        Současný plán
+                        Současné předplatné
                     </p>
                 }
             </CustomCard>
@@ -258,9 +280,9 @@ const FormattedPoints = (props: { points: string[] }) => {
     );
 }
 
-const CustomCard = (props: React.PropsWithChildren<{className?: string}>) => {
+const CustomCard = (props: React.PropsWithChildren<{className?: string, id?: string}>) => {
     return (
-        <Card border={true} className={twMerge(`flex flex-col mx-auto max-w-lg text-center 
+        <Card id={props.id} border={true} className={twMerge(`flex flex-col mx-auto max-w-lg text-center 
         rounded-lg xl:p-8 ${props.className}`)}>
             {props.children}
         </Card>
@@ -279,4 +301,4 @@ const Price = (props: React.PropsWithChildren<{minitext?: string}>) => {
     )
 }
 
-export default PEdplatn;
+export default Subscription;
