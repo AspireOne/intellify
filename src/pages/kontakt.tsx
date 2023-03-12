@@ -29,7 +29,7 @@ const Contact: NextPage = () => {
                     Kontaktujte nás
                 </PageTitle>
                 <Subtitle>
-                    Pokud máte jakékoliv dotazy, nebo máte zájem o spolupráci, neváhejte nás kontaktovat.
+                    Máte dotaz? Problém? Zájem o spolupráci? Můžete nás kdykoli kontaktovat.
                 </Subtitle>
             </PageHeaderDiv>
             <div className={"flex flex-row gap-4 flex-wrap lg:flex-nowrap justify-center"}>

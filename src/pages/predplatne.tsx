@@ -1,4 +1,4 @@
-import {NextPage} from "next";
+import {GetStaticPropsContext, NextPage} from "next";
 import Button, {Style} from "../components/Button";
 import React, {useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
@@ -16,6 +16,27 @@ import Card from "../components/Card";
 import {LockClosed} from "react-ionicons";
 import Subtitle from "../components/Subtitle";
 import PageHeaderDiv from "../components/PageHeaderDiv";
+import {createProxySSGHelpers} from "@trpc/react-query/ssg";
+import {appRouter} from "../server/routers/_app";
+
+export async function getStaticProps(
+    context: GetStaticPropsContext<{}>,
+) {
+    const ssg = await createProxySSGHelpers({
+        router: appRouter,
+        ctx: {},
+    });
+    const id = context.params?.id as string;
+    // prefetch `post.byId`
+    await ssg.post.byId.prefetch({ id });
+    return {
+        props: {
+            trpcState: ssg.dehydrate(),
+            id,
+        },
+        revalidate: 1,
+    };
+}
 
 const Subscription: NextPage = () => {
     const offers = trpc.offers.getOffers.useQuery();

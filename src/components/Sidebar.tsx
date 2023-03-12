@@ -1,22 +1,18 @@
 import {NextPage} from "next";
 import {
-    Albums,
-    Apps, Book, Cart,
-    Chatbox, ChevronDown,
-    ChevronDownOutline,
+    Apps, Cart,
+    ChevronDown,
     Close,
-    Code, Hammer, Happy,
+    Hammer,
     Home, LogIn,
-    LogOut,
     Menu,
     People, Person,
     Search
 } from "react-ionicons";
-import React, {useEffect, useMemo, useState} from "react";
-import {signIn, signOut, useSession} from "next-auth/react";
+import React, {useEffect, useState} from "react";
+import {useSession} from "next-auth/react";
 import Link from "next/link";
 import {paths} from "../lib/constants";
-import Utils from "../lib/utils";
 import Ls from "../lib/ls";
 import { twMerge } from "tailwind-merge";
 
@@ -70,7 +66,7 @@ const Sidebar: NextPage = () => {
                         <SearchBar/>
 
                         <ListItem title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
-                        <ListItem title={"O nás"} icon={<People color={"#fff"}/>} link={paths.about}/>
+                        <ListItem title={"Napište nám"} icon={<People color={"#fff"}/>} link={paths.contact}/>
                         {/*TODO: Change icon.*/}
                         <ListItem title={"Předplatné"} icon={<Cart color={"#fff"}/>} link={paths.subscription}/>
                         <ListItem title={"Nástroje"} icon={<Hammer color={"#fff"}/>} link={paths.tools}/>
