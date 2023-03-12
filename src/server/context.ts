@@ -11,15 +11,31 @@ const openai = new OpenAIApi(configuration);
  * Creates context for an incoming request
  * @link https://trpc.io/docs/context
  */
-export async function createContext(opts: trpcNext.CreateNextContextOptions) {
-    const session = await getSession({ req: opts.req });
+export async function createContext(opts?: trpcNext.CreateNextContextOptions) {
+    // Do this terrible hack so that we can create context in SSG Helpers. If a procedure is used for SSG with this context,
+    // it MUST NOT use session data or opts, because they might be null.
+    opts = opts as trpcNext.CreateNextContextOptions;
+
+    const session = await getSession({ req: opts?.req });
 
     return {
         session,
         openai,
         connectDb: mongooseConnect,
-        req: opts.req,
-        res: opts.res
+        req: opts?.req,
+        res: opts?.res
+    };
+};
+
+export async function createContextInner(opts?: trpcNext.CreateNextContextOptions) {
+    const session = opts?.req && await getSession({ req: opts.req });
+
+    return {
+        session,
+        openai,
+        connectDb: mongooseConnect,
+        req: opts?.req,
+        res: opts?.res
     };
 };
 
