@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useCallback} from "react"
 import {NextPage} from "next";
 import {useSession} from "next-auth/react";
 import License from "./licence";
@@ -18,6 +18,10 @@ import PageHeaderDiv from "../components/PageHeaderDiv";
 const Contact: NextPage = () => {
     const session = useSession();
 
+    const onInputChange = useCallback((val: string) => {
+
+    }, []);
+
     return (
         <div className={"sm:mx-14"}>
             <PageHeaderDiv>
@@ -28,8 +32,8 @@ const Contact: NextPage = () => {
                     Pokud máte jakékoliv dotazy, nebo máte zájem o spolupráci, neváhejte nás kontaktovat.
                 </Subtitle>
             </PageHeaderDiv>
-            <div className={"flex flex-row gap-4 flex-wrap justify-between"}>
-                <Card className={"flex flex-col gap-4 p-6"}>
+            <div className={"flex flex-row gap-4 flex-wrap lg:flex-nowrap justify-center"}>
+                <Card className={"flex flex-col gap-4 p-6 w-full lg:w-min"}>
                     <Title size={1}>Kontaktní informace</Title>
                     <IconTextWrapper>
                         <Call color={"#fff"} width={"20px"}/>
@@ -41,11 +45,12 @@ const Contact: NextPage = () => {
                     </IconTextWrapper>
                 </Card>
                 <Form className={"flex-1 min-w-fit max-w-5xl"}>
-                    <div className={"flex flex-row gap-4"}>
+                    <div className={"flex sm:flex-row gap-4"}>
                         <Input theme={"gray"} label={"Váš e-mail*"} placeholder={"jan.novak@seznam.cz"}/>
                         <Input theme={"gray"} label={"Vaše telefonní číslo"} placeholder={"123 456 789"}/>
                     </div>
-                    <Input theme={"gray"} label={"Předmět"} placeholder={"Čeho se zpráva týká?"}/>
+                    <Input theme={"gray"} label={"Předmět"} placeholder={"Čeho se zpráva týká?"}
+                           onChange={onInputChange}/>
                     <Input theme={"gray"} label={"Zpráva*"} maxLen={2000} autosize={true} placeholder={"Zpráva..."}/>
                     <Button>Odeslat</Button>
                 </Form>

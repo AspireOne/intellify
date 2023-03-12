@@ -77,7 +77,7 @@ function ToolSection(props: PropsWithChildren<{title: string}>) {
             <Title size={2} className={"mb-2"}>
                 {props.title}
             </Title>
-            <div className="flex flex-row flex-wrap gap-4 bg-gray-800/20 inline-flex justify-center sm:justify-start rounded-lg p-4">
+            <div className="flex flex-row flex-wrap gap-8 sm:gap-4 bg-gray-800/20 justify-start rounded-lg p-4">
                 {props.children}
             </div>
         </div>
