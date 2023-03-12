@@ -50,14 +50,6 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
     const session = useSession();
     const router = useRouter();
 
-    const [fakeLoading, setFakeLoading] = useState(true);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setFakeLoading(false);
-        }, 500);
-    }, []);
-
     const [preSelectedOnetimeOffer, setPreSelectedOnetimeOffer] = useState<z.infer<typeof Offer> | null>(null);
     const [selectedOffer, setSelectedOffer] = useState<z.infer<typeof Offer> | null>(null);
 
@@ -100,36 +92,33 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                     <PlanCard
                         offer={offers.data?.planBasic}
                         currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planBasic.id}
-                        fakeLoading={fakeLoading}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planAdvanced}
                         bestOffer={true}
                         currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planAdvanced.id}
-                        fakeLoading={fakeLoading}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planCompany}
                         currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planCompany.id}
-                        fakeLoading={fakeLoading}
                         onClick={handleClick}/>
                 </div>
 
                 <CustomCard className={"max-w-full mt-10 flex flex-col gap-8"}>
                     <div>
                         <CardTitle>
-                            {!fakeLoading ? offers.data?.onetimeOne.name : <Skeleton width={"5em"} height={"1.5em"}/>}
+                            {offers.data?.onetimeOne.name ?? <Skeleton width={"5em"} height={"1.5em"}/>}
                         </CardTitle>
                         <CardDescription>
-                            {!fakeLoading ? offers.data?.onetimeOne.description : <Skeleton count={2} width={"50%"}/>}
+                            {offers.data?.onetimeOne.description ?? <Skeleton count={2} width={"50%"}/>}
                         </CardDescription>
                     </div>
 
                     <div className={"flex flex-row flex-wrap gap-4 sm:gap-2 mx-auto items-center sm:justify-start"}>
                         {
-                            fakeLoading
+                            !offers.data
                                 ? <Skeleton count={4} inline={true} width={"90px"} className={"mx-1"} height={"60px"}/>
                                 : onetimeOffers.map((offer, index) => (
                                     <button
@@ -146,14 +135,14 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                     </div>
                     <Price minitext={"/jednorázově"}>
                         {
-                            fakeLoading
+                            !offers.data
                                 ? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>
                                 : preSelectedOnetimeOffer?.price
                         }Kč
                     </Price>
 
                     <Button
-                        loading={fakeLoading}
+                        loading={!offers?.data}
                         loadingText={"Načítání..."}
                         onClick={() => handleClick(preSelectedOnetimeOffer!)}
                         className={"p-4 font-bold max-w-md w-full mx-auto"}
@@ -254,7 +243,6 @@ const PlanCard = (props: {
     bestOffer?: boolean,
     currentOffer?: boolean,
     onClick: (offer: z.infer<typeof Offer>) => void,
-    fakeLoading: boolean,
     offer?: z.infer<typeof Offer> }) => {
 
     const tokenPoint = "Až ~" + tokensToWords(props.offer?.tokens) + " slov";
@@ -262,16 +250,16 @@ const PlanCard = (props: {
         <div>
             <CustomCard className={`w-full ${props.currentOffer && "border-blue-500 border-2"}`}>
                 <div>
-                    <CardTitle>{!props.fakeLoading ? props.offer?.name : <Skeleton/>}</CardTitle>
-                    <CardDescription>{!props.fakeLoading ? props.offer?.description : <Skeleton/>}</CardDescription>
+                    <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
+                    <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
                 </div>
                 <div className="flex justify-center items-baseline my-8">
-                    <Price minitext={"/měsíc"}>{!props.fakeLoading ? props.offer?.price : <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
+                    <Price minitext={"/měsíc"}>{props.offer?.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
                 </div>
 
                 <ul role="list" className="mb-8 space-y-4 text-left">
                     {
-                        props.fakeLoading || !props?.offer?.points
+                        !props.offer?.points
                             ? <Skeleton count={4} className={"mx-1 w-full"}/>
                             : <FormattedPoints points={[tokenPoint, ...props.offer.points]}/>
                     }
