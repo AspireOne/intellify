@@ -4,8 +4,8 @@ export const paths = {
 
     privacyPolicy: "/ochrana-soukromi",
     licensing: "/licence",
-    contanct: "/kontakt",
-    about: "/o-nas",
+    contact: "/kontakt",
+    /*about: "/o-nas",*/
     tools: "/nastroje",
 
     codeAssistant: "/nastroje/kodovy-asistent",

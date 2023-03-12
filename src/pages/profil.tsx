@@ -114,7 +114,7 @@ const Profile: NextPage = () =>  {
                         {
                         user.data
                             ? (user.data.remainingTokens || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>dokoupit</Link></>)
-                            : <Skeleton width={"30px"} className={"rounded-full"}/>
+                            : <Skeleton width={"100px"} className={"rounded-full"}/>
                         }
                     </div>
                 </div>

@@ -23,7 +23,7 @@ const Footer: NextPage = () => {
                 </li>
                 <li>
                     {/*TODO*/}
-                    <Link href={paths.contanct} className="hover:underline">Kontakt</Link>
+                    <Link href={paths.contact} className="hover:underline">Kontakt</Link>
                 </li>
             </ul>
         </footer>
