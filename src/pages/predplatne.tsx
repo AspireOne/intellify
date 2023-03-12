@@ -55,7 +55,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
     useEffect(() => {
         setTimeout(() => {
             setFakeLoading(false);
-        }, 2000);
+        }, 500);
     }, []);
 
     const [preSelectedOnetimeOffer, setPreSelectedOnetimeOffer] = useState<z.infer<typeof Offer> | null>(null);
