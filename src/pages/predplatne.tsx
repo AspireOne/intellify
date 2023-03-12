@@ -114,23 +114,23 @@ const Subscription = (props: InferGetServerSidePropsType<typeof getServerSidePro
                             !offers.data
                                 ? <Skeleton count={4} inline={true} width={"90px"} className={"mx-1"} height={"60px"}/>
                                 : onetimeOffers.map((offer, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setPreSelectedOnetimeOffer(offer)}
-                                    className={`border border-1 border-gray-600 rounded-md py-2 px-6 duration-100 
+                                    <button
+                                        key={index}
+                                        onClick={() => setPreSelectedOnetimeOffer(offer)}
+                                        className={`border border-1 border-gray-600 rounded-md py-2 px-6 duration-100 
                                     ${preSelectedOnetimeOffer === offer ? "bg-gray-600" : "hover:bg-gray-700"}`}
-                                >
-                                    <div className={"text-md sm:text-lg font-bold"}>~{tokensToWords(offer.tokens)}</div>
-                                    <div className={"text-gray-500 text-sm dark:text-gray-400"}>slov</div>
-                                </button>
-                            ))
+                                    >
+                                        <div className={"text-md sm:text-lg font-bold"}>~{tokensToWords(offer.tokens)}</div>
+                                        <div className={"text-gray-500 text-sm dark:text-gray-400"}>slov</div>
+                                    </button>
+                                ))
                         }
                     </div>
                     <Price minitext={"/jednorázově"}>
                         {
                             !offers.data
-                            ? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>
-                            : preSelectedOnetimeOffer?.price
+                                ? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>
+                                : preSelectedOnetimeOffer?.price
                         }Kč
                     </Price>
 
