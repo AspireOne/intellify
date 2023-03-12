@@ -49,7 +49,7 @@ export default function Input(props: React.PropsWithChildren<{
                     ? <Skeleton className={"max-w-md rounded-md"} height={45}/>
                     : (
                         props.autosize
-                            ? <TextareaAutosize {... sharedProps}/>
+                            ? <TextareaAutosize {... sharedProps} minRows={2} />
                             : <input
                                 {... sharedProps}
                                 max={props.maxNum}

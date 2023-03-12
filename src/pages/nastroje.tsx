@@ -13,21 +13,27 @@ import {
 } from "react-icons/hi";
 import PageTitle from "../components/PageTitle";
 import Card from "../components/Card";
+import PageHeaderDiv from "../components/PageHeaderDiv";
+import Subtitle from "../components/Subtitle";
+import Title from "../components/Title";
 
 const Tools: NextPage = () => {
     return (
         <>
-            <PageTitle>Nástroje</PageTitle>
+            <PageHeaderDiv>
+                <PageTitle>Nástroje</PageTitle>
+                <Subtitle>Na tomto místě najdete všechny vaše A.I. nástroje.</Subtitle>
+            </PageHeaderDiv>
 
-            <ToolSection title={"Základní plán"}>
+            <ToolSection title={"Základní předplatné"}>
                 <BasicPlanTools/>
             </ToolSection>
 
-            <ToolSection title={"Studentský plán"}>
+            <ToolSection title={"Studentské předplatné"}>
                 <StudentPlanTools/>
             </ToolSection>
 
-            <ToolSection title={"Firemní plán"}>
+            <ToolSection title={"Firemní předplatné"}>
                 <CompanyPlanTools/>
             </ToolSection>
         </>
@@ -68,9 +74,9 @@ function CompanyPlanTools() {
 function ToolSection(props: PropsWithChildren<{title: string}>) {
     return (
         <div className={"mb-8"}>
-                <h3 className="mt-4 mb-2 text-2xl tracking-tight font-semibold text-gray-900 dark:text-white">
+            <Title size={2} className={"mb-2"}>
                 {props.title}
-            </h3>
+            </Title>
             <div className="flex flex-row flex-wrap gap-4 bg-gray-800/20 inline-flex justify-center sm:justify-start rounded-lg p-4">
                 {props.children}
             </div>

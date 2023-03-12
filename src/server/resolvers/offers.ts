@@ -150,7 +150,7 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
                     },
 
                     product_data: {
-                        name: "Plán: " + offer.name,
+                        name: "Předplatné: " + offer.name,
                         description: offer.description,
                         /*TODO: Some cool image of the subscriptionType.*/
                     },

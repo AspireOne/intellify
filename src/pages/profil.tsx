@@ -12,6 +12,9 @@ import {twMerge} from "tailwind-merge";
 import Link from "next/link";
 import {paths} from "../lib/constants";
 import PageTitle from "../components/PageTitle";
+import Card from "../components/Card";
+import Form from "../components/Form";
+import PageHeaderDiv from "../components/PageHeaderDiv";
 
 const Profile: NextPage = () =>  {
     const [name, setName] = React.useState("");
@@ -76,10 +79,12 @@ const Profile: NextPage = () =>  {
             <Popup title={popupTitle} open={popupOpen} setOpen={setPopupOpen}>
                 <p>{popupMessage}</p>
             </Popup>
-            <PageTitle>Profil</PageTitle>
+            <PageHeaderDiv>
+                <PageTitle>Váš profil</PageTitle>
+            </PageHeaderDiv>
 
             {/*Profile pic*/}
-            <form className={"flex flex-col gap-4 max-w-md my-3 mx-auto bg-t-alternative-700 p-6 rounded-md"}>
+            <Form className={"max-w-lg mx-auto"}>
                 <div
                     className={"w-24 h-24 rounded-full mx-auto"}
                 >
@@ -90,22 +95,28 @@ const Profile: NextPage = () =>  {
                     }
                 </div>
 
-                <div className={"flex flex-row flex-wrap gap-4"}>
-                    <p className={"border border-[1px] border-gray-300 bg-gray-800 py-2 px-4 rounded-full"}>
-                        Plán: {
-                        user.data
-                            ? (user.data.subscription?.name ?? <>žádný | <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>prohlédnout</Link></>)
-                            : <Skeleton width={"100px"} className={"rounded-full"}/>
-                    }
-                    </p>
+                <div className={"flex flex-row flex-wrap gap-12 mx-auto"}>
+                    {/*className={"border border-[0px] border-gray-300 py-2 px-4 rounded-full"}*/}
+                    <div>
+                        <p className={"text-gray-400 text-sm mb-1"}>Předplatné</p>
+                        <p>
+                            {
+                                user.data
+                                    ? (user.data.subscription?.name ?? <>žádné • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>prohlédnout</Link></>)
+                                    : <Skeleton width={"100px"} className={"rounded-full"}/>
+                            }
+                        </p>
+                    </div>
 
-                    <p className={"border border-[1px] border-gray-300 bg-gray-800 py-2 px-4 rounded-full"}>
-                        Zbývající tokeny: {
+                    {/*className={"border border-[0px] border-gray-300 py-2 px-4 rounded-full"}*/}
+                    <div>
+                        <p className={"text-gray-400 text-sm mb-1"}>Zbývající tokeny</p>
+                        {
                         user.data
-                            ? (user.data.remainingTokens || <>0 | <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>dokoupit</Link></>)
+                            ? (user.data.remainingTokens || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>dokoupit</Link></>)
                             : <Skeleton width={"30px"} className={"rounded-full"}/>
-                    }
-                    </p>
+                        }
+                    </div>
                 </div>
 
                 <Input loading={!user.data} theme={"gray"} label={"Jméno"} placeholder={"Vaše jméno a příjmení"}
@@ -141,19 +152,9 @@ const Profile: NextPage = () =>  {
                     <Button loadingText={"Ukládání..."} onClick={handleSave} loading={loading}>Uložit změny</Button>
                 }
                 {error && <p className={"text-red-500"}>{error}</p>}
-            </form>
+            </Form>
         </div>
     );
-}
-
-const Card = (props: React.PropsWithChildren<{className?: string}>) => {
-    return (
-        <div className={twMerge(`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 
-        bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 
-        xl:p-8 dark:bg-t-alternative-700 dark:text-white ${props.className}`)}>
-            {props.children}
-        </div>
-    )
 }
 
 export default Profile;

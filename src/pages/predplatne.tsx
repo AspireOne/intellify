@@ -14,6 +14,8 @@ import {paths} from "../lib/constants";
 import PageTitle from "../components/PageTitle";
 import Card from "../components/Card";
 import {LockClosed} from "react-ionicons";
+import Subtitle from "../components/Subtitle";
+import PageHeaderDiv from "../components/PageHeaderDiv";
 
 const Subscription: NextPage = () => {
     const offers = trpc.offers.getOffers.useQuery();
@@ -43,22 +45,21 @@ const Subscription: NextPage = () => {
         .filter((offer) => offer.type === OfferType.ONETIME);
 
     return (
-        <section className="">
+        <section>
             <div className="mx-auto max-w-screen-xl">
-                <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-                    <PageTitle className={"mb-4"}>
+                <PageHeaderDiv>
+                    <PageTitle>
                         Navrženo pro jednorázové úkoly, i dlouhodobé projekty
                     </PageTitle>
-                    {/*TODO: Make this text shorter and add it to homepage instead..*/}
-                    <p className="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
+                    <Subtitle className="sm:text-xl">
                         Doba jde dopředu, a umělá inteligence se stává nedílným nástrojem produktivity.
                         Open Tools posouvá hranice aplikací, a umožňuje vám tuto sílu využít.
-                    </p>
+                    </Subtitle>
                     {/*
                      -
                         jak jednotlivci při jeho koníčcích, pracovních úkolech, nebo osobních projektech,
                         tak velkým týmům a firmám při budování produktů a služeb.*/}
-                </div>
+                </PageHeaderDiv>
 
                 <div className="space-y-8 lg:grid lg:grid-cols-3 lg:grid-rows-1 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <PlanCard

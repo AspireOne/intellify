@@ -1,10 +1,11 @@
 import React, {PropsWithChildren} from "react";
 import {twMerge} from "tailwind-merge";
+import Title from "./Title";
 
-export default function PageTitle(props: PropsWithChildren<{className?: string}>) {
+export default function PageTitle(props: PropsWithChildren<{className?: string, subtitle?: string}>) {
     return (
-        <h1 className={twMerge(`text-center m-8 mt-14 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white ${props.className}`)}>
+        <Title size={4} className={twMerge(`text-center mb-4 mt-14 ${props.className}`)}>
             {props.children}
-        </h1>
+        </Title>
     )
 }
