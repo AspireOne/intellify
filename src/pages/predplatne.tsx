@@ -1,4 +1,10 @@
-import {GetServerSidePropsContext, GetStaticPropsContext, InferGetServerSidePropsType, NextPage} from "next";
+import {
+    GetServerSidePropsContext,
+    GetStaticPropsContext,
+    InferGetServerSidePropsType,
+    InferGetStaticPropsType,
+    NextPage
+} from "next";
 import Button, {Style} from "../components/Button";
 import React, {useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
@@ -21,8 +27,8 @@ import {appRouter} from "../server/routers/_app";
 import {createContext, createContextInner} from "../server/context";
 
 // This function gets called at build time
-export async function getServerSideProps(
-    context: GetServerSidePropsContext<{}>,
+export async function getStaticProps(
+    context: GetStaticPropsContext<{}>,
 ) {
     const ssg = createProxySSGHelpers({
         router: appRouter,
@@ -34,10 +40,11 @@ export async function getServerSideProps(
         props: {
             trpcState: ssg.dehydrate(),
         },
+        revalidate: 1,
     };
 }
 
-const Subscription = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const offers = trpc.offers.getOffers.useQuery();
     const user = trpc.user.getUser.useQuery();
     const session = useSession();
