@@ -317,7 +317,7 @@ const CustomCard = (props: React.PropsWithChildren<{className?: string, id?: str
     )
 }
 
-const CardTitle = (props: React.PropsWithChildren<{className?: string}>) => <h3 className={twMerge(`mb-3 text-2xl font-semibold ${props.className}`)}>{props.children}</h3>;
+const CardTitle = (props: React.PropsWithChildren<{className?: string}>) => <h3 className={twMerge(`text-2xl font-semibold ${props.className}`)}>{props.children}</h3>;
 const CardDescription = (props: React.PropsWithChildren<{className?: string}>) => <p className={twMerge(`font-light text-gray-500 sm:text-lg dark:text-gray-400 ${props.className}`)}>{props.children}</p>
 
 const Price = (props: React.PropsWithChildren<{minitext?: string}>) => {

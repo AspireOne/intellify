@@ -1,21 +1,20 @@
 import {PropsWithChildren} from "react";
 import {twMerge} from "tailwind-merge";
 
-/**
- * Paragraph.
-* */
 export const ArticleDiv = (props: PropsWithChildren<{ className?: string }>) => {
-    return <div className={twMerge(`mx-auto max-w-3xl ${props.className}`)}>
+    return <div className={twMerge(`mx-auto max-w-3xl text-gray-300 ${props.className}`)}>
         {props.children}
     </div>;
 }
-export const Par = (props: PropsWithChildren<{ className?: string }>) => {
-    return <p className={twMerge(`text-gray-100 ${props.className}`)}>
+
+export const ArticlePCard = (props: PropsWithChildren<{ className?: string }>) => {
+    return <div className={twMerge(`rounded-lg bg-gray-900 p-4 ${props.className}`)}>
         {props.children}
-    </p>;
+    </div>
 }
-export const ParTitle = (props: PropsWithChildren<{ className?: string }>) => {
-    return <h1 className={twMerge(`text-2xl font-bold mt-10 mb-3 ml-0 ${props.className}`)}>
+
+export const ArticlePTitle = (props: PropsWithChildren<{ className?: string }>) => {
+    return <h1 className={twMerge(`text-2xl text-gray-300 font-bold mt-10 mb-3 ml-0 ${props.className}`)}>
         {props.children}
     </h1>;
 }

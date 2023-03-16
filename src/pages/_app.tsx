@@ -12,7 +12,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
         <SessionProvider session={session} refetchOnWindowFocus={false}>
             <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
-                <div className="text-gray-100 dark">
+                <div className="text-gray-100 dark leading-6">
                     <MantineProvider theme={{
                         colorScheme: "dark",
                         /*colors: {

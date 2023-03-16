@@ -1,124 +1,127 @@
 lockfileVersion: 5.4
 
-specifiers:
-  '@emotion/react': ^11.10.5
-  '@emotion/styled': ^11.10.5
-  '@headlessui/react': ^1.7.7
-  '@mantine/core': ^6.0.0
-  '@mantine/form': ^6.0.0
-  '@mantine/hooks': ^6.0.0
-  '@mantine/modals': ^6.0.0
-  '@mantine/notifications': ^6.0.0
-  '@mantine/nprogress': ^6.0.0
-  '@next-auth/mongodb-adapter': ^1.1.1
-  '@stripe/react-stripe-js': ^1.16.4
-  '@stripe/stripe-js': ^1.46.0
-  '@tanstack/react-query': ^4.23.0
-  '@trpc/client': ^10.9.0
-  '@trpc/next': ^10.9.0
-  '@trpc/react-query': ^10.9.0
-  '@trpc/server': ^10.9.0
-  '@typegoose/typegoose': ^10.1.1
-  '@types/bcrypt': ^5.0.0
-  '@types/node': ^18.11.3
-  '@types/nodemailer': ^6.4.7
-  '@types/react': 18.0.21
-  '@types/react-dom': 18.0.6
-  '@types/react-router-dom': ^5.3.3
-  autoprefixer: ^10.4.13
-  axios: ^1.2.1
-  bcrypt: ^5.1.0
-  chatgpt: ^5.0.8
-  core-js: ^3
-  dotenv: ^16.0.3
-  framer-motion: ^6.5.1
-  mongodb: ^4.13.0
-  mongoose: ^6.9.0
-  next: latest
-  next-auth: ^4.18.8
-  node-fetch: ^3.3.0
-  nodemailer: ^6.9.1
-  openai: ^3.2.1
-  postcss: ^8.4.21
-  pptxgenjs: ^3.11.0
-  react: 18.2.0
-  react-dom: 18.2.0
-  react-icons: ^4.8.0
-  react-ionicons: ^4.2.0
-  react-loading-skeleton: ^3.1.1
-  react-router-dom: ^6.6.1
-  react-scroll-parallax: ^3.3.2
-  react-textarea-autosize: ^8.4.0
-  resize-observer: ^1.0.4
-  stripe: ^11.10.0
-  styled-components: ^5.3.6
-  tailwind-merge: ^1.8.1
-  tailwindcss: ^3.2.6
-  typed.js: ^2.0.12
-  typescript: 4.8.4
-  windicss-webpack-plugin: ^1.7.8
-  zod: ^3.20.2
+importers:
 
-dependencies:
-  '@emotion/react': 11.10.5_iapumuv4e6jcjznwuxpf4tt22e
-  '@emotion/styled': 11.10.5_avbifwq3am6trntrguk62pydsi
-  '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
-  '@mantine/core': 6.0.0_47oyitjv56ugut2dxx2zrd4ttm
-  '@mantine/form': 6.0.0_react@18.2.0
-  '@mantine/hooks': 6.0.0_react@18.2.0
-  '@mantine/modals': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
-  '@mantine/notifications': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
-  '@mantine/nprogress': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
-  '@next-auth/mongodb-adapter': 1.1.1_ckpck52kcb65gf4nrith6z32oe
-  '@stripe/react-stripe-js': 1.16.4_keartrz7uyerl3wkpjpue4xbhy
-  '@stripe/stripe-js': 1.46.0
-  '@tanstack/react-query': 4.23.0_biqbaboplfbrettd7655fr4n2y
-  '@trpc/client': 10.9.0_@trpc+server@10.9.0
-  '@trpc/next': 10.9.0_oj7bzaccf6elpbadcvhjr2nahu
-  '@trpc/react-query': 10.9.0_22wgxldzdfxutowffn2dykkd3i
-  '@trpc/server': 10.9.0
-  '@typegoose/typegoose': 10.1.1_mongoose@6.9.0
-  '@types/bcrypt': 5.0.0
-  '@types/nodemailer': 6.4.7
-  '@types/react-router-dom': 5.3.3
-  autoprefixer: 10.4.13_postcss@8.4.21
-  axios: 1.2.1
-  bcrypt: 5.1.0
-  chatgpt: 5.0.8
-  core-js: 3.27.2
-  dotenv: 16.0.3
-  framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
-  mongodb: 4.13.0
-  mongoose: 6.9.0
-  next: 13.2.3_biqbaboplfbrettd7655fr4n2y
-  next-auth: 4.18.8_nqfews3zxntugbnfuqgpde23my
-  node-fetch: 3.3.0
-  nodemailer: 6.9.1
-  openai: 3.2.1
-  postcss: 8.4.21
-  pptxgenjs: 3.11.0
-  react: 18.2.0
-  react-dom: 18.2.0_react@18.2.0
-  react-icons: 4.8.0_react@18.2.0
-  react-ionicons: 4.2.0_styled-components@5.3.6
-  react-loading-skeleton: 3.1.1_react@18.2.0
-  react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
-  react-scroll-parallax: 3.3.2_biqbaboplfbrettd7655fr4n2y
-  react-textarea-autosize: 8.4.0_iapumuv4e6jcjznwuxpf4tt22e
-  resize-observer: 1.0.4
-  stripe: 11.10.0
-  styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
-  tailwind-merge: 1.8.1
-  tailwindcss: 3.2.6_postcss@8.4.21
-  typed.js: 2.0.12
-  windicss-webpack-plugin: 1.7.8
-  zod: 3.20.2
-
-devDependencies:
-  '@types/node': 18.11.3
-  '@types/react': 18.0.21
-  '@types/react-dom': 18.0.6
-  typescript: 4.8.4
+  .:
+    specifiers:
+      '@emotion/react': ^11.10.5
+      '@emotion/styled': ^11.10.5
+      '@headlessui/react': ^1.7.7
+      '@mantine/core': ^6.0.0
+      '@mantine/form': ^6.0.0
+      '@mantine/hooks': ^6.0.0
+      '@mantine/modals': ^6.0.0
+      '@mantine/notifications': ^6.0.0
+      '@mantine/nprogress': ^6.0.0
+      '@next-auth/mongodb-adapter': ^1.1.1
+      '@stripe/react-stripe-js': ^1.16.4
+      '@stripe/stripe-js': ^1.46.0
+      '@tanstack/react-query': ^4.23.0
+      '@trpc/client': ^10.9.0
+      '@trpc/next': ^10.9.0
+      '@trpc/react-query': ^10.9.0
+      '@trpc/server': ^10.9.0
+      '@typegoose/typegoose': ^10.1.1
+      '@types/bcrypt': ^5.0.0
+      '@types/node': ^18.11.3
+      '@types/nodemailer': ^6.4.7
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      '@types/react-router-dom': ^5.3.3
+      autoprefixer: ^10.4.13
+      axios: ^1.2.1
+      bcrypt: ^5.1.0
+      chatgpt: ^5.0.8
+      core-js: ^3
+      dotenv: ^16.0.3
+      framer-motion: ^6.5.1
+      mongodb: ^4.13.0
+      mongoose: ^6.9.0
+      next: latest
+      next-auth: ^4.18.8
+      node-fetch: ^3.3.0
+      nodemailer: ^6.9.1
+      openai: ^3.2.1
+      postcss: ^8.4.21
+      pptxgenjs: ^3.11.0
+      react: 18.2.0
+      react-confetti: ^6.1.0
+      react-dom: 18.2.0
+      react-icons: ^4.8.0
+      react-ionicons: ^4.2.0
+      react-loading-skeleton: ^3.1.1
+      react-router-dom: ^6.6.1
+      react-scroll-parallax: ^3.3.2
+      react-textarea-autosize: ^8.4.0
+      resize-observer: ^1.0.4
+      stripe: ^11.10.0
+      styled-components: ^5.3.6
+      tailwind-merge: ^1.8.1
+      tailwindcss: ^3.2.6
+      typed.js: ^2.0.12
+      typescript: 4.8.4
+      windicss-webpack-plugin: ^1.7.8
+      zod: ^3.20.2
+    dependencies:
+      '@emotion/react': 11.10.5_iapumuv4e6jcjznwuxpf4tt22e
+      '@emotion/styled': 11.10.5_avbifwq3am6trntrguk62pydsi
+      '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
+      '@mantine/core': 6.0.0_47oyitjv56ugut2dxx2zrd4ttm
+      '@mantine/form': 6.0.0_react@18.2.0
+      '@mantine/hooks': 6.0.0_react@18.2.0
+      '@mantine/modals': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
+      '@mantine/notifications': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
+      '@mantine/nprogress': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
+      '@next-auth/mongodb-adapter': 1.1.1_ckpck52kcb65gf4nrith6z32oe
+      '@stripe/react-stripe-js': 1.16.4_keartrz7uyerl3wkpjpue4xbhy
+      '@stripe/stripe-js': 1.46.0
+      '@tanstack/react-query': 4.23.0_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.9.0_@trpc+server@10.9.0
+      '@trpc/next': 10.9.0_kbew7gvy2oeqm52yqc6rajvjl4
+      '@trpc/react-query': 10.9.0_22wgxldzdfxutowffn2dykkd3i
+      '@trpc/server': 10.9.0
+      '@typegoose/typegoose': 10.1.1_mongoose@6.9.0
+      '@types/bcrypt': 5.0.0
+      '@types/nodemailer': 6.4.7
+      '@types/react-router-dom': 5.3.3
+      autoprefixer: 10.4.13_postcss@8.4.21
+      axios: 1.2.1
+      bcrypt: 5.1.0
+      chatgpt: 5.0.8
+      core-js: 3.27.2
+      dotenv: 16.0.3
+      framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
+      mongodb: 4.13.0
+      mongoose: 6.9.0
+      next: 13.2.4_biqbaboplfbrettd7655fr4n2y
+      next-auth: 4.18.8_3tbpwx46tlrk4rci3doelizria
+      node-fetch: 3.3.0
+      nodemailer: 6.9.1
+      openai: 3.2.1
+      postcss: 8.4.21
+      pptxgenjs: 3.11.0
+      react: 18.2.0
+      react-confetti: 6.1.0_react@18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-icons: 4.8.0_react@18.2.0
+      react-ionicons: 4.2.0_styled-components@5.3.6
+      react-loading-skeleton: 3.1.1_react@18.2.0
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      react-scroll-parallax: 3.3.2_biqbaboplfbrettd7655fr4n2y
+      react-textarea-autosize: 8.4.0_iapumuv4e6jcjznwuxpf4tt22e
+      resize-observer: 1.0.4
+      stripe: 11.10.0
+      styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
+      tailwind-merge: 1.8.1
+      tailwindcss: 3.2.6_postcss@8.4.21
+      typed.js: 2.0.12
+      windicss-webpack-plugin: 1.7.8
+      zod: 3.20.2
+    devDependencies:
+      '@types/node': 18.11.3
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.8.4
 
 packages:
 
@@ -1487,15 +1490,15 @@ packages:
       next-auth: ^4
     dependencies:
       mongodb: 4.13.0
-      next-auth: 4.18.8_nqfews3zxntugbnfuqgpde23my
+      next-auth: 4.18.8_3tbpwx46tlrk4rci3doelizria
     dev: false
 
-  /@next/env/13.2.3:
-    resolution: {integrity: sha512-FN50r/E+b8wuqyRjmGaqvqNDuWBWYWQiigfZ50KnSFH0f+AMQQyaZl+Zm2+CIpKk0fL9QxhLxOpTVA3xFHgFow==}
+  /@next/env/13.2.4:
+    resolution: {integrity: sha512-+Mq3TtpkeeKFZanPturjcXt+KHfKYnLlX6jMLyCrmpq6OOs4i1GqBOAauSkii9QeKCMTYzGppar21JU57b/GEA==}
     dev: false
 
-  /@next/swc-android-arm-eabi/13.2.3:
-    resolution: {integrity: sha512-mykdVaAXX/gm+eFO2kPeVjnOCKwanJ9mV2U0lsUGLrEdMUifPUjiXKc6qFAIs08PvmTMOLMNnUxqhGsJlWGKSw==}
+  /@next/swc-android-arm-eabi/13.2.4:
+    resolution: {integrity: sha512-DWlalTSkLjDU11MY11jg17O1gGQzpRccM9Oes2yTqj2DpHndajrXHGxj9HGtJ+idq2k7ImUdJVWS2h2l/EDJOw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [android]
@@ -1503,8 +1506,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-android-arm64/13.2.3:
-    resolution: {integrity: sha512-8XwHPpA12gdIFtope+n9xCtJZM3U4gH4vVTpUwJ2w1kfxFmCpwQ4xmeGSkR67uOg80yRMuF0h9V1ueo05sws5w==}
+  /@next/swc-android-arm64/13.2.4:
+    resolution: {integrity: sha512-sRavmUImUCf332Gy+PjIfLkMhiRX1Ez4SI+3vFDRs1N5eXp+uNzjFUK/oLMMOzk6KFSkbiK/3Wt8+dHQR/flNg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
@@ -1512,8 +1515,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-darwin-arm64/13.2.3:
-    resolution: {integrity: sha512-TXOubiFdLpMfMtaRu1K5d1I9ipKbW5iS2BNbu8zJhoqrhk3Kp7aRKTxqFfWrbliAHhWVE/3fQZUYZOWSXVQi1w==}
+  /@next/swc-darwin-arm64/13.2.4:
+    resolution: {integrity: sha512-S6vBl+OrInP47TM3LlYx65betocKUUlTZDDKzTiRDbsRESeyIkBtZ6Qi5uT2zQs4imqllJznVjFd1bXLx3Aa6A==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -1521,8 +1524,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-darwin-x64/13.2.3:
-    resolution: {integrity: sha512-GZctkN6bJbpjlFiS5pylgB2pifHvgkqLAPumJzxnxkf7kqNm6rOGuNjsROvOWVWXmKhrzQkREO/WPS2aWsr/yw==}
+  /@next/swc-darwin-x64/13.2.4:
+    resolution: {integrity: sha512-a6LBuoYGcFOPGd4o8TPo7wmv5FnMr+Prz+vYHopEDuhDoMSHOnC+v+Ab4D7F0NMZkvQjEJQdJS3rqgFhlZmKlw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -1530,8 +1533,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-freebsd-x64/13.2.3:
-    resolution: {integrity: sha512-rK6GpmMt/mU6MPuav0/M7hJ/3t8HbKPCELw/Uqhi4732xoq2hJ2zbo2FkYs56y6w0KiXrIp4IOwNB9K8L/q62g==}
+  /@next/swc-freebsd-x64/13.2.4:
+    resolution: {integrity: sha512-kkbzKVZGPaXRBPisoAQkh3xh22r+TD+5HwoC5bOkALraJ0dsOQgSMAvzMXKsN3tMzJUPS0tjtRf1cTzrQ0I5vQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [freebsd]
@@ -1539,8 +1542,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-arm-gnueabihf/13.2.3:
-    resolution: {integrity: sha512-yeiCp/Odt1UJ4KUE89XkeaaboIDiVFqKP4esvoLKGJ0fcqJXMofj4ad3tuQxAMs3F+qqrz9MclqhAHkex1aPZA==}
+  /@next/swc-linux-arm-gnueabihf/13.2.4:
+    resolution: {integrity: sha512-7qA1++UY0fjprqtjBZaOA6cas/7GekpjVsZn/0uHvquuITFCdKGFCsKNBx3S0Rpxmx6WYo0GcmhNRM9ru08BGg==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
@@ -1548,8 +1551,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-arm64-gnu/13.2.3:
-    resolution: {integrity: sha512-/miIopDOUsuNlvjBjTipvoyjjaxgkOuvlz+cIbbPcm1eFvzX2ltSfgMgty15GuOiR8Hub4FeTSiq3g2dmCkzGA==}
+  /@next/swc-linux-arm64-gnu/13.2.4:
+    resolution: {integrity: sha512-xzYZdAeq883MwXgcwc72hqo/F/dwUxCukpDOkx/j1HTq/J0wJthMGjinN9wH5bPR98Mfeh1MZJ91WWPnZOedOg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -1557,8 +1560,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-arm64-musl/13.2.3:
-    resolution: {integrity: sha512-sujxFDhMMDjqhruup8LLGV/y+nCPi6nm5DlFoThMJFvaaKr/imhkXuk8uCTq4YJDbtRxnjydFv2y8laBSJVC2g==}
+  /@next/swc-linux-arm64-musl/13.2.4:
+    resolution: {integrity: sha512-8rXr3WfmqSiYkb71qzuDP6I6R2T2tpkmf83elDN8z783N9nvTJf2E7eLx86wu2OJCi4T05nuxCsh4IOU3LQ5xw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -1566,8 +1569,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-x64-gnu/13.2.3:
-    resolution: {integrity: sha512-w5MyxPknVvC9LVnMenAYMXMx4KxPwXuJRMQFvY71uXg68n7cvcas85U5zkdrbmuZ+JvsO5SIG8k36/6X3nUhmQ==}
+  /@next/swc-linux-x64-gnu/13.2.4:
+    resolution: {integrity: sha512-Ngxh51zGSlYJ4EfpKG4LI6WfquulNdtmHg1yuOYlaAr33KyPJp4HeN/tivBnAHcZkoNy0hh/SbwDyCnz5PFJQQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -1575,8 +1578,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-x64-musl/13.2.3:
-    resolution: {integrity: sha512-CTeelh8OzSOVqpzMFMFnVRJIFAFQoTsI9RmVJWW/92S4xfECGcOzgsX37CZ8K982WHRzKU7exeh7vYdG/Eh4CA==}
+  /@next/swc-linux-x64-musl/13.2.4:
+    resolution: {integrity: sha512-gOvwIYoSxd+j14LOcvJr+ekd9fwYT1RyMAHOp7znA10+l40wkFiMONPLWiZuHxfRk+Dy7YdNdDh3ImumvL6VwA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -1584,8 +1587,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-arm64-msvc/13.2.3:
-    resolution: {integrity: sha512-7N1KBQP5mo4xf52cFCHgMjzbc9jizIlkTepe9tMa2WFvEIlKDfdt38QYcr9mbtny17yuaIw02FXOVEytGzqdOQ==}
+  /@next/swc-win32-arm64-msvc/13.2.4:
+    resolution: {integrity: sha512-q3NJzcfClgBm4HvdcnoEncmztxrA5GXqKeiZ/hADvC56pwNALt3ngDC6t6qr1YW9V/EPDxCYeaX4zYxHciW4Dw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -1593,8 +1596,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-ia32-msvc/13.2.3:
-    resolution: {integrity: sha512-LzWD5pTSipUXTEMRjtxES/NBYktuZdo7xExJqGDMnZU8WOI+v9mQzsmQgZS/q02eIv78JOCSemqVVKZBGCgUvA==}
+  /@next/swc-win32-ia32-msvc/13.2.4:
+    resolution: {integrity: sha512-/eZ5ncmHUYtD2fc6EUmAIZlAJnVT2YmxDsKs1Ourx0ttTtvtma/WKlMV5NoUsyOez0f9ExLyOpeCoz5aj+MPXw==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -1602,8 +1605,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-x64-msvc/13.2.3:
-    resolution: {integrity: sha512-aLG2MaFs4y7IwaMTosz2r4mVbqRyCnMoFqOcmfTi7/mAS+G4IMH0vJp4oLdbshqiVoiVuKrAfqtXj55/m7Qu1Q==}
+  /@next/swc-win32-x64-msvc/13.2.4:
+    resolution: {integrity: sha512-0MffFmyv7tBLlji01qc0IaPP/LVExzvj7/R5x1Jph1bTAIj4Vu81yFQWHHQAP6r4ff9Ukj1mBK6MDNVXm7Tcvw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -1806,7 +1809,7 @@ packages:
       '@trpc/server': 10.9.0
     dev: false
 
-  /@trpc/next/10.9.0_oj7bzaccf6elpbadcvhjr2nahu:
+  /@trpc/next/10.9.0_kbew7gvy2oeqm52yqc6rajvjl4:
     resolution: {integrity: sha512-h/W8VHMki/fw7vHNMs1Ku7bLqccjpiKCE1wkqbvHfBOO1ARDmarRbuK6dLqJilip/f7jkFXcrxwB+eNgK4+6Wg==}
     peerDependencies:
       '@tanstack/react-query': ^4.3.8
@@ -1821,7 +1824,7 @@ packages:
       '@trpc/client': 10.9.0_@trpc+server@10.9.0
       '@trpc/react-query': 10.9.0_22wgxldzdfxutowffn2dykkd3i
       '@trpc/server': 10.9.0
-      next: 13.2.3_biqbaboplfbrettd7655fr4n2y
+      next: 13.2.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-ssr-prepass: 1.5.0_react@18.2.0
@@ -2193,7 +2196,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001451
+      caniuse-lite: 1.0.30001462
       electron-to-chromium: 1.4.295
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
@@ -2241,10 +2244,6 @@ packages:
 
   /caniuse-lite/1.0.30001439:
     resolution: {integrity: sha512-1MgUzEkoMO6gKfXflStpYgZDlFM7M/ck/bgfVCACO5vnAf0fXoNVHdWtqGU+MYca+4bL9Z5bpOVmR33cWW9G2A==}
-    dev: false
-
-  /caniuse-lite/1.0.30001451:
-    resolution: {integrity: sha512-XY7UbUpGRatZzoRft//5xOa69/1iGJRBlrieH6QYrkKLIFn3m7OVEJ81dSrKoy2BnKsdbX5cLrOispZNYo9v2w==}
     dev: false
 
   /caniuse-lite/1.0.30001462:
@@ -3198,7 +3197,7 @@ packages:
     hasBin: true
     dev: false
 
-  /next-auth/4.18.8_nqfews3zxntugbnfuqgpde23my:
+  /next-auth/4.18.8_3tbpwx46tlrk4rci3doelizria:
     resolution: {integrity: sha512-USP8ihmvB7iCGtkS0+toe2QPrzdbZfkydQZX56JOI9Ft5n/BardOXh3D4wQ2An+vpq/jDKojGlgfv21wVElW7A==}
     engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0 || ^18.12.0}
     peerDependencies:
@@ -3214,7 +3213,7 @@ packages:
       '@panva/hkdf': 1.0.2
       cookie: 0.5.0
       jose: 4.11.2
-      next: 13.2.3_biqbaboplfbrettd7655fr4n2y
+      next: 13.2.4_biqbaboplfbrettd7655fr4n2y
       nodemailer: 6.9.1
       oauth: 0.9.15
       openid-client: 5.3.1
@@ -3225,8 +3224,8 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /next/13.2.3_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-nKFJC6upCPN7DWRx4+0S/1PIOT7vNlCT157w9AzbXEgKy6zkiPKEt5YyRUsRZkmpEqBVrGgOqNfwecTociyg+w==}
+  /next/13.2.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-g1I30317cThkEpvzfXujf0O4wtaQHtDCLhlivwlTJ885Ld+eOgcz7r3TGQzeU+cSRoNHtD8tsJgzxVdYojFssw==}
     engines: {node: '>=14.6.0'}
     hasBin: true
     peerDependencies:
@@ -3246,7 +3245,7 @@ packages:
       sass:
         optional: true
     dependencies:
-      '@next/env': 13.2.3
+      '@next/env': 13.2.4
       '@swc/helpers': 0.4.14
       caniuse-lite: 1.0.30001462
       postcss: 8.4.14
@@ -3254,19 +3253,19 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       styled-jsx: 5.1.1_react@18.2.0
     optionalDependencies:
-      '@next/swc-android-arm-eabi': 13.2.3
-      '@next/swc-android-arm64': 13.2.3
-      '@next/swc-darwin-arm64': 13.2.3
-      '@next/swc-darwin-x64': 13.2.3
-      '@next/swc-freebsd-x64': 13.2.3
-      '@next/swc-linux-arm-gnueabihf': 13.2.3
-      '@next/swc-linux-arm64-gnu': 13.2.3
-      '@next/swc-linux-arm64-musl': 13.2.3
-      '@next/swc-linux-x64-gnu': 13.2.3
-      '@next/swc-linux-x64-musl': 13.2.3
-      '@next/swc-win32-arm64-msvc': 13.2.3
-      '@next/swc-win32-ia32-msvc': 13.2.3
-      '@next/swc-win32-x64-msvc': 13.2.3
+      '@next/swc-android-arm-eabi': 13.2.4
+      '@next/swc-android-arm64': 13.2.4
+      '@next/swc-darwin-arm64': 13.2.4
+      '@next/swc-darwin-x64': 13.2.4
+      '@next/swc-freebsd-x64': 13.2.4
+      '@next/swc-linux-arm-gnueabihf': 13.2.4
+      '@next/swc-linux-arm64-gnu': 13.2.4
+      '@next/swc-linux-arm64-musl': 13.2.4
+      '@next/swc-linux-x64-gnu': 13.2.4
+      '@next/swc-linux-x64-musl': 13.2.4
+      '@next/swc-win32-arm64-msvc': 13.2.4
+      '@next/swc-win32-ia32-msvc': 13.2.4
+      '@next/swc-win32-x64-msvc': 13.2.4
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
@@ -3664,6 +3663,16 @@ packages:
   /quick-lru/6.1.1:
     resolution: {integrity: sha512-S27GBT+F0NTRiehtbrgaSE1idUAJ5bX8dPAQTdylEyNlrdcH5X4Lz7Edz3DYzecbsCluD5zO8ZNEe04z3D3u6Q==}
     engines: {node: '>=12'}
+    dev: false
+
+  /react-confetti/6.1.0_react@18.2.0:
+    resolution: {integrity: sha512-7Ypx4vz0+g8ECVxr88W9zhcQpbeujJAVqL14ZnXJ3I23mOI9/oBVTQ3dkJhUmB0D6XOtCZEM6N0Gm9PMngkORw==}
+    engines: {node: '>=10.18'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      tween-functions: 1.2.0
     dev: false
 
   /react-dom/17.0.1_react@17.0.1:
@@ -4286,6 +4295,10 @@ packages:
 
   /tslib/2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+    dev: false
+
+  /tween-functions/1.2.0:
+    resolution: {integrity: sha512-PZBtLYcCLtEcjL14Fzb1gSxPBeL7nWvGhO5ZFPGqziCcr8uvHp0NDmdjBchp6KHL+tExcg0m3NISmKxhU394dA==}
     dev: false
 
   /type-fest/2.19.0:

@@ -1,6 +1,6 @@
 import {Context} from "../context";
 import {z} from "zod";
-import {getOffersOutput, getSessionInput, OfferIds, OfferType} from "../schemas/offers";
+import {getOffersOutput, getSessionInput, OfferIds, OfferType, Offer} from "../schemas/offers";
 import {Stripe} from "stripe";
 import {TRPCError} from "@trpc/server";
 import {paths} from "../../lib/constants";

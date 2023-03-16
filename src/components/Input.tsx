@@ -32,7 +32,7 @@ export default function Input(props: React.PropsWithChildren<{
         placeholder: props.placeholder,
         // TODO: Disallow autotextbox resize,
         className: twMerge(`focus:outline-none rounded-md py-3 px-4 focus:border ${props.autosize && "max-h-[90vh] resize-none"}
-                ${props.theme === "gray" ? "border-gray-500 bg-gray-700 text-gray-100" : "focus:border-indigo-500 bg-t-blue-200 text-gray-300 border-transparent"} border shadow-2xl w-full
+                ${props.theme === "gray" ? "focus:border-gray-500 border-gray-600 bg-gray-700 text-gray-100" : "focus:border-indigo-500 bg-t-blue-200 text-gray-300 border-transparent"} border shadow-2xl w-full
                 appearance-none leading-normal ${props.className ?? ""}`),
         value: props.value,
         onChange: (e: any) => {
@@ -42,7 +42,7 @@ export default function Input(props: React.PropsWithChildren<{
         onKeyDown: props.onKeyDown,
     }
     return (
-        <div className={"flex flex-col gap-1 w-full"}>
+        <div className={"flex flex-col gap-2 w-full"}>
             {props.label && <label className={"text-md"}>{props.label}</label>}
             {
                 props.loading

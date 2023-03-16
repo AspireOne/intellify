@@ -2,7 +2,7 @@ import React, {useCallback} from "react"
 import {NextPage} from "next";
 import {useSession} from "next-auth/react";
 import License from "./licence";
-import {ArticleDiv, ParTitle} from "../components/article";
+import {ArticleDiv, ArticlePTitle} from "../components/article";
 import PageTitle from "../components/PageTitle";
 import Card from "../components/Card";
 import INPUT from "../lib/inputConstraints";
@@ -45,7 +45,7 @@ const Contact: NextPage = () => {
                     </IconTextWrapper>
                 </Card>
                 <Form className={"flex-1 min-w-fit max-w-5xl"}>
-                    <div className={"flex sm:flex-row gap-4"}>
+                    <div className={"flex flex-col sm:flex-row gap-4"}>
                         <Input theme={"gray"} label={"Váš e-mail*"} placeholder={"jan.novak@seznam.cz"}/>
                         <Input theme={"gray"} label={"Vaše telefonní číslo"} placeholder={"123 456 789"}/>
                     </div>
