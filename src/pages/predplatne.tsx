@@ -247,7 +247,7 @@ const PlanCard = (props: {
     const tokenPoint = "Až ~" + tokensToWords(props.offer?.tokens) + " slov";
     return (
         <div>
-            <CustomCard className={`w-full ${props.currentOffer && "border-blue-500 border-2"}`}>
+            <CustomCard className={`w-full h-full ${props.currentOffer && "border-blue-500 border-2"}`}>
                 <div>
                     <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
                     <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
@@ -256,7 +256,7 @@ const PlanCard = (props: {
                     <Price minitext={"/měsíc"}>{props.offer?.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
                 </div>
 
-                <ul role="list" className="mb-8 space-y-4 text-left">
+                <ul role="list" className="mb-8 space-y-4 text-left h-full">
                     {
                         !props.offer?.points
                             ? <Skeleton count={4} className={"mx-1 w-full"}/>
@@ -290,7 +290,7 @@ const FormattedPoints = (props: { points: string[] }) => {
         <div>
             {
                 props.points.map((point, index) => (
-                    <li key={index} className="flex items-center space-x-3">
+                    <li key={index} className="flex space-x-3">
                         <svg
                             className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
