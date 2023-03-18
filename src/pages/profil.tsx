@@ -108,7 +108,7 @@ const Profile: NextPage = () =>  {
                         <p>
                             {
                                 user.data
-                                    ? (user.data.subscription?.data.name ?? <>žádné • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>prohlédnout</Link></>)
+                                    ? (user.data.subscription?.data.name ?? <>žádné • <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>prohlédnout</Link></>)
                                     : <Skeleton width={"100px"} className={"rounded-full"}/>
                             }
                         </p>
@@ -119,7 +119,7 @@ const Profile: NextPage = () =>  {
                         <p className={"text-gray-400 text-sm mb-1"}>Zbývající tokeny</p>
                         {
                         user.data
-                            ? (remainingTokens || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>dokoupit</Link></>)
+                            ? (remainingTokens || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>dokoupit</Link></>)
                             : <Skeleton width={"100px"} className={"rounded-full"}/>
                         }
                     </div>
