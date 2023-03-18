@@ -1,5 +1,5 @@
 import { prop, getModelForClass, DocumentType } from '@typegoose/typegoose';
-import {OfferIds} from "../schemas/offers";
+import {OfferId} from "../schemas/offers";
 import {offers} from "../resolvers/offers";
 
 class User {
@@ -17,30 +17,33 @@ class User {
     public emailVerified!: boolean
     @prop()
     public image?: string
-    @prop({required: true, default: 0})
-    public remainingTokens!: number
-    @prop({enum: OfferIds})
-    public subscriptionType?: string
     // "Free" tokens (for example from one time token purchase) and subscription tokens are separate so that subscription tokens
     // can be reset every month.
     @prop({required: true, default: 0})
     public remainingFreeTokens!: number
-    @prop({required: true, default: 0})
-    public remainingPlanTokens!: number
 
+    @prop({ type: () => Object })
+    subscription?: { type: OfferId, remainingTokens: number, subscribeDate: Date }
     public async decreaseTokensAndSave(this: DocumentType<User>, tokens: number) {
-        if (this.remainingPlanTokens >= tokens) {
-            this.remainingPlanTokens -= tokens;
+        if (!this.subscription) {
+            this.remainingFreeTokens -= tokens;
+            await this.save();
+            return;
         }
-        else {
-            this.remainingFreeTokens -= (tokens - this.remainingPlanTokens);
-            this.remainingPlanTokens = 0;
+
+        if (this.subscription.remainingTokens >= tokens) {
+            this.subscription.remainingTokens -= tokens;
+            await this.save();
+            return;
         }
+
+        this.remainingFreeTokens -= (tokens - this.subscription.remainingTokens);
+        this.subscription.remainingTokens = 0;
         await this.save();
     }
 
     public async getTotalTokens(this: DocumentType<User>) {
-        return this.remainingFreeTokens + this.remainingPlanTokens;
+        return this.remainingFreeTokens + (this.subscription?.remainingTokens ?? 0);
     }
 
     public async addFreeTokensAndSave(this: DocumentType<User>, tokens: number) {
@@ -49,15 +52,20 @@ class User {
     }
 
     public async refillSubscriptionAndSave(this: DocumentType<User>) {
+        if (!this.subscription) throw new Error("Subscription not found.");
+
         for (const offer of Object.values(offers)) {
-            if (offer.id === this.subscriptionType) {
-                this.remainingPlanTokens = offer.tokens;
-                await this.save();
-                return;
-            }
+            if (offer.id !== this.subscription.type) break;
+
+            this.subscription.remainingTokens = offer.tokens;
+            await this.save();
+            return;
         }
+
         throw new Error("Subscription not found.");
     }
+
+
 }
 
 export default getModelForClass(User);

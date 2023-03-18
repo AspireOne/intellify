@@ -1,12 +1,14 @@
 import {Context} from "../context";
 import {z} from "zod";
-import {getOffersOutput, getSessionInput, OfferIds, OfferType, Offer} from "../schemas/offers";
+import {getOffersOutput, getSessionInput, OfferId, OfferType, Offer} from "../schemas/offers";
 import {Stripe} from "stripe";
 import {TRPCError} from "@trpc/server";
 import {paths} from "../../lib/constants";
+import StripeSession from "../mongodb_models/StripeSession";
+import User from "../mongodb_models/User";
 
 const onetimeName = "Jednorázově";
-const onetimeDescription = "Tokeny můžete koupit taky jednorázově. Žádné opakované platby.";
+const onetimeDescription = "Slova můžete koupit taky jednorázově. Žádné opakované platby.";
 const onetimePoints = [
     'Žádné nastavování nebo skryté poplatky',
     'Přístup do všech projektů',
@@ -17,12 +19,12 @@ const onetimePoints = [
 export const offers = {
     planBasic: {
         name: "Základní",
-        id: OfferIds.PLAN_BASIC,
+        id: OfferId.PLAN_BASIC,
         type: OfferType.PLAN,
         description: "Všechno co potřebujete a ještě něco navíc.",
         points: [
             'Žádné nastavování nebo skryté poplatky',
-            'Přístup do všech projektů',
+            'Přístup do základních nástrojů',
             '24/7 Podpora',
         ],
         tokens: 30_000,
@@ -30,12 +32,12 @@ export const offers = {
     },
     planAdvanced: {
         name: "Student",
-        id: OfferIds.PLAN_STUDENT,
+        id: OfferId.PLAN_STUDENT,
         type: OfferType.PLAN,
         description: "Nejlepší možnost pro studenty a pro osobní využití.",
         points: [
             'Žádné nastavování nebo skryté poplatky',
-            'Přístup do všech projektů',
+            'Přístup do základních + pokročilých nástrojů',
             '24/7 Podpora',
         ],
         tokens: 50_000,
@@ -43,13 +45,12 @@ export const offers = {
     },
     planCompany: {
         name: "Firma",
-        id: OfferIds.PLAN_COMPANY,
+        id: OfferId.PLAN_COMPANY,
         type: OfferType.PLAN,
         description: "Nejlepší možnost pro větší týmy, firmy, a společnosti.",
         points: [
             'Žádné nastavování nebo skryté poplatky',
-            "Velikost týmu: 10+ vývojářů",
-            /*'Přístup do všech projektů',*/
+            'Přístup do všech dostupných nástrojů, včetně těch pro firemní potřeby',
             '24/7 Podpora',
         ],
         tokens: 300_000,
@@ -60,7 +61,7 @@ export const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: OfferIds.ONETIME_ONE,
+        id: OfferId.ONETIME_ONE,
         type: OfferType.ONETIME,
         tokens: 10_000,
         price: 39,
@@ -70,7 +71,7 @@ export const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: OfferIds.ONETIME_TWO,
+        id: OfferId.ONETIME_TWO,
         type: OfferType.ONETIME,
         tokens: 15_000,
         price: 49,
@@ -80,7 +81,7 @@ export const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: OfferIds.ONETIME_THREE,
+        id: OfferId.ONETIME_THREE,
         type: OfferType.ONETIME,
         tokens: 20_000,
         price: 69,
@@ -90,7 +91,7 @@ export const offers = {
         name: onetimeName,
         description: onetimeDescription,
         points: onetimePoints,
-        id: OfferIds.ONETIME_FOUR,
+        id: OfferId.ONETIME_FOUR,
         type: OfferType.ONETIME,
         tokens: 50_000,
         price: 119,
@@ -103,6 +104,11 @@ export async function getOffers(): Promise<z.output<typeof getOffersOutput>> {
 }
 
 export async function getSession(ctx: Context, input: z.input<typeof getSessionInput>) {
+    if (!ctx.session?.user?.id) throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Nepodařilo se získat ID uživatele."
+    });
+
     const stripe = new Stripe(process.env.STRIPE_SK!, {
         apiVersion: '2022-11-15',
     });
@@ -117,7 +123,31 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
         });
     }
 
-    // Create a stripe session.
+    let session: Stripe.Checkout.Session;
+
+    try {
+        session = await createSession(ctx, offer, stripe);
+    } catch (e) {
+        console.log(e);
+        throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Chyba při vytváření platby."
+        });
+    }
+
+    await StripeSession.create({sessionId: session.id, userId: ctx.session.user.id, offerId: offer.id}, function(err) {
+        if (err) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                message: "Něco se pokazilo při ukládání platební session.",
+            });
+        }
+    });
+
+    return session;
+}
+
+async function createSession(ctx: Context, offer: z.infer<typeof Offer>, stripe: Stripe) {
     return await stripe.checkout.sessions.create({
         mode: offer.type === OfferType.ONETIME ? 'payment' : "subscription",
         submit_type: offer.type === OfferType.ONETIME ? 'pay' : undefined,
@@ -127,7 +157,7 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
         locale: 'cs',
         allow_promotion_codes: true,
         automatic_tax: {enabled: true},
-        client_reference_id: ctx.session?.user?.email ?? undefined,
+        client_reference_id: ctx.session?.user?.id ?? undefined,
         /*discounts: [
             {
                 coupon: 'DISCOUNT',
@@ -142,7 +172,7 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
                 quantity: 1,
                 price_data: {
                     currency: 'CZK',
-                    unit_amount: offer.price * 100,
+                    unit_amount: offer.price * 100, // 1 = cent.
 
                     recurring: offer.type === OfferType.ONETIME ? undefined : {
                         interval: 'month',
@@ -150,8 +180,11 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
                     },
 
                     product_data: {
-                        name: "Předplatné: " + offer.name,
+                        name: offer.type === OfferType.ONETIME ? offer.name : ("Předplatné: " + offer.name),
                         description: offer.description,
+                        metadata: {
+                            offerId: offer.id,
+                        },
                         /*TODO: Some cool image of the subscriptionType.*/
                     },
                 }
@@ -160,15 +193,4 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
         success_url: `${ctx.req.headers.origin}${paths.orderResult}?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${ctx.req.headers.origin}${paths.orderResult}?session_id={CHECKOUT_SESSION_ID}`,
     });
-
-
 }
-/*export async function getPlan(ctx: Context, input: z.input<typeof getPlanInput>): Promise<z.output<typeof getPlanOutput>> {
-    // Iterate Plans.
-    const subscriptionType = Object.values(planOffers).find((val) => val.type === input.type);
-    if (!subscriptionType) throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "Neexistující plán."
-    });
-    return subscriptionType;
-}*/

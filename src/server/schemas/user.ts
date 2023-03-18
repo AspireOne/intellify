@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {Offer} from "./offers";
+import {Offer, OfferId} from "./offers";
 export const updateDataInput = z.object({
     email: z.string()
         .email({message: "Neplatný email."})
@@ -23,8 +23,12 @@ export const getUserOutput = z.object({
     email: z.string(),
     emailVerified: z.boolean(),
     hasPassword: z.boolean(),
-    remainingTokens: z.number(),
-    subscription: Offer.nullable(),
+    remainingFreeTokens: z.number(),
+    subscription: z.object({
+        remainingTokens: z.number(),
+        subscribeDate: z.date(),
+        data: Offer,
+    }).optional(),
 });
 
 export const updateDataOutput = z.object({message: z.string()});

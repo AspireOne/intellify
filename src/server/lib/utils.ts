@@ -4,10 +4,15 @@ import {TRPCError} from "@trpc/server";
 import {Context} from "../context";
 import {createTransport} from "nodemailer";
 import User from "../mongodb_models/User";
+import {getOffers} from "../resolvers/offers";
 
 export default class Utils {
     static async hashPassword(password: string): Promise<string> {
         return await bcrypt.hash(password, 10);
+    }
+
+    public static async getOffer(id: string) {
+        return Object.values(await getOffers()).find((offer) => offer.id === id);
     }
 
     public static getDefaultSystemMessage = () => `You are Open Tools, a large language model. Answer as concisely as possible. Current date: ${new Date().toLocaleDateString()}.`;

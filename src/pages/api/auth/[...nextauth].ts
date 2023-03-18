@@ -1,4 +1,4 @@
-import NextAuth, {AuthOptions} from "next-auth"
+import NextAuth, {AuthOptions, DefaultSession} from "next-auth"
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import clientPromise from "../../../lib/mongodb"
 import AppleProvider from "next-auth/providers/apple"
@@ -37,20 +37,42 @@ export const authOptions: AuthOptions = {
                 // Get the user from database based on [email].
                 await mongooseConnect();
                 const user = await User.findOne({email: credentials.email}).exec();
+                if (!user) throw new Error("Špatný e-mail nebo heslo.");
 
-                if (user === null) throw new Error("Špatný e-mail nebo heslo.");
+                const passwordMatches = await bcrypt.compare(credentials.password, user.password);
+                if (!passwordMatches) throw new Error("Špatný e-mail nebo heslo.");
 
-                const isMatch = await bcrypt.compare(credentials.password, user.password);
-                if (!isMatch) throw new Error("Špatný e-mail nebo heslo.");
-
-                return {id: user._id.toString(), email: user.email, image: user.image, name: user.name};
+                return {id: user.id, email: user.email, image: user.image, name: user.name};
             }
         })
     ],
     adapter: MongoDBAdapter(clientPromise),
     session: {
         strategy: "jwt"
-    }
+    },
+    callbacks: {
+        session: async ({ session, token, user }) => {
+            if (session?.user) session.user.id = token.sub;
+            return session;
+        },
+        jwt: async ({ user, token, profile, account }) => {
+            if (account && profile) {
+                /*token.accessToken = account.access_token;*/
+                token.sub = profile.sub;
+            }
+            return token;
+        },
+    },
 }
 // /api/auth
+declare module "next-auth" {
+    /**
+     * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+     */
+    interface Session {
+        user: {
+            id?: string | null; // NOTE: made "id" optional (?) and nullable (null) so that it matches types with ones already existing in DefaultSession
+        } & DefaultSession["user"];
+    }
+}
 export default NextAuth(authOptions);

@@ -1,9 +1,6 @@
 import {
-    GetServerSidePropsContext,
     GetStaticPropsContext,
-    InferGetServerSidePropsType,
     InferGetStaticPropsType,
-    NextPage
 } from "next";
 import Button, {Style} from "../components/Button";
 import React, {useEffect, useState} from "react";
@@ -24,7 +21,7 @@ import Subtitle from "../components/Subtitle";
 import PageHeaderDiv from "../components/PageHeaderDiv";
 import {createProxySSGHelpers} from "@trpc/react-query/ssg";
 import {appRouter} from "../server/routers/_app";
-import {createContext, createContextInner} from "../server/context";
+import {createContext} from "../server/context";
 
 // This function gets called at build time
 export async function getStaticProps(
@@ -91,18 +88,18 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                 <div className="space-y-8 lg:grid lg:grid-cols-3 lg:grid-rows-1 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <PlanCard
                         offer={offers.data?.planBasic}
-                        currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planBasic.id}
+                        currentOffer={(user.data && offers.data) && user.data.subscription?.data.id === offers.data.planBasic.id}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planAdvanced}
                         bestOffer={true}
-                        currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planAdvanced.id}
+                        currentOffer={(user.data && offers.data) && user.data.subscription?.data.id === offers.data.planAdvanced.id}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planCompany}
-                        currentOffer={(user.data && offers.data) && user.data.subscription?.id === offers.data.planCompany.id}
+                        currentOffer={(user.data && offers.data) && user.data.subscription?.data.id === offers.data.planCompany.id}
                         onClick={handleClick}/>
                 </div>
 
@@ -159,6 +156,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
 const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
     if (!props.offer) return <></>;
     const sessionMutation = trpc.offers.getSession.useMutation();
+    const [loading, setLoading] = useState(false);
     let points: string[] = [];
     if (props.offer) {
         points = ["Až ~" + tokensToWords(props.offer.tokens) + " slov", ...(props.offer.points)];
@@ -188,8 +186,9 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
                         </div>
                         {points && <FormattedPoints points={points}/>}
                     </div>
-                    <Button className={"flex flex-row justify-center items-center gap-2 text-md"} onClick={async () => {
+                    <Button loading={loading} className={"flex flex-row justify-center items-center gap-2 text-md"} onClick={async () => {
                         if (!props.offer?.id) return;
+                        setLoading(true);
 
                         const checkoutSession: Stripe.Checkout.Session = await sessionMutation.mutateAsync({
                             offerId: props.offer?.id,

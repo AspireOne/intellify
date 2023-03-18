@@ -6,7 +6,6 @@ import {useEffect, useState} from "react";
 import Confetti from 'react-confetti'
 
 
-
 const OrderResult: NextPage = () => {
     /*const [width, setWidth] = useState<null | number>(null);
     const [height, setHeight] = useState<null | number>(null);
@@ -23,12 +22,23 @@ const OrderResult: NextPage = () => {
 
     const {width, height} = useWindowSize();
 
+    useEffect(() => {
+        (document.getElementById("music")! as HTMLAudioElement).play().catch((error) => {
+            document.addEventListener('click', () => {
+                (document.getElementById("music") as HTMLAudioElement)!.play();
+            }, {once: true})
+        });
+    }, []);
+
     return (
         <div>
             <Confetti
                 width={width}
                 height={height}
+                /*recycle={false}*/
             />
+            {/*Play mp3*/}
+            <audio id={"music"} autoPlay={true} src="/assets/prock.mp3" controls={false}  />
             <ArticleDiv className="flex items-center justify-center h-screen">
                 <div>
                     <PageTitle className={"title-highlighted mt-0"}>Děkujeme za objednávku!</PageTitle>

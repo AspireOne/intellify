@@ -4,11 +4,14 @@ import Typed from "typed.js";
 
 import { motion } from 'framer-motion';
 import {trpc} from "../utils/trpc";
+import {useSession} from "next-auth/react";
 
 
 // TODO: ADD _document.tsx or <Head> to every page.
 const Home: NextPage = () => {
     const el = useRef(null);
+    const session = useSession();
+    console.log(session.data?.user.id);
 
     useEffect(() => {
         // If it slows down the website, stop typing when it is not visible.

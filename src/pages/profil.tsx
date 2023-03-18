@@ -74,6 +74,12 @@ const Profile: NextPage = () =>  {
         });
     }
 
+    let remainingTokens = 0;
+    if (user.data) {
+        remainingTokens += user.data.remainingFreeTokens;
+        if (user.data.subscription) remainingTokens += user.data.subscription.remainingTokens;
+    }
+
     return (
         <div className={"relative"}>
             <Popup title={popupTitle} open={popupOpen} setOpen={setPopupOpen}>
@@ -91,7 +97,7 @@ const Profile: NextPage = () =>  {
                     {
                         user.data?.image
                             ? <img className="rounded-full" src={user.data?.image || ""} alt={"Profile picture"}/>
-                            : <Skeleton className={"h-full w-full rounded-full"}/>
+                            : <Skeleton circle={true} className={"h-full w-full"}/>
                     }
                 </div>
 
@@ -102,7 +108,7 @@ const Profile: NextPage = () =>  {
                         <p>
                             {
                                 user.data
-                                    ? (user.data.subscription?.name ?? <>žádné • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>prohlédnout</Link></>)
+                                    ? (user.data.subscription?.data.name ?? <>žádné • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>prohlédnout</Link></>)
                                     : <Skeleton width={"100px"} className={"rounded-full"}/>
                             }
                         </p>
@@ -113,7 +119,7 @@ const Profile: NextPage = () =>  {
                         <p className={"text-gray-400 text-sm mb-1"}>Zbývající tokeny</p>
                         {
                         user.data
-                            ? (user.data.remainingTokens || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>dokoupit</Link></>)
+                            ? (remainingTokens || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.subscription}>dokoupit</Link></>)
                             : <Skeleton width={"100px"} className={"rounded-full"}/>
                         }
                     </div>

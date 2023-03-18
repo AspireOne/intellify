@@ -45,13 +45,21 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
     const user = await User.findOne({email: ctx.session?.user?.email}).exec();
     if (!user) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Uživatele se nepodařilo získat."});
 
+    let subscriptionData;
+    if (user.subscription) {
+        const offer = await Utils.getOffer(user.subscription.type);
+        if (!offer) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Nepodařilo se zjistit předplatné."});
+        subscriptionData = {...user.subscription, data: offer};
+    }
+
+
     return {
         name: user.name,
         image: user.image,
         email: user.email,
         emailVerified: user.emailVerified,
-        remainingTokens: user.remainingTokens,
+        remainingFreeTokens: user.remainingFreeTokens,
+        subscription: subscriptionData,
         hasPassword: !!user.password,
-        subscription: Object.values(await getOffers()).find((offer) => offer.id === user.subscriptionType) || null
     }
 }

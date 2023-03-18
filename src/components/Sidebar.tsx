@@ -15,6 +15,7 @@ import Link from "next/link";
 import {paths} from "../lib/constants";
 import Ls from "../lib/ls";
 import { twMerge } from "tailwind-merge";
+import Skeleton from "react-loading-skeleton";
 
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
@@ -84,30 +85,30 @@ const Sidebar: NextPage = () => {
 
                         <div className={"absolute bottom-0 left-0 right-0"}>
                             {
-                                session.status == "authenticated" &&
+                                session.status === "loading" &&
+                                <Skeleton height={45} className={"rounded-full"}/>
+                            }
+                            {
+                                session.status === "authenticated" &&
                                 <ListItem
                                     title="Profil"
                                     className={"rounded-full"}
                                     link={paths.profile}
                                     icon={session.data.user?.image
-                                    ? (<img
-                                        className={"rounded-full"}
-                                        width={25}
-                                        height={"auto"}
-                                        src={session.data.user?.image}/>)
-                                    : <Person color={"#fff"}/>}/>
+                                        ? (<img
+                                            className={"rounded-full"}
+                                            width={25}
+                                            height={"auto"}
+                                            src={session.data.user?.image}/>)
+                                        : <Person color={"#fff"}/>}/>
                             }
                             {
-                                session.status == "unauthenticated" &&
+                                session.status === "unauthenticated" &&
                                 <ListItem
                                     onClick={handleItemClick} title={Ls.hasBeenSigned ? "Přihásit se" : "Zaregistrovat se"}
                                     className={"rounded-full bg-gray-200 bg-opacity-20"}
                                     link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
                             }
-                            {/*<ListItem title={session.status === "authenticated" ? "Odhlásit se" : "Přihlásit se"}
-                              link={(session.status !== "authenticated" && paths.sign) || undefined}
-                              onClick={session.status === "authenticated" ? (async () => await signOut()) : undefined}
-                              icon={<LogOut color={"#fff"}/>}/>*/}
                         </div>
                     </div>
                 </div>
