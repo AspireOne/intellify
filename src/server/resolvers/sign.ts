@@ -19,13 +19,13 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
 
     const hashedPass = await Utils.hashPassword(input.password);
 
-    await User.create({email: input.email, password: hashedPass, image: "https://user-images.githubusercontent.com/57546404/216829624-4e906eea-77da-48dd-983a-12c627685061.png"}, function(err) {
-        if (err) {
-            throw new TRPCError({
-                code: "INTERNAL_SERVER_ERROR",
-                message: "Něco se pokazilo.",
-            });
-        }
-    });
+    try {
+        await User.create({email: input.email, password: hashedPass, image: "https://user-images.githubusercontent.com/57546404/216829624-4e906eea-77da-48dd-983a-12c627685061.png"});
+    } catch (e) {
+        throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Něco se pokazilo.",
+        });
+    }
     return {message: 'Uživatel úspěšně registrován.' };
 }

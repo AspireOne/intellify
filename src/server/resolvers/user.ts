@@ -25,16 +25,14 @@ export async function updateDataResolver(ctx: Context, input: z.input<typeof upd
     }
 
     // Update the user data in db.
-    await User.updateOne({email: ctx.session?.user?.email}, dataToChange).exec(function(err: any) {
-            if (err) {
-                console.error(err);
-                throw new TRPCError({
-                    code: "INTERNAL_SERVER_ERROR",
-                    message: "Něco se pokazilo při aktualizování dat uživatele."
-                });
-            }
-        }
-    );
+    try {
+        await User.updateOne({email: ctx.session?.user?.email}, dataToChange);
+    } catch (e) {
+        throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Něco se pokazilo při aktualizování dat uživatele."
+        });
+    }
 
     return {message: "Uživatelská data byla úspěšně aktualizována."}
 }

@@ -135,14 +135,14 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
         });
     }
 
-    await StripeSession.create({sessionId: session.id, userId: ctx.session.user.id, offerId: offer.id}, function(err) {
-        if (err) {
-            throw new TRPCError({
-                code: "INTERNAL_SERVER_ERROR",
-                message: "Něco se pokazilo při ukládání platební session.",
-            });
-        }
-    });
+    try {
+        await StripeSession.create({sessionId: session.id, userId: ctx.session.user.id, offerId: offer.id});
+    } catch (e) {
+        throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Něco se pokazilo při ukládání platební session.",
+        });
+    }
 
     return session;
 }
