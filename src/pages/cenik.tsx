@@ -62,7 +62,8 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
             return;
         }
         setSelectedOffer(offer);
-        document.getElementById("payment")?.scrollIntoView({behavior: "smooth"});
+        document.getElementById("payment")?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+        document.getElementById("payment")?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
     }
 
     const onetimeOffers = Object.values(offers.data ?? {})
