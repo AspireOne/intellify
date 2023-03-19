@@ -12,6 +12,7 @@ import {paths} from "../lib/constants";
 import Input from "../components/Input";
 import INPUT from "../lib/inputConstraints";
 import Ls from "../lib/ls";
+import Card from "../components/Card";
 
 // TODO: Save logged in status to localstorage, and when a page loads and session status is loading,
 // TODO: temporarily take the login status from localstorage until session loads. Make it an abstraction.
@@ -24,13 +25,13 @@ const Sign: NextPage = () => {
     }, [typeof localStorage]);
 
     return (
-        <div className="flex flex-col items-center py-8 mx-auto md:h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center mx-auto h-screen lg:py-0">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-white">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                      alt="logo"/>
                 Open-Tools
             </a>
-            <div
+            <Card
                 className="w-full rounded-md shadow border md:mt-0 sm:max-w-lg xl:p-0 bg-t-alternative-700 border-gray-700">
                 {/*Create two tabs - login and register. Do not use headless ui.*/}
                 <div className={"flex flex-row"}> {/*TODO: border | border-b border-1*/}
@@ -45,7 +46,7 @@ const Sign: NextPage = () => {
                     <OrDivider/>
                     <Form type={type}/>
                 </div>
-            </div>
+            </Card>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import {
     InferGetStaticPropsType,
 } from "next";
 import Button, {Style} from "../components/Button";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {twMerge} from "tailwind-merge";
 import {trpc} from "../utils/trpc";
 import Skeleton from 'react-loading-skeleton';
@@ -46,6 +46,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
     const user = trpc.user.getUser.useQuery();
     const session = useSession();
     const router = useRouter();
+    const paymentSectionRef = useRef<HTMLDivElement>(null);
 
     const [preSelectedOnetimeOffer, setPreSelectedOnetimeOffer] = useState<z.infer<typeof Offer> | null>(null);
     const [selectedOffer, setSelectedOffer] = useState<z.infer<typeof Offer> | null>(null);
@@ -62,8 +63,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
             return;
         }
         setSelectedOffer(offer);
-        document.getElementById("payment")?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-        document.getElementById("payment")?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+        paymentSectionRef.current!.scrollIntoView({behavior: "smooth"});
     }
 
     const onetimeOffers = Object.values(offers.data ?? {})
@@ -148,13 +148,13 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                         Vybrat a pokračovat
                     </Button>
                 </CustomCard>
-                <PaymentSection offer={selectedOffer}/>
+                <PaymentSection ref={paymentSectionRef} offer={selectedOffer}/>
             </div>
         </section>
     );
 }
 
-const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
+const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, ref?: React.RefObject<HTMLDivElement> }) => {
     if (!props.offer) return <></>;
     const sessionMutation = trpc.offers.getSession.useMutation();
     const [loading, setLoading] = useState(false);
@@ -168,8 +168,8 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null }) => {
             <h2 className="mt-12 mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
                 Platba
             </h2>
-            <div className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
-                <CustomCard id={"payment"} className={"mx-0 w-full text-left flex flex-col gap-4"}>
+            <div ref={props.ref} className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
+                <CustomCard className={"mx-0 w-full text-left flex flex-col gap-4"}>
                     <div className={"flex flex-row gap-5 justify-between"}>
                         <div>
                             <div className={"mb-2"}>
