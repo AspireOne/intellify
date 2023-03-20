@@ -34,7 +34,7 @@ const OrderResult: NextPage = () => {
         <div>
             <Confetti
                 width={width}
-                height={height}
+                height={height + 10}
                 /*recycle={false}*/
             />
             {/*Play mp3*/}

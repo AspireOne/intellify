@@ -63,7 +63,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
             return;
         }
         setSelectedOffer(offer);
-        paymentSectionRef.current!.scrollIntoView({behavior: "smooth"});
+        paymentSectionRef.current!.scrollIntoView({behavior: "smooth", block: "end"});
     }
 
     const onetimeOffers = Object.values(offers.data ?? {})
@@ -148,7 +148,9 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                         Vybrat a pokračovat
                     </Button>
                 </CustomCard>
-                <PaymentSection ref={paymentSectionRef} offer={selectedOffer}/>
+                <div ref={paymentSectionRef}>
+                    <PaymentSection offer={selectedOffer}/>
+                </div>
             </div>
         </section>
     );
