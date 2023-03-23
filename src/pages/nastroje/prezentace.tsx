@@ -12,7 +12,7 @@ import {AutoPopup} from "../../components/Popup";
 import Input from "../../components/Input";
 import {z} from "zod";
 import {createPresentationInput} from "../../server/schemas/presentation";
-import {trpc} from "../../utils/trpc";
+import {trpc} from "../../lib/trpc";
 import {twMerge} from "tailwind-merge";
 
 const landingPageProps: LandingPageProps = {

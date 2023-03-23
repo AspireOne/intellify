@@ -26,7 +26,7 @@ export const getUserOutput = z.object({
     remainingFreeTokens: z.number(),
     subscription: z.object({
         remainingTokens: z.number(),
-        subscribeDate: z.date(),
+        updateDate: z.date(),
         data: Offer,
     }).optional(),
 });

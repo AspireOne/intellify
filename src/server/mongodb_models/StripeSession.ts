@@ -1,15 +1,22 @@
-// Create a typegoose model for StripeSession containing sessionId, userId, offerId.
+import {prop, getModelForClass} from '@typegoose/typegoose';
+import mongoose from "mongoose";
+import User from "./User";
+import typegoose from '@typegoose/typegoose';
 
-import {getModelForClass, prop} from "@typegoose/typegoose";
-import {OfferId, OfferType} from "../schemas/offers";
+export class StripeSession {
+    @prop({ required: true })
+    sessionId!: string;
 
-class StripeSession {
-    @prop({required: true})
-    public sessionId!: string;
-    @prop({required: true})
-    public userId!: string
-    @prop({required: true, type: String })
-    public offerId!: OfferId
+    @prop({ required: true })
+    offerId!: string;
+
+    /*
+    *
+    @prop({ ref: () => User, autopopulate: true, required: true })
+    userId!: typegoose.Ref<User>;*/
+    // this is fucking stupid but it doesnt work with ref otherwise.
+    @prop({ required: true })
+    userId!: string;
 }
 
-export default getModelForClass(StripeSession, {schemaOptions: {timestamps: true}});
+export default getModelForClass(StripeSession);

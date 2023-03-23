@@ -7,7 +7,7 @@ import Button from "../../components/Button";
 import {Copy, CopyOutline, InformationCircleOutline, Send} from "react-ionicons";
 import TextareaAutosize from "react-textarea-autosize";
 import IOCard from "../../components/IOCard";
-import {trpc} from "../../utils/trpc";
+import {trpc} from "../../lib/trpc";
 import {AutoPopup} from "../../components/Popup";
 import Slider from "../../components/Slider";
 

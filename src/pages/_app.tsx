@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import React from "react";
 import Footer from "../components/Footer";
 import {SessionProvider} from "next-auth/react";
-import {trpc} from "../utils/trpc";
+import {trpc} from "../lib/trpc";
 import {SkeletonTheme} from "react-loading-skeleton";
 import { MantineProvider } from '@mantine/core';
 

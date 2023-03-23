@@ -1,11 +1,12 @@
 import {Context} from "../context";
 import {z} from "zod";
-import {getOffersOutput, getSessionInput, OfferId, OfferType, Offer} from "../schemas/offers";
+import {getOffersOutput, getSessionInput, OfferId, OfferType, Offer, getOfferFromSessionInput} from "../schemas/offers";
 import {Stripe} from "stripe";
 import {TRPCError} from "@trpc/server";
 import {paths} from "../../lib/constants";
 import StripeSession from "../mongodb_models/StripeSession";
 import User from "../mongodb_models/User";
+import Utils from "../lib/utils";
 
 const onetimeName = "Jednorázově";
 const onetimeDescription = "Slova můžete koupit taky jednorázově. Žádné opakované platby.";
@@ -98,9 +99,14 @@ export const offers = {
     }
 }
 
-// TODO: Implement webhooks for refunds etc!
 export async function getOffers(): Promise<z.output<typeof getOffersOutput>> {
     return offers;
+}
+
+export async function getOfferFromSession(ctx: Context, input: z.input<typeof getOfferFromSessionInput>) {
+    const session = await StripeSession.findOne({sessionId: input.session});
+    if (!session) throw new TRPCError({code: "BAD_REQUEST", message: "Platba nebyla nalezena."});
+    return await Utils.getOffer(session.offerId);
 }
 
 export async function getSession(ctx: Context, input: z.input<typeof getSessionInput>) {
@@ -135,9 +141,11 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
         });
     }
 
+    /*await ctx.connectDb();*/
     try {
         await StripeSession.create({sessionId: session.id, userId: ctx.session.user.id, offerId: offer.id});
     } catch (e) {
+        console.log(e);
         throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Něco se pokazilo při ukládání platební session.",

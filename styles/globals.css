@@ -59,6 +59,10 @@
             background-position: 0;
         }
     }
+
+    .standard-link {
+
+    }
 }
 
 @layer components {

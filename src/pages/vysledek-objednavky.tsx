@@ -4,9 +4,11 @@ import Subtitle from "../components/Subtitle";
 import {ArticleDiv} from "../components/article";
 import {useEffect, useState} from "react";
 import Confetti from 'react-confetti'
+import {trpc} from "../lib/trpc";
 
 
 const OrderResult: NextPage = () => {
+    /*const offer = trpc.offers.*/
     /*const [width, setWidth] = useState<null | number>(null);
     const [height, setHeight] = useState<null | number>(null);
 

@@ -1,5 +1,5 @@
-import { prop, getModelForClass, DocumentType } from '@typegoose/typegoose';
-import {OfferId} from "../schemas/offers";
+import {DocumentType, getModelForClass, prop} from '@typegoose/typegoose';
+import {OfferId, OfferType} from "../schemas/offers";
 import {offers} from "../resolvers/offers";
 
 class User {
@@ -23,7 +23,7 @@ class User {
     public remainingFreeTokens!: number
 
     @prop({ type: () => Object })
-    subscription?: { type: OfferId, remainingTokens: number, subscribeDate: Date }
+    subscription?: { type: OfferId, remainingTokens: number, updateDate: Date }
     public async decreaseTokensAndSave(this: DocumentType<User>, tokens: number) {
         if (!this.subscription) {
             this.remainingFreeTokens -= tokens;
@@ -48,6 +48,25 @@ class User {
 
     public async addFreeTokensAndSave(this: DocumentType<User>, tokens: number) {
         this.remainingFreeTokens += tokens;
+        await this.save();
+    }
+
+    public async setSubscriptionAndSave(this: DocumentType<User>, id: OfferId | null) {
+        if (id == null) {
+            this.subscription = undefined;
+            return;
+        }
+
+        const offer = Object.values(offers).find(offer => offer.id === id);
+        if (!offer) throw new Error("Offer not found based on passed offer type.");
+
+        if (offer.type == OfferType.ONETIME) throw new Error("The provided offer is onetime, not subscription.");
+
+        this.subscription = {
+            type: offer.id,
+            remainingTokens: offer.tokens,
+            updateDate: new Date()
+        };
         await this.save();
     }
 

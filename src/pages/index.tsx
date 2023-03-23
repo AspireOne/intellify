@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from "react";
 import Typed from "typed.js";
 
 import { motion } from 'framer-motion';
-import {trpc} from "../utils/trpc";
+import {trpc} from "../lib/trpc";
 import {useSession} from "next-auth/react";
 
 

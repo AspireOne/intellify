@@ -4,7 +4,7 @@ import Button, {Style} from "../components/Button";
 import {signOut, useSession} from "next-auth/react";
 import Input from "../components/Input";
 import INPUT from "../lib/inputConstraints";
-import {trpc} from "../utils/trpc";
+import {trpc} from "../lib/trpc";
 import Popup from "../components/Popup";
 import {ArrowForward} from "react-ionicons";
 import Skeleton from "react-loading-skeleton";
@@ -15,6 +15,9 @@ import PageTitle from "../components/PageTitle";
 import Card from "../components/Card";
 import Form from "../components/Form";
 import PageHeaderDiv from "../components/PageHeaderDiv";
+import Utils from "../lib/utils";
+import {z} from "zod";
+import {getUserOutput} from "../server/schemas/user";
 
 const Profile: NextPage = () =>  {
     const [name, setName] = React.useState("");
@@ -105,22 +108,16 @@ const Profile: NextPage = () =>  {
                     {/*className={"border border-[0px] border-gray-300 py-2 px-4 rounded-full"}*/}
                     <div>
                         <p className={"text-gray-400 text-sm mb-1"}>Předplatné</p>
-                        <p>
-                            {
-                                user.data
-                                    ? (user.data.subscription?.data.name ?? <>žádné • <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>prohlédnout</Link></>)
-                                    : <Skeleton width={"100px"} className={"rounded-full"}/>
-                            }
-                        </p>
+                        <SubscriptionInfo></SubscriptionInfo>
                     </div>
 
                     {/*className={"border border-[0px] border-gray-300 py-2 px-4 rounded-full"}*/}
                     <div>
-                        <p className={"text-gray-400 text-sm mb-1"}>Zbývající tokeny</p>
+                        <p className={"text-gray-400 text-sm mb-1"}>Zbývající slova</p>
                         {
-                        user.data
-                            ? (remainingTokens || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>dokoupit</Link></>)
-                            : <Skeleton width={"100px"} className={"rounded-full"}/>
+                            user.data
+                                ? (Utils.tokensToWords(remainingTokens) || <>0 • <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>dokoupit</Link></>)
+                                : <Skeleton width={"100px"} className={"rounded-full"}/>
                         }
                     </div>
                 </div>
@@ -161,6 +158,29 @@ const Profile: NextPage = () =>  {
             </Form>
         </div>
     );
+
+    function SubscriptionInfo() {
+        let element;
+
+        if (user.data?.subscription?.data.name) {
+            element = (
+                <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>
+                    {user.data.subscription.data.name}
+                </Link>
+            )
+        } else {
+            element = (
+                <>
+                    žádné •
+                    <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>prohlédnout</Link>
+                </>
+            )
+        }
+
+        return (
+            <p>{user.data ? element : <Skeleton width={"100px"} className={"rounded-full"}/>}</p>
+        );
+    }
 }
 
 export default Profile;

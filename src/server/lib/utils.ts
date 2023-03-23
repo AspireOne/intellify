@@ -12,7 +12,9 @@ export default class Utils {
     }
 
     public static async getOffer(id: string) {
-        return Object.values(await getOffers()).find((offer) => offer.id === id);
+        const offer = Object.values(await getOffers()).find((offer) => offer.id === id);
+        if (!offer) throw new Error("Offer id doesn't exist.");
+        return offer;
     }
 
     public static getDefaultSystemMessage = () => `You are Open Tools, a large language model. Answer as concisely as possible. Current date: ${new Date().toLocaleDateString()}.`;

@@ -7,7 +7,7 @@ import {signIn, useSession} from "next-auth/react";
 import axios from "axios";
 import Popup from "../components/Popup";
 import {useRouter} from "next/navigation";
-import {trpc} from "../utils/trpc";
+import {trpc} from "../lib/trpc";
 import {paths} from "../lib/constants";
 import Input from "../components/Input";
 import INPUT from "../lib/inputConstraints";

@@ -1,11 +1,8 @@
-import {
-    GetStaticPropsContext,
-    InferGetStaticPropsType,
-} from "next";
+import {GetStaticPropsContext, InferGetStaticPropsType,} from "next";
 import Button, {Style} from "../components/Button";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
-import {trpc} from "../utils/trpc";
+import {trpc} from "../lib/trpc";
 import Skeleton from 'react-loading-skeleton';
 import {Offer, OfferType} from "../server/schemas/offers";
 import {z} from "zod";
@@ -22,6 +19,7 @@ import PageHeaderDiv from "../components/PageHeaderDiv";
 import {createProxySSGHelpers} from "@trpc/react-query/ssg";
 import {appRouter} from "../server/routers/_app";
 import {createContext} from "../server/context";
+import Utils from "../lib/utils";
 
 // This function gets called at build time
 export async function getStaticProps(
@@ -46,7 +44,6 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
     const user = trpc.user.getUser.useQuery();
     const session = useSession();
     const router = useRouter();
-    const paymentSectionRef = useRef<HTMLDivElement>(null);
 
     const [preSelectedOnetimeOffer, setPreSelectedOnetimeOffer] = useState<z.infer<typeof Offer> | null>(null);
     const [selectedOffer, setSelectedOffer] = useState<z.infer<typeof Offer> | null>(null);
@@ -63,7 +60,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
             return;
         }
         setSelectedOffer(offer);
-        paymentSectionRef.current!.scrollIntoView({behavior: "smooth", block: "end"});
+        document.getElementById("payment")?.scrollIntoView({behavior: "smooth", block: "center"});
     }
 
     const onetimeOffers = Object.values(offers.data ?? {})
@@ -125,7 +122,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                                         className={`border border-1 border-gray-600 rounded-md py-2 px-6 duration-100 
                                     ${preSelectedOnetimeOffer === offer ? "bg-gray-600" : "hover:bg-gray-700"}`}
                                     >
-                                        <div className={"text-md sm:text-lg font-bold"}>~{tokensToWords(offer.tokens)}</div>
+                                        <div className={"text-md sm:text-lg font-bold"}>~{Utils.tokensToWords(offer.tokens)}</div>
                                         <div className={"text-gray-500 text-sm dark:text-gray-400"}>slov</div>
                                     </button>
                                 ))
@@ -148,21 +145,19 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                         Vybrat a pokračovat
                     </Button>
                 </CustomCard>
-                <div ref={paymentSectionRef}>
-                    <PaymentSection offer={selectedOffer}/>
-                </div>
+                <PaymentSection offer={selectedOffer}/>
             </div>
         </section>
     );
 }
 
-const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, ref?: React.RefObject<HTMLDivElement> }) => {
-    if (!props.offer) return <></>;
+const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null}) => {
+    if (!props.offer) return <div id={"payment"}></div>;
     const sessionMutation = trpc.offers.getSession.useMutation();
     const [loading, setLoading] = useState(false);
     let points: string[] = [];
     if (props.offer) {
-        points = ["Až ~" + tokensToWords(props.offer.tokens) + " slov", ...(props.offer.points)];
+        points = ["Až ~" + Utils.tokensToWords(props.offer.tokens) + " slov", ...(props.offer.points)];
     }
 
     return (
@@ -170,7 +165,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, ref?: Rea
             <h2 className="mt-12 mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
                 Platba
             </h2>
-            <div ref={props.ref} className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
+            <div id={"payment"} className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
                 <CustomCard className={"mx-0 w-full text-left flex flex-col gap-4"}>
                     <div className={"flex flex-row gap-5 justify-between"}>
                         <div>
@@ -232,25 +227,16 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null, ref?: Rea
     )
 }
 
-const tokensToWords = (tokens: number | null | undefined) => {
-    if (!tokens) return tokens;
-
-    const words = Math.round(tokens * 0.75);
-    const wordsRounded = Math.round(words / 1000) * 1000;
-    // Formatted so that 50000 = 50 000.
-    return wordsRounded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
-}
-
 const PlanCard = (props: {
     bestOffer?: boolean,
     currentOffer?: boolean,
     onClick: (offer: z.infer<typeof Offer>) => void,
     offer?: z.infer<typeof Offer> }) => {
 
-    const tokenPoint = "Až ~" + tokensToWords(props.offer?.tokens) + " slov";
+    const tokenPoint = "Až ~" + Utils.tokensToWords(props.offer?.tokens) + " slov";
     return (
         <div>
-            <CustomCard className={`w-full h-full ${props.currentOffer && "border-blue-500 border-2"}`}>
+            <CustomCard className={`w-full h-full ${props.currentOffer && "border-amber-400 border-2"}`}>
                 <div>
                     <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
                     <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
@@ -279,9 +265,12 @@ const PlanCard = (props: {
                 }
                 {
                     props.currentOffer &&
-                    <p className={"font-bold text-lg text-center my-3 text-blue-500"}>
-                        Současné předplatné
-                    </p>
+                    <div>
+                        <p className={"font-bold text-lg text-center my-0 text-amber-400"}>
+                            Současné předplatné
+                        </p>
+                        <Button style={Style.NONE} className={"text-gray-400 text-sm m-0 p-0"}>Zrušit předplatné</Button>
+                    </div>
                 }
             </CustomCard>
         </div>

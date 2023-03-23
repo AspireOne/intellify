@@ -7,7 +7,7 @@ import React, {useState} from "react";
 import Button, {Style} from "../../components/Button";
 import {z} from "zod";
 import {assistCodeInput} from "../../server/schemas/code";
-import {trpc} from "../../utils/trpc";
+import {trpc} from "../../lib/trpc";
 
 
 const landingPageProps: LandingPageProps = {
