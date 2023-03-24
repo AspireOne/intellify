@@ -37,16 +37,22 @@ const Sidebar: NextPage = () => {
     }
 
     return (
+        /*An opaque dark div that will span the whole screen.*/
         <>
-            <aside className={"z-10"}>
-                <Menu color={"#fff"} height={"50px"} width={"50px"}
-                      onClick={() => setIsOpen(!isOpen)}
-                      title={"menu"}
-                      cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen ? "hidden" : ""}`}/>
+            <Menu color={"#fff"} height={"50px"} width={"50px"}
+                  onClick={() => setIsOpen(!isOpen)}
+                  title={"menu"}
+                  cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5`}/>
+
+            <aside onClick={() => {
+                // Close by clicking outside of sidebar only on mobile.
+                if (window.innerWidth <= 768) setIsOpen(false);
+            }}
+                   className={`sm:sticky sm:w-min w-full fixed top-0 left-0 h-full sm:bg-transparent bg-black/50 z-10 ${!isOpen ? "hidden" : ""}`}>
 
                 {/*TODO: Close sidebar when outside of sidebar is clicked.*/}
-                <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 bg-opacity-80 backdrop-blur-md sm:backdrop-blur-none sm:bg-opacity-70 rounded-md shadow-2xl"
-                    + (isOpen ? "": " hidden")}>
+                <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 " +
+                    "backdrop-blur-md sm:backdrop-blur-none bg-opacity-80 shadow-2xl"}>
                     <div className={"relative h-full overflow-hidden"}>
                         <div className="text-xl text-gray-100">
                             <div className="p-2.5 mt-1 flex items-center justify-between">
