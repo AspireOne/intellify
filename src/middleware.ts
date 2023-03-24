@@ -7,16 +7,19 @@ import {paths} from "./lib/constants";
 //documentation, cookies, sessions etc.: https://nextjs.org/docs/advanced-features/middleware
 // This function can be marked `async` if using `await` inside
 export async function middleware(req: NextRequest) {
-    if (req.url.includes(paths.sign)) {
+    // get part of url after hostname.
+    const pathname = new URL(req.url).pathname;
+
+    if (pathname.startsWith(paths.sign)) {
         if (await isSignedIn(req)) return NextResponse.redirect(new URL(paths.index, req.url));
     }
 
-    if (req.url.includes(paths.profile)) {
+    if (pathname.startsWith(paths.profile)) {
         if (!await isSignedIn(req)) return NextResponse.redirect(new URL(paths.sign, req.url));
     }
 
-    if (req.url.includes(paths.orderResult)) {
-        /*if (!req.url.includes("session_id=")) return NextResponse.redirect(new URL(paths.index, req.url));*/
+    if (pathname.startsWith(paths.orderResult)) {
+        if (!req.url.includes("session_id=")) return NextResponse.redirect(new URL(paths.index, req.url));
     }
 
     /*const session = await getToken({ req, secret: process.env.SECRET })

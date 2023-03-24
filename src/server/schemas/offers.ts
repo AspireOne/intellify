@@ -16,6 +16,7 @@ export const enum OfferType { PLAN = "plan", ONETIME = "onetime" }
 
 export const Offer = z.object({
     name: z.string(),
+    fullName: z.string(),
     description: z.string(),
     points: z.array(z.string()),
     tokens: z.number(),
@@ -28,7 +29,7 @@ export const getOfferFromSessionInput = z.object({
     session: z.string().min(1, "Session is required.")
 });
 
-export const getOfferFromSessionOutput = Offer;
+export const getOfferFromSessionOutput = Offer.optional();
 
 export const getSessionInput = z.object({
     offerId: z.enum([OfferId.PLAN_BASIC, OfferId.PLAN_STUDENT, OfferId.PLAN_COMPANY, OfferId.ONETIME_ONE, OfferId.ONETIME_TWO, OfferId.ONETIME_THREE, OfferId.ONETIME_FOUR]),

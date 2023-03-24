@@ -35,7 +35,7 @@
     "chatgpt": "^5.1.2",
     "core-js": "^3.29.1",
     "dotenv": "^16.0.3",
-    "framer-motion": "^10.8.5",
+    "framer-motion": "^10.9.0",
     "micro": "^10.0.1",
     "mongodb": "^5.1.0",
     "mongoose": "^7.0.3",

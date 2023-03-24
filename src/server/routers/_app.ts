@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { publicProcedure, router } from '../trpc';
+import {protectedProcedure, publicProcedure, router} from '../trpc';
 import {presentationRouter} from "./presentation";
 import {Configuration, OpenAIApi} from "openai";
 import {codeRouter} from "./code";
@@ -8,6 +8,9 @@ import {userRouter} from "./user";
 import {generalAiRouter} from "./generalAi";
 import {offersRouter} from "./offers";
 import 'react-loading-skeleton/dist/skeleton.css';
+import {assistCodeInput, assistCodeOutput} from "../schemas/code";
+import {assistCodeResolver} from "../resolvers/code";
+import Email from "../lib/mail";
 export const appRouter = router({
     presentation: presentationRouter,
     code: codeRouter,
@@ -15,10 +18,16 @@ export const appRouter = router({
     user: userRouter,
     generalAi: generalAiRouter,
     offers: offersRouter,
-    hello: publicProcedure
-        .input(z.object({name: z.string()}))
-        .output(z.object({greeting: z.string()}))
-        .query(({ input }) => {return {greeting: `Hello to ${input.name}`}})
+    contactUs: protectedProcedure
+        .input(z.object({
+            email: z.string().min(1, {message: "Email je povinný."}).email({message: "Email není ve správném formátu."}),
+            phone: z.string().optional(),
+            subject: z.string().optional(),
+            message: z.string().min(6, {message: "Zpráva je povinná."}),
+        }))
+        .mutation(async ({ctx, input}) => {
+            await Email.sendContactUsMail(ctx.session, input.email, input.message, input.phone, input.subject);
+        }),
 });
 
 // export type definition of API

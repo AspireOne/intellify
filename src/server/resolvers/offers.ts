@@ -17,6 +17,7 @@ import User from "../mongodb_models/User";
 import Utils from "../lib/utils";
 
 const onetimeName = "Jednorázově";
+const onetimeFullName = "Jednorázová koupě";
 const onetimeDescription = "Slova můžete koupit taky jednorázově. Žádné opakované platby.";
 const onetimePoints = [
     'Žádné nastavování nebo skryté poplatky',
@@ -28,6 +29,7 @@ const onetimePoints = [
 export const offers = {
     planBasic: {
         name: "Základní",
+        fullName: "Základní předplatné",
         id: OfferId.PLAN_BASIC,
         type: OfferType.PLAN,
         description: "Všechno co potřebujete a ještě něco navíc.",
@@ -41,6 +43,7 @@ export const offers = {
     },
     planAdvanced: {
         name: "Student",
+        fullName: "Studentské předplatné",
         id: OfferId.PLAN_STUDENT,
         type: OfferType.PLAN,
         description: "Nejlepší možnost pro studenty a pro osobní využití.",
@@ -54,6 +57,7 @@ export const offers = {
     },
     planCompany: {
         name: "Firma",
+        fullName: "Firemní předplatné",
         id: OfferId.PLAN_COMPANY,
         type: OfferType.PLAN,
         description: "Nejlepší možnost pro větší týmy, firmy, a společnosti.",
@@ -68,6 +72,7 @@ export const offers = {
 
     onetimeOne: {
         name: onetimeName,
+        fullName: onetimeFullName,
         description: onetimeDescription,
         points: onetimePoints,
         id: OfferId.ONETIME_ONE,
@@ -78,6 +83,7 @@ export const offers = {
 
     onetimeTwo: {
         name: onetimeName,
+        fullName: onetimeFullName,
         description: onetimeDescription,
         points: onetimePoints,
         id: OfferId.ONETIME_TWO,
@@ -88,6 +94,7 @@ export const offers = {
 
     onetimeThree: {
         name: onetimeName,
+        fullName: onetimeFullName,
         description: onetimeDescription,
         points: onetimePoints,
         id: OfferId.ONETIME_THREE,
@@ -98,6 +105,7 @@ export const offers = {
 
     onetimeFour: {
         name: onetimeName,
+        fullName: onetimeFullName,
         description: onetimeDescription,
         points: onetimePoints,
         id: OfferId.ONETIME_FOUR,
@@ -115,7 +123,7 @@ export async function getOfferFromSession(ctx: Context, input: z.input<typeof ge
     await ctx.connectDb();
     console.log("finding session with id " + input.session);
     const session = await StripeSession.findOne({sessionId: input.session});
-    if (!session) throw new TRPCError({code: "BAD_REQUEST", message: "Platba nebyla nalezena."});
+    if (!session) return undefined;
     return await Utils.getOffer(session.offerId);
 }
 
@@ -144,7 +152,7 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
     try {
         session = await createSession(ctx, offer, stripe);
     } catch (e) {
-        console.log(e);
+        console.error(e);
         throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Chyba při vytváření platby."
@@ -155,7 +163,7 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
     try {
         await StripeSession.create({sessionId: session.id, userId: ctx.session.user.id, offerId: offer.id});
     } catch (e) {
-        console.log(e);
+        console.error(e);
         throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Něco se pokazilo při ukládání platební session.",

@@ -45,7 +45,6 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
 
     let subscriptionData;
     if (user.subscription) {
-        console.log(user);
         const offer = await Utils.getOffer(user.subscription.id);
         subscriptionData = {...user.subscription, data: offer};
     }

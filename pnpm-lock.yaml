@@ -35,7 +35,7 @@ importers:
       chatgpt: ^5.1.2
       core-js: ^3.29.1
       dotenv: ^16.0.3
-      framer-motion: ^10.8.5
+      framer-motion: ^10.9.0
       micro: ^10.0.1
       mongodb: ^5.1.0
       mongoose: ^7.0.3
@@ -93,7 +93,7 @@ importers:
       chatgpt: 5.1.2
       core-js: 3.29.1
       dotenv: 16.0.3
-      framer-motion: 10.8.5_biqbaboplfbrettd7655fr4n2y
+      framer-motion: 10.9.0_biqbaboplfbrettd7655fr4n2y
       micro: 10.0.1
       mongodb: 5.1.0
       mongoose: 7.0.3
@@ -1722,8 +1722,8 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: false
 
-  /framer-motion/10.8.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-qwvUAIwCc6fEZhg7ST+/z+f7Vt882jJvLiWZUHNdq2oZ/Y7gM6mLlpKi9xQg+pLu6DQVypikcKQ+MKnoFoXAJg==}
+  /framer-motion/10.9.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-J7aJikwmeKEIMPcXGdIKCL4Zh7xRwAlLXw8klRvDnZwYYnBZhVB0RF+54AAlZ3yJS6U+zEJWP3uVoNTbkjYesg==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0

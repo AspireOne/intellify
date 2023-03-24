@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import {paths} from "../lib/constants";
 import Kontakt from "../pages/kontakt";
+import Contact from "../pages/kontakt";
 
 const Footer: NextPage = () => {
     return (
@@ -24,7 +25,7 @@ const Footer: NextPage = () => {
                     </li>
                 </ul>
             </div>
-            <Kontakt/>
+            <Contact isInFooter={true}/>
         </footer>
     );
 }

@@ -253,17 +253,17 @@ function login(email: string, password: string): Promise<string | null> {
         redirect: false
     }).then((response) => {
         if (!response) {
-            console.log("Response is undefined - some error.");
+            console.error("Response is undefined - some error.");
             return "Něco se pokazilo. Zkuste to prosím později.";
         } else if (!response.ok) {
-            console.log("Error logging in. Data: " + response.error);
+            console.error("Error logging in. Data: " + response.error);
             return response.error;
         } else {
             console.log("Successfully logged in.");
             return null;
         }
     }).catch((response) => {
-        console.log("Error logging in. Data: " + response.error);
+        console.error("Error logging in. Data: " + response.error);
         return response.error;
     });
 }

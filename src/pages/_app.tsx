@@ -7,6 +7,7 @@ import {SessionProvider} from "next-auth/react";
 import {trpc} from "../lib/trpc";
 import {SkeletonTheme} from "react-loading-skeleton";
 import { MantineProvider } from '@mantine/core';
+import {Notifications} from "@mantine/notifications";
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
@@ -20,6 +21,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
                         },
                         primaryColor: "main",*/
                     }} withNormalizeCSS>
+                        <Notifications />
                         <div className="flex">
                             <Sidebar/>
                             <main className={"px-3 pt-3 sm:p-5 w-full"}>

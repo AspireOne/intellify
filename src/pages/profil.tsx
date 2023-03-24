@@ -162,10 +162,10 @@ const Profile: NextPage = () =>  {
     function SubscriptionInfo() {
         let element;
 
-        if (user.data?.subscription?.data.name) {
+        if (user.data?.subscription?.data.fullName) {
             element = (
                 <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>
-                    {user.data.subscription.data.name}
+                    {user.data.subscription.data.fullName}
                 </Link>
             )
         } else {

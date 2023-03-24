@@ -2,6 +2,7 @@ import {createTransport} from "nodemailer";
 import {z} from "zod";
 import {OfferId} from "../schemas/offers";
 import Utils from "./utils";
+import {Session} from "next-auth";
 
 const transporter = createTransport({
     host: process.env.EMAIL_HOST!,
@@ -14,29 +15,33 @@ const transporter = createTransport({
     from: "Open Tools <matejpesl1@seznam.cz>",
 });
 export default class Email {
-    // TODO: Define each email here, not inline in code.
-    public static sendTestMail() {
-        // Use nodemailer and env variables to send an email.
-
-        // send the mail using the transporter.
-        transporter.sendMail({
+    public static async sendTestMail() {
+        await transporter.sendMail({
             to: "matejpesl1@gmail.com",
             subject: "Testovací email z Open Tools",
             text: "Toto je text textovacího mailu z open-tools",
             from: `Open Tools <${process.env.EMAIL_USERNAME}>`,
-        })
-            .then((info) => {
-                console.log("sent mail: " + info);
-            })
-            .catch((err) => {
-                console.log("error sending mail: " + err);
-            });
+        });
+    }
+
+    public static async sendContactUsMail(session: Session | null, userEmail: string, message: string, phone?: string, subject?: string) {
+        await transporter.sendMail({
+            to: "matejpesl1@gmail.com",
+            subject: "Uživatel vás kontaktoval z kontaktního formuláře na Open Tools",
+            text: `
+Zadáno do formuláře: ${userEmail}${phone ? " • " + phone : ""}
+Session: ${session ? JSON.stringify(session).trim() : "žádná"}
+________________
+${subject ? subject + "" : ""}
+${message}`,
+            from: `Open Tools Kontaktní Formulář <${process.env.EMAIL_USERNAME}>`,
+        });
     }
 
     public static async sendOfferPaidMail(to: string, offerId: OfferId) {
         const offer = await Utils.getOffer(offerId);
 
-        transporter.sendMail({
+        await transporter.sendMail({
             to: to,
             subject: "Potvrzení objednávky",
             text: `Objednávka byla úspěšně zaplacena!\\n\\nPoložka: ${offer.name}\nCena: ${offer.price} Kč`,
@@ -55,12 +60,6 @@ export default class Email {
 </table>
             `,
             from: `Open Tools <${process.env.EMAIL_USERNAME}>`,
-        })
-            .then((info) => {
-                console.log("Mail succesfully sent! Info: " + info);
-            })
-            .catch((err) => {
-                console.log("Error while sending mail! Error: " + err);
-            });
+        });
     }
 }
