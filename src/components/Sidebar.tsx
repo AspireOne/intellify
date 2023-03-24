@@ -42,7 +42,7 @@ const Sidebar: NextPage = () => {
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5`}/>
+                  cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen && "hidden"}`}/>
 
             <aside onClick={() => {
                 // Close by clicking outside of sidebar only on mobile.
