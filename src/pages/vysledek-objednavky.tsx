@@ -25,8 +25,6 @@ const OrderResult: NextPage = () => {
         const urlSearchParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(urlSearchParams.entries());
         query.mutate({session: params.session_id});
-
-        console.log("session id: " + params.session_id);
     }, []);
 
     /*const offer = trpc.offers.*/

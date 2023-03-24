@@ -14,7 +14,6 @@ export default trpcNext.createNextApiHandler({
 
         if (error.code === 'INTERNAL_SERVER_ERROR') {
             // TODO: send to bug reporting.
-
         }
 
         // Change the error message because in new versions of tRPC there is a

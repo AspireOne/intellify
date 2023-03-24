@@ -92,13 +92,13 @@ const Sidebar: NextPage = () => {
                         <div className={"absolute bottom-0 left-0 right-0"}>
                             {
                                 session.status === "loading" &&
-                                <Skeleton height={45} className={"rounded-full"}/>
+                                <Skeleton height={45} className={"rounded-md"}/>
                             }
                             {
                                 session.status === "authenticated" &&
                                 <ListItem
                                     title={session.data.user?.name || "Profil"}
-                                    className={"rounded-full"}
+
                                     link={paths.profile}
                                     icon={session.data.user?.image
                                         ? (<img
@@ -112,7 +112,7 @@ const Sidebar: NextPage = () => {
                                 session.status === "unauthenticated" &&
                                 <ListItem
                                     onClick={handleItemClick} title={Ls.hasBeenSigned ? "Přihásit se" : "Zaregistrovat se"}
-                                    className={"rounded-full bg-gray-200 bg-opacity-20"}
+                                    className={"bg-gray-200 bg-opacity-20"}
                                     link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
                             }
                         </div>
