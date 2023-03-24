@@ -40,7 +40,7 @@ export async function updateDataResolver(ctx: Context, input: z.input<typeof upd
 export async function getUserResolver(ctx: Context): Promise<z.output<typeof getUserOutput>> {
     await ctx.connectDb();
     
-    const user = await User.findOne({email: ctx.session?.user?.email}).exec();
+    const user = await User.findOne({email: ctx.session?.user?.email});
     if (!user) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Uživatele se nepodařilo získat."});
 
     let subscriptionData;

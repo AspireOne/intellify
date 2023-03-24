@@ -14,16 +14,17 @@ importers:
       '@mantine/notifications': ^6.0.4
       '@mantine/nprogress': ^6.0.4
       '@next-auth/mongodb-adapter': ^1.1.1
-      '@stripe/react-stripe-js': ^2.0.0
-      '@stripe/stripe-js': ^1.50.0
+      '@react-email/html': 0.0.4
+      '@stripe/react-stripe-js': ^2.1.0
+      '@stripe/stripe-js': ^1.52.0
       '@tanstack/react-query': ^4.28.0
-      '@trpc/client': ^10.17.0
-      '@trpc/next': ^10.17.0
-      '@trpc/react-query': ^10.17.0
-      '@trpc/server': ^10.17.0
-      '@typegoose/typegoose': ^10.3.3
+      '@trpc/client': ^10.18.0
+      '@trpc/next': ^10.18.0
+      '@trpc/react-query': ^10.18.0
+      '@trpc/server': ^10.18.0
+      '@typegoose/typegoose': ^10.3.4
       '@types/bcrypt': ^5.0.0
-      '@types/node': ^18.15.5
+      '@types/node': ^18.15.7
       '@types/nodemailer': ^6.4.7
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -34,10 +35,10 @@ importers:
       chatgpt: ^5.1.2
       core-js: ^3.29.1
       dotenv: ^16.0.3
-      framer-motion: ^10.8.4
+      framer-motion: ^10.8.5
       micro: ^10.0.1
       mongodb: ^5.1.0
-      mongoose: ^7.0.2
+      mongoose: ^7.0.3
       mongoose-autopopulate: ^1.0.0
       next: latest
       next-auth: ^4.20.1
@@ -56,7 +57,7 @@ importers:
       react-scroll-parallax: ^3.3.2
       react-textarea-autosize: ^8.4.1
       resize-observer: ^1.0.4
-      stripe: ^11.15.0
+      stripe: ^11.16.0
       styled-components: ^5.3.9
       tailwind-merge: ^1.10.0
       tailwindcss: ^3.2.7
@@ -74,14 +75,15 @@ importers:
       '@mantine/notifications': 6.0.4_ordvvez6mrxlqyz6sv56zwslmq
       '@mantine/nprogress': 6.0.4_ordvvez6mrxlqyz6sv56zwslmq
       '@next-auth/mongodb-adapter': 1.1.1_ekl6mgou7ynshj3llzs5q4xzui
-      '@stripe/react-stripe-js': 2.0.0_x24xbjcc7qcg4sivl2m652ynv4
-      '@stripe/stripe-js': 1.50.0
+      '@react-email/html': 0.0.4
+      '@stripe/react-stripe-js': 2.1.0_wfk2ilwjwqlluiweqjchts7jtq
+      '@stripe/stripe-js': 1.52.0
       '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.17.0_@trpc+server@10.17.0
-      '@trpc/next': 10.17.0_odcsobxw7udv3234yskut3r4vy
-      '@trpc/react-query': 10.17.0_nln23i7o54o7cjzbabmwtrulee
-      '@trpc/server': 10.17.0
-      '@typegoose/typegoose': 10.3.3_mongoose@7.0.2
+      '@trpc/client': 10.18.0_@trpc+server@10.18.0
+      '@trpc/next': 10.18.0_fk7ybuwqrs7skzzxcj6wjc5c3i
+      '@trpc/react-query': 10.18.0_rcvfzig2xktluz4p7kugxqlbwi
+      '@trpc/server': 10.18.0
+      '@typegoose/typegoose': 10.3.4_mongoose@7.0.3
       '@types/bcrypt': 5.0.0
       '@types/nodemailer': 6.4.7
       '@types/react-router-dom': 5.3.3
@@ -91,11 +93,11 @@ importers:
       chatgpt: 5.1.2
       core-js: 3.29.1
       dotenv: 16.0.3
-      framer-motion: 10.8.4_biqbaboplfbrettd7655fr4n2y
+      framer-motion: 10.8.5_biqbaboplfbrettd7655fr4n2y
       micro: 10.0.1
       mongodb: 5.1.0
-      mongoose: 7.0.2
-      mongoose-autopopulate: 1.0.0_mongoose@7.0.2
+      mongoose: 7.0.3
+      mongoose-autopopulate: 1.0.0_mongoose@7.0.3
       next: 13.2.4_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.20.1_3tbpwx46tlrk4rci3doelizria
       node-fetch: 3.3.1
@@ -113,14 +115,14 @@ importers:
       react-scroll-parallax: 3.3.2_biqbaboplfbrettd7655fr4n2y
       react-textarea-autosize: 8.4.1_iapumuv4e6jcjznwuxpf4tt22e
       resize-observer: 1.0.4
-      stripe: 11.15.0
+      stripe: 11.16.0
       styled-components: 5.3.9_biqbaboplfbrettd7655fr4n2y
       tailwind-merge: 1.10.0
       tailwindcss: 3.2.7_postcss@8.4.21
       typed.js: 2.0.132
       zod: 3.21.4
     devDependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.7
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       typescript: 5.0.2
@@ -865,26 +867,31 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@react-email/html/0.0.4:
+    resolution: {integrity: sha512-7tRYSnudYAWez+NkPWOM8yLZH7EuYFtYdiLPnzpD+pf4cdk16Gz4up531DaIX6dNBbfbyEFpQxhXZxGeJ5ZkfQ==}
+    engines: {node: '>=16.0.0'}
+    dev: false
+
   /@remix-run/router/1.4.0:
     resolution: {integrity: sha512-BJ9SxXux8zAg991UmT8slpwpsd31K1dHHbD3Ba4VzD+liLQ4WAMSxQp2d2ZPRPfN0jN2NPRowcSSoM7lCaF08Q==}
     engines: {node: '>=14'}
     dev: false
 
-  /@stripe/react-stripe-js/2.0.0_x24xbjcc7qcg4sivl2m652ynv4:
-    resolution: {integrity: sha512-JEzZlVdJaU9g3sZIcgCUXfHqvmDGF2pBqDVWxTJLAhSBNARp5kyFEoTFQzeCdPwrq3D4ZMJVgc6i6mbUgiXsgQ==}
+  /@stripe/react-stripe-js/2.1.0_wfk2ilwjwqlluiweqjchts7jtq:
+    resolution: {integrity: sha512-Zb6Ycrj5QuhYkvtlvvLzo+cysUyA6wkx3zWHQ7uVnHRYRM/n1jtQD6VGBrdmptC8e8PJN6L091gBCyB5P0FqmA==}
     peerDependencies:
       '@stripe/stripe-js': ^1.44.1
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@stripe/stripe-js': 1.50.0
+      '@stripe/stripe-js': 1.52.0
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@stripe/stripe-js/1.50.0:
-    resolution: {integrity: sha512-7j52eB98l/oJL1ywREs7UJAKEavM1HTtS8LUHt1dso8TJN8kNz561/847Xqbafe0yCReET8WFeIBvMeewug8xQ==}
+  /@stripe/stripe-js/1.52.0:
+    resolution: {integrity: sha512-Ja2VlaTf3kM5tN4Y0sC8T3ibZAnfGUU/QzMAlk/G+Adz2fF1ycTabtSkdSuVP4/adXox8NkPPV4Xndx/EP4fMg==}
     dev: false
 
   /@swc/helpers/0.4.14:
@@ -915,64 +922,64 @@ packages:
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /@trpc/client/10.17.0_@trpc+server@10.17.0:
-    resolution: {integrity: sha512-HkOIgOOJ7LUmDv/rOKTbmO1x9xJuvR0uzTPOiUG8qD7zvxhm+r7so5/HQq32Ne9Tx7lY4vi//mhz9AWNdAjdaQ==}
+  /@trpc/client/10.18.0_@trpc+server@10.18.0:
+    resolution: {integrity: sha512-2d+6r2C/xygTjDWX9jT66defgHzbQP0Z8vrvyT3XtPjqU6JNlRNuS2ZtB8xDPdOQUUVnndzZ43BMr+Zu49K0OQ==}
     peerDependencies:
-      '@trpc/server': 10.17.0
+      '@trpc/server': 10.18.0
     dependencies:
-      '@trpc/server': 10.17.0
+      '@trpc/server': 10.18.0
     dev: false
 
-  /@trpc/next/10.17.0_odcsobxw7udv3234yskut3r4vy:
-    resolution: {integrity: sha512-48880THMnlUliTxyuDeZDUCkwHQx3oyDA3U3hFpNE5qnefTXE9MvnlfownmfKf0n0Vd+wrpt9A2mDFOyGeOQAA==}
+  /@trpc/next/10.18.0_fk7ybuwqrs7skzzxcj6wjc5c3i:
+    resolution: {integrity: sha512-GftAMy3K9AEATmsVTdc5zhCTLzSYpZ9bene7+sTlCF7QX/AMxIsd0ZUFrRnF6yg3jnxN+SvdNcF9IXeETXtGUw==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
-      '@trpc/client': 10.17.0
-      '@trpc/react-query': 10.17.0
-      '@trpc/server': 10.17.0
+      '@trpc/client': 10.18.0
+      '@trpc/react-query': 10.18.0
+      '@trpc/server': 10.18.0
       next: '*'
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
       '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.17.0_@trpc+server@10.17.0
-      '@trpc/react-query': 10.17.0_nln23i7o54o7cjzbabmwtrulee
-      '@trpc/server': 10.17.0
+      '@trpc/client': 10.18.0_@trpc+server@10.18.0
+      '@trpc/react-query': 10.18.0_rcvfzig2xktluz4p7kugxqlbwi
+      '@trpc/server': 10.18.0
       next: 13.2.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-ssr-prepass: 1.5.0_react@18.2.0
     dev: false
 
-  /@trpc/react-query/10.17.0_nln23i7o54o7cjzbabmwtrulee:
-    resolution: {integrity: sha512-kwlS+Mio4idRiYT4EVPO2jV8ZHovyxqySoegntKfTvY5QoOA1VSU0kgcelkVizZHBkb75V0tuCQ0r4KNs5AHBw==}
+  /@trpc/react-query/10.18.0_rcvfzig2xktluz4p7kugxqlbwi:
+    resolution: {integrity: sha512-5IxlvBh+KY/zOYCekBXzZUHtOrURQyXNnpQg9ZlEZTiyZmivGjIyH2VQIsFsGrK8IU99GAmIReQCw6uWgQrEcQ==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
-      '@trpc/client': 10.17.0
-      '@trpc/server': 10.17.0
+      '@trpc/client': 10.18.0
+      '@trpc/server': 10.18.0
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
       '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.17.0_@trpc+server@10.17.0
-      '@trpc/server': 10.17.0
+      '@trpc/client': 10.18.0_@trpc+server@10.18.0
+      '@trpc/server': 10.18.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@trpc/server/10.17.0:
-    resolution: {integrity: sha512-ZY8jUsJpyqyu80k7TbCcdAx7NsoQAnPK27lGS4/9R42yMKrt7KJdS0Ka2KF1KRRkr112qxTskVqUufVpRVLq7Q==}
+  /@trpc/server/10.18.0:
+    resolution: {integrity: sha512-nVMqdDIF9YLOeC3g6RdAvdCPqkHFjpshSqZGThZ+fyjiWSUXj2ZKCduhJFnY77TjtgODojeaaghmzcnjxb+Onw==}
     dev: false
 
-  /@typegoose/typegoose/10.3.3_mongoose@7.0.2:
-    resolution: {integrity: sha512-pbgaPytydBqL3Pcl1ak7QScBXynnrcw1UAW74s0oSRQi7MPkBEU3Bc9b+W5ds3mgNGFw6M7Gcjl6NETDYoU1Pg==}
+  /@typegoose/typegoose/10.3.4_mongoose@7.0.3:
+    resolution: {integrity: sha512-C27lxLnfdYnVJM96EbE/ocRIWyuufqFMZQI4q4e1TD6rXSyeDxNGQpBdv0FxGE9emQ6Mk6h2mBFJq7uGRp14Cw==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
       mongoose: ~6.10.0
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
-      mongoose: 7.0.2
+      mongoose: 7.0.3
       reflect-metadata: 0.1.13
       semver: 7.3.8
       tslib: 2.5.0
@@ -981,20 +988,20 @@ packages:
   /@types/bcrypt/5.0.0:
     resolution: {integrity: sha512-agtcFKaruL8TmcvqbndlqHPSJgsolhf/qPWchFlgnW1gECTN/nKbFcoFnvKAQRFfKbh+BO6A3SWdJu9t+xF3Lw==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.7
     dev: false
 
   /@types/history/4.7.11:
     resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
     dev: false
 
-  /@types/node/18.15.5:
-    resolution: {integrity: sha512-Ark2WDjjZO7GmvsyFFf81MXuGTA/d6oP38anyxWOL6EREyBKAxKoFHwBhaZxCfLRLpO8JgVXwqOwSwa7jRcjew==}
+  /@types/node/18.15.7:
+    resolution: {integrity: sha512-LFmUbFunqmBn26wJZgZPYZPrDR1RwGOu2v79Mgcka1ndO6V0/cwjivPTc4yoK6n9kmw4/ls1r8cLrvh2iMibFA==}
 
   /@types/nodemailer/6.4.7:
     resolution: {integrity: sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.7
     dev: false
 
   /@types/normalize-package-data/2.4.1:
@@ -1033,11 +1040,11 @@ packages:
     resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
     dependencies:
       '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
+      '@types/scheduler': 0.16.3
       csstype: 3.1.1
 
-  /@types/scheduler/0.16.2:
-    resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+  /@types/scheduler/0.16.3:
+    resolution: {integrity: sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==}
 
   /@types/webidl-conversions/7.0.0:
     resolution: {integrity: sha512-xTE1E+YF4aWPJJeUzaZI5DRntlkY3+BCVJi0axFptnjGmAoWxkyREIh/XMrfxVLejwQxMCfDXdICo0VLxThrog==}
@@ -1046,7 +1053,7 @@ packages:
   /@types/whatwg-url/8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.7
       '@types/webidl-conversions': 7.0.0
     dev: false
 
@@ -1267,7 +1274,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001469
-      electron-to-chromium: 1.4.335
+      electron-to-chromium: 1.4.339
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: false
@@ -1580,8 +1587,8 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /electron-to-chromium/1.4.335:
-    resolution: {integrity: sha512-l/eowQqTnrq3gu+WSrdfkhfNHnPgYqlKAwxz7MTOj6mom19vpEDHNXl6dxDxyTiYuhemydprKr/HCrHfgk+OfQ==}
+  /electron-to-chromium/1.4.339:
+    resolution: {integrity: sha512-MSXHBJGcbBydq/DQDlpBeUKnJ6C7aTiNCTRpfDV5Iz0sNr/Ng6RJFloq82AAicp/SrmDq4zF6XsKG0B8Xwn1UQ==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -1715,8 +1722,8 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: false
 
-  /framer-motion/10.8.4_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-dNcWapHLw1uTH9Yukqj1+uU87YM7GEkz2HjjR/k5Efo5ZKhzHpEeTsifrulwhTOqOR2N009JkMhtHnHEhMfKkg==}
+  /framer-motion/10.8.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-qwvUAIwCc6fEZhg7ST+/z+f7Vt882jJvLiWZUHNdq2oZ/Y7gM6mLlpKi9xQg+pLu6DQVypikcKQ+MKnoFoXAJg==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -2200,16 +2207,16 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose-autopopulate/1.0.0_mongoose@7.0.2:
+  /mongoose-autopopulate/1.0.0_mongoose@7.0.3:
     resolution: {integrity: sha512-VWsGb4VqSFqWgS6a7zFTOuUr2+XArrThtX7fjUlzIMPowVxvuS1Zeiif7D0DgXIETLNc+B/0r84kV5A2B7w2UQ==}
     peerDependencies:
       mongoose: 6.x || 7.x
     dependencies:
-      mongoose: 7.0.2
+      mongoose: 7.0.3
     dev: false
 
-  /mongoose/7.0.2:
-    resolution: {integrity: sha512-whX+5lAOLOs6VXRr9w+6m5qb8m/IXWLLb9+0/HRUh2TiIYtTt7UvajK92zW6wllCjBkrrnz/MDIOTCWMbs8K4g==}
+  /mongoose/7.0.3:
+    resolution: {integrity: sha512-3n8vc1/mssuxKa6vfghSocp3MeiCFYzhX36Ok+PsDNNYzHC9tw3rNkAMLemIwZ2jgXqkZ7CfKOxkzjp/d/SWfg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       bson: 5.1.0
@@ -2624,7 +2631,7 @@ packages:
   /pptxgenjs/3.12.0:
     resolution: {integrity: sha512-ZozkYKWb1MoPR4ucw3/aFYlHkVIJxo9czikEclcUVnS4Iw/M+r+TEwdlB3fyAWO9JY1USxJDt0Y0/r15IR/RUA==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.7
       https: 1.0.0
       image-size: 1.0.2
       jszip: 3.10.1
@@ -3199,11 +3206,11 @@ packages:
       ansi-regex: 5.0.1
     dev: false
 
-  /stripe/11.15.0:
-    resolution: {integrity: sha512-HkXz/o4hVvBLSSgTLo3iZQW19PV+DiOdwsj26jnrRcOgpZ+dpGgzpudL/yTWEho7lWcz3cRNov3d4REZ1Qtfbg==}
+  /stripe/11.16.0:
+    resolution: {integrity: sha512-Ej1ZtbrMw+Z7L8Kxj80sDNF0E/lPypY2nwymU/wGcOjn7CppTa2HXxPTsQRQ8U0MSVRcwRWyGMrizQWuaUqVGw==}
     engines: {node: '>=12.*'}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.7
       qs: 6.11.1
     dev: false
 

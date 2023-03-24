@@ -3,8 +3,9 @@
     import {buffer} from "micro";
     import StripeSession from "../../server/mongodb_models/StripeSession";
     import Utils from "../../server/lib/utils";
-    import {OfferType} from "../../server/schemas/offers";
+    import {OfferId, OfferType} from "../../server/schemas/offers";
     import User from "../../server/mongodb_models/User";
+    import Email from "../../server/lib/mail";
 
     const stripe = require('stripe')(process.env.STRIPE_SK);
 
@@ -65,13 +66,15 @@
 
         // Add the tokens / subscription to the user.
         if (offer.type == OfferType.ONETIME) {
-            user.addFreeTokensAndSave(offer.tokens);
+            await user.addFreeTokensAndSave(offer.tokens);
         } else if (offer.type == OfferType.PLAN) {
-            user.setSubscriptionAndSave(offer.id, session.subscription as string);
+            await user.setSubscriptionAndSave(offer.id, session.subscription as string);
         }
+
+        await Email.sendOfferPaidMail(user.email, stripeSession.offerId as OfferId);
     }
     async function handleInvoiceCreatedEvent(event: Stripe.Event) {
-        console.log("Warning Warning! Handling session invoice created event! Recurring subscription cycle?");
+        console.log("Attention! Handling session invoice created event! Recurring subscription cycle?");
         const invoice = event.data.object as Stripe.Invoice;
         if (invoice.billing_reason !== "subscription_cycle") {
             console.log("The billing reason was not subscription_cycle, returning!");

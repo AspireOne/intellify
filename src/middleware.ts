@@ -15,6 +15,10 @@ export async function middleware(req: NextRequest) {
         if (!await isSignedIn(req)) return NextResponse.redirect(new URL(paths.sign, req.url));
     }
 
+    if (req.url.includes(paths.orderResult)) {
+        /*if (!req.url.includes("session_id=")) return NextResponse.redirect(new URL(paths.index, req.url));*/
+    }
+
     /*const session = await getToken({ req, secret: process.env.SECRET })
     // You could also check for any property on the session object,
     // like role === "admin" or name === "John Doe", etc.

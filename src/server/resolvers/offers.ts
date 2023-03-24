@@ -1,6 +1,14 @@
 import {Context} from "../context";
 import {z} from "zod";
-import {getOffersOutput, getSessionInput, OfferId, OfferType, Offer, getOfferFromSessionInput} from "../schemas/offers";
+import {
+    getOffersOutput,
+    getSessionInput,
+    OfferId,
+    OfferType,
+    Offer,
+    getOfferFromSessionInput,
+    getOfferFromSessionOutput
+} from "../schemas/offers";
 import {Stripe} from "stripe";
 import {TRPCError} from "@trpc/server";
 import {paths} from "../../lib/constants";
@@ -103,7 +111,9 @@ export async function getOffers(): Promise<z.output<typeof getOffersOutput>> {
     return offers;
 }
 
-export async function getOfferFromSession(ctx: Context, input: z.input<typeof getOfferFromSessionInput>) {
+export async function getOfferFromSession(ctx: Context, input: z.input<typeof getOfferFromSessionInput>): Promise<z.input<typeof getOfferFromSessionOutput>> {
+    await ctx.connectDb();
+    console.log("finding session with id " + input.session);
     const session = await StripeSession.findOne({sessionId: input.session});
     if (!session) throw new TRPCError({code: "BAD_REQUEST", message: "Platba nebyla nalezena."});
     return await Utils.getOffer(session.offerId);

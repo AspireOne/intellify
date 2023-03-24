@@ -1,6 +1,6 @@
 import {protectedProcedure, publicProcedure, router} from "../trpc";
-import {getOffersOutput, getSessionInput} from "../schemas/offers";
-import {getOffers, getSession} from "../resolvers/offers";
+import {getOfferFromSessionInput, getOffersOutput, getSessionInput} from "../schemas/offers";
+import {getOfferFromSession, getOffers, getSession} from "../resolvers/offers";
 import { z } from "zod";
 
 export const offersRouter = router({
@@ -11,6 +11,10 @@ export const offersRouter = router({
     getSession: protectedProcedure
         .input(getSessionInput)
         .mutation(({ctx, input}) => getSession(ctx, input)),
+
+    getOfferFromSession: protectedProcedure
+        .input(getOfferFromSessionInput)
+        .mutation(({ctx, input}) => getOfferFromSession(ctx, input)),
 });
 
 // export type definition of API
