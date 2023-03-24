@@ -12,7 +12,7 @@ export const offersRouter = router({
         .input(getSessionInput)
         .mutation(({ctx, input}) => getSession(ctx, input)),
 
-    getOfferFromSession: protectedProcedure
+    getOfferFromSession: publicProcedure
         .input(getOfferFromSessionInput)
         .mutation(({ctx, input}) => getOfferFromSession(ctx, input)),
 });
