@@ -6,6 +6,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 import mongooseConnect from "../../../lib/mongooseConnect"
 import User from "../../../server/mongodb_models/User"
+import Email, {email, transport} from "../../../server/lib/mail";
 const bcrypt = require('bcrypt')
 
 
@@ -22,12 +23,24 @@ export const authOptions: AuthOptions = {
             clientId: process.env.APPLE_CLIENT_ID as string,
             clientSecret: process.env.APPLE_CLIENT_SECRET as string
         }),
+        // TODO: Eventually email verification.
+        /*EmailProvider({
+            server: transport,
+            from: `Open Tools <${email}>`,
+            // 1 week.
+            maxAge: 7 * 24 * 60 * 60,
+            sendVerificationRequest: async (params) => {
+                params.
+                Email.sendEmailVerificationMail()
+            }
+        }),*/
         CredentialsProvider({
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" }
             },
+
             async authorize(credentials, req) {
                 // Check if all required parameters are present.
                 if (!credentials || !credentials.email || !credentials.password) {

@@ -169,8 +169,7 @@ const Profile: NextPage = () =>  {
         } else {
             element = (
                 <>
-                    žádné •
-                    <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>prohlédnout</Link>
+                    žádné • <Link className={"text-blue-300 hover:underline"} href={paths.pricing}>prohlédnout</Link>
                 </>
             )
         }

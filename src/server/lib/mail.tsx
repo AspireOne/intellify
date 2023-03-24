@@ -3,8 +3,10 @@ import {z} from "zod";
 import {OfferId} from "../schemas/offers";
 import Utils from "./utils";
 import {Session} from "next-auth";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
-const transporter = createTransport({
+export const email = "matejpesl1@seznam.cz";
+export const transport: SMTPTransport.Options = {
     host: process.env.EMAIL_HOST!,
     port: parseInt(process.env.EMAIL_PORT!),
     secure: process.env.EMAIL_USE_SSL === "true",
@@ -12,8 +14,9 @@ const transporter = createTransport({
         user: process.env.EMAIL_USERNAME!,
         pass: process.env.EMAIL_PASSWORD!,
     },
-    from: "Open Tools <matejpesl1@seznam.cz>",
-});
+    from: `Open Tools <${email}>`,
+}
+const transporter = createTransport(transport);
 export default class Email {
     public static async sendTestMail() {
         await transporter.sendMail({
@@ -23,6 +26,10 @@ export default class Email {
             from: `Open Tools <${process.env.EMAIL_USERNAME}>`,
         });
     }
+
+    /*public static async sendEmailVerificationMail(to: string, offerId: OfferId) {
+
+    }*/
 
     public static async sendContactUsMail(session: Session | null, userEmail: string, message: string, phone?: string, subject?: string) {
         await transporter.sendMail({

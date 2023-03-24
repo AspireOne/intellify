@@ -24,10 +24,6 @@ const OrderResult: NextPage = () => {
 
         const urlSearchParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(urlSearchParams.entries());
-        if (!params.session_id) {
-
-            // TODO redirect
-        }
         query.mutate({session: params.session_id});
 
         console.log("session id: " + params.session_id);
