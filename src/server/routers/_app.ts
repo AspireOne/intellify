@@ -18,7 +18,7 @@ export const appRouter = router({
     user: userRouter,
     generalAi: generalAiRouter,
     offers: offersRouter,
-    contactUs: protectedProcedure
+    contactUs: publicProcedure
         .input(z.object({
             email: z.string().min(1, {message: "Email je povinný."}).email({message: "Email není ve správném formátu."}),
             phone: z.string().optional(),
