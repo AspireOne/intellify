@@ -24,7 +24,7 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
     const [message, setMessage] = React.useState("");
 
     const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState<null | string>(null);
+
     const contactMutation = trpc.contactUs.useMutation({
         onSuccess: async (msg, input) => {
             setEmail("");
@@ -45,13 +45,11 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
                 color: 'red',
             })
             /*console.error(JSON.parse(err.message)[0].message);*/
-            setError(err.message);
         },
         onSettled: () => setLoading(false)
     });
 
     const onSubmit = useCallback((e: React.MouseEvent) => {
-        setError(null);
         setLoading(true);
         contactMutation.mutate({email, phone, subject, message});
     }, [email, phone, subject, message]);
@@ -104,7 +102,6 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
                     <Input theme={"gray"} label={"Zpráva*"} maxLen={2000} autosize={true} placeholder={"Zpráva..."}
                     onChange={setMessage} value={message}/>
                     <Button loading={loading} loadingText={"Odesílání..."} onClick={onSubmit}>Odeslat</Button>
-                    {error && <p className={"text-red-500"}>{error}</p>}
                 </Form>
             </div>
         </div>

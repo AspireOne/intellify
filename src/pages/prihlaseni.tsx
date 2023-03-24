@@ -154,16 +154,6 @@ const Form = (props: { type: "login" | "register" }) => {
 
     const registerMutation = trpc.sign.register.useMutation();
 
-    /*const [popupTitle, setPopupTitle] = useState("");
-    const [popupMessage, setPopupMessage] = useState("");
-    const [popupOpen, setPopupOpen] = useState(false);*/
-
-/*    function showAlert(title: string, msg: string) {
-        setPopupTitle(title);
-        setPopupMessage(msg);
-        setPopupOpen(true);
-    }*/
-
     async function handleSubmit(e: any) {
         e.preventDefault();
         setLoading(true);

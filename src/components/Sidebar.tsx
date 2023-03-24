@@ -91,7 +91,7 @@ const Sidebar: NextPage = () => {
                             {
                                 session.status === "authenticated" &&
                                 <ListItem
-                                    title="Profil"
+                                    title={session.data.user?.name || "Profil"}
                                     className={"rounded-full"}
                                     link={paths.profile}
                                     icon={session.data.user?.image

@@ -18,6 +18,7 @@ import PageHeaderDiv from "../components/PageHeaderDiv";
 import Utils from "../lib/utils";
 import {z} from "zod";
 import {getUserOutput} from "../server/schemas/user";
+import {notifications} from "@mantine/notifications";
 
 const Profile: NextPage = () =>  {
     const [name, setName] = React.useState("");
@@ -29,24 +30,24 @@ const Profile: NextPage = () =>  {
     const [error, setError] = React.useState<null | string>(null);
     const [loading, setLoading] = React.useState(false);
 
-    const [popupTitle, setPopupTitle] = useState("");
-    const [popupMessage, setPopupMessage] = useState("");
-    const [popupOpen, setPopupOpen] = useState(false);
-
     const user = trpc.user.getUser.useQuery();
-
-    function showAlert(title: string, msg: string) {
-        setPopupTitle(title);
-        setPopupMessage(msg);
-    }
 
     const dataChangeMutation = trpc.user.updateData.useMutation({
         onSuccess: async (msg, input) => {
             // TODO: Update the fucking session and show session data.
             setDataChanged(false);
+            notifications.show({
+                title: 'Uloženo!',
+                message: 'Vaše údaje byly úspěšně uloženy.',
+                color: 'green',
+            });
         },
         onError: (err) => {
-            showAlert("Chyba", "Nastala chyba: " + err.message);
+            notifications.show({
+                title: 'Při ukládání nastala chyba',
+                message: 'Detail: ' + err.message,
+                color: 'red',
+            });
             setError(err.message);
         },
         onSettled: () => {
@@ -85,9 +86,6 @@ const Profile: NextPage = () =>  {
 
     return (
         <div className={"relative"}>
-            <Popup title={popupTitle} open={popupOpen} setOpen={setPopupOpen}>
-                <p>{popupMessage}</p>
-            </Popup>
             <PageHeaderDiv>
                 <PageTitle>Váš profil</PageTitle>
             </PageHeaderDiv>
