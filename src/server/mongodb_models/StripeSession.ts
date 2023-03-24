@@ -19,4 +19,4 @@ export class StripeSession {
     userId!: string;
 }
 
-export default getModelForClass(StripeSession);
+export default getModelForClass(StripeSession, {schemaOptions: {timestamps: true}});
