@@ -45,11 +45,10 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
 
     let subscriptionData;
     if (user.subscription) {
-        const offer = await Utils.getOffer(user.subscription.type);
-        if (!offer) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Nepodařilo se zjistit předplatné."});
+        console.log(user);
+        const offer = await Utils.getOffer(user.subscription.id);
         subscriptionData = {...user.subscription, data: offer};
     }
-
 
     return {
         name: user.name,

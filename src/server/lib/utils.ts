@@ -13,6 +13,10 @@ export default class Utils {
 
     public static async getOffer(id: string) {
         const offer = Object.values(await getOffers()).find((offer) => offer.id === id);
+        console.log("-> id", id);
+        console.log(offer);
+        console.log("offid: " + id);
+
         if (!offer) throw new Error("Offer id doesn't exist.");
         return offer;
     }

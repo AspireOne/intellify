@@ -23,7 +23,7 @@ class User {
     public remainingFreeTokens!: number
 
     @prop({ type: () => Object })
-    subscription?: { type: OfferId, remainingTokens: number, updateDate: Date }
+    subscription?: { id: OfferId, stripeId: string, remainingTokens: number, updatedAt: Date }
     public async decreaseTokensAndSave(this: DocumentType<User>, tokens: number) {
         if (!this.subscription) {
             this.remainingFreeTokens -= tokens;
@@ -51,21 +51,21 @@ class User {
         await this.save();
     }
 
-    public async setSubscriptionAndSave(this: DocumentType<User>, id: OfferId | null) {
-        if (id == null) {
-            this.subscription = undefined;
-            return;
-        }
-
+    public async removeSubscriptionAndSave(this: DocumentType<User>) {
+        this.subscription = undefined;
+        await this.save();
+    }
+    public async setSubscriptionAndSave(this: DocumentType<User>, id: OfferId, stripeId: string) {
         const offer = Object.values(offers).find(offer => offer.id === id);
         if (!offer) throw new Error("Offer not found based on passed offer type.");
 
         if (offer.type == OfferType.ONETIME) throw new Error("The provided offer is onetime, not subscription.");
 
         this.subscription = {
-            type: offer.id,
+            id: offer.id,
+            stripeId: stripeId,
             remainingTokens: offer.tokens,
-            updateDate: new Date()
+            updatedAt: new Date()
         };
         await this.save();
     }
@@ -74,7 +74,7 @@ class User {
         if (!this.subscription) throw new Error("Subscription not found.");
 
         for (const offer of Object.values(offers)) {
-            if (offer.id !== this.subscription.type) break;
+            if (offer.id !== this.subscription.id) break;
 
             this.subscription.remainingTokens = offer.tokens;
             await this.save();

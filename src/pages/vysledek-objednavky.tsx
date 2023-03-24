@@ -43,7 +43,7 @@ const OrderResult: NextPage = () => {
             <audio id={"music"} autoPlay={true} src="/assets/prock.mp3" controls={false}  />
             <ArticleDiv className="flex items-center justify-center h-screen">
                 <div>
-                    <PageTitle className={"title-highlighted mt-0"}>Děkujeme za objednávku!</PageTitle>
+                    <PageTitle className={"title-highlighted mt-0"}>Děkujeme!</PageTitle>
                     <Subtitle className={"text-center"}>
                         Detaily vám byly odeslány na e-mail. V případě dotazů nebo problémů nás neváhejte kontaktovat.
                     </Subtitle>
