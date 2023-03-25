@@ -22,7 +22,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
                         primaryColor: "main",*/
                     }} withNormalizeCSS>
                         <Notifications />
-                        <div className="flex">
+                        <div className="flex min-h-screen">
                             <Sidebar/>
                             <main className={"px-3 pt-3 sm:p-5 w-full"}>
                                 <Component {...pageProps} />
