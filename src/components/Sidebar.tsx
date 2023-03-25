@@ -48,11 +48,11 @@ const Sidebar: NextPage = () => {
                 // Close by clicking outside of sidebar only on mobile.
                 if (window.innerWidth <= 768) setIsOpen(false);
             }}
-                   className={`sm:sticky sm:w-min w-full fixed top-0 left-0 h-full sm:bg-transparent bg-black/50 z-10 ${!isOpen ? "hidden" : ""}`}>
-
-                {/*TODO: Close sidebar when outside of sidebar is clicked.*/}
-                <div className={"h-screen fixed top-0 left-0 sm:sticky p-2 w-[250px] overflow-y-auto bg-t-blue-700 " +
-                    "backdrop-blur-md sm:backdrop-blur-none bg-opacity-80 shadow-2xl"}>
+                   className={`sm:sticky sm:w-min w-full fixed top-0 bottom-0 sm:bg-transparent bg-black/50 z-10 ${!isOpen ? "hidden" : ""}`}
+                   style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(100vh - env(safe-area-inset-top))" }}>
+                <div className={"sm:sticky p-2 w-[250px] bg-t-blue-700 h-full " +
+                    "backdrop-blur-md sm:backdrop-blur-none bg-opacity-80 shadow-2xl"}
+                >
                     <div className={"relative h-full overflow-hidden"}>
                         <div className="text-xl text-gray-100">
                             <div className="p-2.5 mt-1 flex items-center justify-between">
@@ -74,22 +74,11 @@ const Sidebar: NextPage = () => {
 
                         <ListItem title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
                         {/*<ListItem title={"Napište nám"} icon={<People color={"#fff"}/>} link={paths.contact}/>*/}
-                        {/*TODO: Change icon.*/}
                         <ListItem title={"Ceník"} icon={<Cart color={"#fff"}/>} link={paths.pricing}/>
                         <ListItem title={"Nástroje"} icon={<Hammer color={"#fff"}/>} link={paths.tools}/>
-                        {/*<div className="my-4 bg-gray-600 h-[1px]"></div>*/}
-                        {/*<ListItem title={"Tvoření prezentací"} icon={<Albums color={"#fff"}/>} link={paths.presentation}/>
-                        <ListItem title={"Kódový asistent"} icon={<Code color={"#fff"}/>} link={paths.codeAssistant}/>
-                        <ListItem title={"Obecné A.I."} icon={<Book color={"#fff"}/>} link={paths.generalAi}/>*/}
 
-                        {/*                    <Category title={"Chatbox"}>
-                        <ListItem title={"Social"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                        <ListItem title={"Personal"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                        <ListItem title={"Friends"} icon={<Chatbox color={"#fff"}/>} link={"/"} />
-                    </Category>*/}
-                        {/*<div className="my-4 bg-gray-600 h-[1px]"></div>*/}
-
-                        <div className={"absolute bottom-0 left-0 right-0"}>
+                        {/*TODO: Fix that it shifts with navigation bar on mobile...;*/}
+                        <div className={"absolute bottom-14 sm:bottom-0 left-0 right-0 "}>
                             {
                                 session.status === "loading" &&
                                 <Skeleton height={45} className={"rounded-md"}/>
