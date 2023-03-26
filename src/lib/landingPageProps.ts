@@ -1,5 +1,4 @@
 import {Component} from "react";
-import smoothScroll from "../components/SmoothScroll";
 
 interface LandingPageProps {
     title: string;

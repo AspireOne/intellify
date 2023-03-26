@@ -10,10 +10,6 @@ import Button, {Style} from "../components/Button";
 import Link from "next/link";
 import {paths} from "../lib/constants";
 import {twMerge} from "tailwind-merge";
-
-import {FaRegLightbulb} from "react-icons/fa";
-import {AiOutlineFileText, AiOutlineThunderbolt} from "react-icons/ai";
-// import BiCodeAlt, IoRocketOutline
 import {IoRocketOutline} from "react-icons/io5";
 import {BiCodeAlt} from "react-icons/bi";
 import {BsTextLeft} from "react-icons/bs";

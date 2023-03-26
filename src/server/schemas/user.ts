@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {Offer, OfferId} from "./offers";
+import {Offer} from "./offers";
 export const updateDataInput = z.object({
     email: z.string()
         .email({message: "Neplatný email."})

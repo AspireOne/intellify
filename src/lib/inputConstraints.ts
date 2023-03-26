@@ -1,4 +1,4 @@
-import ReadOnlyDict = NodeJS.ReadOnlyDict;
+
 
 const INPUT_RULES = {
     password: {min: 5, max: 50},

@@ -2,7 +2,6 @@ import React from "react"
 import {NextPage} from "next";
 import PageHeaderDiv from "../components/PageHeaderDiv";
 import PageTitle from "../components/PageTitle";
-import Subtitle from "../components/Subtitle";
 import {ArticleDiv, ArticlePCard} from "../components/article";
 
 const License: NextPage = () => {

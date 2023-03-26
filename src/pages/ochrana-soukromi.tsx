@@ -1,4 +1,4 @@
-import React, {PropsWithChildren, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {NextPage} from "next";
 import {ArticleDiv, ArticlePCard, ArticlePTitle} from "../components/article";
 import PageTitle from "../components/PageTitle";

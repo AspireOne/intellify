@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
-import {CreateCompletionRequest, OpenAIApi} from "openai";
+import {CreateCompletionRequest} from "openai";
 import {TRPCError} from "@trpc/server";
 import {Context} from "../context";
-import {createTransport} from "nodemailer";
 import User from "../mongodb_models/User";
 import {getOffers} from "../resolvers/offers";
 import {OfferId} from "../schemas/offers";

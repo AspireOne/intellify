@@ -12,7 +12,6 @@ import {
     HiOutlinePencilAlt, HiOutlinePresentationChartBar, HiOutlineSparkles
 } from "react-icons/hi";
 import PageTitle from "../components/PageTitle";
-import Card from "../components/Card";
 import PageHeaderDiv from "../components/PageHeaderDiv";
 import Subtitle from "../components/Subtitle";
 import Title from "../components/Title";

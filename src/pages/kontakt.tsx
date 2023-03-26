@@ -1,11 +1,6 @@
 import React, {useCallback} from "react"
-import {NextPage} from "next";
-import {useSession} from "next-auth/react";
-import License from "./licence";
-import {ArticleDiv, ArticlePTitle} from "../components/article";
 import PageTitle from "../components/PageTitle";
 import Card from "../components/Card";
-import INPUT from "../lib/inputConstraints";
 import Input from "../components/Input";
 import Form from "../components/Form";
 import Title from "../components/Title";

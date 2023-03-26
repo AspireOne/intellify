@@ -2,7 +2,6 @@ import {z} from "zod";
 import {Context} from "../context";
 import {TRPCError} from "@trpc/server";
 import {registerInput, registerOutput} from "../schemas/sign";
-import bcrypt from "bcrypt";
 import User from "../mongodb_models/User";
 import Utils from "../lib/utils";
 

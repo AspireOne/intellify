@@ -5,15 +5,13 @@ import {ArticleDiv} from "../components/article";
 import {useEffect, useState} from "react";
 import Confetti from 'react-confetti'
 import {trpc} from "../lib/trpc";
-import {Offer, OfferId} from "../server/schemas/offers";
-import {useSearchParams} from "react-router-dom";
+import {Offer} from "../server/schemas/offers";
 import {z} from "zod";
 import Card from "../components/Card";
 import Utils from "../lib/utils";
 import Skeleton from "react-loading-skeleton";
 import Title from "../components/Title";
 import {twMerge} from "tailwind-merge";
-import {paths} from "../lib/constants";
 
 
 const OrderResult: NextPage = () => {

@@ -1,4 +1,4 @@
-import {protectedProcedure, publicProcedure, router} from '../trpc';
+import {publicProcedure, router} from '../trpc';
 import {registerInput, registerOutput} from "../schemas/sign";
 import {registerResolver} from "../resolvers/sign";
 

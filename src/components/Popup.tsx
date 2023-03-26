@@ -1,5 +1,5 @@
 import {twMerge} from "tailwind-merge";
-import React, {useEffect} from "react";
+import React from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Close} from "react-ionicons";
 

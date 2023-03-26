@@ -1,13 +1,10 @@
-import {NextPage} from "next";
-
 import React, {PropsWithChildren, useEffect} from "react";
 import LandingPageProps from "../lib/landingPageProps";
 import Button, {Style} from "./Button";
 import {ChevronDown, InformationCircle} from "react-ionicons";
 import {useSession} from "next-auth/react";
 import { motion } from "framer-motion";
-import {Parallax, ParallaxProvider} from "react-scroll-parallax";
-import {Router, useRouter} from "next/router";
+import {useRouter} from "next/router";
 import {paths} from "../lib/constants";
 
 /**
@@ -46,7 +43,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
         ? props.props.callToActionButtonSigned.title
         : "Zjistit více";
     return (
-        <ParallaxProvider>
+        <div>
             <div className={"h-screen relative"}>
                 <div className={"absolute top-10 right-10 h-32 w-32 rounded-full bg-gradient-radial from-[rgba(255,255,255,0.3)]"}>
                 </div>
@@ -70,7 +67,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                         {props.props.description}
                     </p>
                     </motion.div>
-                    <Parallax speed={-5}>
+                    <div>
                         <Button
                             className={"mt-10 mr-5 text-md font-bold p-4 px-6"}
                             onClick={handleActionButtClick}>{callToActionButtText}
@@ -84,11 +81,11 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                                 Přihlásit se
                             </Button>
                         }
-                    </Parallax>
+                    </div>
                 </div>
             </div>
 
-            <Parallax speed={10} id="info-cards" className="flex flex-row grow gap-6 2xl:gap-12 flex-wrap items-stretch text-justify justify-center items-center">
+            <div id="info-cards" className="flex flex-row grow gap-6 2xl:gap-12 flex-wrap items-stretch text-justify justify-center items-center">
                 {
                     [props.props.card1, props.props.card2, props.props.card3].map((card, index) => {
                         return (
@@ -120,7 +117,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                         </p>
                     </div>
                 </div>
-            </Parallax>
+            </div>
 
             <div className={"pt-16 pb-8 my-32"}>
                 {
@@ -131,7 +128,7 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
                 }
                 <ChevronDown width={"40px"} height={"auto"} color={"#fff"} cssClasses={"w-10 text-center mx-auto animate-pulse mt-10"} />
             </div>
-        </ParallaxProvider>
+        </div>
     );
 }
 

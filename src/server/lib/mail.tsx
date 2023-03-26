@@ -1,5 +1,4 @@
 import {createTransport} from "nodemailer";
-import {z} from "zod";
 import {OfferId} from "../schemas/offers";
 import Utils from "./utils";
 import {Session} from "next-auth";

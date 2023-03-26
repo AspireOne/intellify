@@ -1,7 +1,4 @@
 import {prop, getModelForClass} from '@typegoose/typegoose';
-import mongoose from "mongoose";
-import User from "./User";
-import typegoose from '@typegoose/typegoose';
 
 export class StripeSession {
     @prop({ required: true })

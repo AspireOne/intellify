@@ -2,15 +2,11 @@ import {NextPage} from "next";
 import React, {useEffect, useState} from "react";
 import Button, {Style} from "../components/Button";
 import GoogleLogo from "../../public/assets/google.png";
-import {LogoApple} from "react-ionicons";
-import {signIn, useSession} from "next-auth/react";
-import axios from "axios";
-import Popup from "../components/Popup";
+import {signIn} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import {trpc} from "../lib/trpc";
 import {paths} from "../lib/constants";
 import Input from "../components/Input";
-import INPUT from "../lib/inputConstraints";
 import Ls from "../lib/ls";
 import Card from "../components/Card";
 

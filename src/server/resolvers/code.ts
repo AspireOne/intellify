@@ -1,11 +1,10 @@
-import {Configuration, OpenAIApi} from "openai";
 import {z} from "zod";
-import {createPresentationInput, createPresentationOutput} from "../schemas/presentation";
 import {assistCodeInput, assistCodeOutput} from "../schemas/code";
 import {Context} from "../context";
-import {TRPCError} from "@trpc/server";
 import Utils from "../lib/utils";
 export async function assistCodeResolver(ctx: Context, input: z.input<typeof assistCodeInput>): Promise<z.output<typeof assistCodeOutput>> {
+    await ctx.connectDb();
+
     const prompt: string = generatePrompt(input);
     const output = await Utils.askAi(ctx, {
         model: "text-davinci-003",

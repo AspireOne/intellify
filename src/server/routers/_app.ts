@@ -1,15 +1,12 @@
 import { z } from 'zod';
-import {protectedProcedure, publicProcedure, router} from '../trpc';
+import {publicProcedure, router} from '../trpc';
 import {presentationRouter} from "./presentation";
-import {Configuration, OpenAIApi} from "openai";
 import {codeRouter} from "./code";
 import {signRouter} from "./sign";
 import {userRouter} from "./user";
 import {generalAiRouter} from "./generalAi";
 import {offersRouter} from "./offers";
 import 'react-loading-skeleton/dist/skeleton.css';
-import {assistCodeInput, assistCodeOutput} from "../schemas/code";
-import {assistCodeResolver} from "../resolvers/code";
 import Email from "../lib/mail";
 export const appRouter = router({
     presentation: presentationRouter,

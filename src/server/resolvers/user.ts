@@ -1,11 +1,9 @@
 import {Context} from "../context";
-import {object, z} from "zod";
+import {z} from "zod";
 import User from "../mongodb_models/User";
 import {getUserOutput, updateDataInput, updateDataOutput} from "../schemas/user";
 import Utils from "../lib/utils";
 import {TRPCError} from "@trpc/server";
-import {Offer} from "../schemas/offers";
-import {getOffers} from "./offers";
 
 export async function updateDataResolver(ctx: Context, input: z.input<typeof updateDataInput>): Promise<z.output<typeof updateDataOutput>> {
     await ctx.connectDb();

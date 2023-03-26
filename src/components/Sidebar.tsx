@@ -6,7 +6,7 @@ import {
     Hammer,
     Home, LogIn,
     Menu,
-    People, Person,
+    Person,
     Search
 } from "react-ionicons";
 import React, {useEffect, useState} from "react";

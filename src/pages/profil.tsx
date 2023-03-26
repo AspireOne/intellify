@@ -1,23 +1,18 @@
 import {NextPage} from "next";
-import React, {useState} from "react";
+import React from "react";
 import Button, {Style} from "../components/Button";
-import {signOut, useSession} from "next-auth/react";
+import {signOut} from "next-auth/react";
 import Input from "../components/Input";
 import INPUT from "../lib/inputConstraints";
 import {trpc} from "../lib/trpc";
-import Popup from "../components/Popup";
 import {ArrowForward} from "react-ionicons";
 import Skeleton from "react-loading-skeleton";
-import {twMerge} from "tailwind-merge";
 import Link from "next/link";
 import {paths} from "../lib/constants";
 import PageTitle from "../components/PageTitle";
-import Card from "../components/Card";
 import Form from "../components/Form";
 import PageHeaderDiv from "../components/PageHeaderDiv";
 import Utils from "../lib/utils";
-import {z} from "zod";
-import {getUserOutput} from "../server/schemas/user";
 import {notifications} from "@mantine/notifications";
 
 const Profile: NextPage = () =>  {

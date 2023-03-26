@@ -6,7 +6,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 import mongooseConnect from "../../../lib/mongooseConnect"
 import User from "../../../server/mongodb_models/User"
-import Email, {email, transport} from "../../../server/lib/mail";
+import Email from "../../../server/lib/mail";
 const bcrypt = require('bcrypt')
 
 

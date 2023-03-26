@@ -13,7 +13,6 @@ import {Stripe} from "stripe";
 import {TRPCError} from "@trpc/server";
 import {paths} from "../../lib/constants";
 import StripeSession from "../mongodb_models/StripeSession";
-import User from "../mongodb_models/User";
 import Utils from "../lib/utils";
 
 const onetimeName = "Jednorázově";
@@ -130,7 +129,7 @@ export async function getOfferFromSession(ctx: Context, input: z.input<typeof ge
 export async function getSession(ctx: Context, input: z.input<typeof getSessionInput>) {
     if (!ctx.session?.user?.id) throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Nepodařilo se získat ID uživatele."
+        message: "ID uživatele není na objektu session."
     });
 
     const stripe = new Stripe(process.env.STRIPE_SK!, {
@@ -159,7 +158,7 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
         });
     }
 
-    /*await ctx.connectDb();*/
+    await ctx.connectDb();
     try {
         await StripeSession.create({sessionId: session.id, userId: ctx.session.user.id, offerId: offer.id});
     } catch (e) {

@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Presentation from "../../lib/presentation";
 import IOCard from "../../components/IOCard";
 import ModuleLandingPage from "../../components/ModuleLandingPage";
