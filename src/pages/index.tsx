@@ -66,7 +66,7 @@ const Home: NextPage = () => {
                     </div>
 
                     <Link href={paths.sign}>
-                        <Button className={"mt-12 h-12 w-44 text-gray-200 font-bold text-md"}>Začít používat</Button>
+                        <Button className={"mt-12 h-12 w-44 text-gray-200 font-bold text-md"}>Začít Používat</Button>
                     </Link>
                 </motion.div>
             </div>
@@ -84,7 +84,7 @@ const Home: NextPage = () => {
 
                 {/*TODO: Make parts of text light blue or etc.?*/}
                 <TextElementPair
-                    text={"Rozvíjejte svou kreativitu 💡"}
+                    text={"Rozviňte svou kreativitu 💡"}
                     element={<div></div>}
                     textSide={"right"}
                 >
@@ -109,16 +109,16 @@ const Home: NextPage = () => {
                 dostali na další úroveň. Naše nástroje jsou snadno použitelné, cenově dostupné a navrženy tak, aby vám pomohly dosáhnout
                 více v kratším čase.
                 </span>
-                    <Button className={"mt-4"}>Připojit se</Button>
+                    <Button className={"mt-4 w-32"}>Připojit se</Button>
                 </TextElementPair>
             </div>
 
             {/*Cards with the specific tools*/}
 
-            <div className="bg-gray-900 min-h-screen text-white py-32 my-32 -mx-[1.2rem] rounded-3xl">
+            <div className="bg-gray-900 min-h-screen text-white py-36 my-32 -mx-[1.2rem] rounded-3xl">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <Title>Vytvářejte prezentace, editujte texty, programujte...</Title>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10 mb-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-10">
                         <FeatureCard
                             icon={<IoRocketOutline className="h-10 w-10 text-white" />}
                             title={"Vytváření prezentací"}
@@ -166,7 +166,7 @@ const Home: NextPage = () => {
                 </div>
             </div>
 
-            <div className={"flex justify-center my-32"}>
+            <div className={"flex justify-center my-56"}>
                 <div className={"text-center"}>
                     <Title className={"mb-4"}>Připojte se ještě dnes</Title>
                     <Button className={"w-52"}>Registrovat se</Button>
