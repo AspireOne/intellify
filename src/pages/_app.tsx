@@ -24,7 +24,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
                         <Notifications />
                         <div className="flex min-h-screen">
                             <Sidebar/>
-                            <main className={"px-3 pt-3 sm:p-5 w-full"}>
+                            <main className={"px-3 pt-3 sm:p-5 w-full relative"}>
                                 <Component {...pageProps} />
                             </main>
                         </div>

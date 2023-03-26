@@ -42,7 +42,7 @@ const Sidebar: NextPage = () => {
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={`border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen && "hidden"}`}/>
+                  cssClasses={`z-10 border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen && "hidden"}`}/>
 
             <aside onClick={() => {
                 // Close by clicking outside of sidebar only on mobile.
@@ -50,7 +50,7 @@ const Sidebar: NextPage = () => {
             }}
                    className={`sm:sticky sm:w-min w-full fixed top-0 bottom-0 sm:bg-transparent bg-black/50 z-10 ${!isOpen ? "hidden" : ""}`}
                    style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(100vh - env(safe-area-inset-top))" }}>
-                <div className={"sm:sticky p-2 w-[250px] bg-t-blue-700 h-full " +
+                <div className={"sm:sticky p-2 w-[225px] bg-t-blue-700 h-full " +
                     "backdrop-blur-md sm:backdrop-blur-none bg-opacity-80 shadow-2xl"}
                 >
                     <div className={"relative h-full overflow-hidden"}>
@@ -72,10 +72,10 @@ const Sidebar: NextPage = () => {
 
                         <SearchBar/>
 
-                        <ListItem title={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
-                        {/*<ListItem title={"Napište nám"} icon={<People color={"#fff"}/>} link={paths.contact}/>*/}
-                        <ListItem title={"Ceník"} icon={<Cart color={"#fff"}/>} link={paths.pricing}/>
-                        <ListItem title={"Nástroje"} icon={<Hammer color={"#fff"}/>} link={paths.tools}/>
+                        <ListItem text={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
+                        {/*<ListItem text={"Napište nám"} icon={<People color={"#fff"}/>} link={paths.contact}/>*/}
+                        <ListItem text={"Ceník"} icon={<Cart color={"#fff"}/>} link={paths.pricing}/>
+                        <ListItem text={"Nástroje"} icon={<Hammer color={"#fff"}/>} link={paths.tools}/>
 
                         {/*TODO: Fix that it shifts with navigation bar on mobile...;*/}
                         <div className={"absolute bottom-14 sm:bottom-0 left-0 right-0 "}>
@@ -86,7 +86,7 @@ const Sidebar: NextPage = () => {
                             {
                                 session.status === "authenticated" &&
                                 <ListItem
-                                    title={session.data.user?.name || "Profil"}
+                                    text={session.data.user?.name || "Profil"}
 
                                     link={paths.profile}
                                     icon={session.data.user?.image
@@ -100,7 +100,7 @@ const Sidebar: NextPage = () => {
                             {
                                 session.status === "unauthenticated" &&
                                 <ListItem
-                                    onClick={handleItemClick} title={Ls.hasBeenSigned ? "Přihásit se" : "Zaregistrovat se"}
+                                    onClick={handleItemClick} text={Ls.hasBeenSigned ? "Přihásit se" : "Zaregistrovat se"}
                                     className={"bg-gray-200 bg-opacity-20"}
                                     link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
                             }
@@ -127,14 +127,14 @@ const SearchBar = () => {
     );
 }
 
-const Category = (props: React.PropsWithChildren<{title: string}>) => {
+const Category = (props: React.PropsWithChildren<{text: string}>) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     return (
         <div>
             <ListItem
                 icon={<ChevronDown color={"#fff"}/>}
-                title={props.title}
+                text={props.text}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             />
             <div
@@ -146,7 +146,7 @@ const Category = (props: React.PropsWithChildren<{title: string}>) => {
     );
 }
 
-const ListItem = (props: {icon?: any, title: string, className?: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
+const ListItem = (props: {icon?: any, text: string, className?: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
     const [active, setActive] = useState(false);
 
     useEffect(() => {
@@ -163,7 +163,7 @@ const ListItem = (props: {icon?: any, title: string, className?: string, onClick
             onClick={props.onClick}
         >
             {props.icon}
-            <span className={`text-[${props.isCategoryItem ? 14 : 15}px] ml-4 text-gray-200 font-bold`}>{props.title}</span>
+            <span className={`text-[${props.isCategoryItem ? 14 : 15}px] ml-4 text-gray-200 font-bold`}>{props.text}</span>
         </div>
     );
 

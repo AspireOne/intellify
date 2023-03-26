@@ -83,7 +83,7 @@ const GeneralAi: NextPage = () => {
                     Vědomosti na dosah ruky
                 </h2>
                 <p className={"text-gray-300"}>
-                    Generujte text, ptejte se na otázky, překládejte jazyky, nechte si shrnout texty a další.
+                    Generujte title, ptejte se na otázky, překládejte jazyky, nechte si shrnout texty a další.
                 </p>
             </div>
 
@@ -150,7 +150,7 @@ const GeneralAi: NextPage = () => {
                         </div>
                     </Button>
                 </div>
-                <IOCard title={""} className={`rounded-none rounded-lg rounded-t-none p-6 pt-0`}>
+                <IOCard text={""} className={`rounded-none rounded-lg rounded-t-none p-6 pt-0`}>
                     {output}
                 </IOCard>
             </div>

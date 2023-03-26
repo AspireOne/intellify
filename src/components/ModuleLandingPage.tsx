@@ -136,8 +136,8 @@ const ModuleLandingPage = (props: {props: LandingPageProps}) => {
 }
 
 /**
- * Takes in a text and transforms it into a standard title format. All text inside "[]" will be highlighted.
- * @param props The title text. Put text into [] to highlight it.
+ * Takes in a text and transforms it into a standard text format. All text inside "[]" will be highlighted.
+ * @param props The text text. Put text into [] to highlight it.
  * @constructor
  */
 export function TitleText(props: PropsWithChildren<{children: string}>): React.ReactElement {

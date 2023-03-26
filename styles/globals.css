@@ -8,7 +8,7 @@
 @layer base {
     /* Set background color and font. */
     html, body {
-        background-color: #0e1423;
+        background-color: #0f1524;
         font-family: 'Inter', "-apple-system", "Segoe UI", "Roboto", "Noto Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
     }
 
@@ -31,7 +31,7 @@
         background: #524ece;
     }
 
-    /* Set title font */
+    /* Set text font */
     .title-font {
         font-family: "Roboto", sans-serif;
         font-weight: 700;
