@@ -2,7 +2,7 @@ import React, {PropsWithChildren} from "react";
 import {twMerge} from "tailwind-merge";
 
 export default function Title(props: PropsWithChildren<{ className?: string, size?: number }>) {
-    const css = twMerge(`text-${props.size == 1 ? "" : props.size}xl ${props.size === 0 && "text-lg"} tracking-tight leading-8 font-extrabold text-gray-900 dark:text-white ${props.className}`);
+    const css = twMerge(`text-${props.size == 1 ? "" : props.size}xl ${props.size === 0 && "text-lg"} tracking-tight leading-8 font-extrabold text-white ${props.className}`);
     let element: JSX.Element;
 
     switch (props.size) {
