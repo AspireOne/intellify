@@ -59,7 +59,7 @@ const Button = (props: ButtonProps) => {
             }}
             onMouseDown={() => setIsBeingClicked(true)}
             disabled={props.loading}
-            className={twMerge("duration-200 rounded-md text-sm text-gray-200 px-5 py-2.5 outline-none focus:outline-none "
+            className={twMerge("duration-200 font-medium rounded-md text-md text-gray-200 px-5 py-2.5 outline-none focus:outline-none "
                 + (props.loading && " cursor-default")
                 + styling + " "
                 + (props.className ?? ""))}>

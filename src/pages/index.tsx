@@ -62,7 +62,7 @@ const Home: NextPage = () => {
                     </div>
 
                     <Link href={paths.sign}>
-                        <Button className={"mt-12 h-12 w-44 text-gray-200 font-bold text-md"}>Přihlásit se</Button>
+                        <Button className={"mt-12 h-14 w-48 text-gray-200 font-bold"}>Přihlásit se</Button>
                     </Link>
                 </motion.div>
             </div>
@@ -105,7 +105,9 @@ const Home: NextPage = () => {
                 dostali na další úroveň. Naše nástroje jsou snadno použitelné, cenově dostupné a navrženy tak, aby vám pomohly dosáhnout
                 více v kratším čase.
                 </span>
-                    <Button className={"mt-4 w-32"}>Připojit se</Button>
+                    <Link href={paths.sign}>
+                        <Button className={"mt-4 w-44"}>Připojit se</Button>
+                    </Link>
                 </TextElementPair>
             </div>
 
@@ -152,11 +154,11 @@ const Home: NextPage = () => {
                         </FeatureCard>
                     </div>
 
-                    <div className={"flex flex-col sm:flex-row sm:items-center gap-5"}>
+                    <div className={"flex flex-col sm:flex-row sm:items-center gap-5 mt-8"}>
                         <Title size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span className={"hidden sm:block"}>•</span>
                         <Link href={paths.tools}>
-                            <Button style={Style.OUTLINE}>Zobrazit všechny nástroje</Button>
+                            <Button style={Style.OUTLINE} className={"w-full sm:w-content"}>Prohlédnout všechny nástroje</Button>
                         </Link>
                     </div>
                 </div>
@@ -165,7 +167,9 @@ const Home: NextPage = () => {
             <div className={"flex justify-center sm:my-56 py-56 sm:py-0 sm:min-h-min min-h-screen"}>
                 <div className={"text-center"}>
                     <Title className={"mb-4"}>Připojte se ještě dnes</Title>
-                    <Button className={"w-52"}>Registrovat se</Button>
+                    <Link href={paths.sign}>
+                        <Button className={"w-52"}>Registrovat se</Button>
+                    </Link>
                 </div>
             </div>
         </div>
