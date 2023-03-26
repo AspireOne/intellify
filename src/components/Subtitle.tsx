@@ -3,7 +3,7 @@ import {twMerge} from "tailwind-merge";
 
 export default function Subtitle(props: PropsWithChildren<{ className?: string }>) {
     return (
-        <p className={`font-light text-xl text-gray-500 dark:text-gray-400 ${props.className}`}>
+        <p className={twMerge(`font-light text-xl text-gray-400 ${props.className}`)}>
             {props.children}
         </p>
     );

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&family=Roboto:wght@600;700&display=swap');
 @import url("react-loading-skeleton/dist/skeleton.css");
 
 @tailwind base;
@@ -35,6 +35,10 @@
     .title-font {
         font-family: "Roboto", sans-serif;
         font-weight: 700;
+    }
+
+    .typed-cursor {
+        cursor: url("https://global-uploads.webflow.com/627a1044a798e6627445c8d1/62b15f383fdee46ecf39db49_line.svg"), auto;
     }
 
     /* Set gradient. */
