@@ -1,4 +1,4 @@
-import {DocumentType, getModelForClass, prop} from '@typegoose/typegoose';
+import {DocumentType, getModelForClass, prop, Severity} from '@typegoose/typegoose';
 import {OfferId, OfferType} from "../schemas/offers";
 import {offers} from "../resolvers/offers";
 
@@ -22,7 +22,7 @@ class User {
     @prop({required: true, default: 0})
     public remainingFreeTokens!: number
 
-    @prop({ type: () => Object })
+    @prop({ type: () => Object, allowMixed: Severity.ALLOW })
     subscription?: { id: OfferId, stripeId: string, remainingTokens: number, updatedAt: Date }
     public async decreaseTokensAndSave(this: DocumentType<User>, tokens: number) {
         if (!this.subscription) {

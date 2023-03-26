@@ -115,8 +115,8 @@ const Home: NextPage = () => {
 
             {/*Cards with the specific tools*/}
 
-            <div className="bg-gray-900 min-h-screen text-white py-36 my-32 -mx-[1.2rem] rounded-3xl">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-gray-900 min-h-screen text-white py-36 my-32 sm:-mx-[1.2rem] rounded-3xl">
+                <div className="container mx-auto px-2 sm:px-6 lg:px-8">
                     <Title>Vytvářejte prezentace, editujte texty, programujte...</Title>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-10">
                         <FeatureCard
@@ -156,9 +156,9 @@ const Home: NextPage = () => {
                         </FeatureCard>
                     </div>
 
-                    <div className={"flex flex-row items-center gap-5"}>
+                    <div className={"flex flex-col sm:flex-row sm:items-center gap-5"}>
                         <Title size={3} className={"text-gray-300"}>... A mnohem více</Title>
-                        <span>•</span>
+                        <span className={"hidden sm:block"}>•</span>
                         <Link href={paths.tools}>
                             <Button style={Style.OUTLINE}>Zobrazit všechny nástroje</Button>
                         </Link>
@@ -166,7 +166,7 @@ const Home: NextPage = () => {
                 </div>
             </div>
 
-            <div className={"flex justify-center my-56"}>
+            <div className={"flex justify-center sm:my-56 py-56 sm:py-0 sm:min-h-min min-h-screen"}>
                 <div className={"text-center"}>
                     <Title className={"mb-4"}>Připojte se ještě dnes</Title>
                     <Button className={"w-52"}>Registrovat se</Button>

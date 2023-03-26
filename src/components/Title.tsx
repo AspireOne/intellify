@@ -1,7 +1,9 @@
 import React, {PropsWithChildren} from "react";
 import {twMerge} from "tailwind-merge";
 
-export default function Title(props: PropsWithChildren<{ className?: string, size?: number }>) {
+/*const sizes = ["sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "9xl"];*/
+// TODO: Make it scale based on screen size.
+export default function Title(props: PropsWithChildren<{ className?: string, size?: number, scale?: false }>) {
     const css = twMerge(`text-${props.size == 1 ? "" : props.size}xl ${props.size === 0 && "text-lg"} tracking-tight leading-8 font-extrabold text-white ${props.className}`);
     let element: JSX.Element;
 
