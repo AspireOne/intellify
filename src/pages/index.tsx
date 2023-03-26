@@ -121,7 +121,7 @@ const Home: NextPage = () => {
             <div className="bg-gray-900 min-h-screen text-white py-20">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <Title>Vytvářejte prezentace, editujte texty, programujte...</Title>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 mb-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12 mb-8">
                         <FeatureCard
                             icon={<IoRocketOutline className="h-10 w-10 text-white" />}
                             title={"Vytváření prezentací"}
@@ -163,7 +163,9 @@ const Home: NextPage = () => {
                     <div className={"flex flex-row items-center gap-5"}>
                         <Title size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span>•</span>
-                        <Button>Přihlásit se</Button>
+                        <Link href={paths.tools}>
+                            <Button>Zobrazit všechny nástroje</Button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -192,20 +194,31 @@ function FeatureCard(props: PropsWithChildren<{ icon: JSX.Element, title: string
  * @param props.element Element to display
 * */
 function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.Element, className?: string, textSide: "left" | "right" }>) {
-    const flexDirection = props.textSide === "right" ? "flex-row-reverse" : "flex-row";
+    // Sadly, tailwind has a buggy conditional class merging, so we have to do it manually instead of setting
+    // flex-reverse-wrap.
+    const Text = (
+        <div className={"w-full"}>
+            <Title className={"mb-3"}>{props.text}</Title>
+            <Subtitle className={""}>{props.children}</Subtitle>
+        </div>
+    );
+
+    const Element = (
+        <div className={"w-full"}>
+            <div className={"mx-auto w-min"}>
+                {props.element}
+            </div>
+        </div>
+    );
+
+    const One = props.textSide === "left" ? Text : Element;
+    const Two = props.textSide === "left" ? Element : Text;
 
     return (
         // TODO: Change it to md.
-        <div className={twMerge(`flex flex-col sm:${flexDirection} gap-10 items-center ${props.className}`)}>
-            <div className={"w-full"}>
-                <Title className={"mb-3"}>{props.text}</Title>
-                <Subtitle className={""}>{props.children}</Subtitle>
-            </div>
-            <div className={"w-full"}>
-                <div className={"mx-auto w-min"}>
-                    {props.element}
-                </div>
-            </div>
+        <div className={twMerge(`flex flex-col sm:flex-row gap-10 items-center ${props.className}`)}>
+            {One}
+            {Two}
         </div>
     );
 }
