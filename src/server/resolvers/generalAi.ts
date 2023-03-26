@@ -5,6 +5,7 @@ import Utils from "../lib/utils";
 import User from "../mongodb_models/User";
 
 export async function generateResolver(ctx: Context, input: z.input<typeof generateInput>): Promise<z.output<typeof generateOutput>> {
+
         const output = await Utils.askAi(ctx, {
                 model: "gpt-3.5-turbo",
                 max_tokens: 2000,

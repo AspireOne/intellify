@@ -25,7 +25,6 @@ async function mongooseConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      poolSize: 10,
     }
 
     cached.promise = mongoose

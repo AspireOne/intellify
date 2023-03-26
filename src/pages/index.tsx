@@ -66,7 +66,7 @@ const Home: NextPage = () => {
                     </div>
 
                     <Link href={paths.sign}>
-                        <Button className={"mt-12 h-12 w-44 text-gray-200 font-bold text-md"}>Začít Používat</Button>
+                        <Button className={"mt-12 h-12 w-44 text-gray-200 font-bold text-md"}>Přihlásit se</Button>
                     </Link>
                 </motion.div>
             </div>
