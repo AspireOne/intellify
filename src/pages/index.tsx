@@ -11,16 +11,12 @@ import Link from "next/link";
 import {paths} from "../lib/constants";
 import {twMerge} from "tailwind-merge";
 
-import {FaRegLightbulb, FaRobot} from "react-icons/fa";
-import {AiOutlineCode, AiOutlineFileText, AiOutlineThunderbolt} from "react-icons/ai";
+import {FaRegLightbulb} from "react-icons/fa";
+import {AiOutlineFileText, AiOutlineThunderbolt} from "react-icons/ai";
 // import BiCodeAlt, IoRocketOutline
-import {IoMdRocket} from 'react-icons/io';
-import {CgPresentation} from 'react-icons/cg';
-import {GrDocumentText} from 'react-icons/gr';
 import {IoRocketOutline} from "react-icons/io5";
 import {BiCodeAlt} from "react-icons/bi";
-import Card from "../components/Card";
-import CheckmarkSvg from "../components/CheckmarkSvg";
+import {BsTextLeft} from "react-icons/bs";
 
 
 // TODO: ADD _document.tsx or <Head> to every page.
@@ -45,7 +41,7 @@ const Home: NextPage = () => {
     }, []);
 
     return (
-        <div>
+        <div className={""}>
             <div className={"w-full h-screen relative"}>
                 <motion.div
                     initial={{opacity: 0, y: -10}}
@@ -75,88 +71,88 @@ const Home: NextPage = () => {
                 </motion.div>
             </div>
 
-            <TextElementPair
-                text={"Revolucionalizujte svůj workflow ⚡"}
-                element={<AiOutlineThunderbolt/>}
-                textSide={"left"}
-            >
-                Naše nástroje založené na umělé inteligenci jsou navrženy tak, aby vaši práci usnadnily, zrychlily a zefektivnily.
-                S naší sadou nástrojů můžete automatizovat časově náročné úkoly, zlepšit svůj pracovní postup a dosáhnout více v
-                kratším čase.
-            </TextElementPair>
+            <div className={"flex flex-col gap-32 mb-32"}>
+                <TextElementPair
+                    text={"Revolucionalizujte svůj workflow ⚡"}
+                    element={<div></div>}
+                    textSide={"left"}
+                >
+                    Naše nástroje založené na umělé inteligenci jsou navrženy tak, aby vaši práci usnadnily, zrychlily a zefektivnily.
+                    S naší sadou nástrojů můžete automatizovat časově náročné úkoly, zlepšit svůj pracovní postup a dosáhnout více v
+                    kratším čase.
+                </TextElementPair>
 
-            {/*TODO: Make parts of text light blue or etc.?*/}
-            <TextElementPair
-                text={"Rozvíjejte svou kreativitu 💡"}
-                element={<FaRegLightbulb />}
-                textSide={"right"}
-            >
-                A.I. vám dává jedinečnou možnost nahlédnout za horizont představivosti, který byste vy sami neobjevili - přizpůsobeně
-                vašemu tempu a stylu. Použijte jej jako kreativního asistenta k brainstormování nápadů nebo postupů, psaní zápletek
-                nebo emailů, rozšiřování textu, a mnoho dalšího. Už se netrapte tvůrčím blokem.
-            </TextElementPair>
+                {/*TODO: Make parts of text light blue or etc.?*/}
+                <TextElementPair
+                    text={"Rozvíjejte svou kreativitu 💡"}
+                    element={<div></div>}
+                    textSide={"right"}
+                >
+                    A.I. vám dává jedinečnou možnost nahlédnout za horizont představivosti, který byste vy sami neobjevili - přizpůsobeně
+                    vašemu tempu a stylu. Použijte jej jako kreativního asistenta k brainstormování nápadů nebo postupů, psaní zápletek
+                    nebo emailů, rozšiřování textu, a mnoho dalšího. Už se netrapte tvůrčím blokem.
+                </TextElementPair>
 
-            <TextElementPair text={"Bezpečnost a soukromí jsou naší prioritou 🔒"} element={<div></div>} textSide={"left"}>
-                Věříme, že soukromí a bezpečnost vašich dat by měla být na prvním místě. Nástroje jsou
-                navrženy s ohledem na bezpečnost a všechna data jsou zpracována a uchovávána v souladu s nejmodernějšími
-                standardy ochrany dat a osobních údajů. Můžete si být jisti, že vaše data jsou u nás v bezpečí.
-            </TextElementPair>
+                <TextElementPair text={"Bezpečnost a soukromí jsou naší prioritou 🔒"} element={<div></div>} textSide={"left"}>
+                    Věříme, že soukromí a bezpečnost vašich dat by měla být na prvním místě. Nástroje jsou
+                    navrženy s ohledem na bezpečnost a všechna data jsou zpracována a uchovávána v souladu s nejmodernějšími
+                    standardy ochrany dat a osobních údajů. Můžete si být jisti, že vaše data jsou u nás v bezpečí.
+                </TextElementPair>
 
-            <TextElementPair
-                text={"Připojte se k převratu A.I. ✊"}
-                element={<AiOutlineFileText />}
-                textSide={"right"}
-            >
-                <span>
+                <TextElementPair
+                    text={"Připojte se k převratu A.I. ✊"}
+                    element={<div></div>}
+                    textSide={"right"}
+                >
+                <span className={"block"}>
                     Připojte se k rostoucímu počtu profesionálů, kteří využívají sílu umělé inteligence k tomu, aby výsledky své práce
                 dostali na další úroveň. Naše nástroje jsou snadno použitelné, cenově dostupné a navrženy tak, aby vám pomohly dosáhnout
                 více v kratším čase.
                 </span>
-                <Button style={Style.OUTLINE} className={"mt-4 float-right"}>Připojit se</Button>
-            </TextElementPair>
+                    <Button className={"mt-4"}>Připojit se</Button>
+                </TextElementPair>
+            </div>
 
             {/*Cards with the specific tools*/}
 
-
-            <div className="bg-gray-900 min-h-screen text-white py-20">
+            <div className="bg-gray-900 min-h-screen text-white py-32 my-32 -mx-[1.2rem] rounded-3xl">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <Title>Vytvářejte prezentace, editujte texty, programujte...</Title>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12 mb-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10 mb-8">
                         <FeatureCard
                             icon={<IoRocketOutline className="h-10 w-10 text-white" />}
                             title={"Vytváření prezentací"}
                             items={[
-                                "Vytvořte prezentaci během vteřin",
-                                "Přizpůsobte si parametry dle potřeby",
-                                "Vytvářejte profesionální a vizuálně příjemné prezentace",
+                                "Tvořte prezentace během vteřin",
+                                "Přizpůsobte si parametry do jediného detailu",
+                                "Zajistěte profesionální kvalitu a vzhled",
                             ]}>
-                            Tento nástroj vám umožní vytvářet rozsáhlé prezentace během
-                            vteřin. Je navržen tak, aby proces vytváření profesionálních,
-                            vizuálně příjemných prezentací byl rychlý a snadný.
+                            Proces tvoření prezentací - zjednodušený na vteřiny.
                         </FeatureCard>
 
                         <FeatureCard
-                            icon={<AiOutlineFileText className="h-10 w-10 text-white" />}
+                            icon={<BsTextLeft className="h-10 w-10 text-white" />}
                             title={"Editování textů"}
                             items={[
-                                "Upravujte texty rychle a snadno",
-                                "Vylepšujte své texty pomocí doporučení od našeho A.I.",
-                                "Upravujte gramatiku a pravopis díky naší A.I. technologii",
+                                "Upravujte texty podle vašeho zadání",
+                                "Vylepšujte své texty pomocí doporučení",
+                                "Opravujte gramatiku a pravopis",
                             ]}
                         >
-                            Tento nástroj vám umožní editovat texty rychleji a snadněji díky naší A.I. technologii.
+                            Tvoření a upravování textů - změňte tón, zvýrazněte myšlenky, nebo si nechte napsat
+                            průvodní dopis.
                         </FeatureCard>
                         <FeatureCard
                             icon={<BiCodeAlt className="h-10 w-10 text-white" />}
                             title={"Programování"}
                             items={[
-                                "Zvyšte rychlost kódování s naší A.I. technologií",
-                                "Využijte doporučení od našeho A.I. při psaní kódu",
-                                "Programujte efektivněji a s menším množstvím chyb",
+                                "Zvyšte rychlost kódování",
+                                "Předejděte chybám a zlepšete kvalitu kódu",
+                                "Nechte si udělat více času na kávu :)",
                             ]}
                         >
-                            Tento nástroj vám umožní programovat rychleji a efektivněji díky naší A.I. technologii,
-                            která vám pomůže s kódováním.
+                            Upravování, vylepšování, nebo rozšiřování kódu. Poskytuje doporučení a odpověni na
+                            otázky ohledné kódu.
                         </FeatureCard>
                     </div>
 
@@ -164,9 +160,16 @@ const Home: NextPage = () => {
                         <Title size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span>•</span>
                         <Link href={paths.tools}>
-                            <Button>Zobrazit všechny nástroje</Button>
+                            <Button style={Style.OUTLINE}>Zobrazit všechny nástroje</Button>
                         </Link>
                     </div>
+                </div>
+            </div>
+
+            <div className={"flex justify-center my-32"}>
+                <div className={"text-center"}>
+                    <Title className={"mb-4"}>Připojte se ještě dnes</Title>
+                    <Button className={"w-52"}>Registrovat se</Button>
                 </div>
             </div>
         </div>
@@ -216,7 +219,7 @@ function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.E
 
     return (
         // TODO: Change it to md.
-        <div className={twMerge(`flex flex-col sm:flex-row gap-10 items-center ${props.className}`)}>
+        <div className={twMerge(`flex flex-col lg:flex-row gap-10 items-center ${props.className}`)}>
             {One}
             {Two}
         </div>
