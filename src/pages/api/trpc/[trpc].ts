@@ -4,10 +4,8 @@ import { createContext } from "../../../server/context";
 
 // export API handler
 // @see https://trpc.io/docs/api-handler
-
-
 export const config = {
-    runtime: "edge",
+    runtime: 'edge',
 };
 
 export default trpcNext.createNextApiHandler({
