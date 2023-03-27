@@ -10,6 +10,11 @@ import Email from "../../../server/lib/mail";
 const bcrypt = require('bcrypt')
 
 
+
+export const config = {
+    runtime: "edge",
+};
+
 export const authOptions: AuthOptions = {
     // Configure one or more authentication providers
     secret: process.env.NEXTAUTH_SECRET,

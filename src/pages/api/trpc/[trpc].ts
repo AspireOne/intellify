@@ -4,6 +4,12 @@ import { createContext } from "../../../server/context";
 
 // export API handler
 // @see https://trpc.io/docs/api-handler
+
+
+export const config = {
+    runtime: "edge",
+};
+
 export default trpcNext.createNextApiHandler({
     router: appRouter,
     createContext: createContext,
