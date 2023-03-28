@@ -4,6 +4,7 @@ import {TRPCError} from "@trpc/server";
 import {registerInput, registerOutput} from "../schemas/sign";
 import User from "../mongodb_models/User";
 import Utils from "../lib/utils";
+import {Password} from "../lib/password";
 
 export async function registerResolver(ctx: Context, input: z.input<typeof registerInput>): Promise<z.output<typeof registerOutput>> {
     await ctx.connectDb();
@@ -16,7 +17,8 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
         });
     }
 
-    const hashedPass = await Utils.hashPassword(input.password);
+    const hashedPass = await Password.hashPassword(input.password);
+    console.log("hashed pass: " + hashedPass);
 
     try {
         await User.create({email: input.email, password: hashedPass, image: "https://user-images.githubusercontent.com/57546404/216829624-4e906eea-77da-48dd-983a-12c627685061.png"});

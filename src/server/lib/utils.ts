@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import {CreateCompletionRequest} from "openai";
 import {TRPCError} from "@trpc/server";
 import {Context} from "../context";
@@ -7,10 +6,6 @@ import {getOffers} from "../resolvers/offers";
 import {OfferId} from "../schemas/offers";
 
 export default class Utils {
-    static async hashPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, 10);
-    }
-
     public static async getOffer(id: OfferId | string) {
         const offer = Object.values(await getOffers()).find((offer) => offer.id === id);
         if (!offer) throw new Error("Offer id doesn't exist.");

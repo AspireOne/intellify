@@ -42,7 +42,7 @@ const Sidebar: NextPage = () => {
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={`z-10 border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen && "hidden"}`}/>
+                  cssClasses={`z-10 hidden md:block border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen && "hidden"}`}/>
 
             <aside onClick={() => {
                 // Close by clicking outside of sidebar only on mobile.
@@ -115,7 +115,7 @@ const Sidebar: NextPage = () => {
 const SearchBar = () => {
     return (
         <div
-            className="p-2.5 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-gray-700 text-white"
+            className="p-2.5 flex items-center rounded-md px-4 cursor-pointer bg-gray-700 text-white"
         >
             <Search cssClasses="text-sm" color={"#e7e7e7"}/>
             <input
@@ -158,7 +158,7 @@ const ListItem = (props: {icon?: any, text: string, className?: string, onClick?
     // @ts-ignore
     const content = (
         <div
-            className={twMerge(`p-2.5 mt-3 flex items-center rounded-md px-4 duration-100 cursor-pointer 
+            className={twMerge(`p-2.5 mt-3 flex items-center rounded-md px-4 cursor-pointer 
         bg-opacity-50 hover:bg-opacity-40 hover:bg-gray-500 text-white ${active && "bg-gray-500"} ${props.className}`)}
             onClick={props.onClick}
         >

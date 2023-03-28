@@ -54,16 +54,18 @@ const Home: NextPage = () => {
                                 className={"transform -translate-y-2 sm:-translate-y-3 inline animate-pulse duration-100 h-[3.5rem] sm:h-[4rem] md:h-[5.4rem]"}
                                 src={"https://global-uploads.webflow.com/627a1044a798e6627445c8d1/62b15f383fdee46ecf39db49_line.svg"}></img>
                         </Title>
-                        <Subtitle className={"mx-12 text-lg sm:text-xl lg:text-2xl sm:leading-8"}>
+                        <Subtitle className={"mx-4 md:mx-12 text-md sm:text-lg md:text-xl lg:text-2xl sm:leading-8"}>
                             Vytvářejte obsah a dokončujte projekty 10X rychleji,
                             <br className={"hidden sm:block"}/>{" "}
                             nebo si nechte usnadnit svou každodenní práci.
                         </Subtitle>
                     </div>
 
-                    <Link href={paths.sign}>
-                        <Button className={"mt-12 h-14 w-48 text-gray-200 font-bold"}>Přihlásit se</Button>
-                    </Link>
+                    <Button className={"mt-12 h-14 w-48 text-gray-200 font-bold"}>
+                        <Link href={paths.sign}>
+                            Přihlásit se
+                        </Link>
+                    </Button>
                 </motion.div>
             </div>
 
@@ -105,9 +107,10 @@ const Home: NextPage = () => {
                 dostali na další úroveň. Naše nástroje jsou snadno použitelné, cenově dostupné a navrženy tak, aby vám pomohly dosáhnout
                 více v kratším čase.
                 </span>
-                    <Link href={paths.sign}>
-                        <Button className={"mt-4 w-44"}>Připojit se</Button>
-                    </Link>
+                    <Button className={"mt-4 w-44"}>
+                        <Link href={paths.sign}>Připojit se</Link>
+                    </Button>
+
                 </TextElementPair>
             </div>
 
@@ -157,9 +160,9 @@ const Home: NextPage = () => {
                     <div className={"flex flex-col sm:flex-row sm:items-center gap-5 mt-8"}>
                         <Title size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span className={"hidden sm:block"}>•</span>
-                        <Link href={paths.tools}>
-                            <Button style={Style.OUTLINE} className={"w-full sm:w-content"}>Prohlédnout všechny nástroje</Button>
-                        </Link>
+                        <Button style={Style.OUTLINE} className={"sm:w-content"}>
+                            <Link className={"w-content"} href={paths.tools}>Prohlédnout všechny nástroje</Link>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -167,9 +170,9 @@ const Home: NextPage = () => {
             <div className={"flex justify-center sm:my-56 py-56 sm:py-0 sm:min-h-min min-h-screen"}>
                 <div className={"text-center"}>
                     <Title className={"mb-4"}>Připojte se ještě dnes</Title>
-                    <Link href={paths.sign}>
-                        <Button className={"w-52"}>Registrovat se</Button>
-                    </Link>
+                    <Button className={"w-52"}>
+                        <Link href={paths.sign}>Registrovat se</Link>
+                    </Button>
                 </div>
             </div>
         </div>

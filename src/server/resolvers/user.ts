@@ -4,6 +4,7 @@ import User from "../mongodb_models/User";
 import {getUserOutput, updateDataInput, updateDataOutput} from "../schemas/user";
 import Utils from "../lib/utils";
 import {TRPCError} from "@trpc/server";
+import {Password} from "../lib/password";
 
 export async function updateDataResolver(ctx: Context, input: z.input<typeof updateDataInput>): Promise<z.output<typeof updateDataOutput>> {
     await ctx.connectDb();
@@ -11,7 +12,7 @@ export async function updateDataResolver(ctx: Context, input: z.input<typeof upd
     const dataToChange = input;
 
     if (dataToChange.password) {
-        dataToChange.password = await Utils.hashPassword(dataToChange.password);
+        dataToChange.password = await Password.hashPassword(dataToChange.password);
     }
     // Iterate over the input and remove all fields that are undefined.
     for (const key in dataToChange) {

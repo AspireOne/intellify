@@ -15,6 +15,7 @@ import PageHeaderDiv from "../components/PageHeaderDiv";
 import Utils from "../lib/utils";
 import {notifications} from "@mantine/notifications";
 
+
 const Profile: NextPage = () =>  {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");

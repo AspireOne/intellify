@@ -7,8 +7,7 @@ import GoogleProvider from "next-auth/providers/google"
 import mongooseConnect from "../../../lib/mongooseConnect"
 import User from "../../../server/mongodb_models/User"
 import Email from "../../../server/lib/mail";
-const bcrypt = require('bcrypt')
-
+import {Password} from "../../../server/lib/password";
 
 export const authOptions: AuthOptions = {
     // Configure one or more authentication providers
@@ -52,7 +51,7 @@ export const authOptions: AuthOptions = {
                 const user = await User.findOne({email: credentials.email}).exec();
                 if (!user) throw new Error("Špatný e-mail nebo heslo.");
 
-                const passwordMatches = await bcrypt.compare(credentials.password, user.password);
+                const passwordMatches = await Password.comparePassword(user.password!, credentials.password);
                 if (!passwordMatches) throw new Error("Špatný e-mail nebo heslo.");
 
                 return {id: user.id, email: user.email, image: user.image, name: user.name};
