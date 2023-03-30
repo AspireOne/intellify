@@ -22,6 +22,12 @@ const Home: NextPage = () => {
     const el = useRef(null);
     const session = useSession();
 
+    const [isPc, setIsPc] = React.useState(true);
+
+    React.useEffect(() => {
+        setIsPc(window.innerWidth > 800);
+    }, []);
+
     useEffect(() => {
         // If it slows down the website, stop typing when it is not visible.
         const typed = new Typed(el.current || "", {
@@ -40,13 +46,13 @@ const Home: NextPage = () => {
 
     return (
         <NoPaddingDiv style={{
-            backgroundImage: `linear-gradient(to bottom, #0f1524 0%, transparent 8%),linear-gradient(to top, #0f1524 0%, transparent 5%), url('/assets/luminosity.svg')`,
+            backgroundImage: `linear-gradient(to bottom, #0f1524 0%, transparent 120%),linear-gradient(to top, #0f1524 0%, transparent 0%), url('/assets/luminosity.svg')`,
             backgroundPosition: "center bottom",
             backgroundRepeat: "no-repeat",
         }} className={"bg-fit"}>
             <div style={{
                 backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/cybergrid.png')`,
-                }} className={"bg-cover w-full h-screen relative"}>
+                }} className={"mb-32 bg-cover w-full h-screen relative"}>
                 <motion.div
                     initial={{opacity: 0, y: -10}}
                     transition={{duration: 0.6}}
@@ -77,30 +83,18 @@ const Home: NextPage = () => {
                 </motion.div>
             </div>
 
-            <div className={"flex flex-col gap-52 mb-32 px-5 sm:px-14"}>
+            <div
+                style={{
+                    backgroundImage: `linear-gradient(to bottom, #0f1524 0%, transparent 130%),linear-gradient(to top, #0f1524 0%, transparent 0%), url('/assets/rect.svg')`,
+                    backgroundPosition: "center bottom",
+                    backgroundRepeat: "no-repeat",
+                }}
+                className={"flex flex-col gap-40 md:gap-52 pb-72 px-5 md:px-16"}>
                 <TextElementPair
                     text={"Revolucionalizujte svůj workflow ⚡"}
-                    element={<div className={"max-w-min max-h-min"}>
-                        {/*<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
-                            <circle cx="50" cy="50" r="30" fill="#fff">
-                                <animateMotion dur="3s" repeatCount="indefinite">
-                                    <mpath xlinkHref="#motionPath" />
-                                </animateMotion>
-                            </circle>
-                            <circle cx="50" cy="150" r="30" fill="#fff">
-                                <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
-                                    <mpath xlinkHref="#motionPath" />
-                                </animateMotion>
-                            </circle>
-                            <circle cx="50" cy="250" r="30" fill="#fff">
-                                <animateMotion dur="3s" repeatCount="indefinite" begin="2s">
-                                    <mpath xlinkHref="#motionPath" />
-                                </animateMotion>
-                            </circle>
-                            <path id="motionPath" d="M50,50 Q100,0 150,50 T250,50 T350,50 T450,50 T550,50 T650,50 T750,50" fill="transparent" stroke="transparent" />
-                        </svg>*/}
-                    </div>}
-                    textSide={"left"}
+                    element={
+                        <img src={"/assets/about-image.svg"} className={"h-64 mx-auto"}/>}
+                    textSide={isPc && "left"}
                 >
                     Naše nástroje založené na umělé inteligenci jsou navrženy tak, aby vaši práci usnadnily, zrychlily a zefektivnily.
                     S naší sadou nástrojů můžete automatizovat časově náročné úkoly, zlepšit svůj pracovní postup a dosáhnout více v
@@ -110,15 +104,17 @@ const Home: NextPage = () => {
                 {/*TODO: Make parts of text light blue or etc.?*/}
                 <TextElementPair
                     text={"Rozviňte svou kreativitu 💡"}
-                    element={<div></div>}
-                    textSide={"right"}
+                    element={<img src={"/assets/ai.png"} className={"mx-auto h-56"}/>}
+                    textSide={isPc && "right"}
                 >
                     A.I. vám dává jedinečnou možnost nahlédnout za horizont představivosti, který byste vy sami neobjevili - přizpůsobeně
                     vašemu tempu a stylu. Použijte jej jako kreativního asistenta k brainstormování nápadů nebo postupů, psaní zápletek
                     nebo emailů, rozšiřování textu, a mnoho dalšího. Už se netrapte tvůrčím blokem.
                 </TextElementPair>
 
-                <TextElementPair text={"Bezpečnost a soukromí jsou naší prioritou 🔒"} element={<div></div>} textSide={"left"}>
+                <TextElementPair text={"Bezpečnost a soukromí jsou naší prioritou 🔒"}
+                                 element={<img src={"/assets/shield.png"} className={"mx-auto h-64 w-auto"}/>}
+                                 textSide={isPc && "left"}>
                     Věříme, že soukromí a bezpečnost vašich dat by měla být na prvním místě. Nástroje jsou
                     navrženy s ohledem na bezpečnost a všechna data jsou zpracována a uchovávána v souladu s nejmodernějšími
                     standardy ochrany dat a osobních údajů. Můžete si být jisti, že vaše data jsou u nás v bezpečí.
@@ -126,8 +122,8 @@ const Home: NextPage = () => {
 
                 <TextElementPair
                     text={"Připojte se k převratu A.I. ✊"}
-                    element={<div></div>}
-                    textSide={"right"}
+                    element={<img src={"/assets/globe.png"} className={"mx-auto h-72"}/>}
+                    textSide={isPc && "right"}
                 >
                 <span className={"block"}>
                     Připojte se k rostoucímu počtu profesionálů, kteří využívají sílu umělé inteligence k tomu, aby výsledky své práce
@@ -144,9 +140,9 @@ const Home: NextPage = () => {
             {/*Cards with the specific tools*/}
 
             {/*kkt*/}
-            <div className="bg-[rgba(255,255,255,0.02)] min-h-screen text-white py-36 my-32 rounded-3xl">
+            <div className="bg-[rgba(255,255,255,0.02)] min-h-screen text-white py-36 mb-32 rounded-3xl">
                 <div className="container mx-auto px-2 sm:px-6 lg:px-8">
-                    <Title>Vytvářejte prezentace, editujte texty, programujte...</Title>
+                    <Title>Vytvářejte prezentace, sestavte si životopis, programujte...</Title>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-10">
                         <FeatureCard
                             icon={<IoRocketOutline className="h-10 w-10 text-white" />}
@@ -198,7 +194,7 @@ const Home: NextPage = () => {
             <div style={{backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/c-shape-blur.svg')`, backgroundSize: "2800 2000"}}
                           className={"w-full bg-cover flex justify-center sm:py-32 sm:min-h-min h-screen"}>
                 <div className={"w-full h-full flex flex-col items-center justify-center text-center"}>
-                    <Title className={"mb-4"}>Připojte se ještě dnes</Title>
+                    <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
                     <Button className={"w-52"}>
                         <Link href={paths.sign}>Registrovat se</Link>
                     </Button>
@@ -258,7 +254,7 @@ function FeatureCard(props: PropsWithChildren<{ icon: JSX.Element, title: string
  * @param props.text Text to display
  * @param props.element Element to display
 * */
-function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.Element, className?: string, textSide: "left" | "right" }>) {
+function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.Element, className?: string, textSide: "left" | "right" | undefined | null | false }>) {
     // Sadly, tailwind has a buggy conditional class merging, so we have to do it manually instead of setting
     // flex-reverse-wrap.
     const Text = (
@@ -270,14 +266,12 @@ function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.E
 
     const Element = (
         <div className={"w-full"}>
-            <div className={"mx-auto w-min"}>
-                {props.element}
-            </div>
+            {props.element}
         </div>
     );
 
-    const One = props.textSide === "left" ? Text : Element;
-    const Two = props.textSide === "left" ? Element : Text;
+    const One = props.textSide === "right" ?  Element : Text;
+    const Two = props.textSide === "right" ? Text : Element;
 
     return (
         // TODO: Change it to md.
