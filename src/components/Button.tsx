@@ -13,7 +13,7 @@ type ButtonProps = {
     children: React.ReactNode
 }
 
-// TODO: Allow to pass in any properties and classes and USE IT.
+// TODO: Nechat to vystoupit
 const Button = (props: ButtonProps) => {
     const [isBeingClicked, setIsBeingClicked] = React.useState(false);
     // Check global mouse up.

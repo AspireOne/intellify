@@ -56,7 +56,9 @@ module.exports = {
                 "indigo-600": "rgb(97, 70, 229)",
                 "indigo-700": "rgb(77, 56, 202)",
                 "indigo-800": "rgb(63, 48, 163)",
-                "indigo-900": "rgb(56, 46, 129)"
+                "indigo-900": "rgb(56, 46, 129)",
+
+                "bgcolor": "#0f1524",
             },
         },
     },

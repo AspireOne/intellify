@@ -13,7 +13,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
         <SessionProvider session={session} refetchOnWindowFocus={false}>
             <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
-                <div className="text-gray-100 dark leading-6">
+                <div className="text-gray-100 dark leading-6 bg-bgcolor">
                     <MantineProvider theme={{
                         colorScheme: "dark",
                         /*colors: {
@@ -24,7 +24,8 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
                         <Notifications />
                         <div className="flex min-h-screen">
                             <Sidebar/>
-                            <main className={"px-3 pt-3 sm:p-5 w-full relative"}>
+                            {/*3*/}
+                            <main className={"p-3 sm:p-5 w-full relative"}>
                                 <Component {...pageProps} />
                             </main>
                         </div>

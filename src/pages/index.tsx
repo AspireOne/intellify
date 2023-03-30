@@ -13,6 +13,8 @@ import {twMerge} from "tailwind-merge";
 import {IoRocketOutline} from "react-icons/io5";
 import {BiCodeAlt} from "react-icons/bi";
 import {BsTextLeft} from "react-icons/bs";
+import img from "../../public/assets/c-shape-blur.svg";
+import NoPaddingDiv from "../components/NoPaddingDiv";
 
 
 // TODO: ADD _document.tsx or <Head> to every page.
@@ -37,8 +39,14 @@ const Home: NextPage = () => {
     }, []);
 
     return (
-        <div className={""}>
-            <div className={"w-full h-screen relative"}>
+        <NoPaddingDiv style={{
+            backgroundImage: `linear-gradient(to bottom, #0f1524 0%, transparent 8%),linear-gradient(to top, #0f1524 0%, transparent 5%), url('/assets/luminosity.svg')`,
+            backgroundPosition: "center bottom",
+            backgroundRepeat: "no-repeat",
+        }} className={"bg-fit"}>
+            <div style={{
+                backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/cybergrid.png')`,
+                }} className={"bg-cover w-full h-screen relative"}>
                 <motion.div
                     initial={{opacity: 0, y: -10}}
                     transition={{duration: 0.6}}
@@ -55,13 +63,13 @@ const Home: NextPage = () => {
                                 src={"https://global-uploads.webflow.com/627a1044a798e6627445c8d1/62b15f383fdee46ecf39db49_line.svg"}></img>
                         </Title>
                         <Subtitle className={"mx-4 md:mx-12 text-md sm:text-lg md:text-xl lg:text-2xl sm:leading-8"}>
-                            Vytvářejte obsah a dokončujte projekty 10X rychleji,
+                            Vytvářejte obsah a dokončujte projekty 10X rychleji.
                             <br className={"hidden sm:block"}/>{" "}
-                            nebo si nechte usnadnit svou každodenní práci.
+                            Usnadněte si svou každodenní práci.
                         </Subtitle>
                     </div>
 
-                    <Button className={"mt-12 h-14 w-48 text-gray-200 font-bold"}>
+                    <Button className={"text-lg mt-12 h-14 w-48 text-gray-200 font-bold"}>
                         <Link href={paths.sign}>
                             Přihlásit se
                         </Link>
@@ -69,10 +77,29 @@ const Home: NextPage = () => {
                 </motion.div>
             </div>
 
-            <div className={"flex flex-col gap-32 mb-32"}>
+            <div className={"flex flex-col gap-52 mb-32 px-5 sm:px-14"}>
                 <TextElementPair
                     text={"Revolucionalizujte svůj workflow ⚡"}
-                    element={<div></div>}
+                    element={<div className={"max-w-min max-h-min"}>
+                        {/*<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+                            <circle cx="50" cy="50" r="30" fill="#fff">
+                                <animateMotion dur="3s" repeatCount="indefinite">
+                                    <mpath xlinkHref="#motionPath" />
+                                </animateMotion>
+                            </circle>
+                            <circle cx="50" cy="150" r="30" fill="#fff">
+                                <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+                                    <mpath xlinkHref="#motionPath" />
+                                </animateMotion>
+                            </circle>
+                            <circle cx="50" cy="250" r="30" fill="#fff">
+                                <animateMotion dur="3s" repeatCount="indefinite" begin="2s">
+                                    <mpath xlinkHref="#motionPath" />
+                                </animateMotion>
+                            </circle>
+                            <path id="motionPath" d="M50,50 Q100,0 150,50 T250,50 T350,50 T450,50 T550,50 T650,50 T750,50" fill="transparent" stroke="transparent" />
+                        </svg>*/}
+                    </div>}
                     textSide={"left"}
                 >
                     Naše nástroje založené na umělé inteligenci jsou navrženy tak, aby vaši práci usnadnily, zrychlily a zefektivnily.
@@ -108,7 +135,7 @@ const Home: NextPage = () => {
                 více v kratším čase.
                 </span>
                     <Button className={"mt-4 w-44"}>
-                        <Link href={paths.sign}>Připojit se</Link>
+                        <Link href={paths.sign} className={"text-sm font-bold"}>Připojit se</Link>
                     </Button>
 
                 </TextElementPair>
@@ -116,7 +143,8 @@ const Home: NextPage = () => {
 
             {/*Cards with the specific tools*/}
 
-            <div className="bg-gray-900 min-h-screen text-white py-36 my-32 sm:-mx-[1.2rem] rounded-3xl">
+            {/*kkt*/}
+            <div className="bg-[rgba(255,255,255,0.02)] min-h-screen text-white py-36 my-32 rounded-3xl">
                 <div className="container mx-auto px-2 sm:px-6 lg:px-8">
                     <Title>Vytvářejte prezentace, editujte texty, programujte...</Title>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-10">
@@ -167,15 +195,46 @@ const Home: NextPage = () => {
                 </div>
             </div>
 
-            <div className={"flex justify-center sm:my-56 py-56 sm:py-0 sm:min-h-min min-h-screen"}>
-                <div className={"text-center"}>
+            <div style={{backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/c-shape-blur.svg')`, backgroundSize: "2800 2000"}}
+                          className={"w-full bg-cover flex justify-center sm:py-32 sm:min-h-min h-screen"}>
+                <div className={"w-full h-full flex flex-col items-center justify-center text-center"}>
                     <Title className={"mb-4"}>Připojte se ještě dnes</Title>
                     <Button className={"w-52"}>
                         <Link href={paths.sign}>Registrovat se</Link>
                     </Button>
                 </div>
             </div>
-        </div>
+
+            {/*<div className={"w-full overflow-x-hidden"}>
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"  width="1440" height="250" preserveAspectRatio="none" viewBox="0 0 1440 250">
+                    <g mask="url(&quot;#SvgjsMask1003&quot;)" fill="none">
+                        <path d="M22 250L272 0L378.5 0L128.5 250z" fill="url(#SvgjsLinearGradient1004)"></path>
+                        <path d="M260.6 250L510.6 0L707.1 0L457.1 250z" fill="url(#SvgjsLinearGradient1004)"></path>
+                        <path d="M486.20000000000005 250L736.2 0L859.2 0L609.2 250z" fill="url(#SvgjsLinearGradient1004)"></path>
+                        <path d="M713.8000000000001 250L963.8000000000001 0L1088.3000000000002 0L838.3000000000001 250z" fill="url(#SvgjsLinearGradient1004)"></path>
+                        <path d="M1401 250L1151 0L1085 0L1335 250z" fill="url(#SvgjsLinearGradient1005)"></path>
+                        <path d="M1201.4 250L951.4000000000001 0L634.9000000000001 0L884.9000000000001 250z" fill="url(#SvgjsLinearGradient1005)"></path>
+                        <path d="M954.8 250L704.8 0L359.79999999999995 0L609.8 250z" fill="url(#SvgjsLinearGradient1005)"></path>
+                        <path d="M705.1999999999999 250L455.19999999999993 0L224.19999999999993 0L474.19999999999993 250z" fill="url(#SvgjsLinearGradient1005)"></path>
+                        <path d="M1298.9492919044765 250L1440 108.94929190447635L1440 250z" fill="url(#SvgjsLinearGradient1004)"></path>
+                        <path d="M0 250L141.05070809552365 250L 0 108.94929190447635z" fill="url(#SvgjsLinearGradient1005)"></path>
+                    </g>
+                    <defs>
+                        <mask id="SvgjsMask1003">
+                            <rect width="1440" height="250" fill="#ffffff"></rect>
+                        </mask>
+                        <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="SvgjsLinearGradient1004">
+                            <stop stop-color="rgba(15, 70, 185, 0.2)" offset="0"></stop>
+                            <stop stop-opacity="0" stop-color="rgba(15, 70, 185, 0.2)" offset="0.66"></stop>
+                        </linearGradient>
+                        <linearGradient x1="100%" y1="100%" x2="0%" y2="0%" id="SvgjsLinearGradient1005">
+                            <stop stop-color="rgba(15, 70, 185, 0.2)" offset="0"></stop>
+                            <stop stop-opacity="0" stop-color="rgba(15, 70, 185, 0.2)" offset="0.66"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>*/}
+        </NoPaddingDiv>
     );
 }
 
