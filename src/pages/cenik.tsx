@@ -295,15 +295,15 @@ const FormattedPoints = (props: { points: string[] }) => {
 
 const CustomCard = (props: React.PropsWithChildren<{className?: string, id?: string}>) => {
     return (
-        <Card id={props.id} border={true} className={twMerge(`flex flex-col mx-auto max-w-lg title-center 
+        <Card id={props.id} border={true} className={twMerge(`flex flex-col mx-auto max-w-lg text-center 
         rounded-lg xl:p-8 ${props.className}`)}>
             {props.children}
         </Card>
     )
 }
 
-const CardTitle = (props: React.PropsWithChildren<{className?: string}>) => <h3 className={twMerge(`title-2xl font-semibold ${props.className}`)}>{props.children}</h3>;
-const CardDescription = (props: React.PropsWithChildren<{className?: string}>) => <p className={twMerge(`font-light title-gray-500 sm:title-lg dark:title-gray-400 ${props.className}`)}>{props.children}</p>
+const CardTitle = (props: React.PropsWithChildren<{className?: string}>) => <h3 className={twMerge(`text-2xl font-semibold ${props.className}`)}>{props.children}</h3>;
+const CardDescription = (props: React.PropsWithChildren<{className?: string}>) => <p className={twMerge(`font-light text-gray-500 sm:text-lg dark:text-gray-400 ${props.className}`)}>{props.children}</p>
 
 const Price = (props: React.PropsWithChildren<{minitext?: string}>) => {
     return (
