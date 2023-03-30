@@ -140,7 +140,7 @@ const Home: NextPage = () => {
             {/*Cards with the specific tools*/}
 
             {/*kkt*/}
-            <div className="bg-[rgba(255,255,255,0.02)] min-h-screen text-white py-36 mb-32 rounded-3xl">
+            <div className="bg-[rgba(255,255,255,0.02)] min-h-screen text-white py-36 mb-32 rounded-b-3xl">
                 <div className="container mx-auto px-2 sm:px-6 lg:px-8">
                     <Title>Vytvářejte prezentace, sestavte si životopis, programujte...</Title>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-10">
