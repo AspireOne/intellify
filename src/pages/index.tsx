@@ -24,9 +24,12 @@ const Home: NextPage = () => {
 
     const [isPc, setIsPc] = React.useState(true);
 
-    React.useEffect(() => {
-        setIsPc(window.innerWidth > 800);
-    }, []);
+    useEffect(() => {
+        const handleResize = () => setIsPc(window.innerWidth > 1000);
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [typeof window]);
 
     useEffect(() => {
         // If it slows down the website, stop typing when it is not visible.
