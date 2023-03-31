@@ -11,28 +11,6 @@ import {AutoPopup} from "../../components/Popup";
 import Slider from "../../components/Slider";
 import PageHead from "../../components/PageHead";
 
-const landingPageProps: LandingPageProps = {
-    title: "Získávejte odpovědi s pomocí [A.I.]",
-    description: "Okamžité a přesné odpovědi na vaše otázky v oboru všeobecných znalostí.",
-    callToActionTextUnsigned: "Vyzkoušejte si hned teď, jak rychle a snadno získáte odpovědi na své otázky.",
-    card1: {
-        title: "Co to je?",
-        description: "Tento nástroj vám umožní rychle a snadno získávat odpovědi na vaše otázky v oboru všeobecných znalostí. Je navržen tak, aby odpovědi byly přesné a okamžité."
-    },
-    card2: {
-        title: "Co to umí?",
-        description: "Odpovídat na různé typy otázek v oboru všeobecných znalostí, od historických událostí a vědeckých faktů až po zábavné triviální otázky. Nástroj je schopen rozpoznat typ otázky a najít pro ni nejlepší odpověď."
-    },
-    card3: {
-        title: "Proč jej použít?",
-        description: "Ušetříte si čas při hledání odpovědí na vaše otázky a získáte přesné a rychlé odpovědi. Ideální pro školáky, studenty, zvídavé jedince a kohokoli, kdo potřebuje rychle získat odpověď na svou otázku."
-    },
-    callToActionButtonSigned: {
-        title: "Získat odpověď",
-        targetElementId: "input-form"
-    }
-};
-
 // TODO: Implement "continue" button.
 const GeneralAi: NextPage = () => {
     const [input, setInput] = React.useState<string>("");
@@ -78,7 +56,6 @@ const GeneralAi: NextPage = () => {
     return (
         <div>
             <PageHead title={"Obecné A.I."} description={"Okamžité a přesné odpovědi na vaše otázky v oboru všeobecných znalostí."}/>
-            <ModuleLandingPage props={landingPageProps}/>
             <div className={"text-center"}>
                 <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white mb-2">
                     Vědomosti na dosah ruky
@@ -90,7 +67,7 @@ const GeneralAi: NextPage = () => {
 
             <div className={"max-w-xl mx-auto flex flex-col mt-12 mb-6"}>
                 <div className={"flex flex-row mx-auto gap-2 items-end w-full mb-2"}>
-                    <Input value={input} error={error} className={"p-4 max-h-80vh"} maxLen={2000} minLen={1}
+                    <Input value={input} error={error} className={"p-4 max-h-80vh"} maxLen={3200} minLen={1}
                            readonly={loading}
                            onChange={(val) => {
                                setError(null);
