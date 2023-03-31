@@ -1,6 +1,6 @@
 import {NextPage} from "next";
 import {
-    Apps, Cart,
+    Apps, Cart, ChevronBackOutline,
     ChevronDown,
     Close,
     Hammer,
@@ -69,8 +69,8 @@ const Sidebar: NextPage = () => {
                                     <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
                                 </div>
                                 <div className={"p-2 -mr-2 cursor-pointer " /*+ "lg:hidden"*/} onClick={() => setIsOpen(!isOpen)}>
-                                    <Close
-                                        color={"#fff"}
+                                    <ChevronBackOutline
+                                        color={"#c0c0c0"}
                                         title={"Zavřít menu"}
                                     />
                                 </div>

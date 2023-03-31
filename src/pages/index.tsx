@@ -20,7 +20,10 @@ import Head from "next/head";
 import PageHead from "../components/PageHead";
 
 
-// TODO before launch: remove
+// TODO before launch: replace emails, replace name, connect IČO, Stripe Domain + firm + name, google auth Domain
+// TODO change seznam email...
+
+// TODO before launch: Fix sidebar on mobile.
 const Home: NextPage = () => {
     const el = useRef(null);
     const {status} = useSession();
