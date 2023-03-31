@@ -17,7 +17,7 @@ const Sign: NextPage = () => {
 
     // useeffect when localstorage is available.
     useEffect(() => {
-        if (typeof localStorage !== "undefined") setType(Ls.hasBeenSigned ? "login" : "register");
+        if (typeof localStorage !== "undefined") setType(Ls.hasEverBeenSignedIn ? "login" : "register");
     }, [typeof localStorage]);
 
     return (
@@ -192,7 +192,7 @@ const Form = (props: { type: "login" | "register" }) => {
 
         try {
             await registerMutation.mutateAsync({email, password, name, surname});
-            Ls.hasBeenSigned = true;
+            Ls.isSignedIn = true;
             const autoLoginError = await login(email, password);
             if (autoLoginError) setRegisterError("Registrace byla úspěšná, ale nepodařilo se přihlásit. Zkuste to prosím později. " + autoLoginError);
             else router.push(paths.index);

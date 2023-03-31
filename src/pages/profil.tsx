@@ -14,6 +14,7 @@ import Form from "../components/Form";
 import PageHeaderDiv from "../components/PageHeaderDiv";
 import Utils from "../lib/utils";
 import {notifications} from "@mantine/notifications";
+import Ls from "../lib/ls";
 
 
 const Profile: NextPage = () =>  {
@@ -139,7 +140,10 @@ const Profile: NextPage = () =>  {
                     </div>
                 }
 
-                <Button style={Style.NONE} onClick={() => signOut()} className={"flex gap-1 justify-end items-center flex-row p-0"}>
+                <Button style={Style.NONE} onClick={async () => {
+                    Ls.isSignedIn = false;
+                    await signOut();
+                }} className={"flex gap-1 justify-end items-center flex-row p-0"}>
                     Odhlásit se
                     <ArrowForward color={"#fff"} height={"18px"}/>
                 </Button>

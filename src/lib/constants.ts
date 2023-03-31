@@ -16,9 +16,3 @@ export const paths = {
     profile: "/profil",
     pricing: "/cenik",
 };
-
-const prefix = "opentools."
-export const lsKeys = {
-    // If the user has ever been signed at least once, no matter if he´s signed in now.
-    hasBeenSigned: prefix + "has_been_signed"
-}

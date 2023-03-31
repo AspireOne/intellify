@@ -113,7 +113,7 @@ const Sidebar: NextPage = () => {
                             {
                                 session.status === "unauthenticated" &&
                                 <ListItem
-                                    onClick={handleItemClick} text={Ls.hasBeenSigned ? "Přihásit se" : "Zaregistrovat se"}
+                                    onClick={handleItemClick} text={Ls.hasEverBeenSignedIn ? "Přihásit se" : "Zaregistrovat se"}
                                     className={"bg-gray-200 bg-opacity-20"}
                                     link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
                             }

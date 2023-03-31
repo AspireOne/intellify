@@ -15,12 +15,19 @@ import {BiCodeAlt} from "react-icons/bi";
 import {BsTextLeft} from "react-icons/bs";
 import img from "../../public/assets/c-shape-blur.svg";
 import NoPaddingDiv from "../components/NoPaddingDiv";
+import Ls from "../lib/ls";
 
 
 // TODO: ADD _document.tsx or <Head> to every page.
 const Home: NextPage = () => {
     const el = useRef(null);
     const {status} = useSession();
+
+    const [showSignedUi, setShowSignedUi] = React.useState(false);
+
+    useEffect(() => {
+        setShowSignedUi(status === "authenticated" || (status === "loading" && Ls.isSignedIn));
+    }, [status]);
 
     const [isPc, setIsPc] = React.useState(true);
 
@@ -79,8 +86,8 @@ const Home: NextPage = () => {
                     </div>
 
                     <Button className={"text-lg mt-12 h-14 w-48 text-gray-200 font-bold"}>
-                        <Link href={status === "authenticated" ? paths.tools : paths.sign}>
-                            {status === "authenticated" ? "Přejít do nástrojů" : "Přihlásit se"}
+                        <Link href={showSignedUi ? paths.tools : paths.sign}>
+                            {showSignedUi ? "Přejít do nástrojů" : "Přihlásit se"}
                         </Link>
                     </Button>
                 </motion.div>
@@ -134,8 +141,8 @@ const Home: NextPage = () => {
                 více v kratším čase.
                 </span>
                     <Button className={"mt-4 w-44"}>
-                        <Link href={status === "authenticated" ? paths.tools : paths.sign} className={"text-sm font-bold"}>
-                            {status === "authenticated" ? "Přejít do nástrojů" : "Připojit se"}
+                        <Link href={showSignedUi ? paths.tools : paths.sign} className={"text-sm font-bold"}>
+                            {showSignedUi ? "Přejít do nástrojů" : "Připojit se"}
                         </Link>
                     </Button>
                 </TextElementPair>
@@ -200,7 +207,9 @@ const Home: NextPage = () => {
                 <div className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
                     <Button className={"w-52"}>
-                        <Link href={status === "authenticated" ? paths.tools : paths.sign}>{status === "authenticated" ? "Otevřít nástroje" : "Registrovat se"}</Link>
+                        <Link href={showSignedUi ? paths.tools : paths.sign}>
+                            {showSignedUi ? "Otevřít nástroje" : "Registrovat se"}
+                        </Link>
                     </Button>
                 </div>
             </div>
