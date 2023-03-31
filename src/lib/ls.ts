@@ -27,3 +27,18 @@ export default class Ls {
         return localStorage.getItem(Ls.isSignedInKey) === "true";
     }
 }
+
+// TODO: Implement useLs.
+/*
+function useLs() {
+    const hasEverBeenSignedIn = Ls.hasEverBeenSignedIn;
+    const isSignedIn = Ls.isSignedIn;
+
+    const setIsSignedIn = (value: boolean) => {
+        Ls.isSignedIn = value;
+    };
+
+    return {hasEverBeenSignedIn, isSignedIn, setIsSignedIn};
+}
+
+export {useLs};*/

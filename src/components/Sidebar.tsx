@@ -29,6 +29,11 @@ const Sidebar: NextPage = () => {
         retry: false,
         refetchOnWindowFocus: false,
     });
+    
+    const [hasEverBeenSignedIn, setHasEverBeenSignedIn] = useState(false);
+    useEffect(() => {
+        setHasEverBeenSignedIn(Ls.hasEverBeenSignedIn);
+    }, []);
 
     useEffect(() => {
         const open = window.innerWidth > 768;
@@ -88,8 +93,15 @@ const Sidebar: NextPage = () => {
                         {/*TODO: Fix that it shifts with navigation bar on mobile...;*/}
                         <div className={"absolute bottom-14 sm:bottom-0 left-0 right-0 "}>
                             {
-                                session.status === "loading" &&
+                                (session.status === "loading" && hasEverBeenSignedIn) &&
                                 <Skeleton height={45} className={"rounded-md"}/>
+                            }
+                            {
+                                (session.status === "unauthenticated" || !hasEverBeenSignedIn) &&
+                                <ListItem
+                                    onClick={handleItemClick} text={hasEverBeenSignedIn ? "Přihásit se" : "Zaregistrovat se"}
+                                    className={"bg-gray-200 bg-opacity-20"}
+                                    link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
                             }
                             {
                                 session.status === "authenticated" &&
@@ -109,13 +121,6 @@ const Sidebar: NextPage = () => {
                                             height={"auto"}
                                             src={session.data.user?.image}/>)
                                         : <Person color={"#fff"}/>}/>
-                            }
-                            {
-                                session.status === "unauthenticated" &&
-                                <ListItem
-                                    onClick={handleItemClick} text={Ls.hasEverBeenSignedIn ? "Přihásit se" : "Zaregistrovat se"}
-                                    className={"bg-gray-200 bg-opacity-20"}
-                                    link={paths.sign} icon={<LogIn color={"#fff"}/>}/>
                             }
                         </div>
                     </div>
