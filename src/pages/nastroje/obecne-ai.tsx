@@ -10,6 +10,7 @@ import {trpc} from "../../lib/trpc";
 import {AutoPopup} from "../../components/Popup";
 import Slider from "../../components/Slider";
 import PageHead from "../../components/PageHead";
+import PageHeaderDiv from "../../components/PageHeaderDiv";
 
 // TODO: Implement "continue" button.
 const GeneralAi: NextPage = () => {
@@ -56,14 +57,14 @@ const GeneralAi: NextPage = () => {
     return (
         <div>
             <PageHead title={"Obecné A.I."} description={"Okamžité a přesné odpovědi na vaše otázky v oboru všeobecných znalostí."}/>
-            <div className={"text-center"}>
+            <PageHeaderDiv className={"text-center"}>
                 <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white mb-2">
                     Vědomosti na dosah ruky
                 </h2>
                 <p className={"text-gray-300"}>
                     Generujte title, ptejte se na otázky, překládejte jazyky, nechte si shrnout texty a další.
                 </p>
-            </div>
+            </PageHeaderDiv>
 
             <div className={"max-w-xl mx-auto flex flex-col mt-12 mb-6"}>
                 <div className={"flex flex-row mx-auto gap-2 items-end w-full mb-2"}>

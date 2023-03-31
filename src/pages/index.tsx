@@ -217,14 +217,18 @@ const Home: NextPage = () => {
 
             <div style={{backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/c-shape-blur.svg')`, backgroundSize: "2800 2000"}}
                           className={"w-full bg-cover flex justify-center px-4 sm:py-32 sm:min-h-min h-screen"}>
-                <div className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    whileInView={{ opacity: 1 }}
+                    className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
                     <Button className={"w-52"}>
                         <Link href={showSignedUi ? paths.tools : paths.sign}>
                             {showSignedUi ? "Otevřít nástroje" : "Registrovat se"}
                         </Link>
                     </Button>
-                </div>
+                </motion.div>
             </div>
         </NoPaddingDiv>
     );
@@ -271,10 +275,12 @@ function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.E
 
     return (
         // TODO: Change it to md.
-        <div className={twMerge(`flex flex-col lg:flex-row gap-10 items-center ${props.className}`)}>
+        <motion.div initial={{ opacity: 0 }}
+                    transition={{ duration: 0.45, delay: 0.09 }}
+                    whileInView={{ opacity: 1 }} className={twMerge(`flex flex-col lg:flex-row gap-10 items-center ${props.className}`)}>
             {One}
             {Two}
-        </div>
+        </motion.div>
     );
 }
 
