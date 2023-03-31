@@ -8,6 +8,7 @@ import Button, {Style} from "../../components/Button";
 import {z} from "zod";
 import {assistCodeInput} from "../../server/schemas/code";
 import {trpc} from "../../lib/trpc";
+import PageHead from "../../components/PageHead";
 
 
 const landingPageProps: LandingPageProps = {
@@ -102,6 +103,8 @@ const IOForm = (props: {id?: string}) => {
     return (
         // TODO: history at the left?
         <div id={props.id}>
+            <PageHead title={"Kódový asistent"} description="Upravování, vylepšování, nebo rozšiřování kódu.
+            Poskytuje doporučení a odpověni na otázky ohledné kódu."/>
             <TextareaAutosize
                 placeholder="Kód k analýze, úpravě, nebo rozšíření. Nechte volné, pokud generujete nový kód."
                 onChange={(e) => {

@@ -19,6 +19,7 @@ import Title from "../components/Title";
 import {AiOutlineLock, AiOutlineUnlock, AiOutlineInfoCircle, AiOutlineHeart, AiFillHeart} from "react-icons/ai";
 import {trpc} from "../lib/trpc";
 import {OfferId} from "../server/schemas/offers";
+import PageHead from "../components/PageHead";
 
 const Tools: NextPage = () => {
     const {data} = trpc.user.getUser.useQuery();
@@ -30,6 +31,8 @@ const Tools: NextPage = () => {
 
     return (
         <>
+            <PageHead title={"Nástroje"} description="Na tomto místě najdete všechny vaše A.I. nástroje. Ať už
+            upravujete text, vytváříte prezentace, nebo si necháváte poradit s programováním, zde najdete všechny nástroje."/>
             <PageHeaderDiv>
                 <PageTitle>Nástroje</PageTitle>
                 <Subtitle>Na tomto místě najdete všechny vaše A.I. nástroje.</Subtitle>
@@ -118,14 +121,18 @@ function AvailableWithTokens() {
 }
 function ToolCard(props: {icon: IconType, color?: string, href: string, description: string, index: number, comingSoon: boolean}) {
     // Define an array of background colors to create a gradient effect
-    const colors = ['#FCA5A5', '#eee47c', '#A7F3D0', '#6EE7B7', '#6EE7E7', '#C3A5F8', '#F5A5F7'].map((color) => color + "90");
+    const colors = ['#FCA5A5', '#eee47c', '#A7F3D0', '#6EE7B7', '#6EE7E7', '#C3A5F8', '#F5A5F7']
+        .map((color) => color + (props.comingSoon ? "50" : "90"));
     const color = colors[props.index % colors.length];
 
+    {/*TODO: Add border/inner shadow?*/}
     const card = (
-        <div className={`flex flex-col ${props.comingSoon ? "gap-0" : "gap-2"}`}>
+        <div className={`rounded-md flex flex-col ${props.comingSoon ? "gap-0" : "gap-2"}`}>
             <div className={`${props.comingSoon ? "cursor-default rounded-t-md" : "hover:bg-gray-700 rounded-md"} transition duration-100 bg-t-alternative-700 flex flex-col gap-2 items-center w-32 h-28 p-4`}>
                 {<props.icon color={color} size={"35px"}/>}
-                <p className={"text-sm text-center text-gray-200"}>{props.description}</p>
+                <p className={`text-sm text-center ${props.comingSoon ? "text-gray-400" : "text-gray-200"}`}>
+                    {props.description}
+                </p>
             </div>
             {
                 props.comingSoon &&

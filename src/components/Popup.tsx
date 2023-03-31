@@ -12,6 +12,17 @@ export function AutoPopup(props: React.PropsWithChildren<{className?: string, tr
         </Popup>);
 }
 export default function Popup(props: React.PropsWithChildren<{className?: string, trigger?: React.ReactElement, open: boolean, setOpen: (open: boolean) => void, unclosable?: boolean, title: string}>) {
+    // TODO: This is not working properly. It's not closing when clicking outside of the popup.
+    React.useEffect(() => {
+        function handleKeyDown(e: KeyboardEvent) {
+            if (e.key === "Escape") {
+                if (props.open && !props.unclosable) props.setOpen(false)
+            }
+        }
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
     return (
         <>
             {

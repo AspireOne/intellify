@@ -9,6 +9,7 @@ import IOCard from "../../components/IOCard";
 import {trpc} from "../../lib/trpc";
 import {AutoPopup} from "../../components/Popup";
 import Slider from "../../components/Slider";
+import PageHead from "../../components/PageHead";
 
 const landingPageProps: LandingPageProps = {
     title: "Získávejte odpovědi s pomocí [A.I.]",
@@ -76,6 +77,7 @@ const GeneralAi: NextPage = () => {
 
     return (
         <div>
+            <PageHead title={"Obecné A.I."} description={"Okamžité a přesné odpovědi na vaše otázky v oboru všeobecných znalostí."}/>
             <ModuleLandingPage props={landingPageProps}/>
             <div className={"text-center"}>
                 <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white mb-2">

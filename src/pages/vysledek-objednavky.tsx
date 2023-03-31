@@ -12,6 +12,7 @@ import Utils from "../lib/utils";
 import Skeleton from "react-loading-skeleton";
 import Title from "../components/Title";
 import {twMerge} from "tailwind-merge";
+import PageHead from "../components/PageHead";
 
 
 const OrderResult: NextPage = () => {
@@ -51,6 +52,7 @@ const OrderResult: NextPage = () => {
 
     return (
         <div className={"overflow-hidden relative"}>
+            <PageHead title={"Děkujeme!"} description={"Výsledek objednávky."} />
             <Confetti
                 width={width}
                 height={height + 10}

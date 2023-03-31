@@ -29,6 +29,8 @@ import Utils from "../lib/utils";
 import CheckmarkSvg from "../components/CheckmarkSvg";
 import Popup, {AutoPopup} from "../components/Popup";
 import {notifications} from "@mantine/notifications";
+import Head from "next/head";
+import PageHead from "../components/PageHead";
 
 type subscriptionState = "active" | "cancelled" | null;
 
@@ -108,6 +110,10 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
 
     return (
         <section>
+            <PageHead title={"Ceník"}
+                      description="Zrychlete svůj workflow pomocí A.I. nástrojů.
+                      Vytvářejte prezentace, upravujte texty, pište maily a mnohem více. Pořiďte si přístup teď."/>
+
             <div className="mx-auto max-w-screen-xl">
                 <PageHeaderDiv>
                     <PageTitle>

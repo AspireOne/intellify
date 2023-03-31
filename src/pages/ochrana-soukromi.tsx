@@ -3,6 +3,7 @@ import {NextPage} from "next";
 import {ArticleDiv, ArticlePCard, ArticlePTitle} from "../components/article";
 import PageTitle from "../components/PageTitle";
 import PageHeaderDiv from "../components/PageHeaderDiv";
+import PageHead from "../components/PageHead";
 
 const PrivacyPolicy: NextPage = () =>  {
     const [hostname, setHostname] = useState("www.      .cz");
@@ -14,6 +15,7 @@ const PrivacyPolicy: NextPage = () =>  {
 
     return (
         <ArticleDiv>
+            <PageHead title={"Zásady ochrany soukromí"} description={"Zásady ochrany soukromí pro Open Tools."} />
             <PageHeaderDiv>
                 <PageTitle>Zásady ochrany soukromí</PageTitle>
             </PageHeaderDiv>

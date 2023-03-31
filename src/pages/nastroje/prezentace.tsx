@@ -14,6 +14,7 @@ import {z} from "zod";
 import {createPresentationInput} from "../../server/schemas/presentation";
 import {trpc} from "../../lib/trpc";
 import {twMerge} from "tailwind-merge";
+import PageHead from "../../components/PageHead";
 
 const landingPageProps: LandingPageProps = {
     title: "Vytvářejte prezentace s pomocí [A.I.]",
@@ -63,6 +64,7 @@ const Prezentace: NextPage = () => {
 
     return (
         <div>
+            <PageHead title={"Prezentace"} description={"Profesionální a přizpůsobitelná prezentace do práce, do školy, i pro osobní projekty v řádu vteřin."} />
             <ModuleLandingPage props={landingPageProps}/>
             <div className={"flex flex-col gap-2 mx-auto lg:w-[62%]"}>
                 <InputForm error={globalError} id={"input-form"} onSubmit={handleSubmit} loading={loading} className={"w-full"}/> {/*TODO: Make it responsive*/}

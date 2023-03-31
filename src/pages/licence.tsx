@@ -3,10 +3,13 @@ import {NextPage} from "next";
 import PageHeaderDiv from "../components/PageHeaderDiv";
 import PageTitle from "../components/PageTitle";
 import {ArticleDiv, ArticlePCard} from "../components/article";
+import PageHead from "../components/PageHead";
 
 const License: NextPage = () => {
     return (
         <ArticleDiv>
+            <PageHead title={"Licenční podmínky a autorská práva"} description="Licenční podmínky a autorská práva
+            pro Open Tools."/>
             <PageHeaderDiv>
                 <PageTitle>
                     Licenční podmínky a autorská práva

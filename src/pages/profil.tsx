@@ -15,6 +15,7 @@ import PageHeaderDiv from "../components/PageHeaderDiv";
 import Utils from "../lib/utils";
 import {notifications} from "@mantine/notifications";
 import Ls from "../lib/ls";
+import PageHead from "../components/PageHead";
 
 
 const Profile: NextPage = () =>  {
@@ -83,6 +84,7 @@ const Profile: NextPage = () =>  {
 
     return (
         <div className={"relative"}>
+            <PageHead title={"Profil"}/>
             <PageHeaderDiv>
                 <PageTitle>Váš profil</PageTitle>
             </PageHeaderDiv>

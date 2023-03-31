@@ -16,6 +16,8 @@ import {BsTextLeft} from "react-icons/bs";
 import img from "../../public/assets/c-shape-blur.svg";
 import NoPaddingDiv from "../components/NoPaddingDiv";
 import Ls from "../lib/ls";
+import Head from "next/head";
+import PageHead from "../components/PageHead";
 
 
 // TODO: ADD _document.tsx or <Head> to every page.
@@ -60,6 +62,14 @@ const Home: NextPage = () => {
             backgroundPosition: "center bottom",
             backgroundRepeat: "no-repeat",
         }} className={"bg-fit"}>
+            <PageHead title={"Hlavní stránka"}
+                      description="Zrychlete svůj workflow pomocí A.I. nástrojů.
+                      Vytvářejte prezentace, upravujte texty, pište maily a mnohem více."/>
+            <Head>
+                <title>Open Tools - hlavní stránka</title>
+                <meta name="description" content="Zrychlete svůj workflow pomocí A.I. nástrojů. Vytvářejte prezentace,
+                upravujte texty, pište maily a mnohem více."/>
+            </Head>
             <div style={{
                 backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/cybergrid.png')`,
                 }} className={"mb-32 bg-cover w-full h-screen relative"}>
@@ -213,36 +223,6 @@ const Home: NextPage = () => {
                     </Button>
                 </div>
             </div>
-
-            {/*<div className={"w-full overflow-x-hidden"}>
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"  width="1440" height="250" preserveAspectRatio="none" viewBox="0 0 1440 250">
-                    <g mask="url(&quot;#SvgjsMask1003&quot;)" fill="none">
-                        <path d="M22 250L272 0L378.5 0L128.5 250z" fill="url(#SvgjsLinearGradient1004)"></path>
-                        <path d="M260.6 250L510.6 0L707.1 0L457.1 250z" fill="url(#SvgjsLinearGradient1004)"></path>
-                        <path d="M486.20000000000005 250L736.2 0L859.2 0L609.2 250z" fill="url(#SvgjsLinearGradient1004)"></path>
-                        <path d="M713.8000000000001 250L963.8000000000001 0L1088.3000000000002 0L838.3000000000001 250z" fill="url(#SvgjsLinearGradient1004)"></path>
-                        <path d="M1401 250L1151 0L1085 0L1335 250z" fill="url(#SvgjsLinearGradient1005)"></path>
-                        <path d="M1201.4 250L951.4000000000001 0L634.9000000000001 0L884.9000000000001 250z" fill="url(#SvgjsLinearGradient1005)"></path>
-                        <path d="M954.8 250L704.8 0L359.79999999999995 0L609.8 250z" fill="url(#SvgjsLinearGradient1005)"></path>
-                        <path d="M705.1999999999999 250L455.19999999999993 0L224.19999999999993 0L474.19999999999993 250z" fill="url(#SvgjsLinearGradient1005)"></path>
-                        <path d="M1298.9492919044765 250L1440 108.94929190447635L1440 250z" fill="url(#SvgjsLinearGradient1004)"></path>
-                        <path d="M0 250L141.05070809552365 250L 0 108.94929190447635z" fill="url(#SvgjsLinearGradient1005)"></path>
-                    </g>
-                    <defs>
-                        <mask id="SvgjsMask1003">
-                            <rect width="1440" height="250" fill="#ffffff"></rect>
-                        </mask>
-                        <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="SvgjsLinearGradient1004">
-                            <stop stop-color="rgba(15, 70, 185, 0.2)" offset="0"></stop>
-                            <stop stop-opacity="0" stop-color="rgba(15, 70, 185, 0.2)" offset="0.66"></stop>
-                        </linearGradient>
-                        <linearGradient x1="100%" y1="100%" x2="0%" y2="0%" id="SvgjsLinearGradient1005">
-                            <stop stop-color="rgba(15, 70, 185, 0.2)" offset="0"></stop>
-                            <stop stop-opacity="0" stop-color="rgba(15, 70, 185, 0.2)" offset="0.66"></stop>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>*/}
         </NoPaddingDiv>
     );
 }

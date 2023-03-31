@@ -11,6 +11,7 @@ import Subtitle from "../components/Subtitle";
 import PageHeaderDiv from "../components/PageHeaderDiv";
 import {trpc} from "../lib/trpc";
 import {notifications} from "@mantine/notifications";
+import PageHead from "../components/PageHead";
 
 const Contact = (props: {isInFooter?: boolean | null}) => {
     const [email, setEmail] = React.useState("");
@@ -51,6 +52,8 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
 
     return (
         <div className={"sm:mx-14"}>
+            <PageHead title={"Kontaktujte nás"} description="Kontaktní formulář a informace pro Open Tools. Ať už máte
+            problém, otázku, nebo pochvalu, neváhejte se ozvat."/>
             {
                 !props.isInFooter &&
                 <PageHeaderDiv>
