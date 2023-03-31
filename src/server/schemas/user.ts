@@ -28,6 +28,7 @@ export const getUserOutput = z.object({
         remainingTokens: z.number(),
         updatedAt: z.date(),
         data: Offer,
+        cancelled: z.boolean().optional()
     }).optional(),
 });
 

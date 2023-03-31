@@ -23,7 +23,7 @@ class User {
     public remainingFreeTokens!: number
 
     @prop({ type: () => Object, allowMixed: Severity.ALLOW })
-    subscription?: { id: OfferId, stripeId: string, remainingTokens: number, updatedAt: Date }
+    subscription?: { id: OfferId, stripeId: string, remainingTokens: number, updatedAt: Date, cancelled?: boolean }
     public async decreaseTokensAndSave(this: DocumentType<User>, tokens: number) {
         if (!this.subscription) {
             this.remainingFreeTokens -= tokens;

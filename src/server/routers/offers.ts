@@ -38,6 +38,9 @@ export const offersRouter = router({
             });
 
             stripe.subscriptions.update(subId, {cancel_at_period_end: true});
+
+            // Update user.subscription.cancelled to true.
+            const updated = await user.updateOne({$set: {"subscription.cancelled": true}}, {new: true});
         }),
 });
 

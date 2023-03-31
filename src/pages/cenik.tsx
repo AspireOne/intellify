@@ -24,6 +24,8 @@ import CheckmarkSvg from "../components/CheckmarkSvg";
 import Popup, {AutoPopup} from "../components/Popup";
 import {notifications} from "@mantine/notifications";
 
+type subscriptionState = "active" | "cancelled" | null;
+
 // This function gets called at build time
 export async function getStaticProps(
     context: GetStaticPropsContext<{}>,
@@ -66,6 +68,18 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
         document.getElementById("payment")?.scrollIntoView({behavior: "smooth", block: "center"});
     }
 
+    function getState(planId?: string | null): subscriptionState {
+        let state: subscriptionState = null;
+
+        if (planId && user.data?.subscription?.data) {
+            if (user.data.subscription?.data.id !== planId) return null;
+            state = "active";
+            if (user.data.subscription?.cancelled) state = "cancelled";
+        }
+
+        return state;
+    }
+
     const onetimeOffers = Object.values(offers.data ?? {})
         .filter((offer) => offer.type === OfferType.ONETIME);
 
@@ -89,18 +103,18 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                 <div className="space-y-8 lg:grid lg:grid-cols-3 lg:grid-rows-1 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <PlanCard
                         offer={offers.data?.planBasic}
-                        currentOffer={(user.data && offers.data) && user.data.subscription?.data.id === offers.data.planBasic.id}
+                        state={getState(offers.data?.planBasic?.id)}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planAdvanced}
                         bestOffer={true}
-                        currentOffer={(user.data && offers.data) && user.data.subscription?.data.id === offers.data.planAdvanced.id}
+                        state={getState(offers.data?.planAdvanced?.id)}
                         onClick={handleClick}/>
 
                     <PlanCard
                         offer={offers.data?.planCompany}
-                        currentOffer={(user.data && offers.data) && user.data.subscription?.data.id === offers.data.planCompany.id}
+                        state={getState(offers.data?.planCompany?.id)}
                         onClick={handleClick}/>
                 </div>
 
@@ -231,9 +245,49 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null}) => {
 
 const PlanCard = (props: {
     bestOffer?: boolean,
-    currentOffer?: boolean,
+    state?: subscriptionState,
     onClick: (offer: z.infer<typeof Offer>) => void,
     offer?: z.infer<typeof Offer> }) => {
+    const tokenPoint = "Až ~" + Utils.tokensToWords(props.offer?.tokens) + " slov";
+
+    return (
+        <div>
+            <CustomCard className={`w-full h-full ${props.state && "border-amber-400 border-2"}`}>
+                <div>
+                    <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
+                    <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
+                </div>
+                <div className="flex justify-center items-baseline my-8">
+                    <Price minitext={"/měsíc"}>{props.offer?.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
+                </div>
+
+                <ul role="list" className="mb-8 space-y-4 text-left h-full">
+                    {
+                        !props.offer?.points
+                            ? <Skeleton count={4} className={"mx-1 w-full"}/>
+                            : <FormattedPoints points={[tokenPoint, ...props.offer.points]}/>
+                    }
+                </ul>
+                {
+                    !props.state &&
+                    <Button
+                        loading={!props.offer}
+                        loadingText={"Načítání..."}
+                        className={"p-4 font-bold"}
+                        onClick={() => props.onClick(props.offer!)}
+                        style={props.bestOffer ? Style.FILL : Style.OUTLINE}>
+                        Vybrat a pokračovat
+                    </Button>
+                }
+                {
+                    props.state && <ActiveSubscriptionSection state={props.state}/>
+                }
+            </CustomCard>
+        </div>
+    );
+};
+
+const ActiveSubscriptionSection = (props: {state: subscriptionState}) => {
     const [cancelling, setCancelling] = useState(false);
     const [cancellingError, setCancellingError] = useState<string | null>(null);
     const [popupShown, setPopupShown] = useState(false);
@@ -261,66 +315,48 @@ const PlanCard = (props: {
             setCancelling(false);
         }
     });
-    const tokenPoint = "Až ~" + Utils.tokensToWords(props.offer?.tokens) + " slov";
+
+    const Title = () => {
+        return (
+            <p className={"font-bold text-lg text-center my-0 text-amber-400"}>
+                Současné předplatné
+            </p>
+        )
+    }
+
+    if (props.state === "cancelled") {
+        return (
+            <div>
+                <Title/>
+                <p className={"text-gray-400 text-center"}>
+                    Bude zrušeno na konci aktuálního období.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div>
-            <CustomCard className={`w-full h-full ${props.currentOffer && "border-amber-400 border-2"}`}>
-                <div>
-                    <CardTitle>{props.offer?.name ?? <Skeleton/>}</CardTitle>
-                    <CardDescription>{props.offer?.description ?? <Skeleton/>}</CardDescription>
-                </div>
-                <div className="flex justify-center items-baseline my-8">
-                    <Price minitext={"/měsíc"}>{props.offer?.price ?? <Skeleton inline={true} className={"mr-1"} width={"1.5em"}/>}Kč</Price>
-                </div>
+            <Title/>
+            <Popup unclosable={cancelling} open={popupShown} setOpen={setPopupShown}
+                   trigger={
+                       <Button style={Style.NONE} className={"text-gray-400 text-sm m-0 p-0"}>
+                           Zrušit předplatné
+                       </Button>} title={"Opravdu chcete zrušit předplatné?"}>
+                <p className={"text-gray-400"}>
+                    Vaše předplatné bude zrušeno a další měsíc nebudete fakturování. Období, které
+                    jste již zaplatili, vám zůstane.
+                </p>
 
-                <ul role="list" className="mb-8 space-y-4 text-left h-full">
-                    {
-                        !props.offer?.points
-                            ? <Skeleton count={4} className={"mx-1 w-full"}/>
-                            : <FormattedPoints points={[tokenPoint, ...props.offer.points]}/>
-                    }
-                </ul>
-                {
-                    !props.currentOffer &&
-                    <Button
-                        loading={!props.offer}
-                        loadingText={"Načítání..."}
-                        className={"p-4 font-bold"}
-                        onClick={() => props.onClick(props.offer!)}
-                        style={props.bestOffer ? Style.FILL : Style.OUTLINE}>
-                        Vybrat a pokračovat
-                    </Button>
-                }
-                {
-                    props.currentOffer &&
-                    <div>
-                        <p className={"font-bold text-lg text-center my-0 text-amber-400"}>
-                            Současné předplatné
-                        </p>
-
-                        <Popup unclosable={cancelling} open={popupShown} setOpen={setPopupShown}
-                               trigger={
-                            <Button style={Style.NONE} className={"text-gray-400 text-sm m-0 p-0"}>
-                                Zrušit předplatné
-                            </Button>} title={"Opravdu chcete zrušit předplatné?"}>
-                            <p className={"text-gray-400"}>
-                                Vaše předplatné bude zrušeno a další měsíc nebudete fakturování. Období, které
-                                jste již zaplatili, vám zůstane.
-                            </p>
-
-                            <Button loading={cancelling} loadingText={"RUŠENÍ..."} onClick={() => {
-                                setCancelling(true);
-                                cancelSubscriptionMutation.mutate();
-                            }} style={Style.NONE} className={"mt-4"}>ZRUŠIT PŘEDPLATNÉ</Button>
-                            {cancellingError && <p className={"text-red-500"}>{cancellingError}</p>}
-                        </Popup>
-                    </div>
-                }
-            </CustomCard>
+                <Button loading={cancelling} loadingText={"RUŠENÍ..."} onClick={() => {
+                    setCancelling(true);
+                    cancelSubscriptionMutation.mutate();
+                }} style={Style.NONE} className={"mt-4"}>ZRUŠIT PŘEDPLATNÉ</Button>
+                {cancellingError && <p className={"text-red-500"}>{cancellingError}</p>}
+            </Popup>
         </div>
-    );
-};
+    )
+}
 
 const FormattedPoints = (props: { points: string[] }) => {
     return (
