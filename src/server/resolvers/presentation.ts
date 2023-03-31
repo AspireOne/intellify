@@ -2,6 +2,7 @@ import {z} from "zod";
 import {createPresentationInput, createPresentationOutput} from "../schemas/presentation";
 import {Context} from "../context";
 import Utils from "../lib/utils";
+import {Ai} from "../lib/Ai";
 
 export async function createPresentationResolver(ctx: Context, input: z.input<typeof createPresentationInput>): Promise<z.output<typeof createPresentationOutput>> {
         await ctx.connectDb();
@@ -22,16 +23,19 @@ export async function createPresentationResolver(ctx: Context, input: z.input<ty
 
 
         const prompt: string = generatePrompt(input);
+        const messages = Ai.getDefaultMessages();
+        messages.push({role: "user", content: prompt})
+
         let stop: string[] | undefined;
         if (!input.conclusion && !input.describe) stop = ["Vysvětlení bodů:", "Závěr:", "Shrnutí:"];
 
-        const output = await Utils.askAi(ctx, {
-                model: "text-davinci-003",
+        const output = await Ai.ask(ctx, {
+                model: "gpt-3.5-turbo",
                 temperature: 0.4,
                 max_tokens: 1500,
                 frequency_penalty: 0.2,
                 presence_penalty: 0.2,
-                prompt: prompt,
+                messages,
                 stop: stop || undefined,
         });
 

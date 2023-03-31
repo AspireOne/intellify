@@ -122,14 +122,14 @@ function ToolCard(props: {icon: IconType, color?: string, href: string, descript
     const color = colors[props.index % colors.length];
 
     const card = (
-        <div className={"flex flex-col gap-2"}>
-            <div className={`${!props.comingSoon ? "hover:bg-gray-700" : "cursor-default"} transition duration-100 rounded-md bg-t-alternative-700 flex flex-col gap-2 items-center w-32 h-28 p-4`}>
+        <div className={`flex flex-col ${props.comingSoon ? "gap-0" : "gap-2"}`}>
+            <div className={`${props.comingSoon ? "cursor-default rounded-t-md" : "hover:bg-gray-700 rounded-md"} transition duration-100 bg-t-alternative-700 flex flex-col gap-2 items-center w-32 h-28 p-4`}>
                 {<props.icon color={color} size={"35px"}/>}
                 <p className={"text-sm text-center text-gray-200"}>{props.description}</p>
             </div>
             {
                 props.comingSoon &&
-                <div className={"cursor-default py-0 px-3 flex flex-row text-sm gap-2 items-center justify-center rounded-md bg-orange-400/20"}>
+                <div className={"text-gray-400 cursor-default py-0 px-3 flex flex-row text-sm gap-2 items-center justify-center rounded-b-md bg-orange-400/20"}>
                     Již brzy...
                 </div>
             }

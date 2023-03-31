@@ -179,7 +179,7 @@ function ListItem(props: {icon?: any, text: string, className?: string, onClick?
         >
             {props.icon}
             <div className={"flex flex-col gap-1 ml-4"}>
-                <span className={`text-[${props.isCategoryItem ? 14 : 15}px] text-gray-200 font-bold`}>
+                <span className={`text-[${props.isCategoryItem ? 14 : 15}px] text-gray-200 font-bold whitespace-nowrap`}>
                     {props.text}
                 </span>
                 {
