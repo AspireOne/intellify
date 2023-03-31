@@ -127,7 +127,7 @@ function ToolCard(props: {icon: IconType, color?: string, href: string, descript
             </div>
             {
                 props.comingSoon &&
-                <div className={"cursor-default py-0 px-3 flex flex-row text-sm gap-2 items-center justify-center rounded-full bg-orange-400/20"}>
+                <div className={"cursor-default py-0 px-3 flex flex-row text-sm gap-2 items-center justify-center rounded-md bg-orange-400/20"}>
                     Již brzy...
                 </div>
             }
