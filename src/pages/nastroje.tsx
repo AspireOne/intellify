@@ -107,7 +107,7 @@ function LockMarker(props: {locked: boolean}) {
                 props.locked &&
                 <span className={"py-1 text-sm px-3 bg-white/10 rounded-full flex flex-row items-center justify-center gap-2"}>
                     <AiOutlineInfoCircle/>
-                    Dostupné s tokenama
+                    Dostupné s koupenými slovy
                 </span>
             }
         </div>

@@ -16,11 +16,16 @@ import {paths} from "../lib/constants";
 import Ls from "../lib/ls";
 import { twMerge } from "tailwind-merge";
 import Skeleton from "react-loading-skeleton";
+import {trpc} from "../lib/trpc";
+import Utils from "../lib/utils";
+
+enum ItemType { NORMAL, CATEGORY, PROFILE }
 
 const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
     const [isOpen, setIsOpen] = useState(false);
     const session = useSession();
+    const {data} = trpc.user.getUser.useQuery();
 
     useEffect(() => {
         const open = window.innerWidth > 768;
@@ -88,6 +93,10 @@ const Sidebar: NextPage = () => {
                                 <ListItem
                                     text={session.data.user?.name || "Profil"}
 
+                                    remaining={data && {
+                                        freeTokens: data.remainingFreeTokens,
+                                        subTokens: data.subscription ? data.subscription.remainingTokens : 0
+                                    }}
                                     link={paths.profile}
                                     icon={session.data.user?.image
                                         ? (<img
@@ -146,7 +155,9 @@ const Category = (props: React.PropsWithChildren<{text: string}>) => {
     );
 }
 
-const ListItem = (props: {icon?: any, text: string, className?: string, onClick?: () => void, link?: string, isCategoryItem?: boolean, alignBottom?: boolean}) => {
+function ListItem(props: {icon?: any, text: string, className?: string, onClick?: () => void, link?: string,
+    isCategoryItem?: boolean, alignBottom?: boolean, remaining?: {subTokens: number, freeTokens: number}}
+) {
     const [active, setActive] = useState(false);
 
     useEffect(() => {
@@ -163,7 +174,17 @@ const ListItem = (props: {icon?: any, text: string, className?: string, onClick?
             onClick={props.onClick}
         >
             {props.icon}
-            <span className={`text-[${props.isCategoryItem ? 14 : 15}px] ml-4 text-gray-200 font-bold`}>{props.text}</span>
+            <div className={"flex flex-col gap-1 ml-4"}>
+                <span className={`text-[${props.isCategoryItem ? 14 : 15}px] text-gray-200 font-bold`}>
+                    {props.text}
+                </span>
+                {
+                    props.remaining &&
+                    <div className={"-mt-1 -ml-1 px-2 text-sm rounded-full bg-orange-400/20"}>
+                        {Utils.tokensToWords(props.remaining.subTokens + props.remaining.freeTokens)} slov
+                    </div>
+                }
+            </div>
         </div>
     );
 
