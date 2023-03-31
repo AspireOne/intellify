@@ -37,10 +37,6 @@
         font-weight: 700;
     }
 
-    .typed-cursor {
-        cursor: url("https://global-uploads.webflow.com/627a1044a798e6627445c8d1/62b15f383fdee46ecf39db49_line.svg"), auto;
-    }
-
     /* Set gradient. */
     .title-highlighted {
         background-image: linear-gradient(90deg,#fb60d7,#eb69dc 15%,#dc5cff 30%,#c555fe 45%,#a02fff 60%,#7752ff 75%,#5f98fa 90%,#44beff);

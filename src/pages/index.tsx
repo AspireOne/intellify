@@ -20,7 +20,7 @@ import Head from "next/head";
 import PageHead from "../components/PageHead";
 
 
-// TODO: ADD _document.tsx or <Head> to every page.
+// TODO before launch: remove
 const Home: NextPage = () => {
     const el = useRef(null);
     const {status} = useSession();
@@ -86,7 +86,7 @@ const Home: NextPage = () => {
                             <span className={"title-highlighted"} ref={el}></span>
                             <img
                                 className={"transform -translate-y-2 sm:-translate-y-3 inline animate-pulse duration-100 h-[3.5rem] sm:h-[4rem] md:h-[5.4rem]"}
-                                src={"https://global-uploads.webflow.com/627a1044a798e6627445c8d1/62b15f383fdee46ecf39db49_line.svg"}></img>
+                                src={"/assets/line.svg"}></img>
                         </Title>
                         <Subtitle className={"mx-4 md:mx-12 text-md sm:text-lg md:text-xl lg:text-2xl sm:leading-8"}>
                             Vytvářejte obsah a dokončujte projekty 10X rychleji.

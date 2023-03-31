@@ -65,7 +65,7 @@ const Sidebar: NextPage = () => {
                         <div className="text-xl text-gray-100">
                             <div className="p-2.5 mt-1 flex items-center justify-between">
                                 <div className="flex items-center">
-                                    <Apps width={"35px"} height={"35px"} color={"white"} cssClasses={"rounded-md bg-blue-600 p-1.5"} />
+                                    <img width={"35px"} height={"35px"} src={"/assets/logo.png"} />
                                     <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
                                 </div>
                                 <div className={"p-2 -mr-2 cursor-pointer " /*+ "lg:hidden"*/} onClick={() => setIsOpen(!isOpen)}>
@@ -184,7 +184,7 @@ function ListItem(props: {icon?: any, text: string, className?: string, onClick?
                 </span>
                 {
                     props.remaining !== undefined &&
-                    <div className={"-mt-1 -ml-1 px-2 text-sm rounded-full bg-orange-400/20"}>
+                    <div className={"-mt-1 -ml-1 px-2 text-sm rounded-full bg-orange-400/20 text-gray-300"}>
                         {
                             props.remaining === null
                             ? <Skeleton className={"rounded-full"}/>
