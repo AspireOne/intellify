@@ -15,7 +15,8 @@ export default class Utils {
     public static getDefaultSystemMessage = () => `You are Open Tools, a large language model. Answer as concisely as possible. Current date: ${new Date().toLocaleDateString()}.`;
 
     static async askAi(ctx: Context, config: CreateCompletionRequest): Promise<string> {
-        const user = await User.findOne({email: ctx.session?.user?.email}).exec();
+        const user = await User.findById(ctx.session?.user?.id);
+
         if (!user)
             throw new TRPCError({code: "BAD_REQUEST", message: "Uživatel nenalezen." });
 
