@@ -33,7 +33,7 @@ import {notifications} from "@mantine/notifications";
 type subscriptionState = "active" | "cancelled" | null;
 
 // This function gets called at build time
-export async function getServerSideProps(
+/*export async function getServerSideProps(
     context: GetServerSidePropsContext<{}>,
 ) {
     const ssg = createProxySSGHelpers({
@@ -46,11 +46,28 @@ export async function getServerSideProps(
         props: {
             trpcState: ssg.dehydrate(),
         },
-        /*revalidate: 1,*/
+        /!*revalidate: 1,*!/
+    };
+}*/
+
+export async function getStaticProps(
+    context: GetStaticPropsContext<{}>,
+) {
+    const ssg = createProxySSGHelpers({
+        router: appRouter,
+        ctx: await createContext(),
+    });
+    await ssg.offers.getOffers.prefetch();
+    // Make sure to return { props: { trpcState: ssg.dehydrate() } }
+    return {
+        props: {
+            trpcState: ssg.dehydrate(),
+        },
+        revalidate: 1,
     };
 }
 
-const Subscription = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const offers = trpc.offers.getOffers.useQuery();
     const user = trpc.user.getUser.useQuery();
     const session = useSession();
