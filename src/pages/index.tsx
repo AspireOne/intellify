@@ -74,7 +74,7 @@ const Home: NextPage = () => {
                 upravujte texty, pište maily a mnohem více."/>
             </Head>
             <div style={{
-                backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/cybergrid.png')`,
+                backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/cybergrid.webp')`,
                 }} className={"mb-32 bg-cover w-full h-screen relative"}>
                 <motion.div
                     initial={{opacity: 0, y: -10}}

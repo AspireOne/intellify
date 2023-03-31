@@ -29,7 +29,7 @@ const Sidebar: NextPage = () => {
         retry: false,
         refetchOnWindowFocus: false,
     });
-    
+
     const [hasEverBeenSignedIn, setHasEverBeenSignedIn] = useState(false);
     useEffect(() => {
         setHasEverBeenSignedIn(Ls.hasEverBeenSignedIn);
