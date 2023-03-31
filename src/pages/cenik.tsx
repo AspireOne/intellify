@@ -21,6 +21,8 @@ import {appRouter} from "../server/routers/_app";
 import {createContext} from "../server/context";
 import Utils from "../lib/utils";
 import CheckmarkSvg from "../components/CheckmarkSvg";
+import Popup, {AutoPopup} from "../components/Popup";
+import {notifications} from "@mantine/notifications";
 
 // This function gets called at build time
 export async function getStaticProps(
@@ -168,7 +170,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null}) => {
             </h2>
             <div id={"payment"} className={"space-y-5 lg:grid lg:grid-cols-2 lg:grid-rows-1 sm:gap-5 xl:gap-7 lg:space-y-0"}>
                 <CustomCard className={"mx-0 w-full text-left flex flex-col gap-4"}>
-                    <div className={"flex flex-row gap-5 justify-between"}>
+                    <div className={"flex flex-col sm:flex-row gap-5 justify-between"}>
                         <div>
                             <div className={"mb-2"}>
                                 <CardTitle className={"mb-0"}>{props.offer.type == OfferType.PLAN ? "Předplatné" : "Jednorázově"}</CardTitle>
@@ -176,12 +178,10 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null}) => {
                                     {props.offer.name}
                                 </CardDescription>
                             </div>
-                            {<p className={"font-semibold text-xl"}>{props.offer.price}Kč</p>}
-                            {
-                                <p className={"text-gray-500 text-sm dark:text-gray-400"}>
-                                    {props.offer.type == OfferType.PLAN && "/měsíc"}
-                                </p>
-                            }
+                            <p className={"font-semibold text-xl"}>{props.offer.price}Kč</p>
+                            <p className={"text-gray-500 text-sm dark:text-gray-400"}>
+                                {props.offer.type == OfferType.PLAN && "/měsíc"}
+                            </p>
                         </div>
                         {points && <FormattedPoints points={points}/>}
                     </div>
@@ -202,6 +202,7 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null}) => {
 
                         <LockClosed color={"#fff"}/> Zaplatit
                     </Button>
+                    <p className={"text-gray-500 text-sm"}>Zabezpečeno technologií Stripe</p>
                 </CustomCard>
 
                 {/*<CustomCard className={"mx-0 w-full text-left"}>
@@ -233,8 +234,35 @@ const PlanCard = (props: {
     currentOffer?: boolean,
     onClick: (offer: z.infer<typeof Offer>) => void,
     offer?: z.infer<typeof Offer> }) => {
+    const [cancelling, setCancelling] = useState(false);
+    const [cancellingError, setCancellingError] = useState<string | null>(null);
+    const [popupShown, setPopupShown] = useState(false);
+    const cancelSubscriptionMutation = trpc.offers.cancelSubscription.useMutation({
+        onSuccess: () => {
+            //props.onClick(props.offer!);
+            notifications.show({
+                title: 'Hotovo!',
+                message: 'Předplatné bylo zrušeno. Jakmile se dokončí aktuální období, nebudete již fakturováni.',
+                color: 'green',
+            });
+            setPopupShown(false);
+        },
 
+        onError: (error) => {
+            notifications.show({
+                title: 'Při rušení se něco pokazilo',
+                message: "Prosím kontaktujte nás, nebo to zkuste později." + error,
+                color: 'red',
+            });
+            setCancellingError("Při rušení se něco pokazilo. Prosím kontaktujte nás, nebo to zkuste později. " + error);
+        },
+
+        onSettled: () => {
+            setCancelling(false);
+        }
+    });
     const tokenPoint = "Až ~" + Utils.tokensToWords(props.offer?.tokens) + " slov";
+
     return (
         <div>
             <CustomCard className={`w-full h-full ${props.currentOffer && "border-amber-400 border-2"}`}>
@@ -270,7 +298,23 @@ const PlanCard = (props: {
                         <p className={"font-bold text-lg text-center my-0 text-amber-400"}>
                             Současné předplatné
                         </p>
-                        <Button style={Style.NONE} className={"text-gray-400 text-sm m-0 p-0"}>Zrušit předplatné</Button>
+
+                        <Popup unclosable={cancelling} open={popupShown} setOpen={setPopupShown}
+                               trigger={
+                            <Button style={Style.NONE} className={"text-gray-400 text-sm m-0 p-0"}>
+                                Zrušit předplatné
+                            </Button>} title={"Opravdu chcete zrušit předplatné?"}>
+                            <p className={"text-gray-400"}>
+                                Vaše předplatné bude zrušeno a další měsíc nebudete fakturování. Období, které
+                                jste již zaplatili, vám zůstane.
+                            </p>
+
+                            <Button loading={cancelling} loadingText={"RUŠENÍ..."} onClick={() => {
+                                setCancelling(true);
+                                cancelSubscriptionMutation.mutate();
+                            }} style={Style.NONE} className={"mt-4"}>ZRUŠIT PŘEDPLATNÉ</Button>
+                            {cancellingError && <p className={"text-red-500"}>{cancellingError}</p>}
+                        </Popup>
                     </div>
                 }
             </CustomCard>

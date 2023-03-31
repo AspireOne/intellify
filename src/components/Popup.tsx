@@ -11,12 +11,16 @@ export function AutoPopup(props: React.PropsWithChildren<{className?: string, tr
             {props.children}
         </Popup>);
 }
-export default function Popup(props: React.PropsWithChildren<{className?: string, trigger?: React.ReactElement, open: boolean, setOpen: (open: boolean) => void, title: string}>) {
+export default function Popup(props: React.PropsWithChildren<{className?: string, trigger?: React.ReactElement, open: boolean, setOpen: (open: boolean) => void, unclosable?: boolean, title: string}>) {
     return (
         <>
             {
                 props.trigger &&
-                <div onClick={() => props.setOpen(!props.open)} className={"inline hover:cursor-pointer"}>
+                <div onClick={() => {
+                    if (props.open && !props.unclosable) props.setOpen(false)
+                    if (!props.open) props.setOpen(true)
+                }}
+                     className={"inline hover:cursor-pointer"}>
                     {props.trigger}
                 </div>
             }
@@ -32,11 +36,15 @@ export default function Popup(props: React.PropsWithChildren<{className?: string
                             animate={{ opacity: 1, backdropFilter: "blur(2px)"}}
                             exit={{ opacity: 0, backdropFilter: "blur(0px)"}}
 
-                            onClick={(e) => props.setOpen(false)}
+                            onClick={(e) => {
+                                if (props.open && !props.unclosable) props.setOpen(false)
+                                if (!props.open) props.setOpen(true)
+                            }}
                             className={twMerge("fixed top-0 left-0 w-full h-full " +
                                 "bg-black bg-opacity-40 flex justify-center items-center " + (props.className ?? ""))}>
                             <div onClick={(e) => e.stopPropagation()} className="relative mx-auto min-w-[300px] break-word max-w-[600px] bg-t-alternative-700 rounded-lg p-6 pb-8">
-                                <Close color={"#b2b2b2"} width={"30px"} height={"auto"} cssClasses={"cursor-pointer absolute right-3 top-3"} onClick={() => props.setOpen(false)}/>
+                                <Close color={"#b2b2b2"} width={"30px"} height={"auto"} cssClasses={"cursor-pointer absolute right-3 top-3"}
+                                       onClick={() => !props.unclosable && props.setOpen(false)}/>
                                 <h2 className={"font-bold text-2xl text-center mb-2 bg-gradient-to-r from-indigo-500 to-pink-500 text-transparent bg-clip-text"}>{props.title}</h2>
                                 {props.children}
                             </div>

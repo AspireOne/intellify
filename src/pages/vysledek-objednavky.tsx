@@ -25,6 +25,22 @@ const OrderResult: NextPage = () => {
         query.mutate({session: params.session_id});
     }, []);
 
+    /*const offer = trpc.offers.*/
+    /*const [width, setWidth] = useState<null | number>(null);
+    const [height, setHeight] = useState<null | number>(null);
+
+    useEffect(() => {
+        function handleResize() {
+            setWidth(window.innerWidth);
+            setHeight(window.innerHeight);
+        }
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);;
+    }, []);*/
+
+    const {width, height} = useWindowSize();
+
     useEffect(() => {
         (document.getElementById("music")! as HTMLAudioElement).play().catch((error) => {
             document.addEventListener('click', () => {
@@ -34,14 +50,15 @@ const OrderResult: NextPage = () => {
     }, []);
 
     return (
-        <div className={"overflow-x-hidden"}>
+        <div className={"overflow-hidden relative"}>
             <Confetti
-                className={"overflow-x-hidden w-full h-full"}
+                width={width}
+                height={height + 10}
                 /*recycle={false}*/
             />
             {/*Play mp3*/}
             <audio id={"music"} autoPlay={true} src="/assets/prock.mp3" controls={false}  />
-            <ArticleDiv className="overflow-x-hidden flex items-center justify-center h-screen">
+            <ArticleDiv className="flex items-center justify-center h-screen">
                 <div>
                     <PageTitle className={"title-highlighted mt-0"}>Děkujeme!</PageTitle>
                     <Subtitle className={"text-center"}>
