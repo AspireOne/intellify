@@ -20,7 +20,7 @@ import NoPaddingDiv from "../components/NoPaddingDiv";
 // TODO: ADD _document.tsx or <Head> to every page.
 const Home: NextPage = () => {
     const el = useRef(null);
-    const session = useSession();
+    const {status} = useSession();
 
     const [isPc, setIsPc] = React.useState(true);
 
@@ -79,8 +79,8 @@ const Home: NextPage = () => {
                     </div>
 
                     <Button className={"text-lg mt-12 h-14 w-48 text-gray-200 font-bold"}>
-                        <Link href={paths.sign}>
-                            Přihlásit se
+                        <Link href={status === "authenticated" ? paths.tools : paths.sign}>
+                            {status === "authenticated" ? "Přejít do nástrojů" : "Přihlásit se"}
                         </Link>
                     </Button>
                 </motion.div>
@@ -134,9 +134,10 @@ const Home: NextPage = () => {
                 více v kratším čase.
                 </span>
                     <Button className={"mt-4 w-44"}>
-                        <Link href={paths.sign} className={"text-sm font-bold"}>Připojit se</Link>
+                        <Link href={status === "authenticated" ? paths.tools : paths.sign} className={"text-sm font-bold"}>
+                            {status === "authenticated" ? "Přejít do nástrojů" : "Připojit se"}
+                        </Link>
                     </Button>
-
                 </TextElementPair>
             </div>
 
@@ -199,7 +200,7 @@ const Home: NextPage = () => {
                 <div className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
                     <Button className={"w-52"}>
-                        <Link href={paths.sign}>Registrovat se</Link>
+                        <Link href={status === "authenticated" ? paths.tools : paths.sign}>{status === "authenticated" ? "Otevřít nástroje" : "Registrovat se"}</Link>
                     </Button>
                 </div>
             </div>
