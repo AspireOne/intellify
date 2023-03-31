@@ -84,11 +84,12 @@ function CompanyPlanTools(props: {locked: boolean}) {
 function ToolSection(props: PropsWithChildren<{title: string, locked: boolean}>) {
     return (
         <div className={"mb-8"}>
-            <div className={"flex flex-row items-center gap-3 mb-2"}>
+            <div className={"flex flex-row flex-wrap items-center gap-3 mb-2"}>
                 <Title size={2}>
                     {props.title}
                 </Title>
                 <LockMarker locked={props.locked}/>
+                {props.locked && <AvailableWithTokens/>}
             </div>
             <div className="flex flex-row flex-wrap gap-8 sm:gap-4 bg-gray-800/20 justify-start rounded-lg p-4">
                 {props.children}
@@ -99,21 +100,22 @@ function ToolSection(props: PropsWithChildren<{title: string, locked: boolean}>)
 
 function LockMarker(props: {locked: boolean}) {
     return (
-        <div className={"flex flex-row items-center justify-center gap-2"}>
+        <div>
             <Link href={paths.pricing} className={`py-1 px-3 flex flex-row justify-center items-center gap-1 rounded-full ${props.locked ? "bg-red-500/50" : "bg-green-500/50"}`}>
                 {props.locked ? <AiOutlineLock/> : <AiOutlineUnlock/>}
             </Link>
-            {
-                props.locked &&
-                <span className={"py-1 text-sm px-3 bg-white/10 rounded-full flex flex-row items-center justify-center gap-2"}>
-                    <AiOutlineInfoCircle/>
-                    Dostupné s koupenými slovy
-                </span>
-            }
         </div>
     )
 }
 
+function AvailableWithTokens() {
+    return (
+        <span className={"py-1 text-sm px-3 bg-white/10 rounded-full flex flex-row items-center justify-center gap-2"}>
+            <AiOutlineInfoCircle/>
+            Dostupné s koupenými slovy
+        </span>
+    )
+}
 function ToolCard(props: {icon: IconType, color?: string, href: string, description: string, index: number, comingSoon: boolean}) {
     // Define an array of background colors to create a gradient effect
     const colors = ['#FCA5A5', '#eee47c', '#A7F3D0', '#6EE7B7', '#6EE7E7', '#C3A5F8', '#F5A5F7'].map((color) => color + "90");
