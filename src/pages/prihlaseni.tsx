@@ -21,7 +21,7 @@ const Sign: NextPage = () => {
     }, [typeof localStorage]);
 
     return (
-        <div className="flex flex-col items-center justify-center mx-auto h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center mx-auto h-screen lg:py-0 my-4">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-white">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                      alt="logo"/>
@@ -31,12 +31,12 @@ const Sign: NextPage = () => {
                 className="w-full rounded-md shadow border md:mt-0 sm:max-w-lg xl:p-0 bg-t-alternative-700 border-gray-700">
                 {/*Create two tabs - login and register. Do not use headless ui.*/}
                 <div className={"flex flex-row"}> {/*TODO: border | border-b border-1*/}
-                    <Button onClick={() => setType("login")}
-                            className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "login" ? "bg-gray-600" : "")}>Přihlášení</Button>
-                    <Button onClick={() => setType("register")}
-                            className={"rounded-none rounded bg-transparent m-1 hover:bg-gray-500 hover:bg-opacity-40 p-3 w-full " + (type == "register" ? "bg-gray-600" : "")}>Registrace</Button>
+                    <Button style={Style.NONE} onClick={() => setType("login")}
+                            className={"rounded m-1 hover:bg-gray-500/40 p-3 w-full " + (type == "login" ? "bg-gray-600" : "")}>Přihlášení</Button>
+                    <Button style={Style.NONE} onClick={() => setType("register")}
+                            className={"rounded m-1 hover:bg-gray-500/40 p-3 w-full " + (type == "register" ? "bg-gray-600" : "")}>Registrace</Button>
                 </div>
-                <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <div className="pt-6 space-y-4 md:space-y-6 sm:p-8">
                     <Title type={type}/>
                     <ExternalLoginButtons/>
                     <OrDivider/>
@@ -98,6 +98,7 @@ const FormHelperButtons = (props: { type: "login" | "register" }) => {
     return (
         <div className="flex items-center justify-between">
             <div className="flex items-start">
+                {/*TODO: Implement "remember?"*/}
                 {
                     props.type == "login" &&
                     <div className="flex items-center h-5">
@@ -110,13 +111,14 @@ const FormHelperButtons = (props: { type: "login" | "register" }) => {
                     </div>
                 }
             </div>
-            {
+            {/*TODO: Implement "forgot password?"*/}
+            {/*{
                 props.type == "login" &&
                 <a href="#"
                    className="text-sm font-medium text-primary-600 hover:underline text-gray-300">Zapomněli jste
                     heslo?
                 </a>
-            }
+            }*/}
         </div>
     )
 }
@@ -134,16 +136,21 @@ const FormSubmitButton = (props: { type: "login" | "register", loading: boolean,
 }
 
 const Form = (props: { type: "login" | "register" }) => {
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-
-    const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
+
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+
+    const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState<string | null>(null);
 
     const [loginError, setLoginError] = useState<string | null>(null);
     const [registerError, setRegisterError] = useState<string | null>(null);
+
+    const [name, setName] = useState("");
+
+    const [surname, setSurname] = useState("");
 
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
@@ -184,7 +191,7 @@ const Form = (props: { type: "login" | "register" }) => {
         }
 
         try {
-            await registerMutation.mutateAsync({email, password});
+            await registerMutation.mutateAsync({email, password, name, surname});
             Ls.hasBeenSigned = true;
             const autoLoginError = await login(email, password);
             if (autoLoginError) setRegisterError("Registrace byla úspěšná, ale nepodařilo se přihlásit. Zkuste to prosím později. " + autoLoginError);
@@ -199,6 +206,18 @@ const Form = (props: { type: "login" | "register" }) => {
     return (
         <>
             <form className="space-y-4">
+                {
+                    props.type === "register" &&
+                    <div className={"flex flex-row gap-4"}>
+                        <Input theme={"gray"} label={"Jméno"}
+                               placeholder={"Jméno (nepovinné)"} maxLen={30}
+                               onChange={setName} value={name}/>
+                        <Input theme={"gray"} label={"Přijmení"}
+                               placeholder={"Přijmení (nepovinné)"} maxLen={30}
+                               onChange={setSurname} value={surname}/>
+                    </div>
+                }
+
                 <Input theme={"gray"} label={"E-Mail"} placeholder="jmeno@poskytovatel.cz"
                        maxLen={255} onChange={(val) => {
                     setEmail(val);

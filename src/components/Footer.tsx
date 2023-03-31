@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import {paths} from "../lib/constants";
 import Contact from "../pages/kontakt";
+import {AiOutlineHeart, AiFillHeart} from "react-icons/ai";
 
 const Footer: NextPage = () => {
     return (
@@ -10,8 +11,8 @@ const Footer: NextPage = () => {
             className="p-4 mt-3 rounded-t-md shadow md:p-6 bg-t-blue-700">
             <div className={"md:flex md:items-center md:justify-between"}>
                 <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                © 2023 <a href="https://www.linkedin.com/in/matej-pesl/" className="hover:underline">Matěj Pešl</a>. All Rights Reserved.
-            </span>
+                    Made with <AiFillHeart color={"red"} className={"inline"}/> by © 2023 <a href="https://www.linkedin.com/in/matej-pesl/" className="hover:underline">Matěj Pešl</a>. All Rights Reserved.
+                </span>
                 <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
                     {/*<li>
                     <Link href="/o-nas" className="mr-4 hover:underline md:mr-6 ">O nás</Link>

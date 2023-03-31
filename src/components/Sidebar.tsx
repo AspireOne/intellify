@@ -25,7 +25,10 @@ const Sidebar: NextPage = () => {
     // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
     const [isOpen, setIsOpen] = useState(false);
     const session = useSession();
-    const {data} = trpc.user.getUser.useQuery();
+    const {data, status} = trpc.user.getUser.useQuery(undefined, {
+        retry: false,
+        refetchOnWindowFocus: false,
+    });
 
     useEffect(() => {
         const open = window.innerWidth > 768;
@@ -93,15 +96,16 @@ const Sidebar: NextPage = () => {
                                 <ListItem
                                     text={session.data.user?.name || "Profil"}
 
-                                    remaining={data && {
-                                        freeTokens: data.remainingFreeTokens,
-                                        subTokens: data.subscription ? data.subscription.remainingTokens : 0
+                                    remaining={
+                                    !data ? null : {
+                                        freeTokens: data?.remainingFreeTokens ?? 0,
+                                        subTokens: data?.subscription?.remainingTokens ?? 0
                                     }}
                                     link={paths.profile}
                                     icon={session.data.user?.image
                                         ? (<img
                                             className={"rounded-full"}
-                                            width={25}
+                                            width={35}
                                             height={"auto"}
                                             src={session.data.user?.image}/>)
                                         : <Person color={"#fff"}/>}/>
@@ -156,7 +160,7 @@ const Category = (props: React.PropsWithChildren<{text: string}>) => {
 }
 
 function ListItem(props: {icon?: any, text: string, className?: string, onClick?: () => void, link?: string,
-    isCategoryItem?: boolean, alignBottom?: boolean, remaining?: {subTokens: number, freeTokens: number}}
+    isCategoryItem?: boolean, alignBottom?: boolean, remaining?: {subTokens: number, freeTokens: number} | null}
 ) {
     const [active, setActive] = useState(false);
 
@@ -179,9 +183,13 @@ function ListItem(props: {icon?: any, text: string, className?: string, onClick?
                     {props.text}
                 </span>
                 {
-                    props.remaining &&
+                    props.remaining !== undefined &&
                     <div className={"-mt-1 -ml-1 px-2 text-sm rounded-full bg-orange-400/20"}>
-                        {Utils.tokensToWords(props.remaining.subTokens + props.remaining.freeTokens)} slov
+                        {
+                            props.remaining === null
+                            ? <Skeleton className={"rounded-full"}/>
+                            : `${Utils.tokensToWords(props.remaining?.subTokens + props.remaining?.freeTokens)} slov`
+                        }
                     </div>
                 }
             </div>

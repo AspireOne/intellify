@@ -195,8 +195,8 @@ const Home: NextPage = () => {
             </div>
 
             <div style={{backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/c-shape-blur.svg')`, backgroundSize: "2800 2000"}}
-                          className={"w-full bg-cover flex justify-center sm:py-32 sm:min-h-min h-screen"}>
-                <div className={"w-full h-full flex flex-col items-center justify-center text-center"}>
+                          className={"w-full bg-cover flex justify-center px-4 sm:py-32 sm:min-h-min h-screen"}>
+                <div className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
                     <Button className={"w-52"}>
                         <Link href={paths.sign}>Registrovat se</Link>

@@ -18,13 +18,18 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
     }
 
     const hashedPass = await Password.hashPassword(input.password);
-    console.log("hashed pass: " + hashedPass);
 
     try {
-        await User.create({email: input.email, password: hashedPass, image: "https://user-images.githubusercontent.com/57546404/216829624-4e906eea-77da-48dd-983a-12c627685061.png"});
+        await User.create({
+            email: input.email,
+            password: hashedPass,
+            name: (input.name ?? "") + (input.surname ?? "") || undefined,
+            image: "https://user-images.githubusercontent.com/57546404/216829624-4e906eea-77da-48dd-983a-12c627685061.png"});
     } catch (e) {
+        console.error(e);
         throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
+            cause: e,
             message: "Něco se pokazilo.",
         });
     }

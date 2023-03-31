@@ -44,9 +44,11 @@ const Button = (props: ButtonProps) => {
 
         case Style.FILL:
         default:
-            styling =
-                (!isBeingClicked && !props.loading && " hover:bg-indigo-500")
-                + (isBeingClicked ? " bg-indigo-800" : props.loading ? " bg-indigo-800" : " bg-indigo-700")
+            styling = twMerge(
+                "shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]",
+                !isBeingClicked && !props.loading && "hover:bg-indigo-500",
+                isBeingClicked ? "bg-indigo-800" : props.loading ? "bg-indigo-800" : "bg-indigo-700"
+            )
             break;
     }
 
@@ -59,10 +61,8 @@ const Button = (props: ButtonProps) => {
             }}
             onMouseDown={() => setIsBeingClicked(true)}
             disabled={props.loading}
-            className={twMerge("duration-200 font-medium rounded-md text-md text-gray-200 px-5 py-2.5 outline-none focus:outline-none "
-                + (props.loading && " cursor-default")
-                + styling + " "
-                + (props.className ?? ""))}>
+            className={twMerge("duration-200 font-medium rounded-md text-md text-gray-200 px-5 py-2.5 outline-none focus:outline-none",
+                props.loading && "cursor-default", styling, props.className)}>
 
             {props.loading && <Spinner className={(props.loadingText || props.children) ? `mr-2` : ""}/>}
             {

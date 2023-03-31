@@ -1,4 +1,10 @@
-import {GetStaticPropsContext, InferGetStaticPropsType,} from "next";
+import {
+    GetServerSideProps,
+    GetServerSidePropsContext,
+    GetStaticPropsContext,
+    InferGetServerSidePropsType,
+    InferGetStaticPropsType,
+} from "next";
 import Button, {Style} from "../components/Button";
 import React, {useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
@@ -27,8 +33,8 @@ import {notifications} from "@mantine/notifications";
 type subscriptionState = "active" | "cancelled" | null;
 
 // This function gets called at build time
-export async function getStaticProps(
-    context: GetStaticPropsContext<{}>,
+export async function getServerSideProps(
+    context: GetServerSidePropsContext<{}>,
 ) {
     const ssg = createProxySSGHelpers({
         router: appRouter,
@@ -40,11 +46,11 @@ export async function getStaticProps(
         props: {
             trpcState: ssg.dehydrate(),
         },
-        revalidate: 1,
+        /*revalidate: 1,*/
     };
 }
 
-const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Subscription = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const offers = trpc.offers.getOffers.useQuery();
     const user = trpc.user.getUser.useQuery();
     const session = useSession();

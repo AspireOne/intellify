@@ -3,9 +3,9 @@ import PageTitle from "../components/PageTitle";
 import Subtitle from "../components/Subtitle";
 import {ArticleDiv} from "../components/article";
 import {useEffect, useState} from "react";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
 import {trpc} from "../lib/trpc";
-import {Offer} from "../server/schemas/offers";
+import {Offer, OfferType} from "../server/schemas/offers";
 import {z} from "zod";
 import Card from "../components/Card";
 import Utils from "../lib/utils";
@@ -92,7 +92,7 @@ function OfferDetails(props: {offer?: z.infer<typeof Offer>, className?: string}
                     props.offer &&
                     <>
                         <p><b>Cena</b>: {props.offer.price} Kč</p>
-                        <p><b>Maximum slov</b>: {Utils.tokensToWords(props.offer?.tokens)}</p>
+                        <p><b>{props.offer.type == OfferType.ONETIME ? "Zakoupeno slov" : "Maximum slov"}</b>: {Utils.tokensToWords(props.offer?.tokens)}</p>
                     </>
                 }
             </div>
