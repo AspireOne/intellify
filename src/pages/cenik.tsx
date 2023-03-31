@@ -324,6 +324,7 @@ const ActiveSubscriptionSection = (props: {state: subscriptionState}) => {
         )
     }
 
+    // TODO: Add "Obnovit" button with a popup asking if they want to restore the subscription. Easy.
     if (props.state === "cancelled") {
         return (
             <div>
