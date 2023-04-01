@@ -52,8 +52,11 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
 
     return (
         <div className={"sm:mx-14"}>
-            <PageHead title={"Kontaktujte nás"} description="Kontaktní formulář a informace pro Open Tools. Ať už máte
-            problém, otázku, nebo pochvalu, neváhejte se ozvat."/>
+            {
+                !props.isInFooter &&
+                <PageHead title={"Kontaktujte nás"} description="Kontaktní formulář a informace pro Open Tools. Ať už máte
+                problém, otázku, nebo pochvalu, neváhejte se ozvat."/>
+            }
             {
                 !props.isInFooter &&
                 <PageHeaderDiv>

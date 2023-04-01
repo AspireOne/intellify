@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
     return (
-        <Html lang={"cs"} >
+        <Html lang={"cs"}>
             <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <meta name="author" content="Matěj Pešl" />

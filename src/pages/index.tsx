@@ -22,6 +22,7 @@ import PageHead from "../components/PageHead";
 
 // TODO before launch: replace emails, replace name, connect IČO, Stripe Domain + firm + name, google auth Domain
 // TODO change seznam email...
+// TODO submit to webwiki
 
 // TODO before launch: Fix sidebar on mobile.
 const Home: NextPage = () => {
@@ -83,7 +84,7 @@ const Home: NextPage = () => {
                     className={"text-center mt-44 mx-auto px-2 max-w-[800px] min-h-full"}
                 >
                     <div className={"flex flex-col gap-10 text-center justify-center"}>
-                        <Title className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font m-0">
+                        <Title level={1} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font m-0">
                             Nejlepší A.I. Nástroj na
                             <div className={"sm:my-4"}/>
                             <span className={"title-highlighted"} ref={el}></span>
@@ -206,7 +207,7 @@ const Home: NextPage = () => {
                     </div>
 
                     <div className={"flex flex-col sm:flex-row sm:items-center gap-5 mt-8"}>
-                        <Title size={3} className={"text-gray-300"}>... A mnohem více</Title>
+                        <Title level={"none"} size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span className={"hidden sm:block"}>•</span>
                         <Button style={Style.OUTLINE} className={"sm:w-content"}>
                             <Link className={"w-content"} href={paths.tools}>Prohlédnout všechny nástroje</Link>
