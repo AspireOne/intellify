@@ -23,7 +23,7 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
         await User.create({
             email: input.email,
             password: hashedPass,
-            name: (input.name ?? "") + (input.surname ?? "") || undefined,
+            name: (!input.name && !input.surname ? undefined : `${input.name} ${input.surname}`),
             image: "https://user-images.githubusercontent.com/57546404/216829624-4e906eea-77da-48dd-983a-12c627685061.png"});
     } catch (e) {
         console.error(e);
