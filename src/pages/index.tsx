@@ -18,11 +18,12 @@ import NoPaddingDiv from "../components/NoPaddingDiv";
 import Ls from "../lib/ls";
 import Head from "next/head";
 import PageHead from "../components/PageHead";
+import {trpc} from "../lib/trpc";
 
 
-// DONE: Replace name
+// DONE: Replace name, google auth domain
 
-// TODO before launch: replace emails, replace name, connect IČO, Stripe Domain + firm + name, google auth Domain
+// TODO before launch: replace emails, connect IČO, Stripe Domain + firm + name
 // TODO change seznam email...
 // TODO submit to webwiki
 

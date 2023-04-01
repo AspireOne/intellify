@@ -88,7 +88,7 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
                     </IconTextWrapper>
                     <IconTextWrapper>
                         <MailOpen color={"#fff"} width={"20px"}/>
-                        <a href={"mailto:matejpesl1@gmail.com"}>matejpesl1@gmail.com</a>
+                        <a href={"mailto:info@intellify.cz"}>info@intellify.cz</a>
                     </IconTextWrapper>
                 </Card>
                 <Form className={"flex-1 min-w-fit max-w-5xl"}>

@@ -15,6 +15,10 @@ export const appRouter = router({
     user: userRouter,
     generalAi: generalAiRouter,
     offers: offersRouter,
+    /*sendTestMail: publicProcedure
+        .mutation(async ({ctx}) => {
+            await Email.sendTestMail("matejpesl1@gmail.com");
+        }),*/
     contactUs: publicProcedure
         .input(z.object({
             email: z.string().min(1, {message: "Email je povinný."}).email({message: "Email není ve správném formátu."}),

@@ -4,7 +4,6 @@ import Utils from "./utils";
 import {Session} from "next-auth";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 
-export const email = "matejpesl1@seznam.cz";
 export const transport: SMTPTransport.Options = {
     host: process.env.EMAIL_HOST!,
     port: parseInt(process.env.EMAIL_PORT!),
@@ -13,13 +12,13 @@ export const transport: SMTPTransport.Options = {
         user: process.env.EMAIL_USERNAME!,
         pass: process.env.EMAIL_PASSWORD!,
     },
-    from: `Intellify <${email}>`,
+    from: `Intellify <${process.env.EMAIL_USERNAME}>`,
 }
 const transporter = createTransport(transport);
 export default class Email {
-    public static async sendTestMail() {
+    public static async sendTestMail(email: string) {
         await transporter.sendMail({
-            to: "matejpesl1@gmail.com",
+            to: email,
             subject: "Testovací email z Intellify",
             text: "Toto je text testovacího mailu z Intellify",
             from: `Intellify <${process.env.EMAIL_USERNAME}>`,
@@ -32,7 +31,7 @@ export default class Email {
 
     public static async sendContactUsMail(session: Session | null, userEmail: string, message: string, phone?: string, subject?: string) {
         await transporter.sendMail({
-            to: "matejpesl1@gmail.com",
+            to: "info@intellify.cz",
             subject: "Uživatel vás kontaktoval z kontaktního formuláře na Intellify",
             text: `
 Zadáno do formuláře: ${userEmail}${phone ? " • " + phone : ""}

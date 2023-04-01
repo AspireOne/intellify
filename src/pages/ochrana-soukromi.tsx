@@ -48,7 +48,7 @@ const PrivacyPolicy: NextPage = () =>  {
                     upravovat i mazat, stejně jako odvolat svůj souhlas s jejich použitím. Doba, po kterou budou Vaše osobní
                     údaje uloženy: čas potřebný k využití údajů pro hlavní činnost webu. V případě ukončení používání Vašich
                     údajů je správa webu odstraní. Pro přístup k Vašim osobním údajům můžete kontaktovat správu webu na adrese:
-                    matejpesl1@gmail.com. Vaše osobní údaje můžeme poskytnout třetím stranám pouze s Vaším dobrovolným
+                    info@intellify.cz. Vaše osobní údaje můžeme poskytnout třetím stranám pouze s Vaším dobrovolným
                     souhlasem, pokud však už byly převedeny, pak tyto údaje nemůžeme měnit, jsou-li už uvedené u jiných
                     organizací, které s námi nesouvisejí.
                 </p>
@@ -65,7 +65,7 @@ const PrivacyPolicy: NextPage = () =>  {
 
                 <p>
                     Pokud jste rodičem, nebo opatrovníkem a zjistili jste, že Vaše děti nám poskytly své osobní údaje bez Vašeho
-                    souhlasu, kontaktujte nás: matejpesl1@gmail.com. Naše služba zakazuje ukládat osobní údaje nezletilých bez
+                    souhlasu, kontaktujte nás: info@intellify.cz. Naše služba zakazuje ukládat osobní údaje nezletilých bez
                     souhlasu rodičů nebo opatrovníků.
                 </p>
 
@@ -117,7 +117,7 @@ const PrivacyPolicy: NextPage = () =>  {
 
                 <p>
                     Máte-li jakékoliv dotazy, související se zásadami ochrany osobních údajů, kontaktujte správce webu
-                    {hostname}, přes: matejpesl1@gmail.com, nebo využijte kontaktní formulář, uvedený v příslušné části
+                    {hostname}, přes: info@intellify.cz, nebo využijte kontaktní formulář, uvedený v příslušné části
                     tohoto webu. Pokud s těmito zásadami ochrany osobních údajů nesouhlasíte, nemůžete nadále využívat služby
                     webu {hostname}. V takovém případě se musíte vzdát možnosti navštěvovat naše stránky.
                 </p>
