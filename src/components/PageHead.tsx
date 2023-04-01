@@ -5,7 +5,7 @@ export default function PageHead(props: PropsWithChildren<{title: string, descri
     return (
         <Head>
             <title>{props.title + " | Open Tools"}</title>
-            {props.description && <meta name="description" content={props.description} />}
+            {props.description && <meta key={"page-description"} name="description" content={props.description} />}
             {props.children}
         </Head>
     )
