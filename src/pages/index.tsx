@@ -69,11 +69,6 @@ const Home: NextPage = () => {
             <PageHead title={"Hlavní stránka"}
                       description="Zrychlete svůj workflow pomocí A.I. nástrojů.
                       Vytvářejte prezentace, upravujte texty, pište maily a mnohem více."/>
-            <Head>
-                <title>Open Tools - hlavní stránka</title>
-                <meta name="description" content="Zrychlete svůj workflow pomocí A.I. nástrojů. Vytvářejte prezentace,
-                upravujte texty, pište maily a mnohem více."/>
-            </Head>
             <div style={{
                 backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/cybergrid.webp')`,
                 }} className={"mb-32 bg-cover w-full h-screen relative"}>
@@ -89,6 +84,7 @@ const Home: NextPage = () => {
                             <div className={"sm:my-4"}/>
                             <span className={"title-highlighted"} ref={el}></span>
                             <img
+                                alt={"Kurzor"}
                                 className={"transform -translate-y-2 sm:-translate-y-3 inline animate-pulse duration-100 h-[3.5rem] sm:h-[4rem] md:h-[5.4rem]"}
                                 src={"/assets/line.svg"}></img>
                         </Title>
@@ -99,11 +95,11 @@ const Home: NextPage = () => {
                         </Subtitle>
                     </div>
 
-                    <Button className={"text-lg mt-12 h-14 w-48 text-gray-200 font-bold"}>
-                        <Link href={showSignedUi ? paths.tools : paths.sign}>
+                    <Link href={showSignedUi ? paths.tools : paths.sign}>
+                        <Button className={"text-lg mt-12 h-14 w-48 text-gray-200 font-bold"}>
                             {showSignedUi ? "Přejít do nástrojů" : "Přihlásit se"}
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 </motion.div>
             </div>
 
@@ -117,7 +113,7 @@ const Home: NextPage = () => {
                 <TextElementPair
                     text={"Revolucionalizujte svůj workflow ⚡"}
                     element={
-                        <img src={"/assets/about-image.svg"} className={"h-64 mx-auto"}/>}
+                        <img alt={"Ilustrační obrázek sekce Revolucionalizujte"} src={"/assets/about-image.svg"} className={"h-64 mx-auto"}/>}
                     textSide={isPc && "left"}
                 >
                     Naše nástroje založené na umělé inteligenci jsou navrženy tak, aby vaši práci usnadnily, zrychlily a zefektivnily.
@@ -128,7 +124,7 @@ const Home: NextPage = () => {
                 {/*TODO: Make parts of text light blue or etc.?*/}
                 <TextElementPair
                     text={"Rozviňte svou kreativitu 💡"}
-                    element={<img src={"/assets/ai.png"} className={"mx-auto h-56"}/>}
+                    element={<img alt={"Ilustrační obrázek sekce Kreativita"} src={"/assets/ai.png"} className={"mx-auto h-56"}/>}
                     textSide={isPc && "right"}
                 >
                     A.I. vám dává jedinečnou možnost nahlédnout za horizont představivosti, který byste vy sami neobjevili - přizpůsobeně
@@ -137,7 +133,7 @@ const Home: NextPage = () => {
                 </TextElementPair>
 
                 <TextElementPair text={"Bezpečnost a soukromí jsou naší prioritou 🔒"}
-                                 element={<img src={"/assets/shield.png"} className={"mx-auto h-64 w-auto"}/>}
+                                 element={<img alt={"Ilustrační obrázek sekce Zabezpečení"} src={"/assets/shield.png"} className={"mx-auto h-64 w-auto"}/>}
                                  textSide={isPc && "left"}>
                     Věříme, že soukromí a bezpečnost vašich dat by měla být na prvním místě. Nástroje jsou
                     navrženy s ohledem na bezpečnost a všechna data jsou zpracována a uchovávána v souladu s nejmodernějšími
@@ -146,7 +142,7 @@ const Home: NextPage = () => {
 
                 <TextElementPair
                     text={"Připojte se k převratu A.I. ✊"}
-                    element={<img src={"/assets/globe.png"} className={"mx-auto h-72"}/>}
+                    element={<img alt={"Ilustrační obrázek sekce A.I. Převrat"} src={"/assets/globe.png"} className={"mx-auto h-72"}/>}
                     textSide={isPc && "right"}
                 >
                 <span className={"block"}>
@@ -154,11 +150,11 @@ const Home: NextPage = () => {
                 dostali na další úroveň. Naše nástroje jsou snadno použitelné, cenově dostupné a navrženy tak, aby vám pomohly dosáhnout
                 více v kratším čase.
                 </span>
-                    <Button className={"mt-4 w-44"}>
-                        <Link href={showSignedUi ? paths.tools : paths.sign} className={"text-sm font-bold"}>
+                    <Link href={showSignedUi ? paths.tools : paths.sign} className={"text-sm font-bold"}>
+                        <Button className={"mt-4 w-44"}>
                             {showSignedUi ? "Přejít do nástrojů" : "Připojit se"}
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 </TextElementPair>
             </div>
 
@@ -209,9 +205,11 @@ const Home: NextPage = () => {
                     <div className={"flex flex-col sm:flex-row sm:items-center gap-5 mt-8"}>
                         <Title tag={"none"} size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span className={"hidden sm:block"}>•</span>
-                        <Button style={Style.OUTLINE} className={"sm:w-content"}>
-                            <Link className={"w-content"} href={paths.tools}>Prohlédnout všechny nástroje</Link>
-                        </Button>
+                        <Link className={"w-content"} href={paths.tools}>
+                            <Button style={Style.OUTLINE} className={"sm:w-content"}>
+                                Prohlédnout všechny nástroje
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -224,11 +222,11 @@ const Home: NextPage = () => {
                     whileInView={{ opacity: 1 }}
                     className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
-                    <Button className={"w-52"}>
-                        <Link href={showSignedUi ? paths.tools : paths.sign}>
+                    <Link href={showSignedUi ? paths.tools : paths.sign}>
+                        <Button className={"w-52"}>
                             {showSignedUi ? "Otevřít nástroje" : "Registrovat se"}
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 </motion.div>
             </div>
         </NoPaddingDiv>

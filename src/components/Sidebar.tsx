@@ -70,7 +70,7 @@ const Sidebar: NextPage = () => {
                         <div className="text-xl text-gray-100">
                             <div className="p-2.5 mt-1 flex items-center justify-between">
                                 <div className="flex items-center">
-                                    <img width={"35px"} height={"35px"} src={"/assets/logo.png"} />
+                                    <img alt={"Logo"} width={"35px"} height={"35px"} src={"/assets/logo.png"} />
                                     <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
                                 </div>
                                 <div className={"p-2 -mr-2 cursor-pointer " /*+ "lg:hidden"*/} onClick={() => setIsOpen(!isOpen)}>
@@ -116,6 +116,7 @@ const Sidebar: NextPage = () => {
                                     link={paths.profile}
                                     icon={session.data.user?.image
                                         ? (<img
+                                            alt={"Profilový obrázek"}
                                             className={"rounded-full"}
                                             width={35}
                                             height={"auto"}

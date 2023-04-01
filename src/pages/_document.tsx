@@ -5,8 +5,8 @@ export default function Document() {
         <Html lang={"cs"}>
             <Head>
                 <meta name="author" content="Matěj Pešl" />
-                <meta key={"page-description"} name="description" content="Zrychlete svůj workflow pomocí A.I. nástrojů. Vytvářejte prezentace,
-                upravujte texty, pište maily a mnohem více." />
+                {/*<meta key={"description"} name="description" content="Zrychlete svůj workflow pomocí A.I. nástrojů. Vytvářejte prezentace,
+                upravujte texty, pište maily a mnohem více." />*/}
 
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
                 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
