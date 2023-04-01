@@ -4,7 +4,7 @@ import {PropsWithChildren} from "react";
 export default function PageHead(props: PropsWithChildren<{title: string, description?: string}>) {
     return (
         <Head>
-            <title key={"page-title"}>{props.title + " | Open Tools"}</title>
+            <title key={"page-title"}>{props.title + " | Intellify"}</title>
             {props.description && <meta key={"description"} name="description" content={props.description} />}
             {props.children}
         </Head>

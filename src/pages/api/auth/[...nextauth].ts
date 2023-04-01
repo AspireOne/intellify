@@ -25,7 +25,7 @@ export const authOptions: AuthOptions = {
         // TODO: Eventually email verification.
         /*EmailProvider({
             server: transport,
-            from: `Open Tools <${email}>`,
+            from: `Intellify <${email}>`,
             // 1 week.
             maxAge: 7 * 24 * 60 * 60,
             sendVerificationRequest: async (params) => {

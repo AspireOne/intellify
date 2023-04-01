@@ -9,7 +9,7 @@ const License: NextPage = () => {
     return (
         <ArticleDiv>
             <PageHead title={"Licenční podmínky a autorská práva"} description="Licenční podmínky a autorská práva
-            pro Open Tools."/>
+            pro Intellify."/>
             <PageHeaderDiv>
                 <PageTitle>
                     Licenční podmínky a autorská práva

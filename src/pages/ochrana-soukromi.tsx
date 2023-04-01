@@ -15,7 +15,7 @@ const PrivacyPolicy: NextPage = () =>  {
 
     return (
         <ArticleDiv>
-            <PageHead title={"Zásady ochrany soukromí"} description={"Zásady ochrany soukromí pro Open Tools."} />
+            <PageHead title={"Zásady ochrany soukromí"} description={"Zásady ochrany soukromí pro Intellify."} />
             <PageHeaderDiv>
                 <PageTitle>Zásady ochrany soukromí</PageTitle>
             </PageHeaderDiv>

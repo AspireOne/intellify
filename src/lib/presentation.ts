@@ -79,7 +79,7 @@ class Presentation {
     }
 
     public download(name?: string, author?: string): void {
-        this.createPptx(author).writeFile({fileName: (name || "prezentace open-tools") + ".pptx"});
+        this.createPptx(author).writeFile({fileName: (name || "prezentace intellify") + ".pptx"});
     }
 
     private addMainSlide(gen: pptxgen): void {

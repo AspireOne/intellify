@@ -121,7 +121,7 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                     </PageTitle>
                     <Subtitle className="sm:text-xl">
                         Doba jde dopředu, a umělá inteligence se stává nedílným nástrojem produktivity.
-                        Open Tools posouvá hranice aplikací, a umožňuje vám tuto sílu využít.
+                        Intellify posouvá hranice aplikací, a umožňuje vám tuto sílu využít.
                     </Subtitle>
                     {/*
                      -

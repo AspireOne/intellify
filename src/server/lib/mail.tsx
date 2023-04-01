@@ -13,16 +13,16 @@ export const transport: SMTPTransport.Options = {
         user: process.env.EMAIL_USERNAME!,
         pass: process.env.EMAIL_PASSWORD!,
     },
-    from: `Open Tools <${email}>`,
+    from: `Intellify <${email}>`,
 }
 const transporter = createTransport(transport);
 export default class Email {
     public static async sendTestMail() {
         await transporter.sendMail({
             to: "matejpesl1@gmail.com",
-            subject: "Testovací email z Open Tools",
-            text: "Toto je text textovacího mailu z open-tools",
-            from: `Open Tools <${process.env.EMAIL_USERNAME}>`,
+            subject: "Testovací email z Intellify",
+            text: "Toto je text testovacího mailu z Intellify",
+            from: `Intellify <${process.env.EMAIL_USERNAME}>`,
         });
     }
 
@@ -33,14 +33,14 @@ export default class Email {
     public static async sendContactUsMail(session: Session | null, userEmail: string, message: string, phone?: string, subject?: string) {
         await transporter.sendMail({
             to: "matejpesl1@gmail.com",
-            subject: "Uživatel vás kontaktoval z kontaktního formuláře na Open Tools",
+            subject: "Uživatel vás kontaktoval z kontaktního formuláře na Intellify",
             text: `
 Zadáno do formuláře: ${userEmail}${phone ? " • " + phone : ""}
 Session: ${session ? JSON.stringify(session).trim() : "žádná"}
 ________________
 ${subject ? subject + "" : ""}
 ${message}`,
-            from: `Open Tools Kontaktní Formulář <${process.env.EMAIL_USERNAME}>`,
+            from: `Intellify Kontaktní Formulář <${process.env.EMAIL_USERNAME}>`,
         });
     }
 
@@ -65,7 +65,7 @@ ${message}`,
   </tr>
 </table>
             `,
-            from: `Open Tools <${process.env.EMAIL_USERNAME}>`,
+            from: `Intellify <${process.env.EMAIL_USERNAME}>`,
         });
     }
 }

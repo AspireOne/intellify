@@ -23,11 +23,11 @@ const Sign: NextPage = () => {
 
     return (
         <div className="flex flex-col items-center justify-center mx-auto h-screen lg:py-0 my-4">
-            <PageHead title={"Přihlášení"} description={"Přihlašovací stránka do Open Tools. Zrychlete svůj workflow pomocí A.I. nástrojů."}/>
+            <PageHead title={"Přihlášení"} description={"Přihlašovací stránka do Intellify. Zrychlete svůj workflow pomocí A.I. nástrojů."}/>
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-white">
                 <img className="w-8 h-8 mr-2" src="/assets/logo.png"
                      alt="logo"/>
-                Open-Tools
+                Intellify
             </a>
             <Card
                 className="w-full rounded-md shadow border md:mt-0 sm:max-w-lg xl:p-0 bg-t-alternative-700 border-gray-700">

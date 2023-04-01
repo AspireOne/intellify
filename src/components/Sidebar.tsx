@@ -71,7 +71,7 @@ const Sidebar: NextPage = () => {
                             <div className="p-2.5 mt-1 flex items-center justify-between">
                                 <div className="flex items-center">
                                     <img alt={"Logo"} width={"35px"} height={"35px"} src={"/assets/logo.png"} />
-                                    <h3 className="text-gray-200 text-md ml-3">Open Tools</h3>
+                                    <h3 className="text-gray-200 text-md ml-3">Intellify</h3>
                                 </div>
                                 <div className={"p-2 -mr-2 cursor-pointer " /*+ "lg:hidden"*/} onClick={() => setIsOpen(!isOpen)}>
                                     <ChevronBackOutline
@@ -83,7 +83,7 @@ const Sidebar: NextPage = () => {
                             <div className="my-2 bg-gray-600 h-[1px]"></div>
                         </div>
 
-                        <SearchBar/>
+                        {/*<SearchBar/>*/}
 
                         <ListItem text={"Domů"} icon={<Home color={"#fff"}/>} link={paths.index}/>
                         {/*<ListItem text={"Napište nám"} icon={<People color={"#fff"}/>} link={paths.contact}/>*/}

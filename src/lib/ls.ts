@@ -2,7 +2,7 @@
  * Local storage wrapper.
  * */
 export default class Ls {
-    private static readonly prefix = "opentools.";
+    private static readonly prefix = "intellify.";
     private static readonly hasEverBeenSignedInKey = this.prefix + "has_been_signed";
     private static readonly isSignedInKey = this.prefix + "is_signed_in";
 

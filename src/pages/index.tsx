@@ -20,6 +20,8 @@ import Head from "next/head";
 import PageHead from "../components/PageHead";
 
 
+// DONE: Replace name
+
 // TODO before launch: replace emails, replace name, connect IČO, Stripe Domain + firm + name, google auth Domain
 // TODO change seznam email...
 // TODO submit to webwiki

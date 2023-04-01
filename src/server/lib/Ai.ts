@@ -6,7 +6,7 @@ import User from "../mongodb_models/User";
 export class Ai {
     static getDefaultMessages(): ChatCompletionRequestMessage[] {
         return [
-            {role: "system", content: `Jsi nápomocný asistent. Dnešní datum: ${new Date().toLocaleDateString("cs-CZ")}`},
+            {role: "system", content: `Jsi nápomocný asistent GPT-4. Dnešní datum: ${new Date().toLocaleDateString("cs-CZ")}`},
         ]
     }
 
