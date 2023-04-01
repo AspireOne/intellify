@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!sig) return res.status(400).send(`Stripe signature doesn't exist!`);
 
     try {
-        event = stripe.webhooks.constructEvent(buff, sig, process.env.STRIPE_LOCAL_WEBHOOK_SECRET);
+        event = stripe.webhooks.constructEvent(buff, sig, process.env.STRIPE_SIGNING_SECRET);
     } catch (err: any) {
         res.status(400).send(`Webhook Error (possibly wrong Stripe signature?): ${err?.message}`);
         return;
