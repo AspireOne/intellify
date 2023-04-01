@@ -22,10 +22,9 @@ import Utils from "../lib/utils";
 enum ItemType { NORMAL, CATEGORY, PROFILE }
 
 const Sidebar: NextPage = () => {
-    // (typeof localStorage !== "undefined" && localStorage.getItem("sidebar-open") == "true")
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean | undefined>(undefined);
     const session = useSession();
-    const {data, status} = trpc.user.getUser.useQuery(undefined, {
+    const {data} = trpc.user.getUser.useQuery(undefined, {
         retry: false,
         refetchOnWindowFocus: false,
     });
@@ -55,13 +54,18 @@ const Sidebar: NextPage = () => {
             <Menu color={"#fff"} height={"50px"} width={"50px"}
                   onClick={() => setIsOpen(!isOpen)}
                   title={"menu"}
-                  cssClasses={`z-10 border border-gray-700 shadow-lg w-12 fixed top-5 left-4 cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen && "hidden"}`}/>
+                  cssClasses={`
+                  z-10 border border-gray-700 shadow-lg w-12 fixed top-5 left-4 
+                  cursor-pointer bg-t-blue-500 rounded-md p-2.5 ${isOpen && "hidden"}`}/>
 
             <aside onClick={() => {
                 // Close by clicking outside of sidebar only on mobile.
                 if (window.innerWidth <= 768) setIsOpen(false);
             }}
-                   className={`sm:sticky sm:w-min w-full fixed top-0 bottom-0 sm:bg-transparent bg-black/50 z-10 ${!isOpen ? "hidden" : ""}`}
+                   className={twMerge(`
+                   sm:sticky sm:w-min w-full fixed top-0 bottom-0 sm:bg-transparent bg-black/50 z-10
+                   ${isOpen === undefined ? "hidden sm:block" : (!isOpen && "hidden")} 
+                   `)}
                    style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(100vh - env(safe-area-inset-top))" }}>
                 <div className={"sm:sticky p-2 w-[225px] bg-t-blue-700 h-full " +
                     "backdrop-blur-md sm:backdrop-blur-none bg-opacity-80 shadow-2xl"}
