@@ -198,6 +198,7 @@ async function createSession(ctx: Context, offer: z.infer<typeof Offer>, stripe:
                 price_data: {
                     currency: 'CZK',
                     unit_amount: offer.price * 100, // 1 = cent.
+                    tax_behavior: "inclusive",
 
                     recurring: offer.type === OfferType.ONETIME ? undefined : {
                         interval: 'month',
