@@ -18,6 +18,8 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
     }
 
     const hashedPass = await Password.hashPassword(input.password);
+    console.log("-> input.password", input.password);
+    console.log("-> hashedPass", hashedPass);
 
     try {
         await User.create({

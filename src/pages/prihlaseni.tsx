@@ -10,6 +10,7 @@ import Input from "../components/Input";
 import Ls from "../lib/ls";
 import Card from "../components/Card";
 import PageHead from "../components/PageHead";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context";
 
 // TODO: Save logged in status to localstorage, and when a page loads and session status is loading,
 // TODO: temporarily take the login status from localstorage until session loads. Make it an abstraction.
@@ -54,11 +55,9 @@ const ExternalLoginButtons = () => {
         <div className={"flex flex-col sm:flex-row gap-4 text-gray-400 font-bold"}>
             <Button style={Style.OUTLINE}
                     onClick={async () => {
-                        const result = await signIn("google", {redirect: false});
-                        if (result?.ok) {
-                            // TODO: Route to somewhere.
-                        }
-
+                        await signIn("google", {
+                            callbackUrl: "/"
+                        });
                     }}
                     className={"w-full px-2 py-3 bg-transparent border-gray-500 hover:border-gray-500 hover:bg-gray-300"}>
                 <div className={"flex flex-row items-center justify-center gap-2"}>
@@ -185,19 +184,18 @@ const Form = (props: { type: "login" | "register" }) => {
         }
 
         if (props.type === "login") {
-            const loginError = await login(email, password);
+            const {success, error} = await login(email, password);
             setLoading(false);
-            if (loginError) setLoginError("Nepodařilo se přihlásit. " + loginError);
-            else router.push(paths.index);
+            if (!success) setLoginError("Nepodařilo se přihlásit. " + error);
+            else document.location = "/";
             return;
         }
 
         try {
             await registerMutation.mutateAsync({email, password, name, surname});
-            Ls.isSignedIn = true;
-            const autoLoginError = await login(email, password);
-            if (autoLoginError) setRegisterError("Registrace byla úspěšná, ale nepodařilo se přihlásit. Zkuste to prosím později. " + autoLoginError);
-            else router.push(paths.index);
+            const {success, error} = await login(email, password);
+            if (!success) setRegisterError("Registrace byla úspěšná, ale nepodařilo se přihlásit. Zkuste to prosím později.");
+            else document.location = "/";
         } catch (e: any) {
             setRegisterError("Nepodařilo se registrovat. Zkuste to prosím později. " + e.message);
         } finally {
@@ -253,26 +251,22 @@ const Form = (props: { type: "login" | "register" }) => {
 
 /**@returns null if there is no error, string with the error message if there is an error, or empty string if there is
  * an error but no error message.*/
-function login(email: string, password: string): Promise<string | null> {
-    return signIn("credentials", {
+async function login(email: string, password: string): Promise<{success: boolean, error: string | null}> {
+    return await signIn("credentials", {
         email: email,
         password: password,
         redirect: false
     }).then((response) => {
         if (!response) {
             console.error("Response is undefined - some error.");
-            return "Něco se pokazilo. Zkuste to prosím později.";
+            return {success: false, error: "Něco se pokazilo. Zkuste to prosím později."};
         } else if (!response.ok) {
-            console.error("Error logging in. Data: " + response.error);
-            return response.error;
-        } else {
-            console.log("Successfully logged in.");
-            return null;
+            console.error("Error signing in/up. Data: " + response.error);
+            return {success: false, error: response.error || "Něco se pokazilo. Zkuste to prosím později."};
         }
-    }).catch((response) => {
-        console.error("Error logging in. Data: " + response.error);
-        return response.error;
-    });
+        Ls.isSignedIn = true;
+        return {success: true, error: null};
+    })
 }
 
 export default Sign;

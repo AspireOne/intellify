@@ -29,6 +29,12 @@ const Sidebar: NextPage = () => {
         refetchOnWindowFocus: false,
     });
 
+    useEffect(() => {
+        console.log("User id: ",  session.data?.user?.id);
+        if (session.status === "authenticated") Ls.isSignedIn = true;
+        if (session.status === "unauthenticated") Ls.isSignedIn = false;
+    }, [session.status]);
+
     const [hasEverBeenSignedIn, setHasEverBeenSignedIn] = useState(false);
     useEffect(() => {
         setHasEverBeenSignedIn(Ls.hasEverBeenSignedIn);

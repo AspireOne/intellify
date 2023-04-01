@@ -3,7 +3,7 @@
  * */
 export default class Ls {
     private static readonly prefix = "intellify.";
-    private static readonly hasEverBeenSignedInKey = this.prefix + "has_been_signed";
+    private static readonly hasEverBeenSignedInKey = this.prefix + "has_ever_been_signed";
     private static readonly isSignedInKey = this.prefix + "is_signed_in";
 
     private static set hasEverBeenSignedIn(value: boolean) {

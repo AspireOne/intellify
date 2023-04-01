@@ -38,9 +38,20 @@ export async function updateDataResolver(ctx: Context, input: z.input<typeof upd
 
 export async function getUserResolver(ctx: Context): Promise<z.output<typeof getUserOutput>> {
     await ctx.connectDb();
-    
+
+    if (!ctx.session?.user?.id) {
+        console.log("getUser requested | id does not exist in session");
+        return null;
+    }
+    console.log("id: " + ctx.session?.user?.id);
+
     const user = await User.findById(ctx.session?.user?.id);
-    if (!user) return null;
+    if (!user) {
+        console.log("getUser requested | id is on session, but user does not exist in db (based on the id)");
+        return null;
+    }
+
+    console.log("GETUSER | USER: ", user);
 
     let subscriptionData;
     if (user.subscription) {
@@ -52,7 +63,7 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
         name: user.name,
         image: user.image,
         email: user.email,
-        emailVerified: user.emailVerified,
+        emailVerified: user.emailVerified ?? false,
         remainingFreeTokens: user.remainingFreeTokens,
         subscription: subscriptionData,
         hasPassword: !!user.password,

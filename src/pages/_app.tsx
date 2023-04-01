@@ -11,7 +11,7 @@ import {Notifications} from "@mantine/notifications";
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
-        <SessionProvider session={session} refetchOnWindowFocus={false}>
+        <SessionProvider session={session} refetchOnWindowFocus={true} refetchInterval={60 * 3}>
             <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
                 <div className="text-gray-100 dark leading-6 bg-bgcolor">
                     <MantineProvider theme={{

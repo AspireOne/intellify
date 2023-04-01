@@ -21,15 +21,14 @@ import PageHead from "../components/PageHead";
 import {trpc} from "../lib/trpc";
 
 
-// DONE: Replace name, google auth domain, replace emails, change seznam email...
+// DONE: Replace name, google auth domain, replace emails, change seznam email, submit to webwiki
 
-// TODO before launch: connect IČO, Stripe Domain + firm + name
-// TODO submit to webwiki
-
-// TODO before launch: Fix sidebar on mobile.
+// TODO!: connect IČO, Stripe set IČO, tax etx.
+// TODO!: Send emails after payments etc.
+// TODO!: Fix sidebar on mobile.
 const Home: NextPage = () => {
     const el = useRef(null);
-    const {status} = useSession();
+    const {status, data} = useSession();
 
     const [showSignedUi, setShowSignedUi] = React.useState(false);
 

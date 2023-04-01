@@ -1,7 +1,7 @@
 import {NextPage} from "next";
 import React from "react";
 import Button, {Style} from "../components/Button";
-import {signOut} from "next-auth/react";
+import {signOut, useSession} from "next-auth/react";
 import Input from "../components/Input";
 import INPUT from "../lib/inputConstraints";
 import {trpc} from "../lib/trpc";
@@ -28,12 +28,14 @@ const Profile: NextPage = () =>  {
     const [error, setError] = React.useState<null | string>(null);
     const [loading, setLoading] = React.useState(false);
 
+    const session = useSession();
     const user = trpc.user.getUser.useQuery();
 
     const dataChangeMutation = trpc.user.updateData.useMutation({
         onSuccess: async (msg, input) => {
-            // TODO: Update the fucking session and show session data.
+            // TODO: Update the session and show session data. The update() API will be released aby day soon (1.4.2023).
             setDataChanged(false);
+
             notifications.show({
                 title: 'Uloženo!',
                 message: 'Vaše údaje byly úspěšně uloženy.',

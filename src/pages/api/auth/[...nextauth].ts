@@ -48,7 +48,7 @@ export const authOptions: AuthOptions = {
 
                 // Get the user from database based on [email].
                 await mongooseConnect();
-                const user = await User.findOne({email: credentials.email}).exec();
+                const user = await User.findOne({email: credentials.email});
                 if (!user) throw new Error("Špatný e-mail nebo heslo.");
 
                 const passwordMatches = await Password.comparePassword(user.password!, credentials.password);
@@ -60,17 +60,30 @@ export const authOptions: AuthOptions = {
     ],
     adapter: MongoDBAdapter(clientPromise),
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
     },
     callbacks: {
         session: async ({ session, token, user }) => {
+            console.log("Session Callback: ");
+            console.log("session: ", session);
+            console.log("token: ", token);
+            console.log("user: ", user);
+            console.log("\n\n\n\n");
+
             if (session?.user) session.user.id = token.sub;
             return session;
         },
         jwt: async ({ user, token, profile, account }) => {
-            if (account && profile) {
+            console.log("JWT Callback: ");
+            console.log("user: ", user);
+            console.log("token: ", token);
+            console.log("profile: ", profile);
+            console.log("account: ", account);
+            console.log("\n\n\n\n");
+
+            if (user) {
                 /*token.accessToken = account.access_token;*/
-                token.sub = profile.sub;
+                token.id = user.id;
             }
             return token;
         },
