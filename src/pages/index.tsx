@@ -21,10 +21,9 @@ import PageHead from "../components/PageHead";
 import {trpc} from "../lib/trpc";
 
 
-// DONE: Replace name, google auth domain
+// DONE: Replace name, google auth domain, replace emails, change seznam email...
 
-// TODO before launch: replace emails, connect IČO, Stripe Domain + firm + name
-// TODO change seznam email...
+// TODO before launch: connect IČO, Stripe Domain + firm + name
 // TODO submit to webwiki
 
 // TODO before launch: Fix sidebar on mobile.
