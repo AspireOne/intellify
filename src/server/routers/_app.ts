@@ -19,6 +19,17 @@ export const appRouter = router({
         .mutation(async ({ctx}) => {
             await Email.sendTestMail("matejpesl1@gmail.com");
         }),*/
+    ping: publicProcedure
+        .input(z.object({
+            message: z.string(),
+        }))
+        .output(z.object({
+            message: z.string(),
+        }))
+        .query(async ({ctx, input}) => {
+            console.log("-> RECEIVED: input.message", input.message);
+            return {message: input.message};
+        }),
     contactUs: publicProcedure
         .input(z.object({
             email: z.string().min(1, {message: "Email je povinný."}).email({message: "Email není ve správném formátu."}),

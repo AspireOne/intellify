@@ -64,22 +64,22 @@ export const authOptions: AuthOptions = {
     },
     callbacks: {
         session: async ({ session, token, user }) => {
-            console.log("Session Callback: ");
+/*            console.log("Session Callback: ");
             console.log("session: ", session);
             console.log("token: ", token);
             console.log("user: ", user);
-            console.log("\n\n\n\n");
+            console.log("\n\n\n\n");*/
 
             if (session?.user) session.user.id = token.sub;
             return session;
         },
         jwt: async ({ user, token, profile, account }) => {
-            console.log("JWT Callback: ");
+/*            console.log("JWT Callback: ");
             console.log("user: ", user);
             console.log("token: ", token);
             console.log("profile: ", profile);
             console.log("account: ", account);
-            console.log("\n\n\n\n");
+            console.log("\n\n\n\n");*/
 
             if (user) {
                 /*token.accessToken = account.access_token;*/
