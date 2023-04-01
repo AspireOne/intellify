@@ -17,7 +17,7 @@ const License: NextPage = () => {
             </PageHeaderDiv>
 
             <ArticlePCard>
-                <p>
+                <div>
                     Veškerý obsah generovaný pomocí A.I. na této stránce je čerpán ze zdrojů třetí strany. Autorská práva
                     se mohou u různých zdrojů lišit, ale ve většině případů obsah autorská práva postrádá.
                     Mezi takové se řadí i primární zdroj této stránky - OpenAI.
@@ -42,7 +42,7 @@ const License: NextPage = () => {
                             </a>
                         </li>
                     </ul>
-                </p>
+                </div>
             </ArticlePCard>
         </ArticleDiv>
     )
