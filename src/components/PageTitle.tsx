@@ -4,7 +4,7 @@ import Title from "./Title";
 
 export default function PageTitle(props: PropsWithChildren<{className?: string, subtitle?: string}>) {
     return (
-        <Title size={4} level={1} className={twMerge(`text-center mb-4 mt-14 ${props.className}`)}>
+        <Title size={4} tag={1} className={twMerge(`text-center mb-4 mt-14 ${props.className}`)}>
             {props.children}
         </Title>
     )

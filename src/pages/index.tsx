@@ -84,7 +84,7 @@ const Home: NextPage = () => {
                     className={"text-center mt-44 mx-auto px-2 max-w-[800px] min-h-full"}
                 >
                     <div className={"flex flex-col gap-10 text-center justify-center"}>
-                        <Title level={1} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font m-0">
+                        <Title tag={1} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-font m-0">
                             Nejlepší A.I. Nástroj na
                             <div className={"sm:my-4"}/>
                             <span className={"title-highlighted"} ref={el}></span>
@@ -207,7 +207,7 @@ const Home: NextPage = () => {
                     </div>
 
                     <div className={"flex flex-col sm:flex-row sm:items-center gap-5 mt-8"}>
-                        <Title level={"none"} size={3} className={"text-gray-300"}>... A mnohem více</Title>
+                        <Title tag={"none"} size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span className={"hidden sm:block"}>•</span>
                         <Button style={Style.OUTLINE} className={"sm:w-content"}>
                             <Link className={"w-content"} href={paths.tools}>Prohlédnout všechny nástroje</Link>
@@ -241,7 +241,7 @@ function FeatureCard(props: PropsWithChildren<{ icon: JSX.Element, title: string
             <div className="flex items-center justify-center h-20 w-20 bg-gray-900 rounded-md mb-4">
                 {props.icon}
             </div>
-            <h2 className="text-xl font-bold mb-2">{props.title}</h2>
+            <h3 className="text-xl font-bold mb-2">{props.title}</h3>
             <p className="text-gray-400 mb-4">{props.children}</p>
             <ul className="text-gray-400">
                 {props.items.map((item) => <li key={item}>• {item}</li>)}

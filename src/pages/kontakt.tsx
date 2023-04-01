@@ -71,9 +71,9 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
             {
                 props.isInFooter &&
                 <div className={"mb-4 m-1"}>
-                    <PageTitle className={"text-left"}>
+                    <Title tag={4} size={2} className={"mt-10 mb-2 text-left"}>
                         Kontaktujte nás
-                    </PageTitle>
+                    </Title>
                     <Subtitle className={"text-left"}>
                         Máte dotaz? Problém? Zájem o spolupráci? Můžete nás kdykoli kontaktovat.
                     </Subtitle>
