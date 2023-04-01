@@ -17,7 +17,7 @@ importers:
       '@trpc/next': ^10.18.0
       '@trpc/react-query': ^10.18.0
       '@trpc/server': ^10.18.0
-      '@typegoose/typegoose': ^10.3.4
+      '@typegoose/typegoose': ^11.0.0
       '@types/node': ^18.15.11
       '@types/nodemailer': ^6.4.7
       '@types/react': 18.0.21
@@ -67,7 +67,7 @@ importers:
       '@trpc/next': 10.18.0_fk7ybuwqrs7skzzxcj6wjc5c3i
       '@trpc/react-query': 10.18.0_rcvfzig2xktluz4p7kugxqlbwi
       '@trpc/server': 10.18.0
-      '@typegoose/typegoose': 10.3.4_mongoose@7.0.3
+      '@typegoose/typegoose': 11.0.0_mongoose@7.0.3
       '@types/nodemailer': 6.4.7
       '@types/react-router-dom': 5.3.3
       autoprefixer: 10.4.14_postcss@8.4.21
@@ -869,11 +869,11 @@ packages:
     resolution: {integrity: sha512-nVMqdDIF9YLOeC3g6RdAvdCPqkHFjpshSqZGThZ+fyjiWSUXj2ZKCduhJFnY77TjtgODojeaaghmzcnjxb+Onw==}
     dev: false
 
-  /@typegoose/typegoose/10.3.4_mongoose@7.0.3:
-    resolution: {integrity: sha512-C27lxLnfdYnVJM96EbE/ocRIWyuufqFMZQI4q4e1TD6rXSyeDxNGQpBdv0FxGE9emQ6Mk6h2mBFJq7uGRp14Cw==}
+  /@typegoose/typegoose/11.0.0_mongoose@7.0.3:
+    resolution: {integrity: sha512-X9v0LY4fqoIGKwS1KkzTNztynckksVPvgWDKXJSuTpVJOfO5XG8B6aRjS7QYlmiCimPu6d3ihrHTzxKUqKAdhg==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
-      mongoose: ~6.10.0
+      mongoose: ~7.0.3
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
