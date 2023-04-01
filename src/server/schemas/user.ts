@@ -30,6 +30,6 @@ export const getUserOutput = z.object({
         data: Offer,
         cancelled: z.boolean().optional()
     }).optional(),
-});
+}).nullable();
 
 export const updateDataOutput = z.object({message: z.string()});

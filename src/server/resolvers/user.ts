@@ -40,7 +40,7 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
     await ctx.connectDb();
     
     const user = await User.findById(ctx.session?.user?.id);
-    if (!user) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Uživatele se nepodařilo získat."});
+    if (!user) return null;
 
     let subscriptionData;
     if (user.subscription) {

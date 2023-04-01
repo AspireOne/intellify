@@ -1,5 +1,5 @@
-import {protectedProcedure, router} from "../trpc";
-import {updateDataInput, updateDataOutput} from "../schemas/user";
+import {protectedProcedure, publicProcedure, router} from "../trpc";
+import {getUserOutput, updateDataInput, updateDataOutput} from "../schemas/user";
 import {getUserResolver, updateDataResolver} from "../resolvers/user";
 
 export const userRouter = router({
@@ -7,7 +7,8 @@ export const userRouter = router({
         .input(updateDataInput)
         .output(updateDataOutput)
         .mutation(async ({ctx, input}) => await updateDataResolver(ctx, input)),
-    getUser: protectedProcedure
+    getUser: publicProcedure
+        .output(getUserOutput)
         .query(async ({ctx, input}) => await getUserResolver(ctx))
 });
 
