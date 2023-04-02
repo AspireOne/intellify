@@ -74,17 +74,17 @@ const Contact = (props: {isInFooter?: boolean | null}) => {
                     <Title tag={4} size={2} className={"mt-10 mb-2 text-left"}>
                         Kontaktujte nás
                     </Title>
-                    <Subtitle className={"text-left"}>
+                    <Subtitle className={"text-left text-md"}>
                         Máte dotaz? Problém? Zájem o spolupráci? Můžete nás kdykoli kontaktovat.
                     </Subtitle>
                 </div>
             }
-            <div className={"flex flex-row gap-4 flex-wrap lg:flex-nowrap justify-center"}>
+            <div className={"flex flex-row gap-4 flex-wrap lg:flex-nowrap justify-start"}>
                 <Card className={"flex flex-col gap-4 p-6 w-full lg:w-min"}>
-                    <Title size={1}>Kontaktní informace</Title>
+                    <Title className={"whitespace-nowrap"} size={1}>Kontaktní informace</Title>
                     <IconTextWrapper>
                         <Call color={"#fff"} width={"20px"}/>
-                        <a href="tel:+420732175490">+420 732 175 490</a>
+                        <a className={"whitespace-nowrap"} href="tel:+420732175490">+420 732 175 490</a>
                     </IconTextWrapper>
                     <IconTextWrapper>
                         <MailOpen color={"#fff"} width={"20px"}/>

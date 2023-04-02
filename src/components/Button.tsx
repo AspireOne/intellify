@@ -1,6 +1,7 @@
-import React from "react";
+import React, {PropsWithChildren} from "react";
 import {twMerge} from "tailwind-merge";
 import Spinner from "./Spinner";
+import Link from "next/link";
 
 export enum Style {FILL, OUTLINE, NONE}
 type ButtonProps = {
@@ -11,46 +12,18 @@ type ButtonProps = {
     className?: string
     style?: Style
     children: React.ReactNode
+    href?: string
 }
 
-// TODO: Nechat to vystoupit
 const Button = (props: ButtonProps) => {
     const [isBeingClicked, setIsBeingClicked] = React.useState(false);
+
     // Check global mouse up.
     React.useEffect(() => {
         const onMouseUp = () => setIsBeingClicked(false);
         window.addEventListener("mouseup", onMouseUp);
         return () => window.removeEventListener("mouseup", onMouseUp);
     }, []);
-
-    let styling;
-
-    switch (props.style) {
-        case Style.OUTLINE:
-            styling =
-                // TODO: This fucker is hardcoded, because there is apparently no fucking way to create an inner border
-                // in talwind css. What the fuck guys?
-                `border-solid border-2 border-indigo-700
-                ${isBeingClicked 
-                    ? "bg-indigo-800"
-                    : props.loading 
-                        ? ""
-                        : "hover:bg-indigo-500 hover:bg-opacity-20 hover:border-indigo-500 bg-indigo-800 bg-opacity-5"}`
-            break;
-
-        case Style.NONE:
-            styling = "";
-            break;
-
-        case Style.FILL:
-        default:
-            styling = twMerge(
-                "shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]",
-                !isBeingClicked && !props.loading && "hover:bg-indigo-500",
-                isBeingClicked ? "bg-indigo-800" : props.loading ? "bg-indigo-800" : "bg-indigo-700"
-            )
-            break;
-    }
 
     return (
         <button
@@ -61,8 +34,7 @@ const Button = (props: ButtonProps) => {
             }}
             onMouseDown={() => setIsBeingClicked(true)}
             disabled={props.loading}
-            className={twMerge("duration-200 font-medium rounded-md text-md text-gray-200 px-5 py-2.5 outline-none focus:outline-none",
-                props.loading && "cursor-default", styling, props.className)}>
+            className={getStyles(props.style, isBeingClicked, props.loading, props.className)}>
 
             {props.loading && <Spinner className={(props.loadingText || props.children) ? `mr-2` : ""}/>}
             {
@@ -73,4 +45,55 @@ const Button = (props: ButtonProps) => {
         </button>
     );
 }
+
+/*export function LinkButton(props: PropsWithChildren<{href: string, style?: Style, className?: string}>) {
+    const [isBeingClicked, setIsBeingClicked] = React.useState(false);
+
+    // Check global mouse up.
+    React.useEffect(() => {
+        const onMouseUp = () => setIsBeingClicked(false);
+        window.addEventListener("mouseup", onMouseUp);
+        return () => window.removeEventListener("mouseup", onMouseUp);
+    }, []);
+
+    return (
+        <Link href={props.href} className={getStyles(props.style, isBeingClicked, false, props.className)}>
+            {props.children}
+        </Link>
+    )
+}*/
+
+function getStyles(style?: Style, isBeingClicked?: boolean, loading?: boolean, className?: string) {
+    let styling;
+    switch (style) {
+        case Style.OUTLINE:
+            styling = twMerge(
+                `border-solid border-2 border-indigo-700
+                ${isBeingClicked && "bg-indigo-800"}
+                ${!isBeingClicked && !loading
+                && "hover:bg-indigo-500 hover:bg-opacity-20 hover:border-indigo-500 bg-indigo-800 bg-opacity-5"}`
+            )
+            break;
+
+        case Style.NONE:
+            styling = "";
+            break;
+
+        case Style.FILL:
+        default:
+            styling = twMerge(
+                "shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]",
+                !isBeingClicked && !loading && "hover:bg-indigo-500",
+                isBeingClicked ? "bg-indigo-800" : loading ? "bg-indigo-800" : "bg-indigo-700"
+            )
+            break;
+    }
+
+    const universal = `
+    duration-200 font-medium rounded-md text-md text-gray-200 px-5 py-2.5
+    outline-none focus:outline-none ${loading && "cursor-default"}`;
+
+    return twMerge(universal, styling, className);
+}
+
 export default Button;

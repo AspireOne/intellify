@@ -19,6 +19,7 @@ import Ls from "../lib/ls";
 import Head from "next/head";
 import PageHead from "../components/PageHead";
 import {trpc} from "../lib/trpc";
+import {useRouter} from "next/router";
 
 
 // DONE: Replace name, google auth domain, replace emails, change seznam email, submit to webwiki
@@ -29,6 +30,7 @@ import {trpc} from "../lib/trpc";
 const Home: NextPage = () => {
     const el = useRef(null);
     const {status, data} = useSession();
+    const router = useRouter();
 
     const [showSignedUi, setShowSignedUi] = React.useState(false);
 
@@ -96,8 +98,8 @@ const Home: NextPage = () => {
                         </Subtitle>
                     </div>
 
-                    <Link href={showSignedUi ? paths.tools : paths.sign}>
-                        <Button className={"text-lg mt-12 h-14 w-48 text-gray-200 font-bold"}>
+                    <Link href={showSignedUi ? paths.tools : paths.sign} passHref={true}>
+                        <Button onClick={() => router.push(showSignedUi ? paths.tools : paths.sign)} className={"font-bold mt-12 text-lg h-14 w-48 text-gray-200"}>
                             {showSignedUi ? "Přejít do nástrojů" : "Přihlásit se"}
                         </Button>
                     </Link>
@@ -152,7 +154,7 @@ const Home: NextPage = () => {
                 více v kratším čase.
                 </span>
                     <Link href={showSignedUi ? paths.tools : paths.sign} className={"text-sm font-bold"}>
-                        <Button className={"mt-4 w-44"}>
+                        <Button onClick={() => router.push(showSignedUi ? paths.tools : paths.sign)} className={"mt-4 w-44"}>
                             {showSignedUi ? "Přejít do nástrojů" : "Připojit se"}
                         </Button>
                     </Link>
@@ -207,7 +209,7 @@ const Home: NextPage = () => {
                         <Title tag={"none"} size={3} className={"text-gray-300"}>... A mnohem více</Title>
                         <span className={"hidden sm:block"}>•</span>
                         <Link className={"w-content"} href={paths.tools}>
-                            <Button style={Style.OUTLINE} className={"sm:w-content"}>
+                            <Button onClick={() => router.push(paths.tools)} style={Style.OUTLINE} className={"sm:w-content"}>
                                 Prohlédnout všechny nástroje
                             </Button>
                         </Link>
@@ -224,7 +226,7 @@ const Home: NextPage = () => {
                     className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
                     <Link href={showSignedUi ? paths.tools : paths.sign}>
-                        <Button className={"w-52"}>
+                        <Button onClick={() => router.push(showSignedUi ? paths.tools : paths.sign)} className={"w-52"}>
                             {showSignedUi ? "Otevřít nástroje" : "Registrovat se"}
                         </Button>
                     </Link>
