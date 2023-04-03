@@ -7,6 +7,7 @@ import {paths} from "../lib/constants";
 import {
     HiOutlineAnnotation,
     HiOutlineCode,
+    HiOutlineInformationCircle,
     HiOutlineDocument,
     HiOutlinePencil,
     HiOutlinePencilAlt, HiOutlinePresentationChartBar, HiOutlineSparkles
@@ -20,6 +21,8 @@ import {AiOutlineLock, AiOutlineUnlock, AiOutlineInfoCircle, AiOutlineHeart, AiF
 import {trpc} from "../lib/trpc";
 import {OfferId} from "../server/schemas/offers";
 import PageHead from "../components/PageHead";
+import {InformationCircleOutline} from "react-ionicons";
+import {AutoPopup} from "../components/Popup";
 
 const Tools: NextPage = () => {
     const {data} = trpc.user.getUser.useQuery();
@@ -59,6 +62,7 @@ function BasicPlanTools(props: {locked: boolean}) {
             <ToolCard comingSoon={true} href={paths.index} icon={HiOutlinePencilAlt} description={"Editor textů"} index={0}/>
             <ToolCard comingSoon={true} href={paths.codeAssistant} icon={HiOutlineCode} description={"Asistent k programování"} index={1}/>
             <ToolCard comingSoon={true} href={paths.index} icon={HiOutlineDocument} description={"Tvorba životopisu"} index={2}/>
+            <ToolCard comingSoon={false} href={paths.generalAi} icon={HiOutlineSparkles} description={"Obecné A.I."} index={5}/>
         </>
     )
 }
@@ -69,7 +73,6 @@ function StudentPlanTools(props: {locked: boolean}) {
             <BasicPlanTools locked={props.locked}/>
             <ToolCard comingSoon={true} href={paths.presentation} icon={HiOutlinePresentationChartBar} description={"Tvorba prezentací"} index={3}/>
             <ToolCard comingSoon={true} href={paths.index} icon={HiOutlinePencil} description={"Psaní eseje"} index={4}/>
-            <ToolCard comingSoon={false} href={paths.generalAi} icon={HiOutlineSparkles} description={"Obecné A.I."} index={5}/>
         </>
     )
 }
@@ -127,8 +130,24 @@ function ToolCard(props: {icon: IconType, color?: string, href: string, descript
 
     {/*TODO: Add border/inner shadow?*/}
     const card = (
-        <div className={`rounded-md flex flex-col ${props.comingSoon ? "gap-0" : "gap-2"}`}>
-            <div className={`${props.comingSoon ? "cursor-default rounded-t-md" : "hover:bg-gray-700 rounded-md"} transition duration-100 bg-t-alternative-700 flex flex-col gap-2 items-center w-32 h-28 p-4`}>
+        <div className={`relative rounded-md flex flex-col ${props.comingSoon ? "gap-0" : "gap-2"}`}>
+            {/*<InformationCircleOutline cssClasses={"-mb-2 transition duration-100 absolute top-1 right-1 hover:w-[25px]"}
+                                      width={"23px"}
+                                      height={"auto"}
+                                      color={"rgba(134,134,134,0.8)"}/>*/}
+
+            <div className={`${props.comingSoon ? "cursor-default rounded-t-md" : "hover:bg-gray-700 rounded-md"} 
+            transition duration-100 bg-t-alternative-700 flex flex-col gap-2 items-center w-32 h-28 p-4 relative`}>
+                {/*<div className={"absolute top-1 right-1"} onClick={(e) => {
+                    e.stopPropagation();
+                    return false;
+                }}>
+                    <AutoPopup title={"Informace"} trigger={<HiOutlineInformationCircle onClick={(e) => {
+                        e.stopPropagation();
+                    }} className={
+                        "w-[23px] h-auto text-gray-500 hover:text-gray-200 cursor-default"}/>}>
+                    </AutoPopup>
+                </div>*/}
                 {<props.icon color={color} size={"35px"}/>}
                 <p className={`text-sm text-center ${props.comingSoon ? "text-gray-400" : "text-gray-200"}`}>
                     {props.description}
@@ -144,7 +163,7 @@ function ToolCard(props: {icon: IconType, color?: string, href: string, descript
     );
 
     if (props.comingSoon) return card;
-    else return <Link className={"aspect-square"} href={props.href}>{card}</Link>;
+    else return <Link className={""} href={props.href}>{card}</Link>;
 }
 
 export default Tools;

@@ -1,65 +1,56 @@
-basic idea:
-[Jak bude ta stránka rozložená? Jak se bude platit? Jak budou rozděleny funkce?]
+Nástroje:
+  Prezentace
 
-TO-DO:
-Landing page: add random visual elements
+  Čeština
+    psaní: rozboru děje, esejí, úryvků (Zadá knihu, autora, osnovu, a já to jen dosadím do "Napiš rozbor knihy {kniha} od {autor} podle následující osnovy: {osnova})
+    kontrola/doporučení: zadá cíl (rozbor děje, esej atd.) a dostane doporučení na zlepšení textu a chyby
 
-funkce:
-    Implementace:
-        1. Basic frontend
-        2. The functionality (backend)
-        3. Input safety
-        4. The design (frontend)
-        5. Zařazení do celé té stránky
+  Psaní mailu
+    Uživatel specifikuje:
+      - tón (profesionální / přátelský / neutrální)
+      - cíl (např. přesvědčit šeefa, abych dostal přidáno)
+      - informace (např. jsem zaměstnanec a chci dostat přidáno)
+    Výstup: subject a content text. Text bude upravitelný a uživatel bude moci text dále upravovat pomocí GPT.
 
-    1. prezentace (slidy, pointy, téma, linky na obrázky, PDF to pptx...)
-      TODO: Oddělit úvod-závěr-popis bodů a prezentaci samotnou?
-      ---TODO: Make content editable.
-    2. Češtinářské úkony
-    rozbor děl?
-    funkce: Zadá knihu, autora, osnovu, a já to jen dosadím do "Napiš rozbor knihy {kniha} od {autor} podle následující osnovy: {osnova}
-    rozbor úryvku,
+  Editor textů
+    1. změnit tón, slovní zásobu, složitost, význam, překlad
+    2. dostat doporučení na úpravy (zadá cíl -> dostane adekvátní doporučení na úpravy)
+    3. Zkontrolovat gramatiku
 
-    3. byznys email
+  Storyteller / příběhová hra
 
-    4. návrh na výuku - výklad, cvičení, domácí úkoly, testy, zpětná vazba, výsledky, závěr
-
-    5. desková aktivita? společné doplňování příběhu
-
-    6. Storyteller
-
-Marketing:
-    - Implement payments/subscriptions etc.
-    - Promo emails
-    - SEO
-    - Social media
-
-frontend:
-    - Create the UI
-    - Every module will have its own landing page
-
-backend:
-    - Implement accounts
-    - Buy a domain
-
-Random ideas:
-    - Add a "contact us" page
-    - Add a "about us" page
-    - Add a "terms and conditions" page
-    - Add a "privacy policy" page
-    - Add a "FAQ" page
-    - Add a "pricing" page
-    - Landing pages
-    - Blog
-    - promo emails
-    - SEO
-    - Ads
-    - Sell the modules alone to corporations/school/individuals?
-    - Add a school-specific or bussiness-specific etc. subscriptionType
+  Pomocník do výuky - výklad, cvičení, domácí úkoly, testy, zpětná vazba, výsledky, závěr
 
 
-- "is expected to be marginally upgraded in 2023 - cheaper for current Subscribers"
 
-Možné názvy:
-  A.I. spisovatel
+Nástroje na smazání:
+- životopis
+- asistent k programování
+- Psaní eseje
 
+IDEAS:
+- Sell the modules alone to corporations/school/individuals?
+
+
+
+TODO:
+- Vytvořit nástroj na psaní mailů
+  1. Naplánovat, jak bude cca vypadat a fungovat.
+  2. Backend
+  3. Rychlý frontend
+  - Budu ho dělat max. 3h. Po 3h ho releasnu tak, jak je.
+
+- Dodělat editor textů
+  1. Naplánovat, jak bude cca vypadat a fungovat.
+  2. Backend
+  3. Rychlý frontend
+
+- Google Analytics
+- Dodělat prezentace
+
+// Pozdější věci
+- "FAQ" page
+- Blog a Social media - větší propojení s "komunitou", se sociálními sítěmi atd.
+- Promo emails
+- Ads
+- Někam zařadit chatovací prvek

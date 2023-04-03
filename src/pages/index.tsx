@@ -221,7 +221,7 @@ const Home: NextPage = () => {
                           className={" w-full bg-cover flex justify-center px-4 sm:py-32 sm:min-h-min h-screen"}>
                 <motion.div
                     initial={{ opacity: 0 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
+                    transition={{ duration: 1.2, delay: 0.3 }}
                     whileInView={{ opacity: 1 }}
                     className={"w-full h-full flex flex-col items-center justify-center text-center"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
