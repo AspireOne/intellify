@@ -87,8 +87,8 @@ const Home: NextPage = () => {
                             <div className={"sm:my-4"}/>
                             <span className={"title-highlighted"} ref={el}></span>
                             <img
-                                alt={"Kurzor"}
-                                className={"transform -translate-y-2 sm:-translate-y-3 inline animate-pulse duration-100 h-[3.5rem] sm:h-[4rem] md:h-[5.4rem]"}
+                                alt={""}
+                                className={"select-none pointer-events-none transform -translate-y-2 sm:-translate-y-3 inline animate-pulse duration-100 h-[3.5rem] sm:h-[4rem] md:h-[5.4rem]"}
                                 src={"/assets/line.svg"}></img>
                         </Title>
                         <Subtitle className={"mx-4 md:mx-12 text-md sm:text-lg md:text-xl lg:text-2xl sm:leading-8"}>
@@ -116,7 +116,7 @@ const Home: NextPage = () => {
                 <TextElementPair
                     text={"Revolucionalizujte svůj workflow ⚡"}
                     element={
-                        <img alt={"Ilustrační obrázek sekce Revolucionalizujte"} src={"/assets/about-image.svg"} className={"h-64 mx-auto"}/>}
+                        <img alt={"Ilustrační obrázek sekce Revolucionalizujte"} src={"/assets/about-image.svg"} className={"h-64 mx-auto select-none pointer-events-none"}/>}
                     textSide={isPc && "left"}
                 >
                     Naše nástroje založené na umělé inteligenci jsou navrženy tak, aby vaši práci usnadnily, zrychlily a zefektivnily.
@@ -127,7 +127,7 @@ const Home: NextPage = () => {
                 {/*TODO: Make parts of text light blue or etc.?*/}
                 <TextElementPair
                     text={"Rozviňte svou kreativitu 💡"}
-                    element={<img alt={"Ilustrační obrázek sekce Kreativita"} src={"/assets/ai.png"} className={"mx-auto h-56"}/>}
+                    element={<img alt={"Ilustrační obrázek sekce Kreativita"} src={"/assets/ai.png"} className={"mx-auto h-56 select-none pointer-events-none"}/>}
                     textSide={isPc && "right"}
                 >
                     A.I. vám dává jedinečnou možnost nahlédnout za horizont představivosti, který byste vy sami neobjevili - přizpůsobeně
@@ -136,7 +136,7 @@ const Home: NextPage = () => {
                 </TextElementPair>
 
                 <TextElementPair text={"Bezpečnost a soukromí jsou naší prioritou 🔒"}
-                                 element={<img alt={"Ilustrační obrázek sekce Zabezpečení"} src={"/assets/shield.png"} className={"mx-auto h-64 w-auto"}/>}
+                                 element={<img alt={"Ilustrační obrázek sekce Zabezpečení"} src={"/assets/shield.png"} className={"mx-auto h-64 w-auto select-none pointer-events-none"}/>}
                                  textSide={isPc && "left"}>
                     Věříme, že soukromí a bezpečnost vašich dat by měla být na prvním místě. Nástroje jsou
                     navrženy s ohledem na bezpečnost a všechna data jsou zpracována a uchovávána v souladu s nejmodernějšími
@@ -145,7 +145,7 @@ const Home: NextPage = () => {
 
                 <TextElementPair
                     text={"Připojte se k převratu A.I. ✊"}
-                    element={<img alt={"Ilustrační obrázek sekce A.I. Převrat"} src={"/assets/globe.png"} className={"mx-auto h-72"}/>}
+                    element={<img alt={"Ilustrační obrázek sekce A.I. Převrat"} src={"/assets/globe.png"} className={"mx-auto h-72 select-none pointer-events-none"}/>}
                     textSide={isPc && "right"}
                 >
                 <span className={"block"}>
@@ -164,7 +164,7 @@ const Home: NextPage = () => {
             {/*Cards with the specific tools*/}
 
             {/*kkt*/}
-            <div className="bg-[rgba(255,255,255,0.02)] min-h-screen text-white py-36 mb-32 rounded-b-3xl">
+            <div className="bg-[rgba(255,255,255,0.02)] min-h-screen text-white py-36 rounded-b-3xl">
                 <div className="container mx-auto px-2 sm:px-6 lg:px-8">
                     <Title>Vytvářejte prezentace, sestavte si životopis, programujte...</Title>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-10">
@@ -218,12 +218,12 @@ const Home: NextPage = () => {
             </div>
 
             <div style={{backgroundImage: `linear-gradient(0deg,#0f1524 0%, transparent 22%),url('/assets/c-shape-blur.svg')`, backgroundSize: "2800 2000"}}
-                          className={"w-full bg-cover flex justify-center px-4 sm:py-32 sm:min-h-min h-screen"}>
+                          className={" w-full bg-cover flex justify-center px-4 sm:py-32 sm:min-h-min h-screen"}>
                 <motion.div
                     initial={{ opacity: 0 }}
                     transition={{ duration: 0.7, delay: 0.2 }}
                     whileInView={{ opacity: 1 }}
-                    className={"w-full h-full flex flex-col items-center justify-center text-center -mt-4"}>
+                    className={"w-full h-full flex flex-col items-center justify-center text-center"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
                     <Link href={showSignedUi ? paths.tools : paths.sign}>
                         <Button onClick={() => router.push(showSignedUi ? paths.tools : paths.sign)} className={"w-52"}>
