@@ -83,7 +83,7 @@ const EmailTool: NextPage = () => {
                 <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white mb-2">
                     Pište e-maily pomocí A.I.
                 </h2>
-                <p className={"text-gray-300"}>Už žádný zdlouhavý proces</p>
+                <p className={"text-gray-300"}>Nepřemýšlejte, JAK e-mail napsat. Soustřeďte se na to CO.</p>
             </PageHeaderDiv>
 
             <Card border={true} className={"max-w-2xl mx-auto min-h-[31rem]"}>
@@ -180,7 +180,7 @@ function GenerateEmailCard(props: {data?: Info, onReadyToSubmit: (info: Info) =>
     return (
         <div className={"space-y-4  max-w-xl mx-auto"}>
             <Select
-                label={"Tón (volitelné)"}
+                label={"Tón (nepovinné)"}
                 className={"text-md text-white font-normal"}
                 placeholder={"Vyberte tón zprávy..."}
                 data={[
