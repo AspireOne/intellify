@@ -8,8 +8,9 @@ Nástroje:
   Psaní mailu
     Uživatel specifikuje:
       - tón (profesionální / přátelský / neutrální)
-      - cíl (např. přesvědčit šeefa, abych dostal přidáno)
+      - cíl (např. přesvědčit šeefa, abych dostal přidáno, informovat zákazníka o změně zásad ochrany soukromí)
       - informace (např. jsem zaměstnanec a chci dostat přidáno)
+      - Za koho píšete ("Zaměstnanec, student, firma Intellify...")
     Výstup: subject a content text. Text bude upravitelný a uživatel bude moci text dále upravovat pomocí GPT.
 
   Editor textů

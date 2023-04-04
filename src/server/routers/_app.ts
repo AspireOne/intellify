@@ -8,6 +8,7 @@ import {generalAiRouter} from "./generalAi";
 import {offersRouter} from "./offers";
 import 'react-loading-skeleton/dist/skeleton.css';
 import Email from "../lib/mail";
+import {emailRouter} from "./email";
 export const appRouter = router({
     presentation: presentationRouter,
     code: codeRouter,
@@ -15,6 +16,7 @@ export const appRouter = router({
     user: userRouter,
     generalAi: generalAiRouter,
     offers: offersRouter,
+    emailRouter: emailRouter,
     /*sendTestMail: publicProcedure
         .mutation(async ({ctx}) => {
             await Email.sendTestMail("matejpesl1@gmail.com");

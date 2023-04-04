@@ -11,6 +11,7 @@ export const paths = {
     codeAssistant: "/nastroje/kodovy-asistent",
     presentation: "/nastroje/prezentace",
     generalAi: "/nastroje/obecne-ai",
+    email: "/nastroje/email",
 
     sign: "/prihlaseni",
     profile: "/profil",

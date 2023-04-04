@@ -21,9 +21,11 @@ class User {
     // can be reset every month.
     @prop({required: true, default: 0})
     public remainingFreeTokens!: number
+    @prop({required: true, default: 0})
+    public remainingSubscriptionTokens!: number
 
     @prop({ type: () => Object, allowMixed: Severity.ALLOW })
-    subscription?: { id: OfferId, stripeId: string, remainingTokens: number, updatedAt: Date, cancelled?: boolean }
+    subscription?: { id: OfferId, stripeId: string, updatedAt: Date, cancelled?: boolean }
     public async decreaseTokensAndSave(this: DocumentType<User>, tokens: number) {
         if (!this.subscription) {
             this.remainingFreeTokens -= tokens;
@@ -31,19 +33,19 @@ class User {
             return;
         }
 
-        if (this.subscription.remainingTokens >= tokens) {
-            this.subscription.remainingTokens -= tokens;
+        if (this.remainingSubscriptionTokens >= tokens) {
+            this.remainingSubscriptionTokens -= tokens;
             await this.save();
             return;
         }
 
-        this.remainingFreeTokens -= (tokens - this.subscription.remainingTokens);
-        this.subscription.remainingTokens = 0;
+        this.remainingFreeTokens -= (tokens - this.remainingSubscriptionTokens);
+        this.remainingSubscriptionTokens = 0;
         await this.save();
     }
 
     public async getTotalTokens(this: DocumentType<User>) {
-        return this.remainingFreeTokens + (this.subscription?.remainingTokens ?? 0);
+        return this.remainingFreeTokens + this.remainingSubscriptionTokens;
     }
 
     public async addFreeTokensAndSave(this: DocumentType<User>, tokens: number) {
@@ -53,6 +55,7 @@ class User {
 
     public async removeSubscriptionAndSave(this: DocumentType<User>) {
         this.subscription = undefined;
+        this.remainingSubscriptionTokens = 0;
         await this.save();
     }
     public async setSubscriptionAndSave(this: DocumentType<User>, id: OfferId, stripeId: string) {
@@ -61,10 +64,10 @@ class User {
 
         if (offer.type == OfferType.ONETIME) throw new Error("The provided offer is onetime, not subscription.");
 
+        this.remainingSubscriptionTokens = offer.tokens;
         this.subscription = {
             id: offer.id,
             stripeId: stripeId,
-            remainingTokens: offer.tokens,
             updatedAt: new Date()
         };
         await this.save();
@@ -76,7 +79,7 @@ class User {
         for (const offer of Object.values(offers)) {
             if (offer.id !== this.subscription.id) break;
 
-            this.subscription.remainingTokens = offer.tokens;
+            this.remainingSubscriptionTokens = offer.tokens;
             await this.save();
             return;
         }

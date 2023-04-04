@@ -43,7 +43,7 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
         console.log("getUser requested | id does not exist in session");
         return null;
     }
-    console.log("id: " + ctx.session?.user?.id);
+    /*console.log("user id: " + ctx.session?.user?.id);*/
 
     const user = await User.findById(ctx.session?.user?.id);
     if (!user) {
@@ -51,12 +51,12 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
         return null;
     }
 
-    console.log("GETUSER | USER: ", user);
+    /*console.log("GETUSER | USER: ", user);*/
 
     let subscriptionData;
     if (user.subscription) {
         const offer = await Utils.getOffer(user.subscription.id);
-        subscriptionData = {...user.subscription, data: offer};
+        subscriptionData = {...user.subscription, remainingTokens: user.remainingSubscriptionTokens ?? 0, data: offer};
     }
 
     return {

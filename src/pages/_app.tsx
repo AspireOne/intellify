@@ -15,11 +15,24 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
             <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
                 <div className="text-gray-100 dark leading-6 bg-bgcolor">
                     <MantineProvider theme={{
-                        colorScheme: "dark",
-                        /*colors: {
-                            main: ["#606e98","#506293","#36456e","#2e3b60","#2a375a","#1d2541","#131b34","#11182f","#121728","#0e1323"]
+                        colorScheme: 'dark',
+                        primaryColor: 'brand',
+                        colors: {
+                            // override dark colors to change them for all components
+
+                            brand: [
+                                '#EDE7F6',
+                                '#EDE7F6',
+                                '#B39DDB',
+                                '#9575CD',
+                                '#7E57C2',
+                                '#673AB7',
+                                '#5E35B1',
+                                '#512DA8',
+                                '#4527A0',
+                                '#311B92'
+                            ],
                         },
-                        primaryColor: "main",*/
                     }} withNormalizeCSS>
                         <Notifications />
                         <div className="flex min-h-screen">

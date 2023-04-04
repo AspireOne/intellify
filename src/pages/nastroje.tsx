@@ -9,6 +9,7 @@ import {
     HiOutlineCode,
     HiOutlineInformationCircle,
     HiOutlineDocument,
+    HiOutlineMail,
     HiOutlinePencil,
     HiOutlinePencilAlt, HiOutlinePresentationChartBar, HiOutlineSparkles
 } from "react-icons/hi";
@@ -61,7 +62,7 @@ function BasicPlanTools(props: {locked: boolean}) {
         <>
             <ToolCard comingSoon={true} href={paths.index} icon={HiOutlinePencilAlt} description={"Editor textů"} index={0}/>
             <ToolCard comingSoon={true} href={paths.codeAssistant} icon={HiOutlineCode} description={"Asistent k programování"} index={1}/>
-            <ToolCard comingSoon={true} href={paths.index} icon={HiOutlineDocument} description={"Tvorba životopisu"} index={2}/>
+            <ToolCard comingSoon={false} href={paths.email} icon={HiOutlineMail} description={"Psaní e-mailů"} index={2}/>
             <ToolCard comingSoon={false} href={paths.generalAi} icon={HiOutlineSparkles} description={"Obecné A.I."} index={5}/>
         </>
     )
@@ -155,7 +156,7 @@ function ToolCard(props: {icon: IconType, color?: string, href: string, descript
             </div>
             {
                 props.comingSoon &&
-                <div className={"text-gray-400 cursor-default py-0 px-3 flex flex-row text-sm gap-2 items-center justify-center rounded-b-md bg-orange-400/20"}>
+                <div className={"text-gray-400 cursor-default py-0 px-3 flex flex-row text-sm gap-2 items-center justify-center rounded-b-md bg-white/20"}>
                     Již brzy...
                 </div>
             }

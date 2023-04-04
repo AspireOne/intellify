@@ -168,8 +168,12 @@ const Subscription = (props: InferGetStaticPropsType<typeof getStaticProps>) => 
                                         className={`border border-1 border-gray-600 rounded-md py-2 px-6 duration-100 
                                     ${preSelectedOnetimeOffer === offer ? "bg-gray-600" : "hover:bg-gray-700"}`}
                                     >
-                                        <div className={"text-md sm:text-lg font-bold"}>~{Utils.tokensToWords(offer.tokens)}</div>
-                                        <div className={"text-gray-500 text-sm dark:text-gray-400"}>slov</div>
+                                        <div className={"text-md sm:text-lg font-bold"}>
+                                            ~{Utils.tokensToWords(offer.tokens)}
+                                        </div>
+                                        <div className={"text-gray-500 text-sm dark:text-gray-400"}>
+                                            slov
+                                        </div>
                                     </button>
                                 ))
                         }
@@ -203,7 +207,11 @@ const PaymentSection = (props: { offer?: z.infer<typeof Offer> | null}) => {
     const [loading, setLoading] = useState(false);
     let points: string[] = [];
     if (props.offer) {
-        points = ["Až ~" + Utils.tokensToWords(props.offer.tokens) + " slov", ...(props.offer.points)];
+        points = [
+            "Až ~" + Utils.tokensToWords(props.offer.tokens) + " slov",
+            Utils.tokensToPages(props.offer.tokens) + " stran A4 textu",
+            ...(props.offer.points)
+        ];
     }
 
     return (
@@ -278,6 +286,7 @@ const PlanCard = (props: {
     onClick: (offer: z.infer<typeof Offer>) => void,
     offer?: z.infer<typeof Offer> }) => {
     const tokenPoint = "Až ~" + Utils.tokensToWords(props.offer?.tokens) + " slov";
+    const pagePoint = `${Utils.tokensToPages(props.offer?.tokens)} stran A4 textu`;
 
     return (
         <div>
@@ -294,7 +303,7 @@ const PlanCard = (props: {
                     {
                         !props.offer?.points
                             ? <Skeleton count={4} className={"mx-1 w-full"}/>
-                            : <FormattedPoints points={[tokenPoint, ...props.offer.points]}/>
+                            : <FormattedPoints points={[tokenPoint, pagePoint, ...props.offer.points]}/>
                     }
                 </ul>
                 {

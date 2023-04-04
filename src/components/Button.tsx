@@ -82,7 +82,7 @@ function getStyles(style?: Style, isBeingClicked?: boolean, loading?: boolean, c
         case Style.FILL:
         default:
             styling = twMerge(
-                "shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]",
+                "border border-gray-400/20 shadow-md",
                 !isBeingClicked && !loading && "hover:bg-indigo-500",
                 isBeingClicked ? "bg-indigo-800" : loading ? "bg-indigo-800" : "bg-indigo-700"
             )
