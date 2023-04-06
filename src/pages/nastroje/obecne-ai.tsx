@@ -1,6 +1,4 @@
-import LandingPageProps from "../../lib/landingPageProps";
 import {NextPage} from "next";
-import ModuleLandingPage from "../../components/ModuleLandingPage";
 import React from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -129,6 +127,7 @@ const GeneralAi: NextPage = () => {
                         </div>
                     </Button>
                 </div>
+                {/*TODO!: Remove IOCard and replace with Card!*/}
                 <IOCard text={""} className={`rounded-none rounded-lg rounded-t-none p-6 pt-0`}>
                     {output}
                 </IOCard>
