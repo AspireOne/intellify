@@ -28,6 +28,7 @@ export default class Email {
     public static async sendRegistrationMail(mail: string) {
         await transporter.sendMail({
             to: mail,
+            from: `Intellify <${process.env.EMAIL_USERNAME}>`,
             subject: "Děkujeme za registraci na Intellify! 🚀",
             text: `Dobrý den,
 S velkou radostí Vás vítáme na Intellify, moderní webové platformě nabízející nástroje založené na umělé inteligenci pro každodenní život. Děkujeme Vám za registraci a za to, že jste se připojili k naší komunitě uživatelů, kteří jsou nadšeni z využívání technologií k zjednodušení svého života.
