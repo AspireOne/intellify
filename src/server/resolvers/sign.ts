@@ -3,8 +3,8 @@ import {Context} from "../context";
 import {TRPCError} from "@trpc/server";
 import {registerInput, registerOutput} from "../schemas/sign";
 import User from "../mongodb_models/User";
-import Utils from "../lib/utils";
 import {Password} from "../lib/password";
+import Email from "../lib/mail";
 
 export async function registerResolver(ctx: Context, input: z.input<typeof registerInput>): Promise<z.output<typeof registerOutput>> {
     await ctx.connectDb();
@@ -35,5 +35,7 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
             message: "Něco se pokazilo.",
         });
     }
+
+    await Email.sendRegistrationMail(input.email);
     return {message: 'Uživatel úspěšně registrován.' };
 }

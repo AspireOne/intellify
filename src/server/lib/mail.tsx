@@ -25,6 +25,28 @@ export default class Email {
         });
     }
 
+    public static async sendRegistrationMail(mail: string) {
+        await transporter.sendMail({
+            to: mail,
+            subject: "Děkujeme za registraci na Intellify! 🚀",
+            text: `Dobrý den,
+S velkou radostí Vás vítáme na Intellify, moderní webové platformě nabízející nástroje založené na umělé inteligenci pro každodenní život. Děkujeme Vám za registraci a za to, že jste se připojili k naší komunitě uživatelů, kteří jsou nadšeni z využívání technologií k zjednodušení svého života.
+
+Jsme si vědomi toho, že pokud jde o online platformy, máte spoustu možností. Proto jsme poctěni, že jste si vybrali Intellify. Naše platforma je navržena tak, aby Vám poskytla nejlepší možnou zkušenost, ať už hledáte způsoby, jak zefektivnit pracovní úkoly, organizovat osobní život nebo prostě objevovat nejnovější technologie z oblasti umělé inteligence.
+
+Jako registrovaný uživatel máte nyní přístup ke kompletní sadě našich nástrojů. Vyzýváme Vás, abyste prozkoumali naši platformu a objevili všechny možnosti, které Intellify nabízí.
+
+Pokud máte jakékoliv otázky nebo zpětnou vazbu, neváhejte nás kontaktovat na adrese podpora@intellify.cz. Náš tým je vždy k dispozici, aby Vám pomohl a zajistil, aby Vaše zkušenost s Intellify byla pozitivní.
+
+Ještě jednou Vám děkujeme za připojení k naší komunitě. Těšíme se na to, že Vám pomůžeme dosáhnout Vašich cílů a zjednodušit Váš život pomocí síly umělé inteligence.
+
+S pozdravem,
+
+Tým Intellify 👋
+`
+        })
+    }
+
     /*public static async sendEmailVerificationMail(to: string, offerId: OfferId) {
 
     }*/
@@ -49,9 +71,12 @@ ${message}`,
         await transporter.sendMail({
             to: to,
             subject: "Potvrzení objednávky",
-            text: `Objednávka byla úspěšně zaplacena!\\n\\nPoložka: ${offer.name}\nCena: ${offer.price} Kč`,
+            text: `Objednávka byla úspěšně zaplacena!
+            
+Položka: ${offer.name}
+Cena: ${offer.price} Kč`,
             html: `
-                <h1 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Děkujeme za objednávku</h1>
+                <h1 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Děkujeme za objednávku!</h1>
 <p style="font-size: 16px; color: #666; margin-bottom: 10px;">Objednávka byla úspěšně zaplacena.</p>
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 20px;">
   <tr>
