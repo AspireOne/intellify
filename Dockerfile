@@ -8,11 +8,11 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install pnpm globally
-RUN npm install -g pnpm
+RUN npm install pnpm
 
 # Install dependencies based on the preferred package manager
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
+RUN ./node_modules/.bin/pnpm install --frozen-lockfile
 
 # 2. Rebuild the source code only when needed
 FROM base AS builder
@@ -22,7 +22,7 @@ COPY . .
 # This will do the trick, use the corresponding env file for each environment.
 # Comment it out because the docker image is built on the server wheethe env file is not available.
 #COPY .env.production .env.production
-RUN pnpm build
+RUN ./node_modules/.bin/pnpm build
 
 # 3. Production image, copy all the files and run next
 FROM base AS runner
