@@ -4,7 +4,8 @@
     "preinstall": "npx only-allow pnpm",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -H 0.0.0.0 -p ${PORT:-8080}"
+    "start": "next start",
+    "_tmp": "-H 0.0.0.0 -p ${PORT:-8080}"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
