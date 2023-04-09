@@ -17,17 +17,14 @@ export default function Document() {
                 <meta name="theme-color" content="#665cea"/>
 
                 {/* Global Site Tag (gtag.js) - Google Analytics */}
-                <script
-                    async
-                    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
-                />
-                <script
-                    dangerouslySetInnerHTML={{
+                <script async src={`https://www.googletagmanager.com/gtag/js?id=G-N556CF5Z13`}/>
+                <script dangerouslySetInnerHTML={{
                         __html: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-N556CF5Z13');`,
-                    }}/>
+                    }}
+                />
             </Head>
             <body>
                 <Main />
