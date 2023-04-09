@@ -10,7 +10,7 @@ import { MantineProvider } from '@mantine/core';
 import {Notifications} from "@mantine/notifications";
 import ReactGA from "react-ga4";
 
-ReactGA.initialize("G-BC5T4WK64W");
+ReactGA.initialize("G-N556CF5Z13");
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
