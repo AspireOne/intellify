@@ -1,13 +1,16 @@
 import '../../styles/globals.css'
 import type {AppProps} from 'next/app'
 import Sidebar from "../components/Sidebar";
-import React from "react";
+import React, {useEffect} from "react";
 import Footer from "../components/Footer";
 import {SessionProvider} from "next-auth/react";
 import {trpc} from "../lib/trpc";
 import {SkeletonTheme} from "react-loading-skeleton";
 import { MantineProvider } from '@mantine/core';
 import {Notifications} from "@mantine/notifications";
+import ReactGA from "react-ga4";
+
+ReactGA.initialize("G-BC5T4WK64W");
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
     return (
