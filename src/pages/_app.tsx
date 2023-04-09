@@ -13,8 +13,22 @@ import ReactGA from "react-ga4";
 ReactGA.initialize("G-N556CF5Z13");
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
+
+    useEffect(() => {
+        // initialize google analytics 4.
+        // @ts-ignore
+        window.dataLayer = window.dataLayer || [];
+
+        // @ts-ignore
+        function gtag(){dataLayer.push(arguments)}
+        // @ts-ignore
+        gtag('js', new Date());
+        // @ts-ignore
+        gtag('config', 'G-N556CF5Z13');
+    }, []);
     return (
         <SessionProvider session={session} refetchOnWindowFocus={true} refetchInterval={60 * 3}>
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-N556CF5Z13"></script>
             <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
                 <div className="text-gray-100 dark leading-6 bg-bgcolor">
                     <MantineProvider theme={{
