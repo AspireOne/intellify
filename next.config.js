@@ -5,7 +5,7 @@ module.exports = {
     return [
       {
         source: '/:path*',
-        has: [{ type: 'header', key: "host", value: 'www.intellify.cz' }],
+        has: [{ type: 'header', key: "host", value: 'www.intellify.cz' }, { type: 'header', key: "host", value: 'killme.tech' }],
         destination: 'https://intellify.cz/:path*',
         permanent: true
       }
