@@ -66,6 +66,7 @@ ${message}`,
         });
     }
 
+    // TODO!: SEND INVOICE
     public static async sendOfferPaidMail(to: string, offerId: OfferId) {
         const offer = await Utils.getOffer(offerId);
 
@@ -82,7 +83,7 @@ Cena: ${offer.price} Kč`,
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 20px;">
   <tr>
     <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #666;">Objednávka:</td>
-    <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #333; font-weight: bold;">${offer.name}</td>
+    <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #333; font-weight: bold;">${offer.fullName}</td>
   </tr>
   <tr>
     <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #666;">Cena:</td>
