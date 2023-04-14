@@ -37,10 +37,5 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
         });
     }
 
-    try {
-        await Email.sendRegistrationMail(input.email);
-    } catch (e) {
-        console.error("Could not send registration email", e);
-    }
     return {message: 'Uživatel úspěšně registrován.'};
 }

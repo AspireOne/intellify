@@ -59,9 +59,7 @@ export const authOptions: AuthOptions = {
         })
     ],
     adapter: MongoDBAdapter(clientPromise),
-    session: {
-        strategy: "jwt",
-    },
+    session: {strategy: "jwt",},
     callbacks: {
         session: async ({ session, token, user }) => {
 /*            console.log("Session Callback: ");
@@ -73,7 +71,7 @@ export const authOptions: AuthOptions = {
             if (session?.user) session.user.id = token.sub;
             return session;
         },
-        jwt: async ({ user, token, profile, account }) => {
+        jwt: async (data) => {
 /*            console.log("JWT Callback: ");
             console.log("user: ", user);
             console.log("token: ", token);
@@ -81,11 +79,21 @@ export const authOptions: AuthOptions = {
             console.log("account: ", account);
             console.log("\n\n\n\n");*/
 
-            if (user) {
-                /*token.accessToken = account.access_token;*/
-                token.id = user.id;
+            if (data.isNewUser && (data.user)) {
+                if (!(data.token.email || data.profile?.email || data.user?.email))
+                    console.error("Silent error: Email not found during JWT callback!");
+                try {
+                    await Email.sendRegistrationMail((data.token.email || data.profile?.email || data.user?.email)!);
+                } catch (e) {
+                    console.error("Could not send registration email", e);
+                }
             }
-            return token;
+
+            if (data.user) {
+                /*token.accessToken = account.access_token;*/
+                data.token.id = data.user.id;
+            }
+            return data.token;
         },
     },
 }
