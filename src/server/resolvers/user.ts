@@ -56,7 +56,10 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
     let subscriptionData;
     if (user.subscription) {
         const offer = await Utils.getOffer(user.subscription.id);
-        subscriptionData = {...user.subscription, remainingTokens: user.remainingSubscriptionTokens ?? 0, data: offer};
+        subscriptionData = {
+            ...user.subscription,
+            remainingTokens: user.remainingSubscriptionTokens ?? 0,
+            data: offer};
     }
 
     return {
@@ -64,7 +67,7 @@ export async function getUserResolver(ctx: Context): Promise<z.output<typeof get
         image: user.image,
         email: user.email,
         emailVerified: user.emailVerified ?? false,
-        remainingFreeTokens: user.remainingFreeTokens,
+        remainingFreeTokens: user.remainingFreeTokens ?? 0,
         subscription: subscriptionData,
         hasPassword: !!user.password,
     }
