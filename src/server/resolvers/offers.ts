@@ -217,6 +217,6 @@ async function createSession(ctx: Context, offer: z.infer<typeof Offer>, stripe:
             },
         ],
         success_url: `${ctx.req.headers.origin}${paths.orderResult}?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${ctx.req.headers.origin}${paths.orderResult}?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${ctx.req.headers.origin}${paths.pricing}`,
     });
 }
