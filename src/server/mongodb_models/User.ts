@@ -13,16 +13,16 @@ class User {
     public email!: string
     @prop()
     public password?: string
-    @prop({required: true, default: null})
+    @prop({default: null})
     public emailVerified!: boolean | null
     @prop()
     public image?: string
     // "Free" tokens (for example from one time token purchase) and subscription tokens are separate so that subscription tokens
     // can be reset every month.
-    @prop({default: undefined})
-    public remainingFreeTokens!: number | undefined
-    @prop({default: undefined})
-    public remainingSubscriptionTokens!: number | undefined
+    @prop({default: 1500})
+    public remainingFreeTokens?: number
+    @prop({})
+    public remainingSubscriptionTokens?: number
 
     @prop({ type: () => Object, allowMixed: Severity.ALLOW })
     subscription?: { id: OfferId, stripeId: string, updatedAt: Date, cancelled?: boolean }

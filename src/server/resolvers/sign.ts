@@ -24,7 +24,6 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
     try {
         await User.create({
             email: input.email,
-            remainingFreeTokens: 1000,
             password: hashedPass,
             name: (!input.name && !input.surname ? undefined : `${input.name} ${input.surname}`),
             image: "https://intellify.cz/assets/default_avatar.png"});
@@ -35,6 +34,12 @@ export async function registerResolver(ctx: Context, input: z.input<typeof regis
             cause: e,
             message: "Něco se pokazilo.",
         });
+    }
+
+    try {
+        await Email.sendRegistrationMail(input.email);
+    } catch (e) {
+        console.error("Could not send registration email", e);
     }
 
     return {message: 'Uživatel úspěšně registrován.'};
