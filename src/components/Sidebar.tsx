@@ -200,7 +200,7 @@ function ListItem(props: {icon?: any, text: string, className?: string, onClick?
                 </span>
                 {
                     props.remaining !== undefined &&
-                    <div className={"-mt-1 -ml-1 px-2 text-sm rounded-full bg-orange-400/20 text-gray-300"}>
+                    <div className={`-mt-1 -ml-1 ${props.remaining !== null && "px-2"} text-sm rounded-full bg-orange-400/20 text-gray-300`}>
                         {
                             props.remaining === null
                             ? <Skeleton className={"rounded-full"}/>
