@@ -19,37 +19,43 @@ class User {
     public image?: string
     // "Free" tokens (for example from one time token purchase) and subscription tokens are separate so that subscription tokens
     // can be reset every month.
-    @prop({default: 0})
-    public remainingFreeTokens!: number
-    @prop({default: 0})
-    public remainingSubscriptionTokens!: number
+    @prop({default: undefined})
+    public remainingFreeTokens!: number | undefined
+    @prop({default: undefined})
+    public remainingSubscriptionTokens!: number | undefined
 
     @prop({ type: () => Object, allowMixed: Severity.ALLOW })
     subscription?: { id: OfferId, stripeId: string, updatedAt: Date, cancelled?: boolean }
     public async decreaseTokensAndSave(this: DocumentType<User>, tokens: number) {
         if (!this.subscription) {
-            this.remainingFreeTokens -= tokens;
+            if (!this.remainingFreeTokens) this.remainingFreeTokens = -tokens;
+            else this.remainingFreeTokens -= tokens;
             await this.save();
             return;
         }
 
-        if (this.remainingSubscriptionTokens >= tokens) {
+        if (this.remainingSubscriptionTokens && this.remainingSubscriptionTokens >= tokens) {
             this.remainingSubscriptionTokens -= tokens;
             await this.save();
             return;
         }
 
-        this.remainingFreeTokens -= (tokens - this.remainingSubscriptionTokens);
+        if (this.remainingFreeTokens) {
+            this.remainingFreeTokens -= (tokens - (this.remainingSubscriptionTokens ?? 0));
+        } else {
+            this.remainingFreeTokens = -tokens;
+        }
         this.remainingSubscriptionTokens = 0;
         await this.save();
     }
 
-    public async getTotalTokens(this: DocumentType<User>) {
-        return this.remainingFreeTokens + this.remainingSubscriptionTokens;
+    public async getTotalTokens(this: DocumentType<User>): Promise<number> {
+        return (this.remainingFreeTokens ?? 0) + (this.remainingSubscriptionTokens ?? 0);
     }
 
     public async addFreeTokensAndSave(this: DocumentType<User>, tokens: number) {
-        this.remainingFreeTokens += tokens;
+        if (this.remainingFreeTokens) this.remainingFreeTokens += tokens;
+        else this.remainingFreeTokens = tokens;
         await this.save();
     }
 
