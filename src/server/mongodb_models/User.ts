@@ -13,15 +13,15 @@ class User {
     public email!: string
     @prop()
     public password?: string
-    @prop({required: true, default: false})
-    public emailVerified!: boolean
+    @prop({required: true, default: null})
+    public emailVerified!: boolean | null
     @prop()
     public image?: string
     // "Free" tokens (for example from one time token purchase) and subscription tokens are separate so that subscription tokens
     // can be reset every month.
-    @prop({required: true, default: 0})
+    @prop({default: 0})
     public remainingFreeTokens!: number
-    @prop({required: true, default: 0})
+    @prop({default: 0})
     public remainingSubscriptionTokens!: number
 
     @prop({ type: () => Object, allowMixed: Severity.ALLOW })
