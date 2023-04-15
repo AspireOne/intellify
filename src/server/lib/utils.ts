@@ -11,4 +11,9 @@ export default class Utils {
         if (!offer) throw new Error("Offer id doesn't exist.");
         return offer;
     }
+
+    // Generate order id. 10 digit number.
+    public static generateOrderId() {
+        return Math.floor(1000000000 + Math.random() * 9000000000);
+    }
 }

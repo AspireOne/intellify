@@ -1,8 +1,10 @@
 import {protectedProcedure, publicProcedure, router} from "../trpc";
 import {getOfferFromSessionInput, getOffersOutput, getSessionInput} from "../schemas/offers";
-import {getOfferFromSession, getOffers, getSession} from "../resolvers/offers";
+import {getOffers, getSession} from "../resolvers/offers";
 import User from "../mongodb_models/User";
 import {TRPCError} from "@trpc/server";
+import Utils from "../lib/utils";
+import StripeSession from "../mongodb_models/StripeSession";
 
 export const offersRouter = router({
     getOffers: publicProcedure
@@ -15,7 +17,15 @@ export const offersRouter = router({
 
     getOfferFromSession: publicProcedure
         .input(getOfferFromSessionInput)
-        .mutation(({ctx, input}) => getOfferFromSession(ctx, input)),
+        .mutation(async ({ctx, input}) => {
+            await ctx.connectDb();
+            const session = await StripeSession.findOne({sessionId: input.session});
+            if (!session) return undefined;
+            return {
+                offer: await Utils.getOffer(session.offerId),
+                orderId: session.orderId
+            }
+        }),
 
     cancelSubscription: protectedProcedure
         .mutation(async ({ctx}) => {

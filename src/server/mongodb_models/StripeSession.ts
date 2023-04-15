@@ -14,6 +14,8 @@ export class StripeSession {
     // this is fucking stupid but it doesnt work with ref otherwise.
     @prop({ required: true })
     userId!: string;
+    @prop({required: true})
+    orderId!: number;
 }
 
 export default getModelForClass(StripeSession, {schemaOptions: {timestamps: true}});

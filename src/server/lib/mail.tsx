@@ -67,7 +67,7 @@ ${message}`,
     }
 
     // TODO!: SEND INVOICE
-    public static async sendOfferPaidMail(to: string, offerId: OfferId) {
+    public static async sendOfferPaidMail(to: string, offerId: OfferId, orderId: number) {
         const offer = await Utils.getOffer(offerId);
 
         await transporter.sendMail({
@@ -75,7 +75,8 @@ ${message}`,
             subject: "Potvrzení objednávky",
             text: `Objednávka byla úspěšně zaplacena!
             
-Položka: ${offer.name}
+Číslo objednávky: ${orderId}
+Položka: ${offer.fullName}
 Cena: ${offer.price} Kč`,
             html: `
                 <h1 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Děkujeme za objednávku!</h1>
@@ -88,6 +89,10 @@ Cena: ${offer.price} Kč`,
   <tr>
     <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #666;">Cena:</td>
     <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #333; font-weight: bold;">${offer.price} Kč</td>
+  </tr>
+  <tr>
+    <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #666;">Číslo objednávky:</td>
+    <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #333; font-weight: bold;">${orderId}</td>
   </tr>
 </table>
             `,

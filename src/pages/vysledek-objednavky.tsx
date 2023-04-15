@@ -66,14 +66,14 @@ const OrderResult: NextPage = () => {
                     <Subtitle className={"text-center"}>
                         Detaily vám byly odeslány na e-mail. V případě dotazů nebo problémů nás neváhejte kontaktovat.
                     </Subtitle>
-                    {(query.status === "loading" || query.data) && <OfferDetails className={"m-6"} offer={query.data}/>}
+                    <OfferDetails className={"m-6"} offer={query.data?.offer} orderId={query.data?.orderId}/>
                 </div>
             </ArticleDiv>
         </div>
     );
 };
 
-function OfferDetails(props: {offer?: z.infer<typeof Offer>, className?: string}) {
+function OfferDetails(props: {offer?: z.infer<typeof Offer>, orderId?: number, className?: string}) {
     // A card with the details of the order.
     return (
         <Card className={twMerge(`flex flex-col gap-4 ${props.className}`)}>
@@ -85,16 +85,17 @@ function OfferDetails(props: {offer?: z.infer<typeof Offer>, className?: string}
                 {!props.offer?.points && <Skeleton count={3} width={"250px"}/>}
                 {
                     props.offer?.points.map((point, index) => (
-                    <li key={index} className="">{point}</li>
-                ))}
+                        <li key={index} className="">{point}</li>
+                    ))}
             </ul>
             <div>
-                {!props.offer && <Skeleton width={"70px"} count={2}/>}
+                {!props.offer && <Skeleton width={"70px"} count={3}/>}
                 {
                     props.offer &&
                     <>
                         <p><b>Cena</b>: {props.offer.price} Kč</p>
                         <p><b>{props.offer.type == OfferType.ONETIME ? "Zakoupeno slov" : "Maximum slov"}</b>: {Utils.tokensToWords(props.offer?.tokens)}</p>
+                        <p><b>{"Číslo objednávky"}</b>: {props.orderId}</p>
                     </>
                 }
             </div>

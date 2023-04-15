@@ -118,14 +118,6 @@ export async function getOffers(): Promise<z.output<typeof getOffersOutput>> {
     return offers;
 }
 
-export async function getOfferFromSession(ctx: Context, input: z.input<typeof getOfferFromSessionInput>): Promise<z.input<typeof getOfferFromSessionOutput>> {
-    await ctx.connectDb();
-    console.log("finding session with id " + input.session);
-    const session = await StripeSession.findOne({sessionId: input.session});
-    if (!session) return undefined;
-    return await Utils.getOffer(session.offerId);
-}
-
 export async function getSession(ctx: Context, input: z.input<typeof getSessionInput>) {
     if (!ctx.session?.user?.id) throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
@@ -160,7 +152,12 @@ export async function getSession(ctx: Context, input: z.input<typeof getSessionI
 
     await ctx.connectDb();
     try {
-        await StripeSession.create({sessionId: session.id, userId: ctx.session.user.id, offerId: offer.id});
+        await StripeSession.create({
+            sessionId: session.id,
+            userId: ctx.session.user.id,
+            offerId: offer.id,
+            orderId: Utils.generateOrderId()
+        });
     } catch (e) {
         console.error(e);
         throw new TRPCError({

@@ -72,7 +72,8 @@ async function handleCheckoutSessionCompletedEvent(event: Stripe.Event) {
         await user.setSubscriptionAndSave(offer.id, session.subscription as string);
     }
 
-    await Email.sendOfferPaidMail(user.email, stripeSession.offerId as OfferId);
+
+    await Email.sendOfferPaidMail(user.email, stripeSession.offerId as OfferId, stripeSession.orderId);
 }
 
 async function handleInvoiceCreatedEvent(event: Stripe.Event) {
