@@ -66,8 +66,14 @@ ${message}`,
         });
     }
 
-    // TODO!: SEND INVOICE
-    public static async sendOfferPaidMail(to: string, offerId: OfferId, orderId: number) {
+/*    public static async sendSubscriptionPaidMail(to: string, orderId: number, invoiceUrl?: string) {
+        await transporter.sendMail({
+            to: to,
+            subject: "Potvrzení platby předplatného",
+            text: "Objednávka byla úspěšně zaplacena!"
+        });
+    }*/
+    public static async sendOfferPaidMail(to: string, offerId: OfferId, orderId: number, invoiceUrl?: string) {
         const offer = await Utils.getOffer(offerId);
 
         await transporter.sendMail({
@@ -77,7 +83,8 @@ ${message}`,
             
 Číslo objednávky: ${orderId}
 Položka: ${offer.fullName}
-Cena: ${offer.price} Kč`,
+Cena: ${offer.price} Kč
+${invoiceUrl ? "Faktura: " + invoiceUrl : ""}}`,
             html: `
                 <h1 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Děkujeme za objednávku!</h1>
 <p style="font-size: 16px; color: #666; margin-bottom: 10px;">Objednávka byla úspěšně zaplacena.</p>
@@ -94,6 +101,12 @@ Cena: ${offer.price} Kč`,
     <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #666;">Číslo objednávky:</td>
     <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #333; font-weight: bold;">${orderId}</td>
   </tr>
+    ${invoiceUrl ? `
+    <tr>
+        <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #666;">Faktura:</td>
+        <td style="width: 50%; padding: 10px; border: 1px solid #ccc; font-size: 16px; color: #333; font-weight: bold;"><a href="${invoiceUrl}">Stáhnout</a></td>
+    </tr>
+    ` : ""}
 </table>
             `,
             from: `Intellify <${process.env.EMAIL_USERNAME}>`,

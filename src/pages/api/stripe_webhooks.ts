@@ -17,7 +17,6 @@ export const config = {
 };
 
 // TODO: Implement webhooks for refunds etc!
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const buff = await buffer(req);
     const sig = req.headers["stripe-signature"];
@@ -37,10 +36,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await handleCheckoutSessionCompletedEvent(event);
             return res.status(200).send("Webhook received | checkout.session.completed successfuly handled.");
             break;
-        case "invoice.created":
-
-            await handleInvoiceCreatedEvent(event);
-            return res.status(200).send("Webhook received | invoice.created successfuly handled.");
+        case "invoice.payment_succeeded":
+            await handleInvoicePaymentSucceededEvent(event);
+            return res.status(200).send("Webhook received | invoice.payment_succeeded successfuly handled.");
         default:
             return res.status(200).send("Webhook received | ignored.");
     }
@@ -72,51 +70,39 @@ async function handleCheckoutSessionCompletedEvent(event: Stripe.Event) {
         await user.setSubscriptionAndSave(offer.id, session.subscription as string);
     }
 
-
     await Email.sendOfferPaidMail(user.email, stripeSession.offerId as OfferId, stripeSession.orderId);
 }
 
-async function handleInvoiceCreatedEvent(event: Stripe.Event) {
+async function handleInvoicePaymentSucceededEvent(event: Stripe.Event) {
     console.log("Attention! Handling session invoice created event! Recurring subscription cycle?");
     const invoice = event.data.object as Stripe.Invoice;
+
+    const subscription = await stripe.subscriptions.retrieve(invoice.subscription);
+    /*const customer = await stripe.customers.retrieve(subscription.customer);*/
+    console.log("-> Sucessfully retrieved subscription and customer from stripe...");
+
     if (invoice.billing_reason !== "subscription_cycle") {
-        console.log("The billing reason was not subscription_cycle, returning!");
+        console.log("The billing reason was not subscription_cycle.");
         return;
     }
     console.log("-> The billing reason was subscription_cycle...");
 
-    const subscription = await stripe.subscriptions.retrieve(invoice.subscription);
-    const customer = await stripe.customers.retrieve(subscription.customer);
-
-    console.log("-> Sucessfully retrieved subscription and customer from stripe...");
-
     const currentDate = new Date();
-    const currentBillingPeriodEnd = new Date(subscription.current_period_end * 1000);
 
     // checks for the subscription status and the current billing period end because it needs to make sure that
     // the invoice event is related to an active subscription and that the invoice was generated
     // at the end of a billing cycle.
+    const currentBillingPeriodEnd = new Date(subscription.current_period_end * 1000);
     if (subscription.status !== "active" || currentBillingPeriodEnd.getTime() !== currentDate.getTime()) {
         console.log("Subscription status was not active or current billing period was not the same as current date! Returning.");
         return;
     }
 
-    const nextInvoice = await stripe.invoices.create({
-        customer: customer.id,
-        subscription: subscription.id,
-        auto_advance: true,
-    });
-
-    console.log("-> Invoice created...");
-
-    // Send the invoice to the customer via email.
-    await stripe.invoices.sendInvoice(nextInvoice.id);
-    console.log("-> Invoice sent...");
-
     // Update User.subscription.updatedAt.
     const updated = await User.findOneAndUpdate({"subscription.stripeId": subscription.id},
         {$set: {"subscription.updatedAt": currentDate}}, {new: true});
     if (!updated) throw new Error("Failed to update the subscription's updatedAt date in the db.");
+
     console.log("-> Everything completed. Updated user:");
     console.log(updated);
 }
