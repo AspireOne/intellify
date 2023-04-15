@@ -30,7 +30,8 @@ export default class Email {
             to: mail,
             from: `Intellify <${process.env.EMAIL_USERNAME}>`,
             subject: "Děkujeme za registraci na Intellify! 🚀",
-            text: `Dobrý den,
+            text:`
+            Dobrý den,
 S velkou radostí Vás vítáme na Intellify, moderní webové platformě nabízející nástroje založené na umělé inteligenci pro každodenní život. Děkujeme Vám za registraci a za to, že jste se připojili k naší komunitě uživatelů, kteří jsou nadšeni z využívání technologií k zjednodušení svého života.
 
 Jsme si vědomi toho, že pokud jde o online platformy, máte spoustu možností. Proto jsme poctěni, že jste si vybrali Intellify. Naše platforma je navržena tak, aby Vám poskytla nejlepší možnou zkušenost, ať už hledáte způsoby, jak zefektivnit pracovní úkoly, organizovat osobní život nebo prostě objevovat nejnovější technologie z oblasti umělé inteligence.
@@ -44,6 +45,41 @@ Ještě jednou Vám děkujeme za připojení k naší komunitě. Těšíme se na
 S pozdravem,
 
 Tým Intellify 👋
+            `,
+            html: ` <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;">
+    <h1 style="font-size: 23px; margin-top: 0;">Dobrý den,</h1>
+    <p style="margin-bottom: 20px;">
+      S velkou radostí Vás vítáme na Intellify, moderní webové platformě
+      nabízející nástroje založené na umělé inteligenci pro každodenní život.
+      Děkujeme Vám za registraci a za to, že jste se připojili k naší komunitě
+      uživatelů, kteří jsou nadšeni z využívání technologií k zjednodušení svého
+      života.
+    </p>
+    <p style="margin-bottom: 20px;">
+      Jsme si vědomi toho, že pokud jde o online platformy, máte spoustu
+      možností. Proto jsme poctěni, že jste si vybrali Intellify. Naše platforma
+      je navržena tak, aby Vám poskytla nejlepší možnou zkušenost, ať už hledáte
+      způsoby, jak zefektivnit pracovní úkoly, organizovat osobní život nebo
+      prostě objevovat nejnovější technologie z oblasti umělé inteligence.
+    </p>
+    <p style="margin-bottom: 20px;">
+      Jako registrovaný uživatel máte nyní přístup ke kompletní sadě našich
+      nástrojů. Vyzýváme Vás, abyste prozkoumali naši platformu a objevili
+      všechny možnosti, které Intellify nabízí.
+    </p>
+    <p style="margin-bottom: 20px;">
+      Pokud máte jakékoliv otázky nebo zpětnou vazbu, neváhejte nás kontaktovat
+      na adrese <a href="mailto:podpora@intellify.cz" style="color: #000; text-decoration: underline;">podpora@intellify.cz</a>.
+      Náš tým je vždy k dispozici, aby Vám pomohl a zajistil, aby Vaše zkušenost
+      s Intellify byla pozitivní.
+    </p>
+    <p style="margin-bottom: 20px;">
+      Ještě jednou Vám děkujeme za připojení k naší komunitě. Těšíme se na to,
+      že Vám pomůžeme dosáhnout Vašich cílů a zjednodušit Váš život pomocí síly
+      umělé inteligence.
+    </p>
+    <p style="font-size: 19px; font-weight: bold;">S pozdravem, Tým Intellify 👋</p>
+  </div>
 `
         })
     }
