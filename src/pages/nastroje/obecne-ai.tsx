@@ -60,7 +60,7 @@ const GeneralAi: NextPage = () => {
                     Vědomosti na dosah ruky
                 </h2>
                 <p className={"text-gray-300"}>
-                    Generujte title, ptejte se na otázky, překládejte jazyky, nechte si shrnout texty a další.
+                    Generujte texty, ptejte se na otázky, překládejte jazyky, nechte si shrnout texty a další.
                 </p>
             </PageHeaderDiv>
 

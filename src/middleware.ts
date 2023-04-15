@@ -14,12 +14,12 @@ export async function middleware(req: NextRequest) {
         if (await isSignedIn(req)) return NextResponse.redirect(new URL(paths.index, req.url));
     }
 
-    if (pathname.startsWith(paths.profile)) {
-        if (!await isSignedIn(req)) return NextResponse.redirect(new URL(paths.sign, req.url));
-    }
-
     if (pathname.startsWith(paths.orderResult)) {
         if (!req.url.includes("session_id=")) return NextResponse.redirect(new URL(paths.index, req.url));
+    }
+
+    if (pathname.startsWith(paths.profile) || pathname.startsWith("/nastroje/")) {
+        if (!await isSignedIn(req)) return NextResponse.redirect(new URL(paths.sign, req.url));
     }
 
     /*const session = await getToken({ req, secret: process.env.SECRET })
