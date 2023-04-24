@@ -27,18 +27,16 @@ export async function getServerSideProps(
     context: GetServerSidePropsContext<{}>,
 ) {
     const {slug} = context.query;
-    if (!slug) return {props: {}}
 
     const ssg = createProxySSGHelpers({
         router: appRouter,
         ctx: await createContext(),
     });
     const url = await ssg.urlShortener.getUrl.fetch({slug: slug as string});
-    if (!url) return {props: {}};
 
     return {
         redirect: {
-            destination: url,
+            destination: url || "https://intellify.cz/u",
             permanent: false,
         }
     }
@@ -51,8 +49,8 @@ export async function getServerSideProps(
 
 export default function UrlShortener(props: InferGetStaticPropsType<typeof getServerSideProps>) {
     return (
-        <div>
-            Přepojování...
+        <div className={"text-center text-xl"}>
+            Not Found
         </div>
     )
 }
