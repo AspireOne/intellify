@@ -25,6 +25,12 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
         // @ts-ignore
         gtag('config', 'G-N556CF5Z13');
     }, []);*/
+
+    // Create a context for useSession.
+
+    /*const query = trpc.useContext();*/
+    /*const user = query.user.getUser.setData({});*/
+
     return (
         <SessionProvider session={session} refetchOnWindowFocus={true} refetchInterval={60 * 3}>
             <SkeletonTheme baseColor={"rgba(255, 255, 255, 0.05)"} highlightColor={"rgba(255, 255, 255, 0.4)"}>
