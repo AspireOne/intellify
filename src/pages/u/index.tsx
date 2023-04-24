@@ -4,15 +4,30 @@ import PageTitle from "../../components/PageTitle";
 import Subtitle from "../../components/Subtitle";
 import React from "react";
 import Input from "../../components/Input";
-import Button from "../../components/Button";
+import Button, {Style} from "../../components/Button";
 import {trpc} from "../../lib/trpc";
 import {notifications} from "@mantine/notifications";
+
+const lsKey = "intellify.shortened-urls";
 
 export default function UrlShortener() {
     const [url, setUrl] = React.useState("");
     const [slug, setSlug] = React.useState("");
     const [loading, setLoading] = React.useState(false);
     const [shortenedUrls, setShortenedUrls] = React.useState<string[]>([]);
+    const [copied, setCopied] = React.useState(false);
+
+    function setCopiedTrue() {
+        setCopied(true);
+        setTimeout(() => {
+            setCopied(false);
+        }, 1000);
+    }
+
+    React.useEffect(() => {
+        const ls = localStorage.getItem(lsKey);
+        if (ls) setShortenedUrls(JSON.parse(ls));
+    }, []);
 
     const shortenerMutation = trpc.urlShortener.shortenUrl.useMutation({
         onSuccess: () => {
@@ -23,6 +38,10 @@ export default function UrlShortener() {
             });
 
             setShortenedUrls([...shortenedUrls, slug]);
+            // save shortenedUrls array to localstorage.
+            localStorage.setItem(lsKey, JSON.stringify([...shortenedUrls, slug]));
+            setUrl("");
+            setSlug("");
         },
         onError: (e) => {
             notifications.show({
@@ -38,6 +57,12 @@ export default function UrlShortener() {
 
     function handleSubmit() {
         shortenerMutation.mutate({slug: slug, url: url});
+    }
+
+    function getFormattedLinkText(slug: string) {
+        let text = "intellify.cz/u/" + slug;
+        text = text.length > 35 ? text.substring(0, 30) + "..." : text;
+        return text;
     }
 
     return (
@@ -65,9 +90,27 @@ export default function UrlShortener() {
 
                 {
                     shortenedUrls.length > 0 &&
-                    <div className={"mx-auto text-lg text-gray-300 flex flex-col gap-1"}>
+                    <div className={"mx-auto text-lg text-gray-300 flex flex-col gap-2"}>
                         {
-                            shortenedUrls.map(slug => <a href={"https://intellify.cz/" + slug}>{"https://intellify.cz/" + slug}</a>)
+                            shortenedUrls.map(slug => (
+                                <div className={"justify-between flex flex-row gap-2 rounded-lg border-2 p-2 border-indigo-600"}>
+                                    <Button style={Style.OUTLINE} className={"border-none py-1 px-3 max-w-full overflow-ellipsis"}
+                                            onClick={() => {
+                                                window.location.href = "https://intellify.cz/u/" + slug;
+                                            }}
+                                    >
+                                        {getFormattedLinkText(slug)}
+                                    </Button>
+                                    <Button style={Style.OUTLINE} className={"border-none py-1 px-3 text-sm"}
+                                            onClick={() => {
+                                                navigator.clipboard.writeText("https://intellify.cz/u/" + slug);
+                                                setCopiedTrue();
+                                            }}
+                                    >
+                                        {copied ? "Zkopírováno!" : "Kopírovat"}
+                                    </Button>
+                                </div>
+                            ))
                         }
                     </div>
                 }

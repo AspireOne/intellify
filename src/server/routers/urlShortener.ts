@@ -6,7 +6,7 @@ import ShortenedUrl from "../../server/mongodb_models/ShortenedUrl";
 export const urlShortenerRouter = router({
     getUrl: publicProcedure
         .input(z.object({
-            slug: z.string().min(1, "Slug must be present.")}
+            slug: z.string().min(1, "Slug musí být přítomný.")}
         ))
         .output(z.string().nullable())
         .query(async ({ctx, input}) => {
@@ -17,8 +17,8 @@ export const urlShortenerRouter = router({
     shortenUrl: publicProcedure
         .input(
             z.object({
-                url: z.string().min(1, "Url must be present."),
-                slug: z.string().min(1, "Slug must be present."),
+                url: z.string().url("Nesprávný nebo žádný odkaz."),
+                slug: z.string().min(1, "Slug musí být přítomný."),
             })
         )
         .mutation(async ({ctx, input}) => {
