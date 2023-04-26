@@ -60,7 +60,7 @@ export default function UrlShortener() {
     }
 
     function getFormattedLinkText(slug: string) {
-        let text = "intellify.cz/u/" + slug;
+        let text = "u.intellify.cz/" + slug;
         text = text.length > 35 ? text.substring(0, 30) + "..." : text;
         return text;
     }

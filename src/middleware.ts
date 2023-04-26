@@ -9,6 +9,7 @@ import {paths} from "./lib/constants";
 export async function middleware(req: NextRequest) {
     // get part of url after hostname.
     const pathname = new URL(req.url).pathname;
+    const hostname = new URL(req.url).hostname;
 
     if (pathname.startsWith(paths.sign)) {
         if (await isSignedIn(req)) return NextResponse.redirect(new URL(paths.index, req.url));
@@ -20,6 +21,10 @@ export async function middleware(req: NextRequest) {
 
     if (pathname.startsWith(paths.profile) || pathname.startsWith("/nastroje/")) {
         if (!await isSignedIn(req)) return NextResponse.redirect(new URL(paths.sign, req.url));
+    }
+
+    if (hostname.startsWith("u.intellify.cz")) {
+        return NextResponse.redirect(new URL("https://intellify.cz/u" + pathname, req.url));
     }
 
     /*const session = await getToken({ req, secret: process.env.SECRET })
