@@ -26,7 +26,7 @@ type EditInfo = {
 const EmailTool: NextPage = () => {
     const [loading, setLoading] = useState(false);
     const [screen, setScreen] = useState<"generator" | "editor">("generator");
-    const [data, setData] = useState<{content: string, subject: string} | undefined>();
+    const [data, setData] = useState<{ content: string, subject: string } | undefined>();
     const [usedGenerationData, setUsedGenerationData] = useState<Info | undefined>();
 
     const createMailMutation = trpc.emailRouter.generateEmail.useMutation({
@@ -78,7 +78,7 @@ const EmailTool: NextPage = () => {
 
     return (
         <div>
-            <PageHead title={"E-Mail"} description={"TODO: description"} />
+            <PageHead title={"E-Mail"} description={"TODO: description"}/>
             <PageHeaderDiv className={"text-center"}>
                 <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white mb-2">
                     Pište e-maily pomocí A.I.
@@ -93,7 +93,7 @@ const EmailTool: NextPage = () => {
                     <GenerateEmailCard
                         data={usedGenerationData}
                         onReadyToSubmit={onReadyToGenerate}
-                        handleForward={onForwardToEdit} />
+                        handleForward={onForwardToEdit}/>
                 }
                 {!loading && screen === "editor" &&
                     <EditEmailCard
@@ -107,8 +107,10 @@ const EmailTool: NextPage = () => {
     );
 };
 
-function EditEmailCard(props: {initialSubject: string, initialContent: string,
-    onReadyToSubmit: (info: EditInfo) => void, onBack: () => void }) {
+function EditEmailCard(props: {
+    initialSubject: string, initialContent: string,
+    onReadyToSubmit: (info: EditInfo) => void, onBack: () => void
+}) {
     const [subject, setSubject] = useState(props.initialSubject);
     const [content, setContent] = useState(props.initialContent);
     const [editInstruction, setEditInstruction] = useState("");
@@ -128,16 +130,20 @@ function EditEmailCard(props: {initialSubject: string, initialContent: string,
             instruction: editInstruction
         });
     }
+
     return (
         <div className={"flex flex-col gap-4 max-w-xl mx-auto"}>
-            <Input theme={"gray"} label={"Předmět"} value={subject} onChange={setSubject} />
-            <Input className={"max-h-[800px]"} theme={"gray"} label={"Obsah"} autosize={true} minRows={3} value={content} onChange={setContent} />
+            <Input theme={"gray"} label={"Předmět"} value={subject} onChange={setSubject}/>
+            <Input className={"max-h-[800px]"} theme={"gray"} label={"Obsah"} autosize={true} minRows={3}
+                   value={content} onChange={setContent}/>
 
             <div className={"h-[1px] bg-gray-300 dark:bg-gray-700 my-3"}></div>
 
-            <div className={"rounded-md shadow-md bg-t-alternative-700 p-4 border border-gray-600 flex flex-row gap-4 items-end"}>
-                <Input theme={"gray"} label={"Upravit"} className={"max-h-[100px]"} autosize={true} placeholder={"\"Zkrať začátek,\", \"Rozepiš se víc o zkušenostech\"..."}
-                       value={editInstruction} onChange={setEditInstruction} />
+            <div
+                className={"rounded-md shadow-md bg-t-alternative-700 p-4 border border-gray-600 flex flex-row gap-4 items-end"}>
+                <Input theme={"gray"} label={"Upravit"} className={"max-h-[100px]"} autosize={true}
+                       placeholder={"\"Zkrať začátek,\", \"Rozepiš se víc o zkušenostech\"..."}
+                       value={editInstruction} onChange={setEditInstruction}/>
                 <Button className={"w-14 h-[3.2rem] m-0"} onClick={handleSubmit}>
                     <Send color={"white"}/>
                 </Button>
@@ -153,7 +159,7 @@ function EditEmailCard(props: {initialSubject: string, initialContent: string,
     )
 }
 
-function GenerateEmailCard(props: {data?: Info, onReadyToSubmit: (info: Info) => void, handleForward: () => void}) {
+function GenerateEmailCard(props: { data?: Info, onReadyToSubmit: (info: Info) => void, handleForward: () => void }) {
     const [tone, setTone] = useState(props.data?.tone ?? "");
     const [goal, setGoal] = useState(props.data?.goal ?? "");
     const [pov, setPov] = useState(props.data?.pov ?? "");
@@ -184,10 +190,10 @@ function GenerateEmailCard(props: {data?: Info, onReadyToSubmit: (info: Info) =>
                 className={"text-md text-white font-normal"}
                 placeholder={"Vyberte tón zprávy..."}
                 data={[
-                    { label: "Přátelský", value: "přátelský" },
-                    { label: "Humorný", value: "humorný" },
-                    { label: "Profesionální", value: "profesionální" },
-                    { label: "Vážný", value: "vážný" },
+                    {label: "Přátelský", value: "přátelský"},
+                    {label: "Humorný", value: "humorný"},
+                    {label: "Profesionální", value: "profesionální"},
+                    {label: "Vážný", value: "vážný"},
                 ]}
                 value={tone}
                 onChange={(val) => setTone(val ?? "")}

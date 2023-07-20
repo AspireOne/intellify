@@ -87,9 +87,10 @@ const Home: NextPage = () => {
                             <div className={"sm:my-4"}/>
                             <span className={"title-highlighted"} ref={el}></span>
                             <img
+                                loading="lazy"
                                 alt={""}
                                 className={"select-none pointer-events-none transform -translate-y-2 sm:-translate-y-3 inline animate-pulse duration-100 h-[3.5rem] sm:h-[4rem] md:h-[5.4rem]"}
-                                src={"/assets/line.svg"}></img>
+                                src={"/assets/line.png"}></img>
                         </Title>
                         <Subtitle className={"mx-4 md:mx-12 text-md sm:text-lg md:text-xl lg:text-2xl sm:leading-8"}>
                             Vytvářejte obsah a dokončujte projekty 10X rychleji.
@@ -116,7 +117,7 @@ const Home: NextPage = () => {
                 <TextElementPair
                     text={"Revolucionalizujte svůj workflow ⚡"}
                     element={
-                        <img alt={"Ilustrační obrázek sekce Revolucionalizujte"} src={"/assets/about-image.svg"} className={"h-64 mx-auto select-none pointer-events-none"}/>}
+                        <img loading="lazy" alt={"Ilustrační obrázek sekce Revolucionalizujte"} src={"/assets/about-image.svg"} className={"h-64 mx-auto select-none pointer-events-none"}/>}
                     textSide={isPc && "left"}
                 >
                     Naše nástroje založené na umělé inteligenci jsou navrženy tak, aby vaši práci usnadnily, zrychlily a zefektivnily.
@@ -127,7 +128,7 @@ const Home: NextPage = () => {
                 {/*TODO: Make parts of text light blue or etc.?*/}
                 <TextElementPair
                     text={"Rozviňte svou kreativitu 💡"}
-                    element={<img alt={"Ilustrační obrázek sekce Kreativita"} src={"/assets/ai.png"} className={"mx-auto h-56 select-none pointer-events-none"}/>}
+                    element={<img loading="lazy" alt={"Ilustrační obrázek sekce Kreativita"} src={"/assets/ai.png"} className={"mx-auto h-56 select-none pointer-events-none"}/>}
                     textSide={isPc && "right"}
                 >
                     A.I. vám dává jedinečnou možnost nahlédnout za horizont představivosti, který byste vy sami neobjevili - přizpůsobeně
@@ -136,7 +137,7 @@ const Home: NextPage = () => {
                 </TextElementPair>
 
                 <TextElementPair text={"Bezpečnost a soukromí jsou naší prioritou 🔒"}
-                                 element={<img alt={"Ilustrační obrázek sekce Zabezpečení"} src={"/assets/shield.png"} className={"mx-auto h-64 w-auto select-none pointer-events-none"}/>}
+                                 element={<img loading="lazy" alt={"Ilustrační obrázek sekce Zabezpečení"} src={"/assets/shield.png"} className={"mx-auto h-64 w-auto select-none pointer-events-none"}/>}
                                  textSide={isPc && "left"}>
                     Věříme, že soukromí a bezpečnost vašich dat by měla být na prvním místě. Nástroje jsou
                     navrženy s ohledem na bezpečnost a všechna data jsou zpracována a uchovávána v souladu s nejmodernějšími
@@ -145,7 +146,7 @@ const Home: NextPage = () => {
 
                 <TextElementPair
                     text={"Připojte se k převratu A.I. ✊"}
-                    element={<img alt={"Ilustrační obrázek sekce A.I. Převrat"} src={"/assets/globe.png"} className={"mx-auto h-72 select-none pointer-events-none"}/>}
+                    element={<img loading="lazy" alt={"Ilustrační obrázek sekce A.I. Převrat"} src={"/assets/globe.png"} className={"mx-auto h-72 select-none pointer-events-none"}/>}
                     textSide={isPc && "right"}
                 >
                 <span className={"block"}>
@@ -221,7 +222,7 @@ const Home: NextPage = () => {
                           className={" w-full bg-cover flex justify-center px-4 sm:py-32 sm:min-h-min h-screen"}>
                 <motion.div
                     initial={{ opacity: 0 }}
-                    transition={{ duration: 1.2, delay: 0.3 }}
+                    transition={{ duration: 1.1, delay: 0.3 }}
                     whileInView={{ opacity: 1 }}
                     className={"w-full h-full flex flex-col items-center justify-center text-center"}>
                     <Title className={"mb-4"}>Vyzkoušejte si to ještě dnes</Title>
@@ -277,8 +278,8 @@ function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.E
 
     return (
         // TODO: Change it to md.
-        <motion.div initial={{ opacity: 0 }}
-                    transition={{ duration: 0.45, delay: 0.09 }}
+        <motion.div initial={{ opacity: 0.2 }}
+                    transition={{ duration: 0.45, delay: 0.07 }}
                     whileInView={{ opacity: 1 }} className={twMerge(`flex flex-col lg:flex-row gap-10 items-center ${props.className}`)}>
             {One}
             {Two}

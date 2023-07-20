@@ -193,7 +193,9 @@ function ListItem(props: {icon?: any, text: string, className?: string, onClick?
         bg-opacity-50 hover:bg-opacity-40 hover:bg-gray-500 text-white ${active && "bg-gray-500"} ${props.className}`)}
             onClick={props.onClick}
         >
-            {props.icon}
+            <div className={"min-w-[22px] min-h-[22px]"}>
+                {props.icon}
+            </div>
             <div className={"flex flex-col gap-1 ml-4 text-overflow: ellipsis;"}>
                 <span className={`text-[${props.isCategoryItem ? 14 : 15}px] text-gray-200 font-bold whitespace-nowrap overflow-ellipsis overflow-x-hidden`}>
                     {props.text}
