@@ -278,9 +278,9 @@ function TextElementPair(props: PropsWithChildren<{ text: string, element: JSX.E
 
     return (
         // TODO: Change it to md.
-        <motion.div initial={{ opacity: 0.2 }}
-                    transition={{ duration: 0.45, delay: 0.07 }}
-                    whileInView={{ opacity: 1 }} className={twMerge(`flex flex-col lg:flex-row gap-10 items-center ${props.className}`)}>
+        <motion.div initial={{ transform: 'translate3d(0, 80px, 0)' }}
+                    transition={{ duration: 0.45 }}
+                    whileInView={{ transform: 'translate3d(0, 0, 0)' }} className={twMerge(`flex flex-col lg:flex-row gap-10 items-center ${props.className}`)}>
             {One}
             {Two}
         </motion.div>

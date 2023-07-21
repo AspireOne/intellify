@@ -7,8 +7,9 @@ import Button, {Style} from "../../components/Button";
 import Card from "../../components/Card";
 import {trpc} from "../../lib/trpc";
 import {notifications} from "@mantine/notifications";
-import {Select} from "@mantine/core";
-import {Send} from "react-ionicons";
+import {Select, Tooltip} from "@mantine/core";
+import {CaretBackOutline, ChevronBackOutline, ChevronForwardOutline, Send} from "react-ionicons";
+import Skeleton from "react-loading-skeleton";
 
 type Info = {
     tone?: string,
@@ -31,6 +32,7 @@ const EmailTool: NextPage = () => {
 
     const createMailMutation = trpc.emailRouter.generateEmail.useMutation({
         onError: (error) => {
+            setScreen("generator");
             notifications.show({
                 title: 'Chyba při generování e-mailu',
                 message: error.message,
@@ -38,7 +40,6 @@ const EmailTool: NextPage = () => {
             });
         },
         onSuccess: (data) => {
-            setScreen("editor");
             setData(data);
         },
         onSettled: () => {
@@ -65,6 +66,7 @@ const EmailTool: NextPage = () => {
     const onReadyToGenerate = (info: Info) => {
         setUsedGenerationData(info);
         setLoading(true);
+        setScreen("editor");
         createMailMutation.mutate(info);
     };
 
@@ -83,22 +85,23 @@ const EmailTool: NextPage = () => {
                 <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white mb-2">
                     Pište e-maily pomocí A.I.
                 </h2>
-                <p className={"text-gray-300"}>Nepřemýšlejte, JAK e-mail napsat. Soustřeďte se na to CO.</p>
+                <p className={"text-gray-300"}>Nepřemýšlejte, JAK e-mail napsat. Soustřeďte se na sdělení.</p>
             </PageHeaderDiv>
 
-            <Card border={true} className={"max-w-2xl mx-auto min-h-[31rem]"}>
-                {loading && <LoadingScreen></LoadingScreen>}
+            <Card border={true} className={"max-w-2xl mx-auto min-h-[31rem] relative"}>
                 {
-                    !loading && screen === "generator" &&
+                    screen === "generator" &&
                     <GenerateEmailCard
                         data={usedGenerationData}
                         onReadyToSubmit={onReadyToGenerate}
                         handleForward={onForwardToEdit}/>
                 }
-                {!loading && screen === "editor" &&
+                {
+                    screen === "editor" &&
                     <EditEmailCard
-                        initialContent={data!.content}
-                        initialSubject={data!.subject}
+                        loading={loading}
+                        initialContent={data?.content}
+                        initialSubject={data?.subject}
                         onReadyToSubmit={onReadyToEdit}
                         onBack={onBackToGeneration}/>
                 }
@@ -108,8 +111,11 @@ const EmailTool: NextPage = () => {
 };
 
 function EditEmailCard(props: {
-    initialSubject: string, initialContent: string,
-    onReadyToSubmit: (info: EditInfo) => void, onBack: () => void
+    initialSubject?: string,
+    initialContent?: string,
+    loading: boolean,
+    onReadyToSubmit: (info: EditInfo) => void,
+    onBack: () => void
 }) {
     const [subject, setSubject] = useState(props.initialSubject);
     const [content, setContent] = useState(props.initialContent);
@@ -124,37 +130,61 @@ function EditEmailCard(props: {
             });
             return;
         }
+
         props.onReadyToSubmit({
-            subject: subject,
-            content: content,
+            subject: subject ?? "",
+            content: content ?? "",
             instruction: editInstruction
         });
     }
 
     return (
-        <div className={"flex flex-col gap-4 max-w-xl mx-auto"}>
-            <Input theme={"gray"} label={"Předmět"} value={subject} onChange={setSubject}/>
-            <Input className={"max-h-[800px]"} theme={"gray"} label={"Obsah"} autosize={true} minRows={3}
-                   value={content} onChange={setContent}/>
+        <div className={"space-y-4 max-w-xl mx-auto sm:mt-0 mt-8"}>
+            <NavigationButton pos={"left"} onClick={props.onBack}>
+                Zpět na generátor
+            </NavigationButton>
+            {
+                props.loading
+                    ? <Skeleton className={"h-12 mb-8"}/>
+                    : <Input theme={"gray"} label={"Předmět"} value={subject} onChange={setSubject}/>
+            }
+            {
+                props.loading
+                    ? <Skeleton className={"h-44"}/>
+                    : <Input className={"max-h-[800px]"} theme={"gray"} label={"Obsah"} autosize={true} minRows={3}
+                             value={content} onChange={setContent}/>
+            }
 
             <div className={"h-[1px] bg-gray-300 dark:bg-gray-700 my-3"}></div>
 
             <div
                 className={"rounded-md shadow-md bg-t-alternative-700 p-4 border border-gray-600 flex flex-row gap-4 items-end"}>
-                <Input theme={"gray"} label={"Upravit"} className={"max-h-[100px]"} autosize={true}
-                       placeholder={"\"Zkrať začátek,\", \"Rozepiš se víc o zkušenostech\"..."}
+                <Input disabled={props.loading} theme={"gray"} label={"Upravit"} className={"max-h-[100px]"} autosize={true}
+                       placeholder={"\"Zkrať začátek\"..."}
                        value={editInstruction} onChange={setEditInstruction}/>
-                <Button className={"w-14 h-[3.2rem] m-0"} onClick={handleSubmit}>
+                <Button disabled={props.loading} className={"w-14 h-[3.2rem] m-0"} onClick={handleSubmit}>
                     <Send color={"white"}/>
                 </Button>
             </div>
+        </div>
+    )
+}
 
-            <div className={"flex flex-row justify-between"}>
-                <Button style={Style.NONE} className={"p-0 m-0 float-left"} onClick={props.onBack}>
-                    Zpět na generování
-                </Button>
-                <div></div>
-            </div>
+function NavigationButton(props: {pos: "left" | "right", onClick: () => void, children: string}) {
+    const size = "25px";
+
+    return (
+        <div className={`absolute ${props.pos === "left" ? "left-2" : "right-2"} top-3`}>
+            <Tooltip label={props.children} withArrow={true} color={"gray"}>
+                <button className={"p-0 m-0"}
+                        onClick={props.onClick}>
+                    {
+                        props.pos === "left"
+                        ? <ChevronBackOutline color={"white"} width={size} height={size}/>
+                        : <ChevronForwardOutline color={"white"} width={size} height={size}/>
+                    }
+                </button>
+            </Tooltip>
         </div>
     )
 }
@@ -184,20 +214,14 @@ function GenerateEmailCard(props: { data?: Info, onReadyToSubmit: (info: Info) =
     }
 
     return (
-        <div className={"space-y-4  max-w-xl mx-auto"}>
-            <Select
-                label={"Tón (nepovinné)"}
-                className={"text-md text-white font-normal"}
-                placeholder={"Vyberte tón zprávy..."}
-                data={[
-                    {label: "Přátelský", value: "přátelský"},
-                    {label: "Humorný", value: "humorný"},
-                    {label: "Profesionální", value: "profesionální"},
-                    {label: "Vážný", value: "vážný"},
-                ]}
-                value={tone}
-                onChange={(val) => setTone(val ?? "")}
-            />
+        <div className={"space-y-4 max-w-xl mx-auto sm:mt-0 mt-8"}>
+            {
+                props.data &&
+                <NavigationButton pos={"right"} onClick={props.handleForward}>
+                    Zpět na úpravu
+                </NavigationButton>
+            }
+
             <Input
                 theme={"gray"}
                 label={"Cíl"}
@@ -224,26 +248,25 @@ function GenerateEmailCard(props: { data?: Info, onReadyToSubmit: (info: Info) =
                 value={information}
                 onChange={(value) => setInformation(value)}
             />
+            <Select
+                label={"Tón (nepovinné)"}
+                className={"text-md text-white font-normal"}
+                placeholder={"Vyberte tón zprávy..."}
+                data={[
+                    {label: "Přátelský", value: "přátelský"},
+                    {label: "Humorný", value: "humorný"},
+                    {label: "Profesionální", value: "profesionální"},
+                    {label: "Vážný", value: "vážný"},
+                ]}
+                value={tone}
+                onChange={(val) => setTone(val ?? "")}
+            />
+
             <div className={"flex flex-row justify-between gap-4"}>
                 <Button className={"w-48"} onClick={handleSubmit}>
                     Vytvořit
                 </Button>
-                {
-                    props.data &&
-                    <Button style={Style.NONE} className={"p-0 m-0"} onClick={props.handleForward}>
-                        Zpět na úpravu
-                    </Button>
-                }
             </div>
-        </div>
-    )
-}
-
-function LoadingScreen() {
-    return (
-        /*A centered loading animation.*/
-        <div>
-            Načítání...
         </div>
     )
 }

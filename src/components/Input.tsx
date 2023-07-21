@@ -30,6 +30,8 @@ export default function Input(props: React.PropsWithChildren<{
     autosize?: boolean
     wrapped?: boolean,
     minRows?: number,
+
+    disabled?: boolean
 }>) {
     const sharedProps = {
         maxLength: props.maxLen,
@@ -44,6 +46,7 @@ export default function Input(props: React.PropsWithChildren<{
             props.onChange && props.onChange(e.target.value)
         },
         onKeyDown: props.onKeyDown,
+        disabled: props.disabled
     }
     return (
         <div className={"flex flex-col gap-2 w-full"}>

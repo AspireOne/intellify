@@ -33,8 +33,8 @@ const Button = (props: ButtonProps) => {
                 props.onClick && props.onClick(e);
             }}
             onMouseDown={() => setIsBeingClicked(true)}
-            disabled={props.loading}
-            className={getStyles(props.style, isBeingClicked, props.loading, props.className)}>
+            disabled={props.loading || props.disabled}
+            className={getStyles(props.style, isBeingClicked, props.loading || props.disabled, props.className)}>
 
             {props.loading && <Spinner className={(props.loadingText || props.children) ? `mr-2` : ""}/>}
             {
