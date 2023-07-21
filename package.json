@@ -31,7 +31,7 @@
     "framer-motion": "^10.10.0",
     "micro": "^10.0.1",
     "mongodb": "^5.1.0",
-    "mongoose": "^7.0.3",
+    "mongoose": "^7.3.3",
     "next": "latest",
     "next-auth": "^4.20.1",
     "node-fetch": "^3.3.1",
